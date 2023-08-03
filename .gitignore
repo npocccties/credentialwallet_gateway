@@ -1,0 +1,5 @@
+### 証明書 ###
+ssl_certs/
+
+.env
+.env.production
