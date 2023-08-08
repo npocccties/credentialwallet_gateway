@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  deps:
+    build:
+      context: .
+      target: deps
+    image: deps:latest
+  builder:
+    build:
+      context: .
+      target: builder
+    image: bundler:latest
+  runner:
+    build:
+      context: .
+      target: runner
+    image: gateway:latest
+
+      
