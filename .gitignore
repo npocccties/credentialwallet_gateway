@@ -1,5 +1,8 @@
 ### 証明書 ###
 ssl_certs/
+node_modules/
 
-.env
+.next
+.env.local
 .env.production
+.vscode

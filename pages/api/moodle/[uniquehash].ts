@@ -48,7 +48,9 @@ export default async function handler(
   //  console.log(newDataUrl);
   // console.log("criteria = ", criteria);
 
-  const manifestURL = getManifestURL(criteria.id);
+  // TODO: entraの設定によって変える
+  const manifestURL = "https://verifiedid.did.msidentity.com/v1.0/tenants/28e59e5e-f313-4303-a24f-b9d9eae54a80/verifiableCredentials/contracts/9e7504f8-aa32-5e00-e8b7-57e9635b5cbe/manifest"
+  // const manifestURL = getManifestURL(criteria.id);
   console.log("manifestURL = ", manifestURL);
   await withSession(req, res);
   console.log("BadgeClass ID=", openBadgeData.badge.id);

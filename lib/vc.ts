@@ -37,8 +37,8 @@ const msalConfig = {
 };
 const msalCca = new msal.ConfidentialClientApplication(msalConfig);
 const msalClientCredentialRequest = {
-  //  scopes: ["3db474b9-6a0c-4840-96ac-1fceb342124f/.default"],
-  scopes: [process.env.vcApp_scope],
+  scopes: ["3db474b9-6a0c-4840-96ac-1fceb342124f/.default"],
+  // scopes: [process.env.vcApp_scope],
   skipCache: false,
 };
 

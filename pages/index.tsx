@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { NextPage } from "next";
 import { Button, Text, Container, Heading, Stack } from "@chakra-ui/react";
 
@@ -6,8 +6,16 @@ import { Layout } from "../components/Layout";
 import { Metatag } from "../components/Metatag";
 import { SERVICE_NAME, SERVICE_DESCRITION } from "../configs";
 import NextLink from "next/link";
+import { isExistKeyPair } from "../lib/repository/keyPair";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
+  const router = useRouter()
+  useEffect(() => {
+    if (!isExistKeyPair()) {
+      router.push("/create-key");
+    }
+  }, [router])
   return (
     <Layout maxW="5xl" textAlign="center" align="center">
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />

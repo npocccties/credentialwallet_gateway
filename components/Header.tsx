@@ -19,6 +19,11 @@ export const Header: React.VFC = () => {
           </Link>
         </NextLink>
         <Flex gap={"16px"}>
+          <NextLink href="/wallet">
+            <Link fontSize={"lg"} fontWeight={"bold"}>
+              Wallet
+            </Link>
+          </NextLink>
           <NextLink href="/issue">
             <Link fontSize={"lg"} fontWeight={"bold"}>
               Issue
