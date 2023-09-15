@@ -3,6 +3,7 @@ ssl_certs/
 node_modules/
 
 .next
+.env
 .env.local
 .env.production
 .vscode
