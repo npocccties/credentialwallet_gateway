@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  https-portal:
+    image: steveltn/https-portal:1
+    restart: always
+    volumes:
+      - ${SSL_CERTS_DIR}:/var/lib/https-portal
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - app_network
+    environment:
+      # FORCE_RENEW: 'true'
+      STAGE: production
+      DOMAINS: "${ALLOWED_HOSTS} -> http://web:8080/"
+    depends_on:
+      - web
+
+  web:
+    image: nginx:1.23.1
+    expose:
+      - 8080
+    networks:
+      - app_network
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./static:/workspace/static
+      - ./50x.html:/usr/share/nginx/html/50x.html
+    restart: always
+
+  deps:
+    build:
+      context: .
+      target: deps
+    image: deps:latest
+  builder:
+    build:
+      context: .
+      target: builder
+    image: bundler:latest
+  # runner:
+  #   build:
+  #     context: .
+  #     target: runner
+  #   image: gateway:latest
+
+networks:
+  app_network:
+    driver: bridge
+    external: true

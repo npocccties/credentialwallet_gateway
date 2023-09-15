@@ -1,11 +1,14 @@
 {
-  "name": "openbadge-vc-converter",
+  "name": "chilowallet",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3003",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
     "@azure/msal-node": "^1.14.6",
