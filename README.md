@@ -1,40 +1,41 @@
-## OpenBadge VC Converter
+## 動作環境
+- OS: Unix 系（Windows では WSL 等をお使いください）
+- Node.js: v16.20.1
+- Docker
 
-Powererd by [CTC SELMID](https://ctc-insight.com/selmid) [BlockBase](https://www.block-base.co/)
-
-<img width="1426" alt="Screen Shot 2022-01-31 at 18 33 13" src="https://user-images.githubusercontent.com/38043569/151775976-e1735379-23b3-4366-b0bf-28b4c54f8343.png">
-
-### Issue
-
-<img width="1322" alt="Screen Shot 2022-01-31 at 18 36 31" src="https://user-images.githubusercontent.com/38043569/151776136-74c92039-c394-4c03-aaa5-4a1f59461713.png">
-
-### Verify
-
-<img width="1440" alt="Screen Shot 2022-01-31 at 19 18 11" src="https://user-images.githubusercontent.com/38043569/151776195-388a0cb5-ef80-49ac-8ebb-a5ac9307f970.png">
-
-### Issued VC contains OpenBadge
-
-<img width="767" alt="Screen Shot 2022-01-31 at 19 24 05" src="https://user-images.githubusercontent.com/38043569/151777055-f2550f62-4275-4e16-84c0-afa67a9343c1.png">
-
-## DEMO
-
-https://openbadge-vc-converter.vercel.app/
-
-## Development
-
+## 開発
+動作環境を用意し、当リポジトリ下で以下のコマンドを実行すると、PosgreSQLコンテナが起動します。
 ```
-yarn
-yarn dev
+make up-local
 ```
 
-- make branch, make pull-request, make peer review, then merge.
-- when you find bug or issue, make issue
+Next.jsアプリケーションを立ち上げ (yarn等を使用する場合は適宜読み替えてください)
+```
+npm run dev
+```
+3. 
+prismaの使用方法より、コマンドを実行して
 
-## Note
+### Visual Studio CodeでdevContainerを使用する場合
+1. Docker および Docker Compose をインストール
+2. Visual Studio Code に拡張機能「Dev - Containers」をインストール
+3. .devcontainerフォルダ内にある.env.local.sampleを複製し、複製したファイルを.envにリネーム
+4. 表示 ⇒ コマンドパレット で「Remote-Containers: Open Folder in Container...」を選択し、chilowalletディレクトリを選択
 
-### OpenBadge Verification
+### prismaの使用方法
+1. コンテナ立ち上げ後、以下のコマンドでDBのテーブル定義をschema.prismaに反映します。
+```
+npx prisma db pull
+```
 
-- using following API for the OpenBadge verification
-  - https://openbadgesvalidator.imsglobal.org/results
-- Check following document for the detail
-  - https://github.com/IMSGlobal/openbadges-validator-core
+2. 立ち上げたDBコンテナへダミーデータを反映する場合は、以下のコマンドを使用してください。
+```
+npx prisma db seed
+```
+
+3. [Prisma Studio](https://www.prisma.io/docs/concepts/components/prisma-studio)を起動します。（localhost:5555が起動する）
+```
+npx prisma studio
+```
+
+
