@@ -30,28 +30,27 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import ION from "@decentralized-identity/ion-tools";
-import { Layout } from "../components/Layout";
-import { QRCodeStatus, RequestStatus } from "../types/status";
+import { Layout } from "../../components/Layout";
+import { QRCodeStatus, RequestStatus } from "../../types/status";
 
 import { useState } from "react";
 import axios from "axios";
-import { Metatag } from "../components/Metatag";
-import { Loading } from "../components/Loading";
+import { Metatag } from "../../components/Metatag";
+import { Loading } from "../../components/Loading";
 
 import { WarningIcon, CheckCircleIcon } from "@chakra-ui/icons";
-import { IfBadgeInfo } from "../types/BadgeInfo";
+import { IfBadgeInfo } from "../../types/BadgeInfo";
 import NextLink from "next/link";
 import QRCode from "react-qr-code";
-import { getProtectedHeaderFromVCRequest, getRequestFromVCRequest, getRequestUrlFromUrlMessage } from "../lib/utils";
-import { proxyHttpRequest } from "../lib/http";
-import { LOCAL_STORAGE_VC_REQUEST_KEY } from "../configs/constants";
+import { getProtectedHeaderFromVCRequest, getRequestFromVCRequest, getRequestUrlFromUrlMessage } from "../../lib/utils";
+import { proxyHttpRequest } from "../../lib/http";
+import { LOCAL_STORAGE_VC_REQUEST_KEY } from "../../configs/constants";
 import { useRouter } from "next/router";
 
 const MoodleToVC: NextPage = () => {
   //export default function HookForm() {
   const router = useRouter();
-  const [requestStatus, setRequestStatus] =
-    React.useState<RequestStatus>("waiting");
+  const [requestStatus, setRequestStatus] = React.useState<RequestStatus>("waiting");
 
   const [qrCodeStatus, setQrCodeStatus] = React.useState<QRCodeStatus>("none");
 
@@ -82,19 +81,14 @@ const MoodleToVC: NextPage = () => {
             {/* <a href="#" onClick={() => convertOpenBadgeToVC(badge)}>
               {badge.name}
             </a> */}
-            <Link
-              color="teal.500"
-              href="#"
-              onClick={() => convertOpenBadgeToVC4clearInterval(badge)}
-            >
+            <Link color="teal.500" href="#" onClick={() => convertOpenBadgeToVC4clearInterval(badge)}>
               {badge.name}
             </Link>
           </Td>
           <Td>{badge.description}</Td>{" "}
           <Td>
             {" "}
-            {dateTime.getFullYear()}/{dateTime.getMonth() + 1}/
-            {dateTime.getDate()}
+            {dateTime.getFullYear()}/{dateTime.getMonth() + 1}/{dateTime.getDate()}
           </Td>
         </Tr>
       );
@@ -127,9 +121,7 @@ const MoodleToVC: NextPage = () => {
   };
 
   const convertOpenBadgeToVC = async (badge: IfBadgeInfo) => {
-    console.log(
-      `convertOpenBadgeToVC:uniquehash=${badge.uniquehash} email=${badge.email}`
-    );
+    console.log(`convertOpenBadgeToVC:uniquehash=${badge.uniquehash} email=${badge.email}`);
     setRequestStatus("loading");
     // let intervalObj;
     axios
@@ -157,35 +149,31 @@ const MoodleToVC: NextPage = () => {
   // レスポンス処理
   const getIssuanceResponse = (state: string) => {
     console.log("issuance-response state =", state);
-    axios
-      .get("/api/issuer/issuance-response?state=" + state)
-      .then(function ({ data }) {
-        const { status } = data;
-        // console.log("issuance-resposen status =", status);
-        if (status === "request_retrieved") {
-          setQrCodeStatus("scanned");
-        } else if (status === "issuance_successful") {
-          setQrCodeStatus("success");
-          window.location.href = "/"; // successしたらTopPageへ移動  //TODO Intervalのクリアが出来たらTOPPageへの移動はしない
-        } else if (status === "issuance_error") {
-          setQrCodeStatus("failed");
-          setTimeout((window.location.href = "/"), 7000);
-          // TODO ;Intervalのクリアをしたい
-        }
-      });
+    axios.get("/api/issuer/issuance-response?state=" + state).then(function ({ data }) {
+      const { status } = data;
+      // console.log("issuance-resposen status =", status);
+      if (status === "request_retrieved") {
+        setQrCodeStatus("scanned");
+      } else if (status === "issuance_successful") {
+        setQrCodeStatus("success");
+        window.location.href = "/"; // successしたらTopPageへ移動  //TODO Intervalのクリアが出来たらTOPPageへの移動はしない
+      } else if (status === "issuance_error") {
+        setQrCodeStatus("failed");
+        setTimeout((window.location.href = "/"), 7000);
+        // TODO ;Intervalのクリアをしたい
+      }
+    });
   };
 
   const convertOpenBadgeToVC4clearInterval = async (badge: IfBadgeInfo) => {
-    console.log(
-      `convertOpenBadgeToVC:uniquehash=${badge.uniquehash} email=${badge.email}`
-    );
+    console.log(`convertOpenBadgeToVC:uniquehash=${badge.uniquehash} email=${badge.email}`);
     setRequestStatus("loading");
     // let intervalObj;
     axios
       .get(`/api/moodle/${badge.uniquehash}?email=${badge.email}`)
       .then(function ({ data }) {
         const { url, pin, sessionId } = data;
-        setUrl(url)
+        setUrl(url);
         // setUrl(url);
         setPin(pin);
         console.log("URL=", url);
@@ -193,7 +181,7 @@ const MoodleToVC: NextPage = () => {
         console.log("### sessionId=", sessionId);
         setRequestStatus("requested");
         setQrCodeStatus("waiting");
-        scannedUrl(url)
+        scannedUrl(url);
         // const intervalMs = 5000;
         // const intervalObj = setInterval(() => {
         //   axios
@@ -224,31 +212,30 @@ const MoodleToVC: NextPage = () => {
   };
 
   const scannedUrl = async (url: string) => {
-    console.log("sccaned", url)
+    console.log("sccaned", url);
     if (!url) return;
 
-    const requestUrl = getRequestUrlFromUrlMessage(url)
+    const requestUrl = getRequestUrlFromUrlMessage(url);
     let vcRequestInJwt = "";
     let vcRequestVerified = "";
     try {
-      vcRequestInJwt = await proxyHttpRequest<string>("get", requestUrl)
+      vcRequestInJwt = await proxyHttpRequest<string>("get", requestUrl);
       const header = getProtectedHeaderFromVCRequest(vcRequestInJwt);
       const issDIDDocument = await ION.resolve(header.kid);
       vcRequestVerified = await ION.verifyJws({
         jws: vcRequestInJwt,
         publicJwk: issDIDDocument.didDocument.verificationMethod[0].publicKeyJwk,
       });
-
     } catch (e) {
-      console.log("error", e)
+      console.log("error", e);
     }
 
     const { vcRequest } = getRequestFromVCRequest(vcRequestInJwt);
 
     localStorage.setItem(LOCAL_STORAGE_VC_REQUEST_KEY, JSON.stringify(vcRequest));
 
-    router.push('/issue-request')
-  }
+    router.push("/issue-request");
+  };
 
   return (
     // <Layout textAlign="center" align="center">
@@ -266,12 +253,7 @@ const MoodleToVC: NextPage = () => {
       {requestStatus == "waiting" && (
         <FormControl>
           <FormLabel htmlFor="username">Username</FormLabel>
-          <Input
-            id="username"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+          <Input id="username" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
           {/* <FormErrorMessage>email is required.</FormErrorMessage> */}
           {/* <FormControl isInvalid={isPasswordError}> */}
           {/* <FormLabel htmlFor="password">password</FormLabel> */}
@@ -294,9 +276,7 @@ const MoodleToVC: NextPage = () => {
       {requestStatus == "requested" && (
         <Flex w="full" align={"center"} direction={"column"}>
           <Box>
-            <Heading size="md">
-              My Badges List,Click badge name to convert to VC
-            </Heading>
+            <Heading size="md">My Badges List,Click badge name to convert to VC</Heading>
           </Box>
           <br></br>
           {/* debug:check for status {qrCodeStatus}:{requestStatus} */}
@@ -321,13 +301,7 @@ const MoodleToVC: NextPage = () => {
           {qrCodeStatus === "waiting" && (
             <Box p={"4px"}>
               <Flex mb="8" w="full" align={"center"} direction={"column"}>
-                <CheckCircleIcon
-                  textAlign={"center"}
-                  mt="8"
-                  w={8}
-                  h={8}
-                  color="green.500"
-                />
+                <CheckCircleIcon textAlign={"center"} mt="8" w={8} h={8} color="green.500" />
                 <Text mb="4" align="center" fontSize="sm" mt="2">
                   OpenBadge verified
                 </Text>
@@ -343,22 +317,12 @@ const MoodleToVC: NextPage = () => {
                 </List>
               </Flex>
               <Flex w="full" align={"center"} direction={"column"}>
-                <Text
-                  textAlign={"center"}
-                  fontSize="lg"
-                  mb="2"
-                  fontWeight={"bold"}
-                >
+                <Text textAlign={"center"} fontSize="lg" mb="2" fontWeight={"bold"}>
                   MS Authenticator QR
                 </Text>
                 <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl"></Spinner>
                 {/* <QRCode value={url} /> */}
-                <Text
-                  mt="8px"
-                  textAlign={"center"}
-                  fontSize="xl"
-                  fontWeight={"bold"}
-                >
+                <Text mt="8px" textAlign={"center"} fontSize="xl" fontWeight={"bold"}>
                   PIN: {pin}
                 </Text>
               </Flex>
@@ -376,8 +340,7 @@ const MoodleToVC: NextPage = () => {
           )}
           {qrCodeStatus === "failed" && (
             <Text fontSize="lg" mt="8">
-              Issuance error occured, did you enter the wrong pincode? Please
-              refresh the page and try again.
+              Issuance error occured, did you enter the wrong pincode? Please refresh the page and try again.
             </Text>
           )}
         </Flex>

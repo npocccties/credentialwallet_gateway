@@ -27,10 +27,10 @@ import {
   Spinner,
   Select,
 } from "@chakra-ui/react";
-import { Layout } from "../../../components/temp/LayoutTemp";
-import { Metatag } from "../../../components/Metatag";
+import { Layout } from "../../components/Layout";
+import { Metatag } from "../../components/Metatag";
 import { useRouter } from "next/router";
-import { IfBadgeInfo } from "../../../types/BadgeInfo";
+import { IfBadgeInfo } from "../../types/BadgeInfo";
 import { GetServerSideProps } from "next";
 import axios from "axios";
 
@@ -43,7 +43,7 @@ const CreateVC = () => {
     const username = "testtest";
     const password = "1456";
     setIsLoading(true);
-    const res = await axios.post("http://localhost:3003/api/temp/dummyBadge", {
+    const res = await axios.post("http://localhost:3000/api/temp/dummyBadge", {
       username,
       password,
     });
@@ -63,7 +63,7 @@ const CreateVC = () => {
         fontSize={{ base: "xl", sm: "2xl", md: "3xl" }}
         lineHeight={"110%"}
       >
-        バッジ登録
+        バッジ取り込み
       </Heading>
       <Flex w="full" justify={"space-between"} direction={"row"} alignItems={"flex-end"}>
         <Box>
@@ -135,7 +135,7 @@ const myBadgesListTr = (badgeList: IfBadgeInfo[]) => {
 // export const getServerSideProps = async ({ context }) => {
 //   const username = "testtest";
 //   const password = "1456";
-//   const res = await axios.post("http://localhost:3003/api/temp/dummyBadge", {
+//   const res = await axios.post("http://localhost:3000/api/temp/dummyBadge", {
 //     username,
 //     password,
 //   });

@@ -1,6 +1,5 @@
 import { Box, Flex, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 import React from "react";
-import { StoredVC } from "../../../lib/repository/vc";
 
 type Props = {
   image: string;
@@ -30,12 +29,6 @@ export const BadgeVcCard = ({ image, name, category, issuer, issuedate }: Props)
         <Text fontSize="xl" fontWeight={"bold"}>
           {name}
         </Text>
-      </GridItem>
-
-      <GridItem px="2" py="1" alignItems="center" colSpan={2}>
-        <Box bg={"gray.200"} border={"1px"} borderColor={"gray.100"} rounded={"2xl"} p={1} w={"fit-content"}>
-          <Text style={{ fontSize: "8px" }}>{category}</Text>
-        </Box>
       </GridItem>
 
       <GridItem p="2" alignItems="center" colSpan={2}>

@@ -20,21 +20,19 @@ import {
 import { WarningIcon, CheckCircleIcon } from "@chakra-ui/icons";
 import QRCode from "react-qr-code";
 import axios from "axios";
-import { QRCodeStatus, RequestStatus } from "../types/status";
-import { Layout } from "../components/Layout";
-import { SERVICE_DESCRITION, SERVICE_NAME } from "../configs";
-import { Metatag } from "../components/Metatag";
-import { Loading } from "../components/Loading";
+import { QRCodeStatus, RequestStatus } from "../../types/status";
+import { Layout } from "../../components/Layout";
+import { SERVICE_DESCRITION, SERVICE_NAME } from "../../configs";
+import { Metatag } from "../../components/Metatag";
+import { Loading } from "../../components/Loading";
 // import { clearInterval } from "timers";
 
 const Issue: NextPage = () => {
   const pageTitle = `${SERVICE_NAME} - Issuer`;
 
-  const [requestStatus, setRequestStatus] =
-    React.useState<RequestStatus>("waiting");
+  const [requestStatus, setRequestStatus] = React.useState<RequestStatus>("waiting");
 
-  const [qrCodeStatus, setQrCodeStatus] =
-    React.useState<QRCodeStatus>("waiting");
+  const [qrCodeStatus, setQrCodeStatus] = React.useState<QRCodeStatus>("waiting");
 
   const [email, setEmail] = React.useState("");
   const [image, setImage] = React.useState("");
@@ -71,22 +69,20 @@ const Issue: NextPage = () => {
 
   const getIssuanceResponse = (state: string) => {
     console.log("issuance-response state =", state);
-    axios
-      .get("/api/issuer/issuance-response?state=" + state)
-      .then(function ({ data }) {
-        const { status } = data;
-        console.log("issuance-resposen status =", status);
-        if (status === "request_retrieved") {
-          setQrCodeStatus("scanned");
-        } else if (status === "issuance_successful") {
-          setQrCodeStatus("success");
-          window.location.href = "/"; // successしたらTopPageへ移動  //TODO Intervalのクリアが出来たらTOPPageへの移動はしない
-        } else if (status === "issuance_error") {
-          setQrCodeStatus("failed");
-          setTimeout((window.location.href = "/"), 7000);
-          // TODO ;Intervalのクリアをしたい
-        }
-      });
+    axios.get("/api/issuer/issuance-response?state=" + state).then(function ({ data }) {
+      const { status } = data;
+      console.log("issuance-resposen status =", status);
+      if (status === "request_retrieved") {
+        setQrCodeStatus("scanned");
+      } else if (status === "issuance_successful") {
+        setQrCodeStatus("success");
+        window.location.href = "/"; // successしたらTopPageへ移動  //TODO Intervalのクリアが出来たらTOPPageへの移動はしない
+      } else if (status === "issuance_error") {
+        setQrCodeStatus("failed");
+        setTimeout((window.location.href = "/"), 7000);
+        // TODO ;Intervalのクリアをしたい
+      }
+    });
   };
 
   const requestIssuanceForClearInterval = async () => {
@@ -104,24 +100,22 @@ const Issue: NextPage = () => {
         setRequestStatus("requested");
         const intervalMs = 5000;
         const intervalObj = setInterval(() => {
-          axios
-            .get("/api/issuer/issuance-response?state=" + sessionId)
-            .then(function ({ data }) {
-              const { status } = data;
-              // console.log("issuance-resposen status =", status);
-              if (status === "request_retrieved") {
-                setQrCodeStatus("scanned");
-              } else if (status === "issuance_successful") {
-                setQrCodeStatus("success");
-                clearInterval(intervalObj);
-                window.location.href = "/"; // successしたらTopPageへ移動  //TODO Intervalのクリアが出来たらTOPPageへの移動はしない
-              } else if (status === "issuance_error") {
-                setQrCodeStatus("failed");
-                setTimeout((window.location.href = "/"), 7000);
-                // TODO ;Intervalのクリアをしたい
-                clearInterval(intervalObj);
-              }
-            });
+          axios.get("/api/issuer/issuance-response?state=" + sessionId).then(function ({ data }) {
+            const { status } = data;
+            // console.log("issuance-resposen status =", status);
+            if (status === "request_retrieved") {
+              setQrCodeStatus("scanned");
+            } else if (status === "issuance_successful") {
+              setQrCodeStatus("success");
+              clearInterval(intervalObj);
+              window.location.href = "/"; // successしたらTopPageへ移動  //TODO Intervalのクリアが出来たらTOPPageへの移動はしない
+            } else if (status === "issuance_error") {
+              setQrCodeStatus("failed");
+              setTimeout((window.location.href = "/"), 7000);
+              // TODO ;Intervalのクリアをしたい
+              clearInterval(intervalObj);
+            }
+          });
         }, intervalMs);
       })
       .catch(function (err) {
@@ -159,15 +153,8 @@ const Issue: NextPage = () => {
         <FormControl>
           <Box mb="8px">
             <FormLabel htmlFor="email">Email address</FormLabel>
-            <Input
-              value={email}
-              name="email"
-              placeholder="email"
-              onChange={handleEmailChange}
-            />
-            <FormHelperText>
-              Email is validated with openbadge recipients
-            </FormHelperText>
+            <Input value={email} name="email" placeholder="email" onChange={handleEmailChange} />
+            <FormHelperText>Email is validated with openbadge recipients</FormHelperText>
           </Box>
           <Box mb="8px">
             <FormLabel htmlFor="image">OpenBadge</FormLabel>
@@ -221,13 +208,7 @@ const Issue: NextPage = () => {
           {qrCodeStatus === "waiting" && (
             <Box p={"4px"}>
               <Flex mb="8" w="full" align={"center"} direction={"column"}>
-                <CheckCircleIcon
-                  textAlign={"center"}
-                  mt="8"
-                  w={8}
-                  h={8}
-                  color="green.500"
-                />
+                <CheckCircleIcon textAlign={"center"} mt="8" w={8} h={8} color="green.500" />
                 <Text mb="4" align="center" fontSize="sm" mt="2">
                   OpenBadge verified
                 </Text>
@@ -243,21 +224,11 @@ const Issue: NextPage = () => {
                 </List>
               </Flex>
               <Flex w="full" align={"center"} direction={"column"}>
-                <Text
-                  textAlign={"center"}
-                  fontSize="lg"
-                  mb="2"
-                  fontWeight={"bold"}
-                >
+                <Text textAlign={"center"} fontSize="lg" mb="2" fontWeight={"bold"}>
                   MS Authenticator QR
                 </Text>
                 <QRCode value={url} />
-                <Text
-                  mt="8px"
-                  textAlign={"center"}
-                  fontSize="xl"
-                  fontWeight={"bold"}
-                >
+                <Text mt="8px" textAlign={"center"} fontSize="xl" fontWeight={"bold"}>
                   PIN: {pin}
                 </Text>
               </Flex>
@@ -275,8 +246,7 @@ const Issue: NextPage = () => {
           )}
           {qrCodeStatus === "failed" && (
             <Text fontSize="lg" mt="8">
-              Issuance error occured, did you enter the wrong pincode? Please
-              refresh the page and try again.
+              Issuance error occured, did you enter the wrong pincode? Please refresh the page and try again.
             </Text>
           )}
         </Flex>

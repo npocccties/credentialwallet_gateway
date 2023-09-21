@@ -1,40 +1,32 @@
 import React from "react";
 
 import { Box, Flex, Link, Text } from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
-import { SERVICE_NAME } from "../configs";
 
-export const Header: React.VFC = () => {
+type Props = {
+  onOpen: () => void;
+};
+
+export const Header: React.FC<Props> = ({ onOpen }) => {
   return (
     <Box>
       <Flex
-        minH={"64px"}
+        h={"64px"}
         alignItems={"center"}
         justifyContent={"space-between"}
+        backgroundColor={"gray.200"}
         p={{ base: 8 }}
       >
+        <Box>
+          <HamburgerIcon w={6} h={6} cursor={"pointer"} onClick={() => onOpen()} />
+        </Box>
         <NextLink href="/">
-          <Link fontSize={"xl"} fontWeight={"bold"}>
-            {SERVICE_NAME}
+          <Link fontSize={"2xl"} fontWeight={"bold"} style={{ textDecoration: "none" }}>
+            BadgeWallet
           </Link>
         </NextLink>
-        <Flex gap={"16px"}>
-          <NextLink href="/wallet">
-            <Link fontSize={"lg"} fontWeight={"bold"}>
-              Wallet
-            </Link>
-          </NextLink>
-          <NextLink href="/issue">
-            <Link fontSize={"lg"} fontWeight={"bold"}>
-              Issue
-            </Link>
-          </NextLink>
-          <NextLink href="/verify">
-            <Link fontSize={"lg"} fontWeight={"bold"}>
-              Verify
-            </Link>
-          </NextLink>
-        </Flex>
+        <Flex gap={"16px"}></Flex>
       </Flex>
     </Box>
   );

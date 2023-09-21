@@ -2,14 +2,14 @@ import React from "react";
 
 import { Flex, Box, BoxProps, CloseButton, FlexProps } from "@chakra-ui/react";
 
-const LinkItems: Array<{ name: string }> = [
-  { name: "マイウォレット" },
-  { name: "バッジ登録" },
+const LinkItems: Array<{ name: string; link?: string }> = [
+  { name: "マイウォレット", link: "/temp" },
+  { name: "バッジ取り込み", link: "/temp/badge/list" },
   { name: "分析" },
-]
+];
 
 interface SidebarProps extends BoxProps {
-  onClose: () => void
+  onClose: () => void;
 }
 
 export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
@@ -27,27 +27,23 @@ export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       <Flex h="20" alignItems="center" mx="8" justifyContent="flex-end">
         <CloseButton onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name}>
-          {link.name}
+      {LinkItems.map((item) => (
+        <NavItem key={item.name} link={item.link}>
+          {item.name}
         </NavItem>
       ))}
     </Box>
-  )
-}
+  );
+};
 
 interface NavItemProps extends FlexProps {
-  children: React.ReactNode
+  children: React.ReactNode;
+  link?: string;
 }
 
-const NavItem = ({ children, ...rest }: NavItemProps) => {
+const NavItem = ({ children, link, ...rest }: NavItemProps) => {
   return (
-    <Box
-      as="a"
-      href="#"
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
-    >
+    <Box as="a" href={link ? link : "#"} style={{ textDecoration: "none" }} _focus={{ boxShadow: "none" }}>
       <Flex
         align="center"
         p="2"
@@ -64,5 +60,5 @@ const NavItem = ({ children, ...rest }: NavItemProps) => {
         {children}
       </Flex>
     </Box>
-  )
-}
+  );
+};

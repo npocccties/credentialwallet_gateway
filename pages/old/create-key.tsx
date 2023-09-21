@@ -1,9 +1,8 @@
 import React from "react";
 
-import { CreateKeyTemplate } from "../components/templates/CreateKey";
+import { CreateKeyTemplate } from "../../components/templates/CreateKey";
 
 const CreateKeyPage: React.FC = () => {
-
   return <CreateKeyTemplate />;
 };
 

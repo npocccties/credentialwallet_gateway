@@ -1,54 +1,39 @@
 import React from "react";
 import type { NextPage } from "next";
 
-import {
-  Button,
-  Text,
-  Box,
-  Heading,
-  Flex,
-  ListItem,
-  ListIcon,
-  Image,
-  Center,
-  List,
-} from "@chakra-ui/react";
+import { Button, Text, Box, Heading, Flex, ListItem, ListIcon, Image, Center, List } from "@chakra-ui/react";
 import { WarningIcon, CheckCircleIcon } from "@chakra-ui/icons";
 import QRCode from "react-qr-code";
 import axios from "axios";
-import { QRCodeStatus, RequestStatus } from "../types/status";
-import { Layout } from "../components/Layout";
-import { SERVICE_DESCRITION, SERVICE_NAME } from "../configs";
-import { Metatag } from "../components/Metatag";
-import { Loading } from "../components/Loading";
+import { QRCodeStatus, RequestStatus } from "../../types/status";
+import { Layout } from "../../components/Layout";
+import { SERVICE_DESCRITION, SERVICE_NAME } from "../../configs";
+import { Metatag } from "../../components/Metatag";
+import { Loading } from "../../components/Loading";
 
 const Home: NextPage = () => {
   const pageTitle = `${SERVICE_NAME} - Verifier`;
 
-  const [requestStatus, setRequestStatus] =
-    React.useState<RequestStatus>("waiting");
+  const [requestStatus, setRequestStatus] = React.useState<RequestStatus>("waiting");
 
-  const [qrCodeStatus, setQrCodeStatus] =
-    React.useState<QRCodeStatus>("waiting");
+  const [qrCodeStatus, setQrCodeStatus] = React.useState<QRCodeStatus>("waiting");
 
   const [url, setUrl] = React.useState("");
   const [metadata, setMetadata] = React.useState<any>();
 
   const getPresentationResponse = (state: string) => {
     // console.log("presentation-response state =", state);
-    axios
-      .get("/api/verifier/presentation-response?state=" + state)
-      .then(function ({ data }) {
-        const { status, output } = data;
-        console.log(status);
-        if (status === "request_retrieved") {
-          setQrCodeStatus("scanned");
-        } else if (status === "presentation_verified") {
-          setQrCodeStatus("success");
-          // console.log(output);
-          setMetadata(output);
-        }
-      });
+    axios.get("/api/verifier/presentation-response?state=" + state).then(function ({ data }) {
+      const { status, output } = data;
+      console.log(status);
+      if (status === "request_retrieved") {
+        setQrCodeStatus("scanned");
+      } else if (status === "presentation_verified") {
+        setQrCodeStatus("success");
+        // console.log(output);
+        setMetadata(output);
+      }
+    });
   };
 
   const requestPresentation = async () => {
@@ -80,20 +65,18 @@ const Home: NextPage = () => {
         setRequestStatus("requested");
         const intervalMs = 5000;
         const intervalObj = setInterval(() => {
-          axios
-            .get("/api/verifier/presentation-response?state=" + sessionId)
-            .then(function ({ data }) {
-              const { status, output } = data;
-              // console.log(status);
-              if (status === "request_retrieved") {
-                setQrCodeStatus("scanned");
-              } else if (status === "presentation_verified") {
-                setQrCodeStatus("success");
-                // console.log(output);
-                setMetadata(output);
-                clearInterval(intervalObj);
-              }
-            });
+          axios.get("/api/verifier/presentation-response?state=" + sessionId).then(function ({ data }) {
+            const { status, output } = data;
+            // console.log(status);
+            if (status === "request_retrieved") {
+              setQrCodeStatus("scanned");
+            } else if (status === "presentation_verified") {
+              setQrCodeStatus("success");
+              // console.log(output);
+              setMetadata(output);
+              clearInterval(intervalObj);
+            }
+          });
         }, intervalMs);
       })
       .catch(function (err) {
@@ -151,12 +134,7 @@ const Home: NextPage = () => {
         <Flex w="full" align={"center"} direction={"column"}>
           {qrCodeStatus === "waiting" && (
             <Box p={"4px"}>
-              <Text
-                textAlign={"center"}
-                fontSize="lg"
-                mb="2"
-                fontWeight={"bold"}
-              >
+              <Text textAlign={"center"} fontSize="lg" mb="2" fontWeight={"bold"}>
                 MS Authenticator QR
               </Text>
               <QRCode value={url} />
@@ -169,13 +147,7 @@ const Home: NextPage = () => {
           )}
           {qrCodeStatus === "success" && (
             <Flex w="full" align={"center"} direction={"column"}>
-              <CheckCircleIcon
-                textAlign={"center"}
-                mt="8"
-                w={8}
-                h={8}
-                color="green.500"
-              />
+              <CheckCircleIcon textAlign={"center"} mt="8" w={8} h={8} color="green.500" />
               <Text mb="4" align="center" fontSize="sm" mt="2">
                 OpenBadge verified
               </Text>

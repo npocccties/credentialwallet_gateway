@@ -3,11 +3,11 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 
-import { IssueTemplate } from "../components/templates/IssueTemplate";
-import { LOCAL_STORAGE_VC_REQUEST_KEY } from "../configs/constants";
-import { getAndRefreshAuthorizationContext } from "../lib/oidc";
-import { getManifestFromJWT } from "../lib/utils";
-import { AcquiredIdToken, Manifest, VCRequest } from "../types";
+import { IssueTemplate } from "../../components/templates/IssueTemplate";
+import { LOCAL_STORAGE_VC_REQUEST_KEY } from "../../configs/constants";
+import { getAndRefreshAuthorizationContext } from "../../lib/oidc";
+import { getManifestFromJWT } from "../../lib/utils";
+import { AcquiredIdToken, Manifest, VCRequest } from "../../types";
 
 interface IssuePageProps {
   queryCode: string | string[] | null;
@@ -33,7 +33,7 @@ const IssuePage: React.FC<IssuePageProps> = ({ queryCode, queryState }) => {
       }
       const vcRequest = JSON.parse(vcRequestString);
       const { idTokenKey, idTokenState, codeVerifier } = getAndRefreshAuthorizationContext();
-      console.log("token", idTokenKey, idTokenState, codeVerifier)
+      console.log("token", idTokenKey, idTokenState, codeVerifier);
       const manifestUrl = new URL(
         vcRequest.claims.vp_token.presentation_definition.input_descriptors[0].issuance[0].manifest
       );
@@ -72,13 +72,13 @@ const IssuePage: React.FC<IssuePageProps> = ({ queryCode, queryState }) => {
           };
         }
         const openIdConfig = await axios.get(idTokenKey).then((resp) => resp.data as any);
-        console.log("openIdConfig", openIdConfig)
+        console.log("openIdConfig", openIdConfig);
         const idToken = await axios
           .get(
             `${openIdConfig.token_endpoint}&grant_type=authorization_code&code=${queryCode}&code_verifier=${codeVerifier}&client_id=${manifest.input.attestations.idTokens[0].client_id}`
           )
           .then((resp) => resp.data);
-        console.log("idToken", idToken)
+        console.log("idToken", idToken);
 
         acquiredAttestation[idTokenKey] = idToken;
       }
