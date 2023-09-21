@@ -1,6 +1,8 @@
 services:
   app:
     tty: true
+    networks:
+      - app_network
     build:
       context: ../
       dockerfile: .devcontainer/Dockerfile.dev

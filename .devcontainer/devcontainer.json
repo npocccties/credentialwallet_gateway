@@ -10,18 +10,26 @@
     "COMPOSE_PROJECT_NAME": "${localWorkspaceFolderBasename}"
   },
   // Set *default* container specific settings.json values on container create.
-  "settings": {
-    "editor.defaultFormatter": null,
-    "editor.autoIndent": "full",
-    "editor.detectIndentation": true,
-    "editor.formatOnSaveMode": "modificationsIfAvailable",
-    "files.insertFinalNewline": false,
-    "files.trimTrailingWhitespace": false,
-    "git-graph.dialog.rebase.launchInteractiveRebase": true,
-    "terminal.integrated.profiles.linux": {
-      "bash": {
-        "path": "/bin/bash",
-        "icon": "terminal-bash"
+  "customizations": {
+    "vscode": {
+      "extensions": ["dsznajder.es7-react-js-snippets", "mhutchie.git-graph", "esbenp.prettier-vscode", "Prisma.prisma"]
+    },
+    "settings": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "extensions.ignoreRecommendations": true,
+      "editor.tabSize": 2,
+      "editor.formatOnSave": true,
+      "editor.autoIndent": "full",
+      "editor.detectIndentation": true,
+      "editor.formatOnSaveMode": "modificationsIfAvailable",
+      "files.insertFinalNewline": false,
+      "files.trimTrailingWhitespace": false,
+      "git-graph.dialog.rebase.launchInteractiveRebase": true,
+      "terminal.integrated.profiles.linux": {
+        "bash": {
+          "path": "/bin/bash",
+          "icon": "terminal-bash"
+        }
       }
     }
   }

@@ -13,17 +13,19 @@ Next.jsアプリケーションを立ち上げ (yarn等を使用する場合は�
 ```
 npm run dev
 ```
-3. 
-prismaの使用方法より、コマンドを実行して
 
 ### Visual Studio CodeでdevContainerを使用する場合
 1. Docker および Docker Compose をインストール
 2. Visual Studio Code に拡張機能「Dev - Containers」をインストール
 3. .devcontainerフォルダ内にある.env.local.sampleを複製し、複製したファイルを.envにリネーム
 4. 表示 ⇒ コマンドパレット で「Remote-Containers: Open Folder in Container...」を選択し、chilowalletディレクトリを選択
+5. コンテナ起動後、ルート(app)直下にある.env のホスト名を `db` に変更してください（例: localhost:5432 → db:5432）
 
-### prismaの使用方法
-1. コンテナ立ち上げ後、以下のコマンドでDBのテーブル定義をschema.prismaに反映します。
+### アプリケーションとDBとの連携
+以下に記載している「prismaの使用方法」より、コマンドを実行してDBとの連携を行います。
+
+## prismaの使用方法
+1. コンテナ起動後、以下のコマンドでDBのテーブル定義をschema.prismaに反映します。
 ```
 npx prisma db pull
 ```
