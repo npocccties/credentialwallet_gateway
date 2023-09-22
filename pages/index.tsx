@@ -30,7 +30,7 @@ const Home: NextPage<Props> = (props) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const data = await fetch("http://localhost:3000/api/temp/badgeVcList");
+  const data = await fetch("http://localhost:3000/api/v1/getVcList");
   const props = data.json();
   console.log("data", data);
 

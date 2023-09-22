@@ -1,22 +1,18 @@
 import React, { useState } from "react";
 import { Box, Button, Flex, Grid, IconButton } from "@chakra-ui/react";
+import jsonwebtoken from "jsonwebtoken";
 
 import { useRouter } from "next/router";
 import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
 import { useForm } from "react-hook-form";
 import { SearchForm } from "@/components/ui/SearchForm";
-import { SearchFormItem } from "@/types/temp";
+import { BadgeVcs, SearchFormItem } from "@/types/temp";
 import { Pagination } from "@/components/ui/Pagination";
 import { DisplayBadgeCount } from "@/components/ui/card/DisplayBadgeCount";
+import { decodeJWTToVCData } from "@/lib/utils";
 
 type Props = {
-  data: {
-    image: string;
-    name: string;
-    category: string;
-    issuer: string;
-    issuedate: string;
-  }[];
+  data: BadgeVcs[];
   totalPagesProps: number;
   currentPageProps: number;
 };
@@ -63,25 +59,30 @@ export const MyWaletVCList = ({ data, totalPagesProps, currentPageProps }: Props
     <>
       <DisplayBadgeCount />
       <SearchForm register={register} handleSubmit={handleSubmit} isSubmitting={isSubmitting} />
-      {badgeVcList?.map((item, idx) => (
-        <Grid gap={4} key={idx}>
-          <Box
-            cursor={"pointer"}
-            _hover={{ opacity: 0.9, transition: "0.2s" }}
-            onClick={() => {
-              router.push("/temp/detail");
-            }}
-          >
-            <BadgeVcCard
-              image={item.image}
-              name={item.name}
-              category={item.category}
-              issuer={item.issuer}
-              issuedate={item.issuedate}
-            />
-          </Box>
-        </Grid>
-      ))}
+      {badgeVcList?.map((item, idx) => {
+        // console.log("jwt payload", item.vc_data_payload, item.vc_data_header);
+        // const decodeVc = jsonwebtoken.decode(item.vc_data_header, { complete: true });
+        // console.log("decodeVc", decodeVc);
+        return (
+          <Grid gap={4} key={idx}>
+            <Box
+              cursor={"pointer"}
+              _hover={{ opacity: 0.9, transition: "0.2s" }}
+              onClick={() => {
+                router.push(`/detail/${item.badge_vc_id}`);
+              }}
+            >
+              <BadgeVcCard
+                image={""} // TODO: 実装途中
+                name={item.badge_name}
+                category={item.badge_category}
+                issuer={item.badge_issuer_name}
+                issuedate={item.badge_issuedon.toString()}
+              />
+            </Box>
+          </Grid>
+        );
+      })}
       <Pagination
         totalPages={totalPages}
         currentPage={currentPage}
