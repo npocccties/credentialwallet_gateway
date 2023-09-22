@@ -33,11 +33,13 @@ services:
   deps:
     build:
       context: .
+      dockerfile: Dockerfile.dev-server
       target: deps
     image: deps:latest
   builder:
     build:
       context: .
+      dockerfile: Dockerfile.dev-server
       target: builder
     image: bundler:latest
   # runner:

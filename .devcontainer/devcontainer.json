@@ -1,6 +1,6 @@
 {
   "name": "${localWorkspaceFolderBasename}",
-  "dockerComposeFile": ["docker-compose.dev.yml"],
+  "dockerComposeFile": ["../docker-compose.dev-local.yml"],
   "service": "app",
   "workspaceFolder": "/app",
   "remoteEnv": {

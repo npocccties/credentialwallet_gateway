@@ -1,30 +1,50 @@
-## 動作環境
+# 動作環境
 - OS: Unix 系（Windows では WSL 等をお使いください）
 - Node.js: v16.20.1
 - Docker
+- Docker Compose (v2)
 
-## 開発
-動作環境を用意し、当リポジトリ下で以下のコマンドを実行すると、PosgreSQLコンテナが起動します。
+# setup
+git clone実行後、ルートディレクトリで以下のコマンドを実行します。
+```
+script/setup.sh
+```
+
+# 開発
+
+コンテナのビルド
+```
+make up-build
+```
+
+コンテナ起動
 ```
 make up-local
+# make up-d-localの場合はdaemonで起動
 ```
 
-Next.jsアプリケーションを立ち上げ (yarn等を使用する場合は適宜読み替えてください)
+appコンテナ内に移動
 ```
-npm run dev
+script/inapp.sh
 ```
 
-### Visual Studio CodeでdevContainerを使用する場合
-1. Docker および Docker Compose をインストール
-2. Visual Studio Code に拡張機能「Dev - Containers」をインストール
-3. .devcontainerフォルダ内にある.env.local.sampleを複製し、複製したファイルを.envにリネーム
-4. 表示 ⇒ コマンドパレット で「Remote-Containers: Open Folder in Container...」を選択し、chilowalletディレクトリを選択
-5. コンテナ起動後、ルート(app)直下にある.env のホスト名を `db` に変更してください（例: localhost:5432 → db:5432）
+コンテナのdown
+```
+make down-local
+```
 
 ### アプリケーションとDBとの連携
 以下に記載している「prismaの使用方法」より、コマンドを実行してDBとの連携を行います。
 
+## Visual Studio CodeでdevContainerを使用する場合
+1. Docker および Docker Compose をインストール
+2. Visual Studio Code に拡張機能「Dev - Containers」をインストール
+3. 当READMEのsetupを実行
+4. コマンドパレット で「Remote-Containers: Open Folder in Container...」を選択し、chilowalletディレクトリを選択
+
 ## prismaの使用方法
+詳細に関しては[ドキュメント](https://www.prisma.io/docs/reference/api-reference/command-reference)を参照してください。
+
 1. コンテナ起動後、以下のコマンドでDBのテーブル定義をschema.prismaに反映します。
 ```
 npx prisma db pull
@@ -41,3 +61,42 @@ npx prisma studio
 ```
 
 
+# 環境変数
+
+## DB, ビルド時用
+.env
+| 変数名                               | 説明                                        | デフォルト値         |
+| :----------------------------------- | :------------------------------------------ | :------------------- |
+|SSL_CERTS_DIR|サーバー証明書の配置ディレクトリ|・ディレクトリの末尾には `/` は付与しないこと<br>・本番環境では下記の命名でファイルを配置しておくこと<br>　`signed.crt`: サーバー証明書<br>　`domain.key`: サーバー証明書の秘密鍵|
+|ALLOWED_HOSTS|公開ホスト名|本番リリースする際は本番サーバーのホスト名を設定してください|
+|DB_HOST|DBのホスト名|docker-compose.*.yml に記載されている`db`がホスト名|
+|DB_NAME|DB名|-|
+|DB_USER|DBのユーザ名|-|
+|DB_PASS|DBのパスワード|-|
+|DATABASE_URL|接続先データベースのURL|-|
+
+## Next.jsアプリケーション用
+Next.jsアプリケーションでは、環境毎に以下のパターンで.envファイルを参照します。
+
+| ファイル名 |	読み込まれるタイミング
+| :--------- | :--------- | 
+|.env.local |	毎回
+|.env.development |	next dev 時のみ
+|.env.production	| next start 時のみ
+
+https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables
+
+以下の2つの環境変数の値を記述します。
+
+.env.local
+
+.env.production
+
+| 変数名                               | 説明                                        | デフォルト値         |
+| :----------------------------------- | :------------------------------------------ | :------------------- |
+|baseURL|アプリケーション起動時のURL|http://localhost:3000|
+|clientName|アプリケーションの名称|chilowallet|
+|vcApp_client_id|AzureクライアントID|-|
+|vcApp_azTenantId|AzureテナントID|-|
+|vcApp_client_secret|Azureクライアントシークレット|-|
+|vcApp_scope|AzureへVC発行要求するためのスコープ配列|-|
