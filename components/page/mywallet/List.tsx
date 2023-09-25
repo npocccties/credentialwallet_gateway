@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Box, Button, Flex, Grid, IconButton } from "@chakra-ui/react";
-import jsonwebtoken from "jsonwebtoken";
 
 import { useRouter } from "next/router";
 import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
@@ -9,15 +8,17 @@ import { SearchForm } from "@/components/ui/SearchForm";
 import { BadgeVcs, SearchFormItem } from "@/types/temp";
 import { Pagination } from "@/components/ui/Pagination";
 import { DisplayBadgeCount } from "@/components/ui/card/DisplayBadgeCount";
-import { decodeJWTToVCData } from "@/lib/utils";
 
 type Props = {
   data: BadgeVcs[];
+  dataCount: number;
   totalPagesProps: number;
   currentPageProps: number;
 };
 
-export const MyWaletVCList = ({ data, totalPagesProps, currentPageProps }: Props) => {
+const baseUrl = process.env.baseUrl;
+
+export const MyWaletVCList = ({ data, dataCount, totalPagesProps, currentPageProps }: Props) => {
   const [badgeVcList, setBadgeVcList] = useState(data);
   const [currentPage, setCurrentPage] = useState(currentPageProps);
   const [totalPages, setTotalPages] = useState(totalPagesProps);
@@ -30,21 +31,21 @@ export const MyWaletVCList = ({ data, totalPagesProps, currentPageProps }: Props
 
   const handleClickPrev = async () => {
     console.log("previod");
-    const res = await fetch("http://localhost:3000/api/temp/badgeVcList");
+    const res = await fetch(`${baseUrl}/api/temp/badgeVcList`);
     const data = await res.json();
     setPageState(data);
   };
 
   const handleClickNext = async () => {
     console.log("next");
-    const res = await fetch(`http://localhost:3000/api/temp/badgeVcList?page=${totalPages}`);
+    const res = await fetch(`${baseUrl}/api/temp/badgeVcList?page=${totalPages}`);
     const data = await res.json();
     setPageState(data);
   };
 
   const handleClickMove = async (page: number) => {
     console.log("handle", page);
-    const res = await fetch(`http://localhost:3000/api/temp/badgeVcList?page=${page}`);
+    const res = await fetch(`${baseUrl}/api/temp/badgeVcList?page=${page}`);
     const data = await res.json();
     setPageState(data);
   };
@@ -57,12 +58,11 @@ export const MyWaletVCList = ({ data, totalPagesProps, currentPageProps }: Props
   const router = useRouter();
   return (
     <>
-      <DisplayBadgeCount />
+      <DisplayBadgeCount badgeCount={dataCount} />
       <SearchForm register={register} handleSubmit={handleSubmit} isSubmitting={isSubmitting} />
       {badgeVcList?.map((item, idx) => {
-        // console.log("jwt payload", item.vc_data_payload, item.vc_data_header);
-        // const decodeVc = jsonwebtoken.decode(item.vc_data_header, { complete: true });
-        // console.log("decodeVc", decodeVc);
+        const vcPayload = JSON.parse(item.vc_data_payload);
+        const image = vcPayload.vc.credentialSubject.photo;
         return (
           <Grid gap={4} key={idx}>
             <Box
@@ -73,9 +73,8 @@ export const MyWaletVCList = ({ data, totalPagesProps, currentPageProps }: Props
               }}
             >
               <BadgeVcCard
-                image={""} // TODO: 実装途中
+                image={image}
                 name={item.badge_name}
-                category={item.badge_category}
                 issuer={item.badge_issuer_name}
                 issuedate={item.badge_issuedon.toString()}
               />
@@ -83,13 +82,13 @@ export const MyWaletVCList = ({ data, totalPagesProps, currentPageProps }: Props
           </Grid>
         );
       })}
-      <Pagination
+      {/* <Pagination
         totalPages={totalPages}
         currentPage={currentPage}
         handlePrev={handleClickPrev}
         handleNext={handleClickNext}
         handleMove={handleClickMove}
-      />
+      /> */}
     </>
   );
 };

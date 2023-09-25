@@ -1,15 +1,17 @@
-import { Box, Flex, Grid, GridItem, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Image, Spacer, Text } from "@chakra-ui/react";
 import React from "react";
+
+import { formatDateToJST } from "@/lib/date";
 
 type Props = {
   image: string;
   name: string;
-  category: string;
   issuer: string;
   issuedate: string;
 };
 
-export const BadgeVcCard = ({ image, name, category, issuer, issuedate }: Props) => {
+// TODO: レスポンシブ対応
+export const BadgeVcCard = ({ image, name, issuer, issuedate }: Props) => {
   // const { card } = storedVC.manifest.display;
 
   return (
@@ -20,30 +22,44 @@ export const BadgeVcCard = ({ image, name, category, issuer, issuedate }: Props)
       rounded="2xl"
       templateRows={"repeat(3)"}
       templateColumns={"repeat(3, 1fr)"}
-      p={"6"}
+      p={{ base: 3, sm: 6 }}
     >
       <GridItem alignItems="center" rowSpan={3}>
-        <Image h="24" w="24" fit={"cover"} src={image} alt={"test"} />
+        <Image h="24" w="24" fit={"cover"} src={"data:image/png;base64," + image} alt={"test"} />
       </GridItem>
       <GridItem px="2" py="1" alignItems="center" margin={"0"} colSpan={2}>
-        <Text fontSize="xl" fontWeight={"bold"}>
+        <Text fontSize={{ sm: "xl", base: "md" }} fontWeight={"bold"}>
           {name}
         </Text>
       </GridItem>
 
-      <GridItem p="2" alignItems="center" colSpan={2}>
+      <GridItem px="2" py="1" alignItems="center" colSpan={2}>
         <Flex direction={"row"} alignItems={"center"}>
-          <Text fontSize={"xs"}>発行者</Text>
-          <Text fontSize={"md"} ml={2}>
+          <Text fontSize={{ base: "9px", sm: "xs" }}>発行者</Text>
+          <Text fontSize={{ base: "12px", sm: "sm" }} ml={{ base: 1, sm: 2 }}>
             {issuer}
           </Text>
-          <Text ml={2} mr={2}>
-            /
+          <Text mx={{ base: 1, sm: 2 }}>/</Text>
+          <Text fontSize={{ base: "9px", sm: "xs" }}>発行日</Text>
+          <Text fontSize={{ base: "12px", sm: "sm" }} ml={{ base: 1, sm: 2 }}>
+            {formatDateToJST(issuedate)}
           </Text>
-          <Text fontSize={"xs"}>発行日</Text>
-          <Text fontSize={"md"} ml={2}>
-            {issuedate}
-          </Text>
+        </Flex>
+      </GridItem>
+
+      <GridItem px="2" py="1" alignItems="center" colSpan={2}>
+        <Flex direction={"row"} alignItems={"flex-start"}>
+          <Box>
+            <Text fontSize={"xs"}>バッジ提出状況</Text>
+          </Box>
+          <Flex ml={8} direction={"column"}>
+            <Box w={{ base: 24, sm: 48 }} borderBottom={"1px"} borderColor={"gray.200"}>
+              <Text fontSize={"xs"}>{formatDateToJST(issuedate)} ○○市</Text>
+            </Box>
+            <Box w={{ base: 24, sm: 48 }} borderBottom={"1px"} borderColor={"gray.200"}>
+              <Text fontSize={"xs"}>{formatDateToJST(issuedate)} ○○市</Text>
+            </Box>
+          </Flex>
         </Flex>
       </GridItem>
     </Grid>

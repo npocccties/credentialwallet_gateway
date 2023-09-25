@@ -14,15 +14,22 @@ type Props = {
     issuer: string;
     issuedate: string;
   }[];
+  dataCount: number;
   totalPages: number;
   currentPage: number;
 };
 
 const Home: NextPage<Props> = (props) => {
+  console.log(props);
   return (
     <Layout maxW="xl">
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
-      <MyWaletVCList data={props.data} currentPageProps={props.currentPage} totalPagesProps={props.totalPages} />
+      <MyWaletVCList
+        data={props.data}
+        dataCount={props.dataCount}
+        currentPageProps={props.currentPage}
+        totalPagesProps={props.totalPages}
+      />
     </Layout>
   );
 };
@@ -30,7 +37,7 @@ const Home: NextPage<Props> = (props) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const data = await fetch("http://localhost:3000/api/v1/getVcList");
+  const data = await fetch(`${process.env.baseURL}/api/v1/getVcList`);
   const props = data.json();
   console.log("data", data);
 
