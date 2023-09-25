@@ -11,10 +11,11 @@ script/setup.sh
 ```
 
 # 開発
+makeコマンドがインストールされていない場合は、適宜インストールしてください。
 
 コンテナのビルド
 ```
-make up-build
+make build-local
 ```
 
 コンテナ起動
