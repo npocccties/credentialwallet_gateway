@@ -35,7 +35,7 @@ make down-local
 ```
 
 ### アプリケーションとDBとの連携
-以下に記載している「prismaの使用方法」より、コマンドを実行してDBとの連携を行います。
+appコンテナ内に移動した後、以下に記載している「prismaの使用方法」より、コマンドを実行してDBとの連携を行います。
 
 ## Visual Studio CodeでdevContainerを使用する場合
 1. Docker および Docker Compose をインストール
