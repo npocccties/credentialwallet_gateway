@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 
-import { IssueTemplate } from "../../components/templates/IssueTemplate";
+import { IssueTemplate } from "../../components/old/templates/IssueTemplate";
 import { LOCAL_STORAGE_VC_REQUEST_KEY } from "../../configs/constants";
 import { getAndRefreshAuthorizationContext } from "../../lib/oidc";
 import { getManifestFromJWT } from "../../lib/utils";

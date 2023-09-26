@@ -1,18 +1,37 @@
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Divider, Flex, Icon, Tab, TabList, TabPanel, TabPanels, Tabs, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Icon,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import moment from "moment";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
 
-import { useStoredVCs } from "../../hooks/useStoredVCs";
-import { decodeJWTToVCData } from "../../lib/utils";
-import { PlainCard } from "../ui/card/PlainCard";
-import { deleteVC } from "../../lib/repository/vc"
+import { useStoredVCs } from "../../../hooks/useStoredVCs";
+import { decodeJWTToVCData } from "../../../lib/utils";
+import { PlainCard } from "../../ui/card/PlainCard";
+import { deleteVC } from "../../../lib/repository/vc";
 import { TrashIcon } from "@heroicons/react/outline";
 
 export const CredentialDetail: React.FC = () => {
   const router = useRouter();
-  const cancelRef = useRef()
+  const cancelRef = useRef();
   const { vcID } = router.query;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { storedVCs } = useStoredVCs(vcID as string);
@@ -75,10 +94,7 @@ export const CredentialDetail: React.FC = () => {
             </TabPanels>
           </Tabs>
           <Box>
-            <Button
-              colorScheme="red"
-              onClick={onOpen}
-            >
+            <Button colorScheme="red" onClick={onOpen}>
               Delete
             </Button>
           </Box>

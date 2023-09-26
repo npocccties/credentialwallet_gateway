@@ -19,15 +19,15 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React from "react";
 
-import { proxyHttpRequest } from "../../lib/http";
-import { issue } from "../../lib/issue";
-import { authorize } from "../../lib/oidc";
-import { addVCHistory } from "../../lib/repository/vc";
-import { KeyPair, Signer } from "../../lib/signer";
-import { calcPinhash } from "../../lib/utils";
-import { AcquiredIdToken, IdTokenConfiguration, Manifest, RequiredToken, VCRequest } from "../../types";
+import { proxyHttpRequest } from "../../../lib/http";
+import { issue } from "../../../lib/issue";
+import { authorize } from "../../../lib/oidc";
+import { addVCHistory } from "../../../lib/repository/vc";
+import { KeyPair, Signer } from "../../../lib/signer";
+import { calcPinhash } from "../../../lib/utils";
+import { AcquiredIdToken, IdTokenConfiguration, Manifest, RequiredToken, VCRequest } from "../../../types";
 import { SelectVC } from "../molecules/IssuanceSelectVC";
-import { PreviewPlainCard } from "../ui/card/PreviewPlainCard";
+import { PreviewPlainCard } from "../../ui/card/PreviewPlainCard";
 import { Unlock } from "./Unlock";
 const PinInput = dynamic(() => import("react-pin-input"), { ssr: false });
 
@@ -128,8 +128,8 @@ export const Issue: React.FC<IssueProps> = ({ vcRequest, manifest, acquiredAttes
                       alignItems="center"
                       onClick={onclick}
                       _disabled={{ opacity: 0.6 }}
-                    // TODO: Sign in が終わっていたらdisabledにする
-                    // disabled={fulfilled}
+                      // TODO: Sign in が終わっていたらdisabledにする
+                      // disabled={fulfilled}
                     >
                       <Box>
                         <Text fontSize="lg" fontWeight="bold">

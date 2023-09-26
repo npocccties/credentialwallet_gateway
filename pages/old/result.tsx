@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 
-import { ResultTemplate } from "../../components/templates/Result";
+import { ResultTemplate } from "../../components/old/templates/Result";
 
 const ResultPage: React.FC = () => {
   const router = useRouter();

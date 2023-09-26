@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 
-import { WalletTemplate } from "../../components/templates/Wallet";
+import { WalletTemplate } from "../../components/old/templates/Wallet";
 import { isExistKeyPair } from "../../lib/repository/keyPair";
 
 const IndexPage: React.FC = () => {

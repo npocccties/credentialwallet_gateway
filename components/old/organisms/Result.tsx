@@ -3,7 +3,7 @@ import { Box, Button, Center, Container, Flex, Spacer, Spinner, Text } from "@ch
 import { useRouter } from "next/router";
 import React from "react";
 
-import { cleanVCRequest } from "../../lib/repository/vc";
+import { cleanVCRequest } from "../../../lib/repository/vc";
 
 export interface ResultProps {
   type: "issue" | "present" | "scanner";

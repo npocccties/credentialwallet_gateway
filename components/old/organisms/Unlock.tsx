@@ -2,8 +2,8 @@ import { UnlockIcon, WarningIcon } from "@chakra-ui/icons";
 import { Box, Button, Flex, Heading, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
 import React from "react";
 
-import { getKeyPair } from "../../lib/repository/keyPair";
-import { KeyPair } from "../../lib/signer";
+import { getKeyPair } from "../../../lib/repository/keyPair";
+import { KeyPair } from "../../../lib/signer";
 
 export interface UnlockProps {
   onUnlock: (key: KeyPair) => void;

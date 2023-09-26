@@ -3,7 +3,7 @@ import { Box, Button, Flex, Input, InputGroup, InputRightElement, Text } from "@
 import { useRouter } from "next/router";
 import React from "react";
 
-import { initKeyPair } from "../../lib/repository/keyPair";
+import { initKeyPair } from "../../../lib/repository/keyPair";
 
 export const CreateKey: React.FC = () => {
   const router = useRouter();
@@ -16,7 +16,7 @@ export const CreateKey: React.FC = () => {
     //TODO: 一致していなければエラーを出す
     if (passwords.password === passwords.passwordConfirmation) {
       await initKeyPair(passwords.password);
-      alert("Create KeyPair!")
+      alert("Create KeyPair!");
       router.push("/");
     } else {
       setInputError("Passwords are not same");

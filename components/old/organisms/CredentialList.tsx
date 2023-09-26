@@ -2,8 +2,8 @@ import { Box, Grid } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
 
-import { useStoredVCs } from "../../hooks/useStoredVCs";
-import { PlainCard } from "../ui/card/PlainCard";
+import { useStoredVCs } from "../../../hooks/useStoredVCs";
+import { PlainCard } from "../../ui/card/PlainCard";
 
 export const CredentialList: React.FC = () => {
   const router = useRouter();
@@ -35,4 +35,3 @@ export const CredentialList: React.FC = () => {
 };
 
 export default CredentialList;
-

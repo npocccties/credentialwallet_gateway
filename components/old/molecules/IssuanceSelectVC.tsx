@@ -16,9 +16,9 @@ import {
 import { BadgeCheckIcon, CheckIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import React from "react";
 
-import { getVCsByType } from "../../lib/repository/vc";
-import { RequiredPresentation } from "../../types";
-import { PlainCard } from "../ui/card/PlainCard";
+import { getVCsByType } from "../../../lib/repository/vc";
+import { RequiredPresentation } from "../../../types";
+import { PlainCard } from "../../ui/card/PlainCard";
 
 export interface SelectVCProps {
   requiredVC: RequiredPresentation;

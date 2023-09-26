@@ -1,7 +1,7 @@
 import React from "react";
 
-import { AcquiredIdToken, Manifest, VCRequest } from "../../types";
-import { Layout } from "../Layout";
+import { AcquiredIdToken, Manifest, VCRequest } from "../../../types";
+import { Layout } from "../../Layout";
 import { Issue } from "../organisms/Issue";
 
 export interface IssueTemplateProps {
