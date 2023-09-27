@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Flex, Grid, IconButton } from "@chakra-ui/react";
 
 import { useRouter } from "next/router";
@@ -8,47 +8,47 @@ import { SearchForm } from "@/components/ui/SearchForm";
 import { BadgeVcs, SearchFormItem } from "@/types/temp";
 import { Pagination } from "@/components/ui/Pagination";
 import { DisplayBadgeCount } from "@/components/ui/card/DisplayBadgeCount";
+import axios from "axios";
 
-type Props = {
-  data: BadgeVcs[];
-  dataCount: number;
-  totalPagesProps: number;
-  currentPageProps: number;
-};
-
-const baseUrl = process.env.baseUrl;
-
-export const MyWaletVCList = ({ data, dataCount, totalPagesProps, currentPageProps }: Props) => {
-  const [badgeVcList, setBadgeVcList] = useState(data);
-  const [currentPage, setCurrentPage] = useState(currentPageProps);
-  const [totalPages, setTotalPages] = useState(totalPagesProps);
+export const MyWaletVCList = () => {
+  const [badgeVcList, setBadgeVcList] = useState<BadgeVcs[]>([]);
+  const [dataCount, setDataCount] = useState<number>(0);
 
   const setPageState = (data: any) => {
     setBadgeVcList(data.badgeVcList);
-    setTotalPages(data.totalPages);
-    setCurrentPage(data.currentPage);
+    setDataCount(data.dataCount);
   };
 
-  const handleClickPrev = async () => {
-    console.log("previod");
-    const res = await fetch(`${baseUrl}/api/temp/badgeVcList`);
-    const data = await res.json();
+  const fetch = async () => {
+    const { data } = await axios.get(`/api/v1/getVcList`);
+    console.log("data", data);
     setPageState(data);
   };
 
-  const handleClickNext = async () => {
-    console.log("next");
-    const res = await fetch(`${baseUrl}/api/temp/badgeVcList?page=${totalPages}`);
-    const data = await res.json();
-    setPageState(data);
-  };
+  useEffect(() => {
+    fetch();
+  }, []);
 
-  const handleClickMove = async (page: number) => {
-    console.log("handle", page);
-    const res = await fetch(`${baseUrl}/api/temp/badgeVcList?page=${page}`);
-    const data = await res.json();
-    setPageState(data);
-  };
+  // const handleClickPrev = async () => {
+  //   console.log("previod");
+  //   const res = await fetch(`${baseUrl}/api/temp/badgeVcList`);
+  //   const data = await res.json();
+  //   setPageState(data);
+  // };
+
+  // const handleClickNext = async () => {
+  //   console.log("next");
+  //   const res = await fetch(`${baseUrl}/api/temp/badgeVcList?page=${totalPages}`);
+  //   const data = await res.json();
+  //   setPageState(data);
+  // };
+
+  // const handleClickMove = async (page: number) => {
+  //   console.log("handle", page);
+  //   const res = await fetch(`${baseUrl}/api/temp/badgeVcList?page=${page}`);
+  //   const data = await res.json();
+  //   setPageState(data);
+  // };
 
   const {
     register,

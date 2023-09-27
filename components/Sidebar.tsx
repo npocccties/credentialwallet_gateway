@@ -3,8 +3,8 @@ import React from "react";
 import { Flex, Box, BoxProps, CloseButton, FlexProps } from "@chakra-ui/react";
 
 const LinkItems: Array<{ name: string; link?: string }> = [
-  { name: "マイウォレット", link: "/temp" },
-  { name: "バッジ取り込み", link: "/temp/badge/list" },
+  { name: "マイウォレット", link: "/" },
+  { name: "バッジ取り込み", link: "/badge/list" },
   { name: "分析" },
 ];
 

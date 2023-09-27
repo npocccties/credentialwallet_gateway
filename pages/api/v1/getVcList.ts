@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "@/lib/prisma";
+import prisma, { Prisma } from "@/lib/prisma";
 
 type Data = {
   data: {
@@ -14,17 +14,28 @@ type Data = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
-  const data = await prisma.badge_vcs.findMany({
-    take: 3,
-    skip: 1,
-    orderBy: {
-      badge_issuedon: "desc",
-    },
-  });
+  // const perPage = 10;
+  // const skip = perPage * (req.body.page - 1);
+
+  const [data, dataCount] = await Promise.all([
+    prisma.badge_vcs.findMany({
+      // take: 5,
+      skip: 1,
+      orderBy: {
+        badge_issuedon: "desc",
+      },
+    }),
+    prisma.badge_vcs.count({
+      where: {
+        mywallet_id: req.body.nywallet_id,
+      },
+    }),
+  ]);
   // const data = {};
   console.log("data", data);
 
   res.status(200).json({
-    data: data,
+    badgeVcList: data,
+    dataCount: dataCount,
   });
 }

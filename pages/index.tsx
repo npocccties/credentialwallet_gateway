@@ -1,5 +1,5 @@
 import React from "react";
-import type { GetServerSideProps, NextPage } from "next";
+import type { NextPage } from "next";
 
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
@@ -19,27 +19,13 @@ type Props = {
   currentPage: number;
 };
 
-const Home: NextPage<Props> = (props) => {
-  console.log(props);
+const Home: NextPage<Props> = () => {
   return (
     <Layout maxW="xl">
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
-      <MyWaletVCList
-        data={props.data}
-        dataCount={props.dataCount}
-        currentPageProps={props.currentPage}
-        totalPagesProps={props.totalPages}
-      />
+      <MyWaletVCList />
     </Layout>
   );
 };
 
 export default Home;
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const data = await fetch(`${process.env.baseURL}/api/v1/getVcList`);
-  const props = data.json();
-  console.log("data", data);
-
-  return { props: props };
-};

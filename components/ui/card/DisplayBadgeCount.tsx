@@ -13,7 +13,11 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-export const DisplayBadgeCount = () => {
+type Props = {
+  badgeCount: number;
+};
+// TODO: 提出数と取得数をPropsで受け取る
+export const DisplayBadgeCount = ({ badgeCount }: Props) => {
   return (
     <Box border={"2px solid"} borderColor={"gray.200"} borderRadius={"2xl"} p={8}>
       <Grid templateColumns={"repeat(2, 1fr)"}>
@@ -26,7 +30,7 @@ export const DisplayBadgeCount = () => {
               取得数
             </Box>
             <Box as="span" ml={4} fontSize={"32px"} color={"blue"}>
-              3
+              {badgeCount}
             </Box>
           </Center>
         </GridItem>
