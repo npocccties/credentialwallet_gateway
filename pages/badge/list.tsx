@@ -1,4 +1,4 @@
-import React from "react";
+import { CheckIcon } from "@chakra-ui/icons";
 import {
   FormLabel,
   Flex,
@@ -15,8 +15,9 @@ import {
   Select,
   Text,
 } from "@chakra-ui/react";
-import { CheckIcon } from "@chakra-ui/icons";
 import axios from "axios";
+import React from "react";
+
 import { Layout } from "../../components/Layout";
 import { Metatag } from "../../components/Metatag";
 import { IfBadgeInfo } from "../../types/BadgeInfo";
@@ -60,8 +61,8 @@ const CreateVC = () => {
         </Box>
       </Flex>
       <Flex w="full" align={"center"} direction={"column"}>
-        <Box display={{ sm: "block", base: "none" }}>{myBadgesList(badgeList as IfBadgeInfo[])}</Box>
-        <Box display={{ sm: "none", base: "block" }}>{myBadgesListSp(badgeList as IfBadgeInfo[])}</Box>
+        <Box display={{ sm: "block", base: "none" }}>{myBadgesList(badgeList)}</Box>
+        <Box display={{ sm: "none", base: "block" }}>{myBadgesListSp(badgeList)}</Box>
       </Flex>
     </Layout>
   );
@@ -83,7 +84,7 @@ const myBadgesList = (badgeList: IfBadgeInfo[]) => {
         </Thead>
         <Tbody>
           {badgeList?.map((badge, index: number) => {
-            let dateTime = new Date(badge.timecreated * 1000);
+            const dateTime = new Date(badge.timecreated * 1000);
             return (
               <Tr key={index} textAlign="left">
                 {/** TODO: 取得済みであるかをチェック DBに登録されているバッジ名で比較する？ */}
@@ -126,7 +127,7 @@ const myBadgesListSp = (badgeList: IfBadgeInfo[]) => {
         </Thead>
         <Tbody>
           {badgeList?.map((badge, index: number) => {
-            let dateTime = new Date(badge.timecreated * 1000);
+            const dateTime = new Date(badge.timecreated * 1000);
             return (
               <Tr key={index} textAlign="left">
                 {/** TODO: 取得済みであるかをチェック DBに登録されているバッジ名で比較する？ */}

@@ -8,8 +8,6 @@ import {
   Box,
   Button,
   Divider,
-  Flex,
-  Icon,
   Tab,
   TabList,
   TabPanel,
@@ -18,19 +16,14 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import moment from "moment";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 
-import { useStoredVCs } from "@/hooks/useStoredVCs";
-import { decodeJWTToVCData } from "@/lib/utils";
-import { PlainCard } from "@/components/ui/card/PlainCard";
-import { deleteVC } from "@/lib/repository/vc";
 import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
-import { BadgeVcs } from "@/types/temp";
-import axios from "axios";
+import { deleteVC } from "@/lib/repository/vc";
 import { badgeDetailGetters } from "@/share/store/badgeDetail/main";
+import { BadgeVcs } from "@/types/temp";
+
 
 type Props = {
   badgeVcs: BadgeVcs;

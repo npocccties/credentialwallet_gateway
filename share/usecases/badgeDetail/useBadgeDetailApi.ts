@@ -1,6 +1,8 @@
-import { BadgeDetailState } from "@/share/store/badgeDetail/types";
 import axios from "axios";
+
 import { api } from "../api";
+
+import { BadgeDetailState } from "@/share/store/badgeDetail/types";
 
 export const useBadgeDetailApi = async (vcId: string) => {
   const apiPath = api.v1.getVcDetail;

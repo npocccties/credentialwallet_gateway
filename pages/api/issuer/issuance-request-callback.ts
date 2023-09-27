@@ -1,5 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import redis from "../../../lib/redis";
+
+import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {};
 

@@ -1,7 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { Session, withSession } from "../../../lib/session";
 import { myBadgesList } from "../../../lib/moodle";
-import { BadgeInfo, IfBadgeInfo } from "../../../types/BadgeInfo";
+import { Session, withSession } from "../../../lib/session";
+import { IfBadgeInfo } from "../../../types/BadgeInfo";
+
+import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
   badgeList: IfBadgeInfo[];

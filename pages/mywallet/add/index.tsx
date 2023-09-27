@@ -1,5 +1,5 @@
-import { Box, Center, Divider, Flex, Text } from "@chakra-ui/react";
 import React from "react";
+
 import { Layout } from "../../../components/Layout";
 import { Metatag } from "../../../components/Metatag";
 import { Add } from "../../../components/page/mywallet/Add";

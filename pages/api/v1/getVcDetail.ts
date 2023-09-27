@@ -1,6 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import prisma, { Prisma } from "@/lib/prisma";
 import axios from "axios";
+
+import type { NextApiRequest, NextApiResponse } from "next";
+
+import prisma from "@/lib/prisma";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   console.log("server id", req.query.badge_vc_id);

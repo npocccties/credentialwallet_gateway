@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, GridItem, Image, Spacer, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 import React from "react";
 
 import { formatDateToJST } from "@/lib/date";

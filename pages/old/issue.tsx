@@ -1,6 +1,5 @@
-import React from "react";
-import type { NextPage } from "next";
 
+import { WarningIcon, CheckCircleIcon } from "@chakra-ui/icons";
 import {
   Button,
   Text,
@@ -15,16 +14,18 @@ import {
   List,
   ListItem,
   ListIcon,
-  SliderProvider,
 } from "@chakra-ui/react";
-import { WarningIcon, CheckCircleIcon } from "@chakra-ui/icons";
-import QRCode from "react-qr-code";
 import axios from "axios";
-import { QRCodeStatus, RequestStatus } from "../../types/status";
+import React from "react";
+import QRCode from "react-qr-code";
+
 import { Layout } from "../../components/Layout";
-import { SERVICE_DESCRITION, SERVICE_NAME } from "../../configs";
-import { Metatag } from "../../components/Metatag";
 import { Loading } from "../../components/Loading";
+import { Metatag } from "../../components/Metatag";
+import { SERVICE_DESCRITION, SERVICE_NAME } from "../../configs";
+import { QRCodeStatus, RequestStatus } from "../../types/status";
+
+import type { NextPage } from "next";
 // import { clearInterval } from "timers";
 
 const Issue: NextPage = () => {
@@ -57,7 +58,7 @@ const Issue: NextPage = () => {
         // console.log("### issue.tsx sessionId=", sessionId);
         setRequestStatus("requested");
         const intervalMs = 5000;
-        let intervalObj = setInterval(() => {
+        const intervalObj = setInterval(() => {
           getIssuanceResponse(sessionId); // createIssuanceRequestのstate値
         }, intervalMs);
       })

@@ -1,13 +1,15 @@
+import { Button, Text, Heading, Stack } from "@chakra-ui/react";
+import NextLink from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import type { NextPage } from "next";
-import { Button, Text, Container, Heading, Stack } from "@chakra-ui/react";
 
 import { Layout } from "../../components/Layout";
 import { Metatag } from "../../components/Metatag";
 import { SERVICE_NAME, SERVICE_DESCRITION } from "../../configs";
-import NextLink from "next/link";
 import { isExistKeyPair } from "../../lib/repository/keyPair";
-import { useRouter } from "next/router";
+
+
+import type { NextPage } from "next";
 
 const Home: NextPage = () => {
   const router = useRouter();

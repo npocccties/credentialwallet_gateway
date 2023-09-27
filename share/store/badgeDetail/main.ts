@@ -1,8 +1,9 @@
 import { useCallback } from "react";
 import { atom, useRecoilValue, useSetRecoilState } from "recoil";
+
+import { BadgeDetailActions, BadgeDetailGetters, BadgeDetailState } from "@/share/store/badgeDetail/types";
 import { RECOIL_ATOMS_KEYS } from "@/share/store/keys";
 import { useBadgeDetailApi } from "@/share/usecases/badgeDetail/useBadgeDetailApi";
-import { BadgeDetailActions, BadgeDetailGetters, BadgeDetailState } from "@/share/store/badgeDetail/types";
 
 const badgeDetailState = atom<BadgeDetailState>({
   key: RECOIL_ATOMS_KEYS.BADGE_DETAIL_STATE,
@@ -38,7 +39,7 @@ const useFetchBadgeDetail = () => {
         return data;
       });
     },
-    [setState]
+    [setState],
   );
 
   return { fetchBadgeDetail };

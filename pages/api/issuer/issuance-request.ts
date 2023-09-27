@@ -1,17 +1,15 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { Session, withSession } from "../../../lib/session";
-
 import {
   extractOpenBadgeMetadataFromImage,
   validateOpenBadge,
   getBadgeClass,
 } from "../../../lib/openbadge";
-
+import { Session, withSession } from "../../../lib/session";
 import {
-  prepareIssueRequest,
   issueRequest,
   getManifestURL,
 } from "../../../lib/vc";
+
+import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
   pin: number;

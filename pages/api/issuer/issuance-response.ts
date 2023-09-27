@@ -1,7 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import redis from "../../../lib/redis";
-import { Session, withSession } from "../../../lib/session";
+import { Session } from "../../../lib/session";
 import { IssuanceStatus } from "../../../types/status";
+
+import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
   status: IssuanceStatus;

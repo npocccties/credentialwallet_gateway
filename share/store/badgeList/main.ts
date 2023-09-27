@@ -1,8 +1,9 @@
 import { useCallback } from "react";
 import { atom, useRecoilValue, useSetRecoilState } from "recoil";
+
+import { BadgeListActions, BadgeListGetters, BadgeListState } from "@/share/store/badgeList/types";
 import { RECOIL_ATOMS_KEYS } from "@/share/store/keys";
 import { useBadgeListApi } from "@/share/usecases/badgeList/useBadgeListApi";
-import { BadgeListActions, BadgeListGetters, BadgeListState } from "@/share/store/badgeList/types";
 
 // state はそのまま export しない
 const badgeListState = atom<BadgeListState>({

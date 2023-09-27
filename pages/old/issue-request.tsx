@@ -71,7 +71,7 @@ const IssuePage: React.FC<IssuePageProps> = ({ queryCode, queryState }) => {
             },
           };
         }
-        const openIdConfig = await axios.get(idTokenKey).then((resp) => resp.data as any);
+        const openIdConfig = await axios.get(idTokenKey).then((resp) => resp.data );
         console.log("openIdConfig", openIdConfig);
         const idToken = await axios
           .get(

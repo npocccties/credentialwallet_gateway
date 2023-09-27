@@ -1,10 +1,8 @@
-import { Layout } from "@/components/Layout";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-
-import { CredentialDetail } from "@/components/page/detail/CredentialDetail";
-import { BadgeVcs } from "@/types/temp";
 import { useRouter } from "next/router";
+import React from "react";
+
+import { Layout } from "@/components/Layout";
+import { CredentialDetail } from "@/components/page/detail/CredentialDetail";
 import { badgeDetailActions } from "@/share/store/badgeDetail/main";
 
 const CredentialDetailPage = () => {

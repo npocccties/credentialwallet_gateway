@@ -1,7 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import jwt from "jsonwebtoken";
+
 import redis from "../../../lib/redis";
 
-import jwt from "jsonwebtoken";
+import type { NextApiRequest, NextApiResponse } from "next";
+
 
 type Data = {};
 

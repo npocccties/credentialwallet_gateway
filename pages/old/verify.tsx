@@ -1,15 +1,17 @@
-import React from "react";
-import type { NextPage } from "next";
 
-import { Button, Text, Box, Heading, Flex, ListItem, ListIcon, Image, Center, List } from "@chakra-ui/react";
 import { WarningIcon, CheckCircleIcon } from "@chakra-ui/icons";
-import QRCode from "react-qr-code";
+import { Button, Text, Box, Heading, Flex, ListItem, ListIcon, Image, Center, List } from "@chakra-ui/react";
 import axios from "axios";
-import { QRCodeStatus, RequestStatus } from "../../types/status";
+import React from "react";
+import QRCode from "react-qr-code";
+
 import { Layout } from "../../components/Layout";
-import { SERVICE_DESCRITION, SERVICE_NAME } from "../../configs";
-import { Metatag } from "../../components/Metatag";
 import { Loading } from "../../components/Loading";
+import { Metatag } from "../../components/Metatag";
+import { SERVICE_DESCRITION, SERVICE_NAME } from "../../configs";
+import { QRCodeStatus, RequestStatus } from "../../types/status";
+
+import type { NextPage } from "next";
 
 const Home: NextPage = () => {
   const pageTitle = `${SERVICE_NAME} - Verifier`;

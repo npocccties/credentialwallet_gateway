@@ -1,14 +1,13 @@
-import React from "react";
-import { Box, Button, Flex, Grid, IconButton } from "@chakra-ui/react";
-
+import { Box, Grid } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { SearchForm } from "@/components/ui/SearchForm";
-import { BadgeVcs, SearchFormItem } from "@/types/temp";
-import { Pagination } from "@/components/ui/Pagination";
+
+import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
 import { DisplayBadgeCount } from "@/components/ui/card/DisplayBadgeCount";
+import { SearchForm } from "@/components/ui/SearchForm";
 import { badgeListGetters } from "@/share/store/badgeList/main";
+import { SearchFormItem } from "@/types/temp";
 
 export const MyWaletVCList = () => {
   const { badgeList } = badgeListGetters.useBadgeList();

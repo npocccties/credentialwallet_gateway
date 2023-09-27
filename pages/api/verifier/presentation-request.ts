@@ -1,6 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import { Session, withSession } from "../../../lib/session";
 import { presentationRequest } from "../../../lib/vc";
+
+import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
   url: string;

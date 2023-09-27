@@ -1,19 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma, { Prisma } from "@/lib/prisma";
 
-type Data = {
-  data: {
-    image: string;
-    name: string;
-    category: string;
-    issuer: string;
-    issuedate: string;
-  }[];
-  totalPages: number;
-  currentPage: number;
-};
+import prisma from "@/lib/prisma";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // const perPage = 10;
   // const skip = perPage * (req.body.page - 1);
 

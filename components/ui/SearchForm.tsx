@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Button,
   Grid,
@@ -13,7 +12,9 @@ import {
   AccordionIcon,
   AccordionPanel,
 } from "@chakra-ui/react";
+import React from "react";
 import { UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
+
 import { SearchFormItem } from "../../../types/temp";
 
 type Props = {
