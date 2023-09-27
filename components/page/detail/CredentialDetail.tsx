@@ -30,19 +30,21 @@ import { deleteVC } from "@/lib/repository/vc";
 import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
 import { BadgeVcs } from "@/types/temp";
 import axios from "axios";
+import { badgeDetailGetters } from "@/share/store/badgeDetail/main";
 
 type Props = {
-  badgeVC: BadgeVcs;
+  badgeVcs: BadgeVcs;
 };
 
-export const CredentialDetail: React.FC<Props> = ({ badgeVC }) => {
+export const CredentialDetail: React.FC = () => {
   const router = useRouter();
   const cancelRef = useRef();
+  const { badgeVcs, submissions } = badgeDetailGetters.useBadgeDetail();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const vcPayload = JSON.parse(badgeVC.vc_data_payload);
-  const image = vcPayload?.vc.credentialSubject.photo;
-  const vc = vcPayload?.vc;
+  // const vcPayload = badgeVcs && badgeVcs.vc_data_payload === "" ? undefined : JSON.parse(badgeVcs.vc_data_payload);
+  // const image = vcPayload?.vc.credentialSubject.photo;
+  // const vc = vcPayload?.vc;
 
   // const storedVC = React.useMemo(() => {
   //   return storedVCs;
@@ -56,17 +58,17 @@ export const CredentialDetail: React.FC<Props> = ({ badgeVC }) => {
 
   return (
     <>
-      {badgeVC && (
+      {badgeVcs && (
         <Box>
           {/* <Box marginBottom="3">
             <PlainCard badgeVc={badgeVc}></PlainCard>
           </Box> */}
           <Box marginBottom="3">
             <BadgeVcCard
-              image={image}
-              name={badgeVC.badge_name}
-              issuer={badgeVC.badge_issuer_name}
-              issuedate={badgeVC.badge_issuedon.toString()}
+              image={""}
+              name={badgeVcs.badge_name}
+              issuer={badgeVcs.badge_issuer_name}
+              issuedate={badgeVcs.badge_issuedon?.toString()}
             />
           </Box>
           <Box my={12}>
@@ -82,9 +84,9 @@ export const CredentialDetail: React.FC<Props> = ({ badgeVC }) => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <CredentialSubjectItem name="email" data={badgeVC.badge_email} />
-                <CredentialSubjectItem name="発行者" data={badgeVC.badge_issuer_name} />
-                <CredentialSubjectItem name="発行日" data={badgeVC.badge_issuedon} />
+                <CredentialSubjectItem name="email" data={badgeVcs.badge_email} />
+                <CredentialSubjectItem name="発行者" data={badgeVcs.badge_issuer_name} />
+                <CredentialSubjectItem name="発行日" data={badgeVcs.badge_issuedon} />
                 <Box marginBottom="3">
                   <Text color="gray" mb={4}>
                     コース情報

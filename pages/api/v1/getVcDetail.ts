@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   );
   console.log("knowledge_badges_list", knowledge_badges);
 
-  const [vcData, subbmission] = await Promise.all([
+  const [badgeVcs, subbmission] = await Promise.all([
     prisma.badge_vcs.findUnique({
       where: {
         badge_vc_id: Number(req.query.badge_vc_id),
@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   ]);
 
   res.status(200).json({
-    ...vcData,
-    ...subbmission,
+    badgeVcs,
+    subbmission,
   });
 }
