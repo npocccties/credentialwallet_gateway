@@ -16,7 +16,7 @@ paths:
   /user_badgelist:
     post:
       tags:
-        - consumer
+        - user_badgelist
       description: 対象ユーザのの保持バッジリストを返す
       parameters:
         - name: saml
