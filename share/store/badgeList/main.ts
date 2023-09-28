@@ -37,6 +37,7 @@ const useFetchBadgeList = () => {
         return {
           badgeList: {
             badgeVcList: [],
+            dataCount: 0,
           },
         };
       }

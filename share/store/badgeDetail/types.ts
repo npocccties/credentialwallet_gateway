@@ -1,12 +1,6 @@
-import { badge_vcs, submissions } from "@prisma/client";
+import { BadgeDetail } from "@/types/data";
 
-type BadgeVcs = badge_vcs;
-type Submissions = submissions;
-
-export type BadgeDetailState = {
-  badgeVcs: BadgeVcs | undefined;
-  submissions: Submissions | undefined;
-};
+export type BadgeDetailState = BadgeDetail;
 
 export type BadgeDetailGetters = {
   useBadgeDetail: () => BadgeDetailState;

@@ -8,7 +8,7 @@ import { useBadgeDetailApi } from "@/share/usecases/badgeDetail/useBadgeDetailAp
 const badgeDetailState = atom<BadgeDetailState>({
   key: RECOIL_ATOMS_KEYS.BADGE_DETAIL_STATE,
   default: {
-    badgeVcs: undefined,
+    badgeVc: undefined,
     submissions: undefined,
   },
 });
@@ -32,7 +32,7 @@ const useFetchBadgeDetail = () => {
       setState(() => {
         if (!data) {
           return {
-            badgeVcs: undefined,
+            badgeVc: undefined,
             submissions: undefined,
           };
         }

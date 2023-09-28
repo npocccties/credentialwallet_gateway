@@ -1,13 +1,6 @@
-import { badge_vcs } from "@prisma/client";
+import { BadgeList } from "@/types/data";
 
-type BadgeVcs = badge_vcs;
-
-export type BadgeListState = {
-  badgeList: {
-    badgeVcList: BadgeVcs[];
-    dataCount?: number;
-  };
-};
+export type BadgeListState = BadgeList;
 
 export type BadgeListGetters = {
   useBadgeList: () => BadgeListState;

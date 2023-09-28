@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import prisma from "@/lib/prisma";
+import { BadgeList } from "@/types/data";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<BadgeList>) {
   // const perPage = 10;
   // const skip = perPage * (req.body.page - 1);
 
@@ -24,7 +25,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   console.log("data", data);
 
   res.status(200).json({
-    badgeVcList: data,
-    dataCount: dataCount,
+    badgeList: {
+      badgeVcList: data,
+      dataCount: dataCount,
+    },
   });
 }

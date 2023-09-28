@@ -7,11 +7,12 @@ import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
 import { DisplayBadgeCount } from "@/components/ui/card/DisplayBadgeCount";
 import { SearchForm } from "@/components/ui/SearchForm";
 import { badgeListGetters } from "@/share/store/badgeList/main";
-import { SearchFormItem } from "@/types/temp";
+import { SearchFormItem } from "@/types/data";
 
 export const MyWaletVCList = () => {
   const { badgeList } = badgeListGetters.useBadgeList();
 
+  console.log("badgeList", badgeList);
   // const handleClickPrev = async () => {
   //   console.log("previod");
   //   const res = await fetch(`${baseUrl}/api/temp/badgeVcList`);
@@ -41,9 +42,9 @@ export const MyWaletVCList = () => {
   const router = useRouter();
   return (
     <>
-      <DisplayBadgeCount badgeCount={badgeList.dataCount} />
+      <DisplayBadgeCount badgeCount={badgeList?.dataCount} />
       <SearchForm register={register} handleSubmit={handleSubmit} isSubmitting={isSubmitting} />
-      {badgeList.badgeVcList?.map((item, idx) => {
+      {badgeList?.badgeVcList?.map((item, idx) => {
         const vcPayload = JSON.parse(item.vc_data_payload);
         const image = vcPayload.vc.credentialSubject.photo;
         return (
