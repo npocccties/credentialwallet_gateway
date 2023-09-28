@@ -1,11 +1,13 @@
 # NOTE: ref https://github.com/vercel/next.js/tree/canary/examples/with-docker-multi-env
 
 # base stage
-FROM node:18-alpine AS base
+FROM node:16-alpine3.17 AS base
 
 # deps stage
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
+RUN apk add g++ make py3-pip
+
 WORKDIR /app
 
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./

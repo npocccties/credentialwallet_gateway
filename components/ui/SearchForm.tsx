@@ -15,7 +15,7 @@ import {
 import React from "react";
 import { UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 
-import { SearchFormItem } from "../../../types/temp";
+import { SearchFormItem } from "@/types/data";
 
 type Props = {
   register: UseFormRegister<SearchFormItem>;

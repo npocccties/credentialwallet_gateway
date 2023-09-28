@@ -29,8 +29,8 @@ services:
       - ./static:/workspace/static
       - ./50x.html:/usr/share/nginx/html/50x.html
     restart: always
-  
-   db:
+
+  db:
     image: postgres:13
     hostname: db
     env_file:
@@ -61,11 +61,14 @@ services:
       dockerfile: Dockerfile.dev-server
       target: builder
     image: bundler:latest
-  # runner:
-  #   build:
-  #     context: .
-  #     target: runner
-  #   image: gateway:latest
+  chilowallet:
+    image: chilowallet
+    ports:
+      - "3000:3000"
+    networks:
+      - app_network
+    container_name: chilowallet
+    restart: "no"
 
 networks:
   app_network:

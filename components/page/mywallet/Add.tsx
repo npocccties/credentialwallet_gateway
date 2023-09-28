@@ -6,7 +6,7 @@ type Props = {
   name: string;
 };
 
-export const Add = ({ id, name }: Props): JSX.Element => {
+export const Add = ({ id, name }: Props) => {
   const handleClickButton = () => {
     // TODO: マイウォレット作成処理
   };

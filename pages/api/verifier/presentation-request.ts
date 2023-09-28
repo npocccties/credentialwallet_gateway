@@ -8,10 +8,7 @@ type Data = {
   sessionId: string;
 };
 
-export default async function handler(
-  req: NextApiRequest & Session,
-  res: NextApiResponse<Data>
-) {
+export default async function handler(req: NextApiRequest & Session, res: NextApiResponse<Data>) {
   await withSession(req, res);
   console.log("start presentaion-request sessionid=", req.session.id);
   const { url, sessionId } = await presentationRequest(req.session.id);
@@ -22,7 +19,7 @@ export default async function handler(
       url: "ERROR : Internal Server Error",
       sessionId: sessionId,
     };
-    res.status(500).json(url);
+    res.status(500).json({ url, sessionId });
   }
   res.status(200).json({
     url,
