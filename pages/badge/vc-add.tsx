@@ -1,7 +1,8 @@
-import { Layout } from "@/components/Layout";
-import { Metatag } from "@/components/Metatag";
 import { Box } from "@chakra-ui/react";
 import React from "react";
+
+import { Layout } from "@/components/Layout";
+import { Metatag } from "@/components/Metatag";
 
 export const VcAdd = () => {
   return (

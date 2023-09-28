@@ -1,7 +1,6 @@
 // pages/Login.tsx
 // import '../login.css'
-import React from "react";
-import type { NextPage } from "next";
+import { WarningIcon, CheckCircleIcon } from "@chakra-ui/icons";
 import {
   Heading,
   Text,
@@ -14,38 +13,32 @@ import {
   List,
   ListItem,
   ListIcon,
-  FormErrorMessage,
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
-  HStack,
-  VStack,
   Link,
   Spinner,
 } from "@chakra-ui/react";
 import ION from "@decentralized-identity/ion-tools";
+import axios from "axios";
+
+import { proxyHttpRequest } from "../../lib/http";
+
+import { useRouter } from "next/router";
+import React from "react";
 import { Layout } from "../../components/Layout";
+import { Loading } from "../../components/Loading";
+import { Metatag } from "../../components/Metatag";
+import { LOCAL_STORAGE_VC_REQUEST_KEY } from "../../configs/constants";
+import { getProtectedHeaderFromVCRequest, getRequestFromVCRequest, getRequestUrlFromUrlMessage } from "../../lib/utils";
+import { IfBadgeInfo } from "../../types/BadgeInfo";
 import { QRCodeStatus, RequestStatus } from "../../types/status";
 
-import { useState } from "react";
-import axios from "axios";
-import { Metatag } from "../../components/Metatag";
-import { Loading } from "../../components/Loading";
-
-import { WarningIcon, CheckCircleIcon } from "@chakra-ui/icons";
-import { IfBadgeInfo } from "../../types/BadgeInfo";
-import NextLink from "next/link";
-import QRCode from "react-qr-code";
-import { getProtectedHeaderFromVCRequest, getRequestFromVCRequest, getRequestUrlFromUrlMessage } from "../../lib/utils";
-import { proxyHttpRequest } from "../../lib/http";
-import { LOCAL_STORAGE_VC_REQUEST_KEY } from "../../configs/constants";
-import { useRouter } from "next/router";
+import type { NextPage } from "next";
 
 const MoodleToVC: NextPage = () => {
   //export default function HookForm() {
@@ -73,7 +66,7 @@ const MoodleToVC: NextPage = () => {
 
   const myBadgesListTr = (badgeList: IfBadgeInfo[]) => {
     const memberList = badgeList.map((badge, index: number) => {
-      let dateTime = new Date(badge.timecreated * 1000);
+      const dateTime = new Date(badge.timecreated * 1000);
       return (
         <Tr key={index} textAlign="left">
           <Td>{index + 1}</Td>
@@ -135,7 +128,7 @@ const MoodleToVC: NextPage = () => {
         setRequestStatus("requested");
         setQrCodeStatus("waiting");
         const intervalMs = 5000;
-        let intervalObj = setInterval(() => {
+        const intervalObj = setInterval(() => {
           getIssuanceResponse(sessionId); // createIssuanceRequestのstate値
         }, intervalMs);
       })
@@ -292,7 +285,7 @@ const MoodleToVC: NextPage = () => {
                       <Th>createed</Th>
                     </Tr>
                   </Thead>
-                  <Tbody>{myBadgesListTr(badgeList as IfBadgeInfo[])}</Tbody>
+                  <Tbody>{myBadgesListTr(badgeList )}</Tbody>
                 </Table>
               </TableContainer>
               {/* {myBadgesList(badgeList as IfBadgeInfo[])} */}

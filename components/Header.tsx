@@ -1,8 +1,8 @@
-import React from "react";
-
-import { Box, Flex, Link, Text } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
+import { Box, Flex, Link } from "@chakra-ui/react";
 import NextLink from "next/link";
+
+import React from "react";
 
 type Props = {
   onOpen: () => void;

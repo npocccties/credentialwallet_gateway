@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
+
 import { badgeVcsTestData } from "./testdata/badge_vcs";
 
 const prisma = new PrismaClient();

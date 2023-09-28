@@ -1,23 +1,9 @@
+import { Flex, Box, Container, Stack, useDisclosure, Drawer, DrawerContent, DrawerOverlay } from "@chakra-ui/react";
 import React from "react";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
-import { SidebarContent } from "./Sidebar";
 
-import {
-  Flex,
-  Box,
-  Container,
-  Stack,
-  useDisclosure,
-  BoxProps,
-  useColorModeValue,
-  CloseButton,
-  FlexProps,
-  Drawer,
-  DrawerContent,
-  Button,
-  DrawerOverlay,
-} from "@chakra-ui/react";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
+import { SidebarContent } from "./Sidebar";
 
 export interface LayoutProps {
   children: React.ReactNode;

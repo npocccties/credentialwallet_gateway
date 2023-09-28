@@ -1,7 +1,7 @@
-import React from "react";
-import { Button, Flex, IconButton } from "@chakra-ui/react";
-
 import { ArrowLeftIcon, ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { Button, Flex, IconButton } from "@chakra-ui/react";
+import React from "react";
+
 
 type Props = {
   totalPages: number;

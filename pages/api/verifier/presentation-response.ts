@@ -1,11 +1,12 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import redis from "../../../lib/redis";
-import { Session, withSession } from "../../../lib/session";
-import { PresentationStatus } from "../../../types/status";
 import {
   validateOpenBadge,
   extractOpenBadgeMetadataFromImage,
 } from "../../../lib/openbadge";
+import redis from "../../../lib/redis";
+import { Session } from "../../../lib/session";
+import { PresentationStatus } from "../../../types/status";
+
+import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
   status: PresentationStatus;
@@ -20,7 +21,7 @@ export default async function handler(
   console.log(`start presentation-response state=${state}`);
   const response = await redis.get(state);
   const { status, output } = response
-    ? JSON.parse(response as string)
+    ? JSON.parse(response )
     : { status: undefined, output: undefined };
   console.log(`end issuance-response response=${status}`);
 

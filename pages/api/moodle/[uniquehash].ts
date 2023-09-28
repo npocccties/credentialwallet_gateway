@@ -1,12 +1,13 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { Session, withSession } from "../../../lib/session";
 import { myOpenBadge } from "../../../lib/moodle";
 import {
   validateOpenBadge,
   getBadgeClassById,
   setOpenBadgeMetadataToImage,
 } from "../../../lib/openbadge";
-import { getManifestURL, issueRequest } from "../../../lib/vc";
+import { Session, withSession } from "../../../lib/session";
+import { issueRequest } from "../../../lib/vc";
+
+import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
   pin: number;

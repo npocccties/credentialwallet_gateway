@@ -8,8 +8,6 @@ import {
   Box,
   Button,
   Divider,
-  Flex,
-  Icon,
   Tab,
   TabList,
   TabPanel,
@@ -24,10 +22,9 @@ import { useRouter } from "next/router";
 import React, { useRef } from "react";
 
 import { useStoredVCs } from "../../../hooks/useStoredVCs";
+import { deleteVC } from "../../../lib/repository/vc";
 import { decodeJWTToVCData } from "../../../lib/utils";
 import { PlainCard } from "../../ui/card/PlainCard";
-import { deleteVC } from "../../../lib/repository/vc";
-import { TrashIcon } from "@heroicons/react/outline";
 
 export const CredentialDetail: React.FC = () => {
   const router = useRouter();

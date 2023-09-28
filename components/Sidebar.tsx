@@ -1,6 +1,6 @@
+import { Flex, Box, BoxProps, CloseButton, FlexProps } from "@chakra-ui/react";
 import React from "react";
 
-import { Flex, Box, BoxProps, CloseButton, FlexProps } from "@chakra-ui/react";
 
 const LinkItems: Array<{ name: string; link?: string }> = [
   { name: "マイウォレット", link: "/" },

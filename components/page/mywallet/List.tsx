@@ -1,34 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button, Flex, Grid, IconButton } from "@chakra-ui/react";
-
+import { Box, Grid } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { SearchForm } from "@/components/ui/SearchForm";
-import { BadgeVcs, SearchFormItem } from "@/types/temp";
-import { Pagination } from "@/components/ui/Pagination";
+
+import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
 import { DisplayBadgeCount } from "@/components/ui/card/DisplayBadgeCount";
-import axios from "axios";
+import { SearchForm } from "@/components/ui/SearchForm";
+import { badgeListGetters } from "@/share/store/badgeList/main";
+import { SearchFormItem } from "@/types/data";
 
 export const MyWaletVCList = () => {
-  const [badgeVcList, setBadgeVcList] = useState<BadgeVcs[]>([]);
-  const [dataCount, setDataCount] = useState<number>(0);
+  const { badgeList } = badgeListGetters.useBadgeList();
 
-  const setPageState = (data: any) => {
-    setBadgeVcList(data.badgeVcList);
-    setDataCount(data.dataCount);
-  };
-
-  const fetch = async () => {
-    const { data } = await axios.get(`/api/v1/getVcList`);
-    console.log("data", data);
-    setPageState(data);
-  };
-
-  useEffect(() => {
-    fetch();
-  }, []);
-
+  console.log("badgeList", badgeList);
   // const handleClickPrev = async () => {
   //   console.log("previod");
   //   const res = await fetch(`${baseUrl}/api/temp/badgeVcList`);
@@ -58,9 +42,9 @@ export const MyWaletVCList = () => {
   const router = useRouter();
   return (
     <>
-      <DisplayBadgeCount badgeCount={dataCount} />
+      <DisplayBadgeCount badgeCount={badgeList?.dataCount} />
       <SearchForm register={register} handleSubmit={handleSubmit} isSubmitting={isSubmitting} />
-      {badgeVcList?.map((item, idx) => {
+      {badgeList?.badgeVcList?.map((item, idx) => {
         const vcPayload = JSON.parse(item.vc_data_payload);
         const image = vcPayload.vc.credentialSubject.photo;
         return (

@@ -8,8 +8,6 @@ import {
   Box,
   Button,
   Divider,
-  Flex,
-  Icon,
   Tab,
   TabList,
   TabPanel,
@@ -18,31 +16,27 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import moment from "moment";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 
-import { useStoredVCs } from "@/hooks/useStoredVCs";
-import { decodeJWTToVCData } from "@/lib/utils";
-import { PlainCard } from "@/components/ui/card/PlainCard";
-import { deleteVC } from "@/lib/repository/vc";
 import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
-import { BadgeVcs } from "@/types/temp";
-import axios from "axios";
+import { deleteVC } from "@/lib/repository/vc";
+import { badgeDetailGetters } from "@/share/store/badgeDetail/main";
+import { BadgeVcs } from "@/types/data";
 
 type Props = {
-  badgeVC: BadgeVcs;
+  badgeVc: BadgeVcs;
 };
 
-export const CredentialDetail: React.FC<Props> = ({ badgeVC }) => {
+export const CredentialDetail: React.FC = () => {
   const router = useRouter();
   const cancelRef = useRef();
+  const { badgeVc, submissions } = badgeDetailGetters.useBadgeDetail();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const vcPayload = JSON.parse(badgeVC.vc_data_payload);
-  const image = vcPayload?.vc.credentialSubject.photo;
-  const vc = vcPayload?.vc;
+  // const vcPayload = badgeVc && badgeVc.vc_data_payload === "" ? undefined : JSON.parse(badgeVc.vc_data_payload);
+  // const image = vcPayload?.vc.credentialSubject.photo;
+  // const vc = vcPayload?.vc;
 
   // const storedVC = React.useMemo(() => {
   //   return storedVCs;
@@ -56,17 +50,17 @@ export const CredentialDetail: React.FC<Props> = ({ badgeVC }) => {
 
   return (
     <>
-      {badgeVC && (
+      {badgeVc && (
         <Box>
           {/* <Box marginBottom="3">
             <PlainCard badgeVc={badgeVc}></PlainCard>
           </Box> */}
           <Box marginBottom="3">
             <BadgeVcCard
-              image={image}
-              name={badgeVC.badge_name}
-              issuer={badgeVC.badge_issuer_name}
-              issuedate={badgeVC.badge_issuedon.toString()}
+              image={""}
+              name={badgeVc.badge_name}
+              issuer={badgeVc.badge_issuer_name}
+              issuedate={badgeVc.badge_issuedon?.toString()}
             />
           </Box>
           <Box my={12}>
@@ -82,9 +76,9 @@ export const CredentialDetail: React.FC<Props> = ({ badgeVC }) => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <CredentialSubjectItem name="email" data={badgeVC.badge_email} />
-                <CredentialSubjectItem name="発行者" data={badgeVC.badge_issuer_name} />
-                <CredentialSubjectItem name="発行日" data={badgeVC.badge_issuedon} />
+                <CredentialSubjectItem name="email" data={badgeVc.badge_email} />
+                <CredentialSubjectItem name="発行者" data={badgeVc.badge_issuer_name} />
+                <CredentialSubjectItem name="発行日" data={badgeVc.badge_issuedon} />
                 <Box marginBottom="3">
                   <Text color="gray" mb={4}>
                     コース情報

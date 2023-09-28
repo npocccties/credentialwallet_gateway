@@ -19,6 +19,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React from "react";
 
+import { Unlock } from "./Unlock";
 import { proxyHttpRequest } from "../../../lib/http";
 import { issue } from "../../../lib/issue";
 import { authorize } from "../../../lib/oidc";
@@ -26,9 +27,8 @@ import { addVCHistory } from "../../../lib/repository/vc";
 import { KeyPair, Signer } from "../../../lib/signer";
 import { calcPinhash } from "../../../lib/utils";
 import { AcquiredIdToken, IdTokenConfiguration, Manifest, RequiredToken, VCRequest } from "../../../types";
-import { SelectVC } from "../molecules/IssuanceSelectVC";
 import { PreviewPlainCard } from "../../ui/card/PreviewPlainCard";
-import { Unlock } from "./Unlock";
+import { SelectVC } from "../molecules/IssuanceSelectVC";
 const PinInput = dynamic(() => import("react-pin-input"), { ssr: false });
 
 export interface IssueProps {
