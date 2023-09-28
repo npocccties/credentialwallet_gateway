@@ -29,6 +29,25 @@ services:
       - ./static:/workspace/static
       - ./50x.html:/usr/share/nginx/html/50x.html
     restart: always
+  
+   db:
+    image: postgres:13
+    hostname: db
+    env_file:
+      - ./.env
+    networks:
+      - app_network
+    environment:
+      - TZ=Asia/Tokyo
+      - POSTGRES_DB=$DB_NAME
+      - POSTGRES_USER=$DB_USER
+      - POSTGRES_PASSWORD=$DB_PASS
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql
+      - ./sql:/docker-entrypoint-initdb.d
 
   deps:
     build:
