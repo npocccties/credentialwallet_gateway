@@ -9,8 +9,6 @@ import { SERVICE_NAME, SERVICE_DESCRITION } from "@/configs";
 import { badgeListActions } from "@/share/store/badgeList/main";
 
 const Home: NextPage = () => {
-  const { fetchBadgeList } = badgeListActions.useFetchBadgeList();
-  fetchBadgeList();
   return (
     <Layout maxW="xl">
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />

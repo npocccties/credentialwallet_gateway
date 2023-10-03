@@ -1,6 +1,8 @@
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
 export const api = {
   v1: {
-    getVcList: "/api/v1/getVcList",
-    getVcDetail: "/api/v1/getVcDetail",
+    getVcList: `${baseUrl}/api/v1/getVcList`,
+    getVcDetail: `${baseUrl}/api/v1/getVcDetail`,
   },
 };

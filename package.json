@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "eslint --fix \"pages/**/*.{ts,tsx}\" \"share/**/*.{ts,tsx}\" \"components/**/*.{ts,tsx}\""
+    "lint:fix": "eslint --fix \"pages/**/*.{ts,tsx}\" \"share/**/*.{ts,tsx}\" \"components/**/*.{ts,tsx}\"",
+    "cmd:start:dev": "npx prisma db seed && node server.js"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -38,7 +39,9 @@
     "react-qr-code": "^2.0.3",
     "recoil": "^0.7.7",
     "redis": "^4.0.2",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "prisma": "^5.3.0",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.1.0",
@@ -56,8 +59,6 @@
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-unused-imports": "^3.0.0",
     "prettier": "^3.0.3",
-    "prisma": "^5.3.0",
-    "ts-node": "^10.9.1",
     "typescript": "4.7.3"
   }
 }

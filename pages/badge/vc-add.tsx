@@ -4,7 +4,7 @@ import React from "react";
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
 
-export const VcAdd = () => {
+const VcAdd = () => {
   return (
     <Layout align="center" textAlign="center" maxW="2xl">
       <Metatag title="Get Open Badge from Moodle" description="Moodle" />
@@ -12,3 +12,5 @@ export const VcAdd = () => {
     </Layout>
   );
 };
+
+export default VcAdd;

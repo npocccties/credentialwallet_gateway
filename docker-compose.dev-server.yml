@@ -29,48 +29,24 @@ services:
       - ./static:/workspace/static
       - ./50x.html:/usr/share/nginx/html/50x.html
     restart: always
+    depends_on:
+      - app
 
-  db:
-    image: postgres:13
-    hostname: db
-    env_file:
-      - ./.env
-    networks:
-      - app_network
-    environment:
-      - TZ=Asia/Tokyo
-      - POSTGRES_DB=$DB_NAME
-      - POSTGRES_USER=$DB_USER
-      - POSTGRES_PASSWORD=$DB_PASS
-      - PGDATA=/var/lib/postgresql/data/pgdata
-    ports:
-      - 5432:5432
-    volumes:
-      - ./postgresql/data:/var/lib/postgresql
-      - ./sql:/docker-entrypoint-initdb.d
-
-  deps:
+  app:
     build:
       context: .
       dockerfile: Dockerfile.dev-server
-      target: deps
-    image: deps:latest
-  builder:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev-server
-      target: builder
-    image: bundler:latest
-  chilowallet:
-    image: chilowallet
     ports:
       - "3000:3000"
     networks:
       - app_network
+      - db_network
     container_name: chilowallet
     restart: "no"
 
 networks:
   app_network:
+    driver: bridge
+  db_network:
     driver: bridge
     external: true

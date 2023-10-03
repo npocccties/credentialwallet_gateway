@@ -61,6 +61,43 @@ npx prisma db seed
 npx prisma studio
 ```
 
+# 開発サーバー（または本番サーバー）
+
+1. 下記をインストール
+   * Docker
+   * Docker Compose (v2)
+   * Git  
+1. 適当なディレクトリへ移動
+   ```
+   cd /work
+   ```
+1. chilowallet のソースを取得
+   ```
+   git clone https://github.com/npocccties/chilowallet.git
+   ```
+   * 既にディレクトリが存在するならば `sudo rm -rf chilowallet` にて削除してください
+1. chilowallet へ移動
+   ```
+   cd chilowallet
+   ```
+1. `*.sh` に権限付与
+   ```
+   sudo chmod 755 *.sh
+   ```
+1. 環境変数を定義した `.env` をルートディレクトリに配置
+   * 開発サーバー：
+      * ルートディレクトリで、`script/setup.sh` を実行する
+
+1. デプロイ
+  - 開発サーバー
+    ```
+    make build-dev
+    ```
+  - 停止（開発サーバー）
+    ```
+    make down-dev
+    ```
+
 
 # 環境変数
 
@@ -89,7 +126,7 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 
 以下の2つの環境変数の値を記述します。
 
-.env.local
+.env.development
 
 .env.production
 
