@@ -1,5 +1,6 @@
 ### 証明書 ###
 ssl_certs/
+
 node_modules/
 db/
 
@@ -8,4 +9,5 @@ db/
 .env.local
 .env.development
 .env.production
-.vscode
+.vscode/*
+!.vscode/launch.json

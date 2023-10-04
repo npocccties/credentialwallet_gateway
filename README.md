@@ -34,6 +34,11 @@ script/inapp.sh
 make down-local
 ```
 
+アプリケーションの移動（appコンテナ内）
+```
+npm run dev
+```
+
 ### アプリケーションとDBとの連携
 appコンテナ内に移動した後、以下に記載している「prismaの使用方法」より、コマンドを実行してDBとの連携を行います。
 
@@ -42,6 +47,9 @@ appコンテナ内に移動した後、以下に記載している「prismaの�
 2. Visual Studio Code に拡張機能「Dev - Containers」をインストール
 3. 当READMEのsetupを実行
 4. コマンドパレット で「Remote-Containers: Open Folder in Container...」を選択し、chilowalletディレクトリを選択
+
+## デバッグ方法
+上記のdevContainerを起動し、VSCodeの左側にあるデバッグから起動ボタンを押して実行してください。
 
 ## prismaの使用方法
 詳細に関しては[ドキュメント](https://www.prisma.io/docs/reference/api-reference/command-reference)を参照してください。
