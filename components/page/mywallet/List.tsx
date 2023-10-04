@@ -41,7 +41,7 @@ export const MyWaletVCList = () => {
   } = useForm<SearchFormItem>();
   return (
     <>
-      <DisplayBadgeCount badgeCount={3} />
+      <DisplayBadgeCount badgeCount={8} submissionCount={tempdata} />
       <SearchForm register={register} handleSubmit={handleSubmit} isSubmitting={isSubmitting} />
       <VcList />
       {/* <Pagination
@@ -53,4 +53,13 @@ export const MyWaletVCList = () => {
       /> */}
     </>
   );
+};
+
+const tempdata = {
+  total: 6,
+  byDestinationList: [
+    { name: "大阪府教育委員会", count: 2 },
+    { name: "堺市", count: 4 },
+    { name: "大阪市", count: 2 },
+  ],
 };
