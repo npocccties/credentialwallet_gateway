@@ -10,7 +10,7 @@ type Props = {
 
 export const Header: React.FC<Props> = ({ onOpen }) => {
   return (
-    <Box>
+    <Box as="header" position={"fixed"} w={"100%"} zIndex={1000}>
       <Flex
         h={"64px"}
         alignItems={"center"}

@@ -26,13 +26,13 @@ export const Layout: React.VFC<LayoutProps> = ({ children, maxW, textAlign, alig
         size="xs"
       >
         <DrawerOverlay />
-        <DrawerContent maxW="240">
+        <DrawerContent maxW={{ base: "full", sm: "xs" }}>
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
       <Box flex={1}>
         <Container maxW={maxW}>
-          <Stack textAlign={textAlign} align={align} spacing={{ base: 8, md: 10 }} py={{ base: 20, md: 28 }}>
+          <Stack textAlign={textAlign} align={align} spacing={{ base: 8, sm: 10 }} py={{ base: 20, sm: 28 }}>
             {children}
           </Stack>
         </Container>
