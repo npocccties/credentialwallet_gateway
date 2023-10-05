@@ -96,7 +96,7 @@ export const SearchForm = ({ register, handleSubmit, isSubmitting }: Props) => {
         </Accordion>
       </Box>
       <Flex mt={4} justifyContent={"flex-end"}>
-        <Button colorScheme={"gray"} onClick={() => handleClickSort()}>
+        <Button w={180} colorScheme={"gray"} onClick={() => handleClickSort()}>
           {sortState}
         </Button>
       </Flex>

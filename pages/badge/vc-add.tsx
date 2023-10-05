@@ -1,16 +1,16 @@
-import { Box } from "@chakra-ui/react";
 import React from "react";
 
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
+import { VcAdd } from "@/components/page/badge/VcAdd";
 
-const VcAdd = () => {
+const VcAddPage = () => {
   return (
-    <Layout align="center" textAlign="center" maxW="2xl">
+    <Layout align="center" textAlign="center" maxW="md">
       <Metatag title="Get Open Badge from Moodle" description="Moodle" />
-      <Box></Box>
+      <VcAdd />
     </Layout>
   );
 };
 
-export default VcAdd;
+export default VcAddPage;

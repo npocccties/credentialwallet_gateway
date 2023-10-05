@@ -6,14 +6,16 @@ type Props = {
   name: string;
 };
 
-export const Add = ({ id, name }: Props) => {
+export const AddMyWallet = ({ id, name }: Props) => {
   const handleClickButton = () => {
     // TODO: マイウォレット作成処理
   };
   return (
-    <Flex direction={"column"}>
+    <Flex direction={"column"} px={{ base: 4, sm: 0 }}>
       <Center>
-        <Text fontSize="3xl">マイウォレット登録</Text>
+        <Text fontSize={{ base: "2xl", sm: "3xl" }} mt={{ base: 8, sm: 4 }}>
+          マイウォレット登録
+        </Text>
       </Center>
       <Box mt={{ base: 8, sm: 16 }}>
         <Text fontSize="xl">Orthros ID</Text>
@@ -29,7 +31,7 @@ export const Add = ({ id, name }: Props) => {
         </Box>
         <Divider />
       </Box>
-      <Box mt={{ base: 8, sm: 16 }}>
+      <Box mt={16}>
         <Center>
           <Button colorScheme={"blue"} size={"md"}>
             <Text fontSize={"sm"} onClick={() => handleClickButton()}>

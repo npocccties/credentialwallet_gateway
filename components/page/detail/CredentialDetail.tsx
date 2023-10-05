@@ -1,3 +1,4 @@
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -8,6 +9,8 @@ import {
   Box,
   Button,
   Divider,
+  Flex,
+  Link,
   Tab,
   TabList,
   TabPanel,
@@ -15,18 +18,16 @@ import {
   Tabs,
   Text,
   useDisclosure,
+  Image,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
 
 import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
+import { pagePath } from "@/constants";
 import { deleteVC } from "@/lib/repository/vc";
 import { badgeDetailGetters } from "@/share/store/badgeDetail/main";
-import { BadgeVcs } from "@/types/data";
-
-type Props = {
-  badgeVc: BadgeVcs;
-};
+import { imageTemp } from "@/templates/imageTemp";
 
 export const CredentialDetail: React.FC = () => {
   const router = useRouter();
@@ -34,6 +35,11 @@ export const CredentialDetail: React.FC = () => {
   const { badgeVc, submissions } = badgeDetailGetters.useBadgeDetail();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleExportCsv = () => {
+    // TODO: 未実装
+    alert("CSVエクスポート");
+  };
   // const vcPayload = badgeVc && badgeVc.vc_data_payload === "" ? undefined : JSON.parse(badgeVc.vc_data_payload);
   // const image = vcPayload?.vc.credentialSubject.photo;
   // const vc = vcPayload?.vc;
@@ -52,10 +58,7 @@ export const CredentialDetail: React.FC = () => {
     <>
       {badgeVc && (
         <Box>
-          {/* <Box marginBottom="3">
-            <PlainCard badgeVc={badgeVc}></PlainCard>
-          </Box> */}
-          <Box marginBottom="3">
+          <Box mb="3">
             <BadgeVcCard
               image={""}
               name={badgeVc.badge_name}
@@ -64,62 +67,45 @@ export const CredentialDetail: React.FC = () => {
             />
           </Box>
           <Box my={12}>
-            <Button colorScheme="teal" w="full">
+            <Button
+              colorScheme="teal"
+              w="full"
+              onClick={() => router.push(`${pagePath.submission.enter}/${router.query.badge_vc_id}`)}
+            >
               バッジ提出
             </Button>
           </Box>
           <Tabs size="md" variant="enclosed">
-            <TabList>
+            <TabList mb={6}>
               <Tab>詳細</Tab>
               <Tab>知識バッジ</Tab>
               <Tab>提出履歴</Tab>
             </TabList>
+            {/** TODO: 取得したデータを表示する */}
             <TabPanels>
               <TabPanel>
                 <CredentialSubjectItem name="email" data={badgeVc.badge_email} />
                 <CredentialSubjectItem name="発行者" data={badgeVc.badge_issuer_name} />
                 <CredentialSubjectItem name="発行日" data={badgeVc.badge_issuedon} />
-                <Box marginBottom="3">
-                  <Text color="gray" mb={4}>
-                    コース情報
-                  </Text>
-                  <Text fontSize="lg" mb={4}>
-                    OKUTEPのコース情報を見る
-                  </Text>
-                  <Divider marginBottom={"3"} />
-                </Box>
-                {/* <Box marginBottom={"3"}>
-                  <Text color="gray">Issuer</Text>
-                  <Text fontSize="lg">{decodedVC.iss}</Text>
-                </Box>
-                <Box marginBottom={"3"}>
-                  <Text color="gray">Issue date</Text>
-                  <Text fontSize="lg">{moment.unix(decodedVC.iat).format("YYYY/MM/DD HH:mm")}</Text>
-                </Box>
-                <Box marginBottom={"3"}>
-                  <Text color="gray">Expiry date</Text>
-                  <Text fontSize="lg">{moment.unix(decodedVC.exp).format("YYYY/MM/DD HH:mm")}</Text>
-                </Box> */}
+                <CredentialSubjectItem name="コース情報" data={"http://localhost:3000"} />
               </TabPanel>
               <TabPanel>
-                {/* {badgeVc.vcHistory ? (
-                  badgeVc.vcHistory.map((history) => (
-                    <Box key={history.timestamp}>
-                      <Text fontSize={"sm"}>{moment(history.timestamp).format("YYYY/MM/DD HH:mm")}</Text>
-                      <Text>{history.message}</Text>
-                    </Box>
-                  ))
-                ) : ( */}
-                <Text>No history</Text>
-                {/* )} */}
+                <KnowledgeBadgeItem name="学校安全と危機管理 (v1.0)" image={imageTemp} />
+                <KnowledgeBadgeItem name="学校安全と危機管理 (v1.0)" image={imageTemp} />
+              </TabPanel>
+              <TabPanel>
+                <SubmittionHistoryItem name="大阪市教育委員会" date={badgeVc.badge_issuedon} />
               </TabPanel>
             </TabPanels>
           </Tabs>
-          <Box>
-            <Button colorScheme="red" onClick={onOpen}>
+          <Flex justifyContent={"space-between"}>
+            <Button colorScheme="red" w={160} onClick={onOpen}>
               削除
             </Button>
-          </Box>
+            <Button colorScheme="blue" w={160} onClick={() => handleExportCsv()}>
+              エクスポート
+            </Button>
+          </Flex>
           <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
             <AlertDialogOverlay>
               <AlertDialogContent>
@@ -138,12 +124,12 @@ export const CredentialDetail: React.FC = () => {
                     キャンセル
                   </Button>
                   <Button
+                    ml={3}
                     colorScheme="red"
                     onClick={() => {
                       deleteVC(router.query.vcID as string);
-                      router.push("/");
+                      router.push(pagePath.mywallet.list);
                     }}
-                    ml={3}
                   >
                     削除
                   </Button>
@@ -168,10 +154,62 @@ const CredentialSubjectItem: React.FC<CredentialSubjectItemProps> = ({ name, dat
       <Text color="gray" mb={4}>
         {name}
       </Text>
-      <Text fontSize="lg" mb={4}>
-        {data}
+      {"コース情報" === name ? (
+        <Text fontSize="lg" my={8}>
+          <Link href={data as string} color={"teal"} isExternal>
+            OKUTEPのコース情報を見る <ExternalLinkIcon />
+          </Link>
+        </Text>
+      ) : (
+        <Text fontSize="lg" my={8}>
+          {data}
+        </Text>
+      )}
+      <Divider mb={8} />
+    </Box>
+  );
+};
+
+interface KnowledgeBadgeItemProps {
+  image: string;
+  name: string;
+}
+
+const KnowledgeBadgeItem: React.FC<KnowledgeBadgeItemProps> = ({ name, image }) => {
+  return (
+    <>
+      <Flex direction={"row"} alignItems={"center"}>
+        <Box>
+          <Image h={24} w={24} fit={"cover"} src={"data:image/png;base64," + image} alt={"test"} />
+        </Box>
+        <Box ml={16}>
+          <Text fontSize="lg">{name}</Text>
+        </Box>
+      </Flex>
+      <Divider mt={4} mb={8} />
+    </>
+  );
+};
+
+interface SubmittionHistoryItemProps {
+  name: string;
+  date: Date;
+}
+
+const SubmittionHistoryItem: React.FC<SubmittionHistoryItemProps> = ({ name, date }) => {
+  return (
+    <Box>
+      <Text color="gray">提出日時</Text>
+      <Text fontSize="lg" mt={2} mb={8}>
+        {date}
       </Text>
-      <Divider marginBottom={"3"} />
+      <Text color="gray" mt={4}>
+        提出先
+      </Text>
+      <Text fontSize="lg" mt={2} mb={8}>
+        {name}
+      </Text>
+      <Divider mb={8} />
     </Box>
   );
 };
