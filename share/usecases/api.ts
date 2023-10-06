@@ -1,6 +1,16 @@
 export const api = {
   v1: {
-    getVcList: `/api/v1/getVcList`,
-    getVcDetail: `/api/v1/getVcDetail`,
+    mywallet: {
+      add: "/api/v1/mywallet/add",
+    },
+    credential: {
+      list: "/api/v1/credential/list",
+      detail: "/api/v1/credential/detail",
+      delete: "/api/v1/credential/delete",
+    },
+    badge: {
+      convert: "/api/v1/badge/convert",
+      list: "/api/v1/badge/list",
+    },
   },
 };
