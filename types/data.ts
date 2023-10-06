@@ -1,11 +1,8 @@
-import { badge_vcs, mywallets, submissions } from "@prisma/client";
+import { BadgeVc, Submissions } from "@prisma/client";
 
 /**
  * Tables
  */
-export type MyWallets = mywallets;
-export type BadgeVcs = badge_vcs;
-export type Submissions = submissions;
 
 export type SearchFormItem = {
   badgeName: string;
@@ -17,12 +14,12 @@ export type SearchFormItem = {
 
 export type BadgeList = {
   badgeList: {
-    badgeVcList: BadgeVcs[];
+    badgeVcList: BadgeVc[];
     dataCount?: number;
   };
 };
 
 export type BadgeDetail = {
-  badgeVc: BadgeVcs | undefined;
+  badgeVc: BadgeVc | undefined;
   submissions: Submissions[];
 };

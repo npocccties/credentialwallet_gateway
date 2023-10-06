@@ -1,4 +1,4 @@
-export const vc_payload = {
+export const vcPayload = {
   vc: {
     "@context": ["https://www.w3.org/2018/credentials/v1"],
     type: ["VerifiableCredential", "OpenBadgeV2"],

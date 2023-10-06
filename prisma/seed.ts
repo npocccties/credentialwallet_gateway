@@ -8,15 +8,15 @@ const prisma = new PrismaClient();
 async function main() {
   // テストデータの挿入;
   for (let i = 0; i < 10; i++) {
-    await prisma.mywallets.create({
+    await prisma.myWallets.create({
       data: {
-        mywallet_id: i,
-        orthros_id: faker.string.uuid(),
-        create_time: faker.date.anytime(),
+        mywalletId: i,
+        orthrosId: faker.string.uuid(),
+        createTime: faker.date.anytime(),
       },
     });
   }
-  await prisma.badge_vcs.createMany({
+  await prisma.badgeVc.createMany({
     data: badgeVcsTestData,
   });
 }

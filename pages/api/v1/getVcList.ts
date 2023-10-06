@@ -8,16 +8,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   // const skip = perPage * (req.body.page - 1);
 
   const [data, dataCount] = await Promise.all([
-    prisma.badge_vcs.findMany({
+    prisma.badgeVc.findMany({
       // take: 5,
       skip: 1,
       orderBy: {
-        badge_issuedon: "desc",
+        badgeIssuedon: "desc",
       },
     }),
-    prisma.badge_vcs.count({
+    prisma.badgeVc.count({
       where: {
-        mywallet_id: req.body.nywallet_id,
+        mywalletId: req.body.mywallet_id,
       },
     }),
   ]);

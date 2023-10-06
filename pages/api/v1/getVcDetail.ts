@@ -16,23 +16,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const knowledge_badges = await axios.get(
     `https://okutep.osaka-kyoiku.ac.jp/api/v1/badges/?badges_ids=${knowledge_badges_list}&badges_type=knowledge`,
   );
-  console.log("knowledge_badges_list", knowledge_badges);
+  // console.log("knowledge_badges_list", knowledge_badges);
 
-  const [badgeVcs, submissions] = await Promise.all([
-    prisma.badge_vcs.findUnique({
+  const [badgeVc, submissions] = await Promise.all([
+    prisma.badgeVc.findUnique({
       where: {
-        badge_vc_id: Number(req.query.badge_vc_id),
+        badgeVcId: Number(req.query.badge_vc_id),
       },
     }),
     prisma.submissions.findMany({
       where: {
-        badge_vc_id: Number(req.query.badge_vc_id),
+        badgeVcId: Number(req.query.badge_vc_id),
       },
     }),
   ]);
 
   res.status(200).json({
-    badgeVc: badgeVcs,
+    badgeVc: badgeVc,
     submissions,
   });
 }

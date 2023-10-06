@@ -61,9 +61,9 @@ export const CredentialDetail: React.FC = () => {
           <Box mb="3">
             <BadgeVcCard
               image={""}
-              name={badgeVc.badge_name}
-              issuer={badgeVc.badge_issuer_name}
-              issuedate={badgeVc.badge_issuedon?.toString()}
+              name={badgeVc.badgeName}
+              issuer={badgeVc.badgeIssuerName}
+              issuedate={badgeVc.badgeIssuedon?.toString()}
             />
           </Box>
           <Box my={12}>
@@ -84,9 +84,9 @@ export const CredentialDetail: React.FC = () => {
             {/** TODO: 取得したデータを表示する */}
             <TabPanels>
               <TabPanel>
-                <CredentialSubjectItem name="email" data={badgeVc.badge_email} />
-                <CredentialSubjectItem name="発行者" data={badgeVc.badge_issuer_name} />
-                <CredentialSubjectItem name="発行日" data={badgeVc.badge_issuedon} />
+                <CredentialSubjectItem name="email" data={badgeVc.badgeEmail} />
+                <CredentialSubjectItem name="発行者" data={badgeVc.badgeIssuerName} />
+                <CredentialSubjectItem name="発行日" data={badgeVc.badgeIssuedon} />
                 <CredentialSubjectItem name="コース情報" data={"http://localhost:3000"} />
               </TabPanel>
               <TabPanel>
@@ -94,7 +94,7 @@ export const CredentialDetail: React.FC = () => {
                 <KnowledgeBadgeItem name="学校安全と危機管理 (v1.0)" image={imageTemp} />
               </TabPanel>
               <TabPanel>
-                <SubmittionHistoryItem name="大阪市教育委員会" date={badgeVc.badge_issuedon} />
+                <SubmittionHistoryItem name="大阪市教育委員会" date={badgeVc.badgeIssuedon} />
               </TabPanel>
             </TabPanels>
           </Tabs>

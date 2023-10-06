@@ -14,7 +14,7 @@ export const VcList = () => {
     <>
       {badgeList?.badgeVcList?.map((item, idx) => {
         // TODO: BadgeVccardに処理を移動
-        const vcPayload = JSON.parse(item.vc_data_payload);
+        const vcPayload = JSON.parse(item.vcDataPayload);
         const image = vcPayload.vc.credentialSubject.photo;
         return (
           <Grid gap={4} key={idx}>
@@ -22,14 +22,14 @@ export const VcList = () => {
               cursor={"pointer"}
               _hover={{ opacity: 0.9, transition: "0.2s" }}
               onClick={() => {
-                router.push(`${pagePath.mywallet.detail}/${item.badge_vc_id}`);
+                router.push(`${pagePath.mywallet.detail}/${item.badgeVcId}`);
               }}
             >
               <BadgeVcCard
                 image={image}
-                name={item.badge_name}
-                issuer={item.badge_issuer_name}
-                issuedate={item.badge_issuedon.toString()}
+                name={item.badgeName}
+                issuer={item.badgeIssuerName}
+                issuedate={item.badgeIssuedon.toString()}
               />
             </Box>
           </Grid>

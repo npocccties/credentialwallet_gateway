@@ -7,38 +7,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model badge_vcs {
-  badge_vc_id       Int       @id @default(autoincrement())
-  mywallet_id       Int
-  moodle_name       String?   @db.VarChar(256)
-  badge_category    String?   @db.VarChar(256)
-  badge_name        String?   @db.VarChar(256)
-  badge_email       String
-  badge_class_id    String
-  badge_issuer_name String    @db.VarChar(256)
-  badge_issuedon    DateTime  @db.Timestamp(6)
-  vc_data_header    String
-  vc_data_payload   String
-  vc_data_signature String
-  create_time       DateTime  @db.Timestamp(6)
-  mywallets         mywallets @relation(fields: [mywallet_id], references: [mywallet_id], onDelete: NoAction, onUpdate: NoAction)
+model BadgeVc {
+  badgeVcId       Int       @id @default(autoincrement()) @map("badge_vc_id")
+  mywalletId      Int       @map("mywallet_id")
+  moodleName      String?   @map("moodle_name") @db.VarChar(256)
+  badgeCategory   String?   @map("badge_category") @db.VarChar(256)
+  badgeName       String?   @map("badge_name") @db.VarChar(256)
+  badgeEmail      String    @map("badge_email")
+  badgeClassId    String    @map("badge_class_id")
+  badgeIssuerName String    @map("badge_issuer_name") @db.VarChar(256)
+  badgeIssuedon   DateTime  @map("badge_issuedon") @db.Timestamp(6)
+  vcDataHeader    String    @map("vc_data_header")
+  vcDataPayload   String    @map("vc_data_payload")
+  vcDataSignature String    @map("vc_data_signature")
+  createTime      DateTime  @map("create_time") @db.Timestamp(6)
+  myWallets       MyWallets @relation(fields: [mywalletId], references: [mywalletId], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("badge_vcs")
 }
 
-model mywallets {
-  mywallet_id Int           @id @default(autoincrement())
-  orthros_id  String        @unique
-  create_time DateTime      @db.Timestamp(6)
-  badge_vcs   badge_vcs[]
-  submissions submissions[]
+model MyWallets {
+  mywalletId  Int           @id @default(autoincrement()) @map("mywallet_id")
+  orthrosId   String        @unique @map("orthros_id")
+  createTime  DateTime      @map("create_time") @db.Timestamp(6)
+  badgeVcs    BadgeVc[]
+  submissions Submissions[]
+
+  @@map("mywallets")
 }
 
-model submissions {
-  badge_vc_id      Int
-  mywallet_id      Int
-  submission_time  DateTime  @db.Timestamp(6)
-  submission_email String
-  submission_to    String    @db.VarChar(256)
-  mywallets        mywallets @relation(fields: [badge_vc_id], references: [mywallet_id], onDelete: NoAction, onUpdate: NoAction)
+model Submissions {
+  badgeVcId       Int       @map("badge_vc_id")
+  mywalletId      Int       @map("mywallet_id")
+  submissionTime  DateTime  @map("submission_time") @db.Timestamp(6)
+  submissionEmail String    @map("submission_email")
+  submissionTo    String    @map("submission_to") @db.VarChar(256)
+  myWallets       MyWallets @relation(fields: [badgeVcId], references: [mywalletId], onDelete: NoAction, onUpdate: NoAction)
 
-  @@id([badge_vc_id, submission_time])
+  @@id([badgeVcId, submissionTime])
+  @@map("submissions")
 }
