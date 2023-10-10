@@ -1,39 +1,66 @@
 drop table if exists mywallets cascade;
 drop table if exists badge_vcs cascade;
+drop table if exists badge_customers cascade;
 drop table if exists submissions cascade;
 -- ----------------------------------------------------------------------------------------------------
 
 -- マイウォレット
 create table mywallets (
-    mywallet_id serial primary key,    -- ウォレットID
-    orthros_id text not null unique,   -- オルトロスID
-    create_time timestamp not null     -- 作成日時
+    mywallet_id serial not null,    -- ウォレットID
+    orthros_id text not null,       -- オルトロスID
+    created_at timestamp not null,  -- 作成日時
+    primary key (mywallet_id)
+);
+
+create unique index on mywallets (
+    orthros_id
 );
 
 -- バッジVCテーブル
 create table badge_vcs (
-    badge_vc_id serial primary key,                                     -- バッジVC ID
-    mywallet_id integer not null references mywallets (mywallet_id),    -- マイウォレットID
-    moodle_name varchar(256),                                           -- Moodle名
-    badge_category varchar(256),                                        -- バッジ名
-    badge_name varchar(256),                                            -- バッジカテゴリ
-    badge_email text not null,                                          -- バッジEMail
-    badge_class_id text not null,                                       -- バッジクラスID
-    badge_issuer_name VARCHAR(256) not null,                            -- バッジ発行者名
-    badge_issuedon timestamp not null,                                  -- バッジ発行日時
-    vc_data_header text not null,                                       -- VCデータヘッダ
-    vc_data_payload text not null,                                      -- VCデータペイロード
-    vc_data_signature text not null,                                    -- VCデータ署名
-    create_time timestamp not null                                      -- 作成日時
+    badge_vc_id serial not null,                  -- バッジVC ID
+    mywallet_id integer not null,                 -- マイウォレットID
+    moodle_name varchar(256) null,                -- Moodle名
+    badge_category varchar(256) null,             -- バッジ名
+    badge_owner_email text not null,              -- バッジ所有者EMail
+    badge_class_id text not null,                 -- バッジクラスID
+    badge_issuer_name varchar(256) not null,      -- バッジ発行者名
+    badge_issuedon timestamp not null,            -- バッジ発行日時
+    badge_expires timestamp not null,             -- バッジ有効期限
+    vc_data_header text not null,                 -- VCデータヘッダ
+    vc_data_payload text not null,                -- VCデータペイロード
+    vc_data_signature text not null,              -- VCデータ署名
+    created_at timestamp not null,                -- 作成日時
+    deleted_at timestamp null,                    -- 削除日時
+    primary key (badge_vc_id),
+    foreign key (mywallet_id) references mywallets (mywallet_id)
+);
+ 
+create index on badge_vcs (
+    mywallet_id
+);
+
+-- 提出先
+create table badge_customers (
+    customer_id serial not null,                  -- バッジ提出先ID
+    customer_name varchar(256) not null,          -- マバッジ提出先名
+    cabinet_url text not null,                    -- キャビネットURL
+    primary key (customer_id)
 );
 
 -- 提出履歴
 create table submissions (
-    badge_vc_id integer not null references mywallets (mywallet_id),    -- バッジVC ID
-    mywallet_id integer not null,                                       -- マイウォレットID
-    submission_time timestamp not null,                                 -- 提出日時
-    submission_email text not null,                                     -- 提出EMAILアドレス
-    submission_to varchar(256) not null,                                -- 提出先名
-    PRIMARY KEY(badge_vc_id,submission_time)
+    badge_vc_id integer not null,                 -- バッジVC ID
+    mywallet_id integer not null,                 -- マイウォレットID
+    submited_at timestamp not null,               -- 提出日時
+    submission_email text not null,               -- 提出EMAILアドレス
+    customer_id integer not null,                 -- 提出先ID
+    customer_name varchar(256) null,              -- 提出先名
+    primary key (badge_vc_id, submited_at),
+    foreign key (badge_vc_id) references badge_vcs (badge_vc_id),
+    foreign key (customer_id) references badge_customers (customer_id)
 );
 
+create index on submissions (
+    mywallet_id
+);
