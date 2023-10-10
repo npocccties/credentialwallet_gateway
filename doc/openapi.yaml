@@ -1,7 +1,7 @@
 openapi: 3.0.3
 
 info:
-  title: 	OpenBadgeVC Walglet Server API
+  title: OpenBadgeVC Walglet Server API
   description: OpenBadgeVCウォレットサーバAPI
   version: 0.1.0
 
@@ -11,6 +11,18 @@ servers:
 tags:
   - name: user_badgelist
     description: バッジリスト取得
+  - name: mywallet add
+    description: マイウォレット登録
+  - name: credential list
+    description: VC一覧
+  - name: credential detail
+    description: VC詳細
+  - name: credential delete
+    description: VC削除
+  - name: badge list
+    description: バッジデータ取得
+  - name: badge convert
+    description: バッジVC取り込み
 
 paths:
   /user_badgelist:
@@ -26,18 +38,176 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user_badgelist'
-        '400':
+                $ref: "#/components/schemas/user_badgelist"
+        "400":
           description: Bad request
-          
+  /mywallet/add:
+    post:
+      tags:
+        - mywallet add
+      description: ログイン情報をもとにマイウォレットを登録します
+      parameters:
+        - name: saml
+          in: header
+          description: SAML by BASE64
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Bad request
+  /credential/list:
+    get:
+      tags:
+        - credential list
+      description: ログインユーザーが保有するバッジのリストを返却します
+      parameters:
+        - name: saml
+          in: header
+          description: SAML by BASE64
+          required: true
+          schema:
+            type: string
+        - name: badgeName
+          in: query
+          description: serch form in badge name
+          schema:
+            type: string
+        - name: issuedFrom
+          in: query
+          description: serch form in issued from
+          schema:
+            type: string
+        - name: issuedTo
+          in: query
+          description: serch form in issued to
+          schema:
+            type: string
+        - name: sortState
+          in: query
+          description: serch form in sort state
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/vcList"
+        "400":
+          description: Bad request
+  /credential/detail/{id}:
+    get:
+      tags:
+        - credential detail
+      description: VCとして変換したバッジの詳細情報を返却します
+      parameters:
+        - name: saml
+          in: header
+          description: SAML by BASE64
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: mywallet badge vc id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/vcDetail"
+        "400":
+          description: Bad request
+  /credential/delete/{id}:
+    post:
+      tags:
+        - credential delete
+      description: 選択したVCをDBから削除します
+      parameters:
+        - name: saml
+          in: header
+          description: SAML by BASE6
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: delete from badge vc id
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Bad request
+  /badge/list:
+    get:
+      tags:
+        - badge list
+      description: 選択された発行者のMoodleにあるバッジのリストを取得します
+      parameters:
+        - name: saml
+          in: header
+          description: SAML by BASE64
+          required: true
+          schema:
+            type: string
+        - name: issuer
+          in: query
+          description: select moodle issuer
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/moodleBadgeData"
+        "400":
+          description: Bad request
+  /badge/convert:
+    post:
+      tags:
+        - badge convert
+      description: 選択したバッジをVCに変換し、DBに保存します
+      parameters:
+        - name: saml
+          in: header
+          description: SAML by BASE6
+          required: true
+          schema:
+            type: string
+        - name: uniqueHash
+          in: query
+          description: convering badges uniqueHash
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Bad request
+
 components:
   schemas:
-   user_badgelist:
+    user_badgelist:
       type: object
       properties:
         badge_list:
@@ -57,3 +227,133 @@ components:
       required:
         - badge_list
 
+    vcList:
+      type: object
+      properties:
+        badgeVc:
+          type: array
+          items:
+            properties:
+              badgeVcId:
+                type: integer
+              badgeName:
+                type: string
+              badgeIssuerName:
+                type: string
+              badgeIssuedon:
+                type: string
+              vcDataPayload:
+                type: string
+              submissions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    customerName:
+                      type: string
+                    submitedAt:
+                      type: string
+            required:
+              - badgeVcId
+              - myWalletId
+              - badgeName
+        submissionsAll:
+          $ref: "#/components/schemas/submissions"
+        totalBadgeCount:
+          type: number
+      required:
+        - badgeVc
+
+    submissions:
+      type: object
+      properties:
+        totalSubmission:
+          type: integer
+        detailSubmissions:
+          type: array
+          items:
+            type: object
+            properties:
+              cabinetToSubmit:
+                type: string
+              submitCount:
+                type: integer
+            required:
+              - cabinetToSubmit
+              - submitCount
+
+    vcDetail:
+      type: object
+      properties:
+        vcDetailData:
+          type: object
+          properties:
+            badgeVcId:
+              type: integer
+            badgeName:
+              type: string
+            badgeEmail:
+              type: string
+            badgeIssuerName:
+              type: string
+            badgeIssuedon:
+              type: string
+            badgeExpires:
+              type: string
+            vcDataPayload:
+              type: string
+            courseUrl:
+              type: string
+            submissions:
+              type: array
+              items:
+                type: object
+                properties:
+                  customerName:
+                    type: string
+                  submitedAt:
+                    type: string
+          required:
+            - badgeVcId
+            - myWalletId
+        knowledgeBadge:
+          type: array
+          items:
+            type: object
+            properties:
+              badgeImage:
+                type: string
+              badgeName:
+                type: string
+        submissionsHistory:
+          type: array
+          items:
+            type: object
+            properties:
+              customerName:
+                type: string
+              submitedAt:
+                type: string
+            required:
+              - customerName
+              - submitedAt
+        badgeExportData:
+          type: string
+
+    moodleBadgeData:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: number
+          name:
+            type: string
+          description:
+            type: string
+          createdAt:
+            type: string
+          uniqueHash:
+            type: string
+          convertVcFlag:
+            type: boolean
