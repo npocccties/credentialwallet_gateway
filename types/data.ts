@@ -23,3 +23,29 @@ export type BadgeDetail = {
   badgeVc: BadgeVc | undefined;
   submissions: Submissions[];
 };
+
+export type CredentialList = {
+  badgeVc: {
+    badgeVcId: number;
+    badgeName: string;
+    badgeIssuerName: string;
+    badgeIssuedon: string;
+    vcDataPayload: string;
+    submissions: [
+      {
+        customerName: string;
+        submitedAt: string;
+      },
+    ];
+  }[];
+  submissionsAll: {
+    totalSubmission: number;
+    detailSubmissions: [
+      {
+        cabinetToSubmit: string;
+        submitCount: number;
+      },
+    ];
+  };
+  totalBadgeCount: number;
+};

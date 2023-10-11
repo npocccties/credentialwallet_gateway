@@ -8,42 +8,56 @@ datasource db {
 }
 
 model BadgeVc {
-  badgeVcId       Int       @id @default(autoincrement()) @map("badge_vc_id")
-  mywalletId      Int       @map("mywallet_id")
-  moodleName      String?   @map("moodle_name") @db.VarChar(256)
-  badgeCategory   String?   @map("badge_category") @db.VarChar(256)
-  badgeName       String?   @map("badge_name") @db.VarChar(256)
-  badgeEmail      String    @map("badge_email")
-  badgeClassId    String    @map("badge_class_id")
-  badgeIssuerName String    @map("badge_issuer_name") @db.VarChar(256)
-  badgeIssuedon   DateTime  @map("badge_issuedon") @db.Timestamp(6)
-  vcDataHeader    String    @map("vc_data_header")
-  vcDataPayload   String    @map("vc_data_payload")
-  vcDataSignature String    @map("vc_data_signature")
-  createTime      DateTime  @map("create_time") @db.Timestamp(6)
-  myWallets       MyWallets @relation(fields: [mywalletId], references: [mywalletId], onDelete: NoAction, onUpdate: NoAction)
+  badgeVcId       Int          @id @default(autoincrement()) @map("badge_vc_id")
+  mywalletId      Int          @map("mywallet_id")
+  moodleName      String?      @map("moodle_name") @db.VarChar(256)
+  badgeName       String?      @map("badge_name") @db.VarChar(256)
+  badgeOwnerEmail String       @map("badge_owner_email")
+  badgeClassId    String       @map("badge_class_id")
+  badgeIssuerName String       @map("badge_issuer_name") @db.VarChar(256)
+  badgeIssuedon   DateTime     @map("badge_issuedon") @db.Timestamp(6)
+  badgeExpires    DateTime     @map("badge_expires") @db.Timestamp(6)
+  vcDataHeader    String       @map("vc_data_header")
+  vcDataPayload   String       @map("vc_data_payload")
+  vcDataSignature String       @map("vc_data_signature")
+  createdAt       DateTime     @map("created_at") @db.Timestamp(6)
+  deletedAt       DateTime?    @map("deleted_at") @db.Timestamp(6)
+  myWallets       MyWallet     @relation(fields: [mywalletId], references: [mywalletId], onDelete: NoAction, onUpdate: NoAction)
+  submissions     Submission[]
 
+  @@index([mywalletId])
   @@map("badge_vcs")
 }
 
-model MyWallets {
-  mywalletId  Int           @id @default(autoincrement()) @map("mywallet_id")
-  orthrosId   String        @unique @map("orthros_id")
-  createTime  DateTime      @map("create_time") @db.Timestamp(6)
-  badgeVcs    BadgeVc[]
-  submissions Submissions[]
+model MyWallet {
+  mywalletId Int       @id @default(autoincrement()) @map("mywallet_id")
+  orthrosId  String    @unique(map: "mywallets_orthros_id_idx") @map("orthros_id")
+  createdAt  DateTime  @map("created_at") @db.Timestamp(6)
+  badgeVcs   BadgeVc[]
 
   @@map("mywallets")
 }
 
-model Submissions {
-  badgeVcId       Int       @map("badge_vc_id")
-  mywalletId      Int       @map("mywallet_id")
-  submissionTime  DateTime  @map("submission_time") @db.Timestamp(6)
-  submissionEmail String    @map("submission_email")
-  submissionTo    String    @map("submission_to") @db.VarChar(256)
-  myWallets       MyWallets @relation(fields: [badgeVcId], references: [mywalletId], onDelete: NoAction, onUpdate: NoAction)
+model Submission {
+  badgeVcId       Int           @map("badge_vc_id")
+  mywalletId      Int           @map("mywallet_id")
+  submitedAt      DateTime      @map("submited_at") @db.Timestamp(6)
+  submissionEmail String        @map("submission_email")
+  customerId      Int           @map("customer_id")
+  customerName    String?       @map("customer_name") @db.VarChar(256)
+  myWallets       BadgeVc       @relation(fields: [badgeVcId], references: [badgeVcId], onDelete: NoAction, onUpdate: NoAction)
+  badgeCustomers  badgeCustomer @relation(fields: [customerId], references: [customerId], onDelete: NoAction, onUpdate: NoAction)
 
-  @@id([badgeVcId, submissionTime])
+  @@id([badgeVcId, submitedAt])
+  @@index([mywalletId])
   @@map("submissions")
+}
+
+model badgeCustomer {
+  customerId   Int          @id @default(autoincrement()) @map("customer_id")
+  customerName String       @map("customer_name") @db.VarChar(256)
+  cabinetUrl   String       @map("cabinet_url")
+  submissions  Submission[]
+
+  @@map("badge_customers")
 }
