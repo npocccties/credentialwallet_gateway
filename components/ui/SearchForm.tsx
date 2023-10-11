@@ -14,23 +14,23 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
-import { SearchFormItem } from "@/types/data";
-
-type Props = {
-  register: UseFormRegister<SearchFormItem>;
-  handleSubmit: UseFormHandleSubmit<SearchFormItem, undefined>;
-  isSubmitting: boolean;
-};
+import { SearchFormItem } from "@/types/api/credential/index";
 
 const sortButtonText = {
   ask: "発行日（古い順）",
   desc: "発行日（新しい順）",
 };
 
-export const SearchForm = ({ register, handleSubmit, isSubmitting }: Props) => {
+export const SearchForm = () => {
   const [sortState, setSortState] = useState(sortButtonText.desc);
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<SearchFormItem>();
+
   const onSubmit = (values) => {
     // TODO: 未実装
     return new Promise<void>((resolve) => {
@@ -42,13 +42,18 @@ export const SearchForm = ({ register, handleSubmit, isSubmitting }: Props) => {
   };
 
   const handleClickSort = () => {
-    if (sortState === sortButtonText.ask) {
-      // 昇順でAPIリクエスト
-      setSortState(sortButtonText.desc);
-    } else if (sortState === sortButtonText.desc) {
-      // 降順でAPIリクエスト
-      setSortState(sortButtonText.ask);
-    }
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        if (sortState === sortButtonText.ask) {
+          // 昇順でAPIリクエスト
+          setSortState(sortButtonText.desc);
+        } else if (sortState === sortButtonText.desc) {
+          // 降順でAPIリクエスト
+          setSortState(sortButtonText.ask);
+        }
+        resolve();
+      }, 1000);
+    });
   };
 
   return (
@@ -75,12 +80,12 @@ export const SearchForm = ({ register, handleSubmit, isSubmitting }: Props) => {
                       <Input id="badgeName" {...register("badgeName")} maxW={"100%"} />
                     </GridItem>
                     <GridItem>
-                      <FormLabel htmlFor="issueDateTo">発行日To</FormLabel>
-                      <Input id="issueDateTo" type="date" {...register("issueDateTo")} />
+                      <FormLabel htmlFor="issuedFrom">発行日To</FormLabel>
+                      <Input id="issuedFrom" type="date" {...register("issuedFrom")} />
                     </GridItem>
                     <GridItem>
-                      <FormLabel htmlFor="issueDateEnd">発行日End</FormLabel>
-                      <Input id="issueDateEnd" type="date" {...register("issueDateEnd")} />
+                      <FormLabel htmlFor="issuedtTo">発行日End</FormLabel>
+                      <Input id="issuedTo" type="date" {...register("issuedTo")} />
                     </GridItem>
                     <GridItem></GridItem>
                     <GridItem>

@@ -4,13 +4,12 @@ import { useForm } from "react-hook-form";
 import { DisplayBadgeCount } from "@/components/ui/card/DisplayBadgeCount";
 import { SearchForm } from "@/components/ui/SearchForm";
 import { VcList } from "@/components/ui/VcList";
-import { badgeListActions } from "@/share/store/badgeList/main";
-import { SearchFormItem } from "@/types/data";
+import { credentialListActions } from "@/share/store/credentialList/main";
 
 export const MyWaletVCList = () => {
-  const { fetchBadgeList } = badgeListActions.useFetchBadgeList();
+  const { fetchCredentialList } = credentialListActions.useFetchCredentialList();
   useEffect(() => {
-    fetchBadgeList();
+    fetchCredentialList();
   }, []);
 
   // const handleClickPrev = async () => {
@@ -34,15 +33,10 @@ export const MyWaletVCList = () => {
   //   setPageState(data);
   // };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<SearchFormItem>();
   return (
     <>
-      <DisplayBadgeCount badgeCount={8} submissionCount={tempdata} />
-      <SearchForm register={register} handleSubmit={handleSubmit} isSubmitting={isSubmitting} />
+      <DisplayBadgeCount />
+      <SearchForm />
       <VcList />
       {/* <Pagination
         totalPages={totalPages}
@@ -53,13 +47,4 @@ export const MyWaletVCList = () => {
       /> */}
     </>
   );
-};
-
-const tempdata = {
-  total: 6,
-  byDestinationList: [
-    { name: "大阪府教育委員会", count: 2 },
-    { name: "堺市", count: 4 },
-    { name: "大阪市", count: 2 },
-  ],
 };

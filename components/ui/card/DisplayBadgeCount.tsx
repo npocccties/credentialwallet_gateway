@@ -1,3 +1,4 @@
+import { credentialListGetters } from "@/share/store/credentialList/main";
 import {
   Accordion,
   AccordionButton,
@@ -13,18 +14,8 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-type Props = {
-  badgeCount: number;
-  submissionCount: {
-    total: number;
-    byDestinationList: {
-      name: string;
-      count: number;
-    }[];
-  };
-};
-
-export const DisplayBadgeCount = ({ badgeCount, submissionCount }: Props) => {
+export const DisplayBadgeCount = () => {
+  const { totalBadgeCount, submissionsAll } = credentialListGetters.useCredentialList();
   return (
     <Box
       border={"2px solid"}
@@ -35,10 +26,10 @@ export const DisplayBadgeCount = ({ badgeCount, submissionCount }: Props) => {
     >
       <Grid templateColumns={"repeat(2, 1fr)"}>
         <GridItem>
-          <DisplauCountData color="blue" text="取得数" count={badgeCount} />
+          <DisplauCountData color="blue" text="取得数" count={totalBadgeCount} />
         </GridItem>
         <GridItem>
-          <DisplauCountData color="skyblue" text="提出数" count={submissionCount.total} />
+          <DisplauCountData color="skyblue" text="提出数" count={submissionsAll.totalSubmission} />
         </GridItem>
         <GridItem></GridItem>
         <GridItem>
@@ -52,7 +43,7 @@ export const DisplayBadgeCount = ({ badgeCount, submissionCount }: Props) => {
                   </Box>
                 </AccordionButton>
                 <AccordionPanel pb={2}>
-                  {submissionCount.byDestinationList.map((item, index) => {
+                  {submissionsAll.detailSubmissions.map((item, index) => {
                     return (
                       <Flex
                         key={index}
@@ -63,14 +54,14 @@ export const DisplayBadgeCount = ({ badgeCount, submissionCount }: Props) => {
                         borderColor={"gray.200"}
                       >
                         <Text fontSize={"12px"} maxW={{ base: "70px", sm: "100%" }}>
-                          {item.name}
+                          {item.cabinetToSubmit}
                         </Text>
                         <Flex direction={"row"} alignItems={"center"} ml={{ base: 1, sm: 2 }}>
                           <Text fontSize={{ base: "12px", sm: "14px" }} color={"skyblue"}>
                             提出数
                           </Text>
                           <Text fontSize={"16px"} ml={2}>
-                            {item.count}
+                            {item.submitCount}
                           </Text>
                         </Flex>
                       </Flex>

@@ -2,34 +2,17 @@ import { Box, Flex, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 import React from "react";
 
 import { formatDateToJST } from "@/lib/date";
-import { imageTemp } from "@/templates/imageTemp";
+import { DisplayBadgeVc } from "@/types/api/credential";
 
 type Props = {
-  image: string;
-  name: string;
-  issuer: string;
-  issuedate: string;
+  badgeVc: DisplayBadgeVc;
 };
 
-export const BadgeVcCard = ({ image, name, issuer, issuedate }: Props) => {
+export const BadgeVcCard = ({ badgeVc }: Props) => {
   // const { card } = storedVC.manifest.display;
 
-  // 仮作成データ
-  const submissionBadge = [
-    {
-      name: "大阪市",
-      date: issuedate,
-    },
-    {
-      name: "大阪府",
-      date: issuedate,
-    },
-    {
-      name: "堺市教育大学あああ",
-      date: issuedate,
-    },
-  ];
-
+  const vcPayload = badgeVc.vcDataPayload && JSON.parse(badgeVc.vcDataPayload);
+  const image = vcPayload?.vc?.credentialSubject.photo;
   return (
     <Grid
       border={"2px"}
@@ -39,70 +22,107 @@ export const BadgeVcCard = ({ image, name, issuer, issuedate }: Props) => {
       p={{ base: 3, sm: 6 }}
     >
       <GridItem display={"grid"} placeItems={"center"} rowSpan={3} p={{ base: 1, sm: 2 }}>
-        <Image fit={"cover"} src={"data:image/png;base64," + imageTemp} alt={"test"} />
+        <Image fit={"cover"} src={"data:image/png;base64," + image} alt={"test"} />
       </GridItem>
       <GridItem px="2" py="1" alignItems="center" margin={"0"} colSpan={2}>
         <Text fontSize={{ sm: "xl", base: "md" }} fontWeight={"bold"}>
-          {name}
+          {badgeVc.badgeName}
         </Text>
       </GridItem>
 
       {/** desktop */}
       <GridItem display={{ base: "none", sm: "block" }} px="2" py="1" alignItems="center" colSpan={2}>
         <Flex direction={"row"} alignItems={"center"}>
-          <Text fontSize={{ base: "9px", sm: "xs" }}>発行者</Text>
-          <Text fontSize={{ base: "12px", sm: "sm" }} ml={{ base: 1, sm: 2 }}>
-            {issuer}
+          <Text fontSize={"xs"}>発行者</Text>
+          <Text fontSize={"sm"} ml={2}>
+            {badgeVc.badgeIssuerName}
           </Text>
-          <Text mx={{ base: 1, sm: 2 }}>/</Text>
-          <Text fontSize={{ base: "9px", sm: "xs" }}>発行日</Text>
-          <Text fontSize={{ base: "12px", sm: "sm" }} ml={{ base: 1, sm: 2 }}>
-            {formatDateToJST(issuedate)}
+          <Text mx={2}>/</Text>
+          <Text fontSize={"xs"}>発行日</Text>
+          <Text fontSize={"sm"} ml={2}>
+            {formatDateToJST(badgeVc.badgeIssuedon)}
           </Text>
         </Flex>
+      </GridItem>
+      <GridItem display={{ base: "none", sm: "block" }} px="2" py="1" alignItems="center" colSpan={2}>
+        <Grid templateColumns={"100px 1fr"} alignItems={"flex-start"} mr={4}>
+          <Box mb={0}>
+            <Text fontSize={"xs"}>バッジ提出状況</Text>
+          </Box>
+          <Flex ml={4} direction={"column"}>
+            {badgeVc.submissions.length === 0 ? (
+              <Box w={"100%"} mb={1} borderBottom={"1px"} borderColor={"gray.200"}>
+                <Text color={"red"} fontSize={"sm"}>
+                  未提出
+                </Text>
+              </Box>
+            ) : (
+              badgeVc.submissions.map((item, index) => {
+                return (
+                  <Box key={index} w={"100%"} mb={1} borderBottom={"1px"} borderColor={"gray.200"}>
+                    <SubmissionsList submitedAt={item.submitedAt} customerName={item.customerName} />
+                  </Box>
+                );
+              })
+            )}
+          </Flex>
+        </Grid>
       </GridItem>
 
       {/** smart phone */}
       <GridItem display={{ base: "block", sm: "none" }} px="2" py="1" alignItems="center" colSpan={2}>
         <Flex direction={"row"} alignItems={"flex-start"} gap={4} justifyContent={"space-between"}>
           <Flex direction={"column"}>
-            <Text fontSize={{ base: "9px", sm: "xs" }}>発行者</Text>
-            <Text fontSize={{ base: "12px", sm: "sm" }} ml={{ base: 1, sm: 2 }}>
-              {issuer}
+            <Text fontSize={"9px"}>発行者</Text>
+            <Text fontSize={"12px"} ml={1}>
+              {badgeVc.badgeIssuerName}
             </Text>
           </Flex>
           <Flex direction={"column"}>
-            <Text fontSize={{ base: "9px", sm: "xs" }}>発行日</Text>
-            <Text fontSize={{ base: "12px", sm: "sm" }} ml={{ base: 1, sm: 2 }}>
-              {formatDateToJST(issuedate)}
+            <Text fontSize={"9px"}>発行日</Text>
+            <Text fontSize={"12px"} ml={1}>
+              {formatDateToJST(badgeVc.badgeIssuedon)}
             </Text>
           </Flex>
         </Flex>
       </GridItem>
-
-      <GridItem px="2" py="1" alignItems="center" colSpan={2}>
-        <Flex direction={{ base: "column", sm: "row" }} alignItems={{ base: "unset", sm: "flex-start" }}>
-          <Box mb={{ base: 1, sm: 0 }}>
-            <Text fontSize={{ base: "9px", sm: "xs" }}>バッジ提出状況</Text>
+      <GridItem display={{ base: "block", sm: "none" }} px="2" py="1" alignItems="center" colSpan={2}>
+        <Flex direction={"column"} mr={0}>
+          <Box mb={1}>
+            <Text fontSize={"9px"}>バッジ提出状況</Text>
           </Box>
           <Flex ml={{ base: 1, sm: 4 }} direction={"column"}>
-            {submissionBadge.map((item, index) => {
-              return (
-                <Box key={index} w={"100%"} mb={1} borderBottom={"1px"} borderColor={"gray.200"}>
-                  <Flex direction={"row"} justifyContent={"space-between"} gap={2}>
-                    <Box>
-                      <Text fontSize={"xs"}>{formatDateToJST(item.date)}</Text>
-                    </Box>
-                    <Box>
-                      <Text fontSize={"xs"}>{item.name}</Text>
-                    </Box>
-                  </Flex>
-                </Box>
-              );
-            })}
+            {badgeVc.submissions.length === 0 ? (
+              <Box w={"100%"} mb={1} borderBottom={"1px"} borderColor={"gray.200"}>
+                <Text color={"red"} fontSize={"xs"}>
+                  未提出
+                </Text>
+              </Box>
+            ) : (
+              badgeVc.submissions.map((item, index) => {
+                return (
+                  <Box key={index} w={"100%"} mb={1} borderBottom={"1px"} borderColor={"gray.200"}>
+                    <SubmissionsList submitedAt={item.submitedAt} customerName={item.customerName} />
+                  </Box>
+                );
+              })
+            )}
           </Flex>
         </Flex>
       </GridItem>
     </Grid>
+  );
+};
+
+const SubmissionsList = ({ submitedAt, customerName }: { submitedAt: string; customerName: string }) => {
+  return (
+    <Flex direction={"row"} justifyContent={"space-between"} gap={2}>
+      <Box>
+        <Text fontSize={"xs"}>{formatDateToJST(submitedAt)}</Text>
+      </Box>
+      <Box>
+        <Text fontSize={"xs"}>{customerName}</Text>
+      </Box>
+    </Flex>
   );
 };

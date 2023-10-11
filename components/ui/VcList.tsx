@@ -4,33 +4,25 @@ import React from "react";
 
 import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
 import { pagePath } from "@/constants";
-import { badgeListGetters } from "@/share/store/badgeList/main";
+import { credentialListGetters } from "@/share/store/credentialList/main";
 
 export const VcList = () => {
-  const { badgeList } = badgeListGetters.useBadgeList();
+  const { badgeVcList } = credentialListGetters.useCredentialList();
   const router = useRouter();
 
   return (
     <>
-      {badgeList?.badgeVcList?.map((item, idx) => {
-        // TODO: BadgeVccardに処理を移動
-        const vcPayload = JSON.parse(item.vcDataPayload);
-        const image = vcPayload.vc.credentialSubject.photo;
+      {badgeVcList?.map((badgeVc, idx) => {
         return (
           <Grid gap={4} key={idx}>
             <Box
               cursor={"pointer"}
               _hover={{ opacity: 0.9, transition: "0.2s" }}
               onClick={() => {
-                router.push(`${pagePath.mywallet.detail}/${item.badgeVcId}`);
+                router.push(`${pagePath.mywallet.detail}/${badgeVc.badgeVcId}`);
               }}
             >
-              <BadgeVcCard
-                image={image}
-                name={item.badgeName}
-                issuer={item.badgeIssuerName}
-                issuedate={item.badgeIssuedon.toString()}
-              />
+              <BadgeVcCard badgeVc={badgeVc} />
             </Box>
           </Grid>
         );
