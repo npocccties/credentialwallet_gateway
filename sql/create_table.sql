@@ -2,7 +2,7 @@ drop table if exists mywallets cascade;
 drop table if exists badge_vcs cascade;
 drop table if exists badge_customers cascade;
 drop table if exists submissions cascade;
-drop table if exists badge_issuer_selecters cascade;
+drop table if exists badge_issuer_selectors cascade;
 -- ----------------------------------------------------------------------------------------------------
 
 -- マイウォレット
@@ -21,8 +21,8 @@ create unique index on mywallets (
 create table badge_vcs (
     badge_vc_id serial not null,                      -- バッジVC ID
     mywallet_id integer not null,                     -- マイウォレットID
-    badge_issuer_selecter_id varchar(256) not null,   -- バッジ発行者選択
-    badge_issuer_selecter_name varchar(256)not  null, -- バッジ発行者選択
+    badge_issuer_selector_id varchar(256) not null,   -- バッジ発行者選択
+    badge_issuer_selector_name varchar(256)not  null, -- バッジ発行者選択
     badge_name varchar(256) not null,                 -- バッジ名
     badge_owner_email text not null,                  -- バッジ所有者EMail
     badge_class_id text not null,                     -- バッジクラスID
@@ -67,10 +67,10 @@ create index on submissions (
 );
 
 -- バッジ発行者選択
-create table badge_issuer_selecters (
-    badge_issuer_selecter_id serial not null,            -- バッジVC ID
-    badge_issuer_selecter_name varchar(256) not null,    -- マイウォレットID
+create table badge_issuer_selectors (
+    badge_issuer_selector_id serial not null,            -- バッジVC ID
+    badge_issuer_selector_name varchar(256) not null,    -- マイウォレットID
     badge_issue_url text not null,                       -- バッジ発行者選択
     sso_enable boolean not null,                         -- SSO可否
-    primary key (badge_issuer_selecter_id)
+    primary key (badge_issuer_selector_id)
 );
