@@ -2,6 +2,7 @@ drop table if exists mywallets cascade;
 drop table if exists badge_vcs cascade;
 drop table if exists badge_customers cascade;
 drop table if exists submissions cascade;
+drop table if exists badge_issuer_selecters cascade;
 -- ----------------------------------------------------------------------------------------------------
 
 -- マイウォレット
@@ -18,20 +19,21 @@ create unique index on mywallets (
 
 -- バッジVCテーブル
 create table badge_vcs (
-    badge_vc_id serial not null,                  -- バッジVC ID
-    mywallet_id integer not null,                 -- マイウォレットID
-    moodle_name varchar(256) null,                -- Moodle名
-    badge_category varchar(256) null,             -- バッジ名
-    badge_owner_email text not null,              -- バッジ所有者EMail
-    badge_class_id text not null,                 -- バッジクラスID
-    badge_issuer_name varchar(256) not null,      -- バッジ発行者名
-    badge_issuedon timestamp not null,            -- バッジ発行日時
-    badge_expires timestamp not null,             -- バッジ有効期限
-    vc_data_header text not null,                 -- VCデータヘッダ
-    vc_data_payload text not null,                -- VCデータペイロード
-    vc_data_signature text not null,              -- VCデータ署名
-    created_at timestamp not null,                -- 作成日時
-    deleted_at timestamp null,                    -- 削除日時
+    badge_vc_id serial not null,                      -- バッジVC ID
+    mywallet_id integer not null,                     -- マイウォレットID
+    badge_issuer_selecter_id varchar(256) not null,   -- バッジ発行者選択
+    badge_issuer_selecter_name varchar(256)not  null, -- バッジ発行者選択
+    badge_name varchar(256) not null,                 -- バッジ名
+    badge_owner_email text not null,                  -- バッジ所有者EMail
+    badge_class_id text not null,                     -- バッジクラスID
+    badge_issuer_name varchar(256) not null,          -- バッジ発行者名
+    badge_issuedon timestamp not null,                -- バッジ発行日時
+    badge_expires timestamp not null,                 -- バッジ有効期限
+    vc_data_header text not null,                     -- VCデータヘッダ
+    vc_data_payload text not null,                    -- VCデータペイロード
+    vc_data_signature text not null,                  -- VCデータ署名
+    created_at timestamp not null,                    -- 作成日時
+    deleted_at timestamp null,                        -- 削除日時
     primary key (badge_vc_id),
     foreign key (mywallet_id) references mywallets (mywallet_id)
 );
@@ -55,12 +57,20 @@ create table submissions (
     submited_at timestamp not null,               -- 提出日時
     submission_email text not null,               -- 提出EMAILアドレス
     customer_id integer not null,                 -- 提出先ID
-    customer_name varchar(256) null,              -- 提出先名
+    customer_name varchar(256) not null,          -- 提出先名
     primary key (badge_vc_id, submited_at),
-    foreign key (badge_vc_id) references badge_vcs (badge_vc_id),
-    foreign key (customer_id) references badge_customers (customer_id)
+    foreign key (badge_vc_id) references badge_vcs (badge_vc_id)
 );
 
 create index on submissions (
     mywallet_id
+);
+
+-- バッジ発行者選択
+create table badge_issuer_selecters (
+    badge_issuer_selecter_id serial not null,            -- バッジVC ID
+    badge_issuer_selecter_name varchar(256) not null,    -- マイウォレットID
+    badge_issue_url text not null,                       -- バッジ発行者選択
+    sso_enable boolean not null,                         -- SSO可否
+    primary key (badge_issuer_selecter_id)
 );
