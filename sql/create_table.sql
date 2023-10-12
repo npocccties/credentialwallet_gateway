@@ -37,7 +37,7 @@ create table badge_vcs (
     primary key (badge_vc_id),
     foreign key (mywallet_id) references mywallets (mywallet_id)
 );
- 
+
 create index on badge_vcs (
     mywallet_id
 );
@@ -45,7 +45,7 @@ create index on badge_vcs (
 -- 提出先
 create table badge_customers (
     customer_id serial not null,                  -- バッジ提出先ID
-    customer_name varchar(256) not null,          -- マバッジ提出先名
+    customer_name varchar(256) not null,          -- バッジ提出先名
     cabinet_url text not null,                    -- キャビネットURL
     primary key (customer_id)
 );
