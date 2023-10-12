@@ -2,7 +2,6 @@ import {
   Button,
   Grid,
   FormControl,
-  FormLabel,
   Input,
   GridItem,
   Box,
@@ -12,48 +11,54 @@ import {
   AccordionIcon,
   AccordionPanel,
   Flex,
+  FormLabel,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { SearchFormItem } from "@/types/api/credential/index";
+import { credentialListActions } from "@/share/store/credentialList/main";
 
 const sortButtonText = {
-  ask: "発行日（古い順）",
-  desc: "発行日（新しい順）",
+  ask: {
+    mode: "ask",
+    text: "発行日（古い順）",
+  },
+  desc: {
+    mode: "desk",
+    text: "発行日（新しい順）",
+  },
 };
 
 export const SearchForm = () => {
   const [sortState, setSortState] = useState(sortButtonText.desc);
+  const { searchCredentialList } = credentialListActions.useSearchCredentialList();
+  const { sortOrderCredentialList } = credentialListActions.useSortOrderCredentialList();
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<SearchFormItem>();
 
-  const onSubmit = (values) => {
-    // TODO: 未実装
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        console.log(JSON.stringify(values, null, 2));
-        resolve();
-      }, 1000);
-    });
+  const onSubmit = async (values: SearchFormItem) => {
+    const param: SearchFormItem = {
+      badgeName: values.badgeName,
+      issuedFrom: values.issuedFrom,
+      issuedTo: values.issuedTo,
+      sortOrder: sortState.mode,
+    };
+
+    searchCredentialList(param);
   };
 
   const handleClickSort = () => {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        if (sortState === sortButtonText.ask) {
-          // 昇順でAPIリクエスト
-          setSortState(sortButtonText.desc);
-        } else if (sortState === sortButtonText.desc) {
-          // 降順でAPIリクエスト
-          setSortState(sortButtonText.ask);
-        }
-        resolve();
-      }, 1000);
-    });
+    if (sortState.mode === sortButtonText.ask.mode) {
+      setSortState(sortButtonText.desc);
+      sortOrderCredentialList(sortButtonText.desc.mode);
+    } else if (sortState.mode === sortButtonText.desc.mode) {
+      setSortState(sortButtonText.ask);
+      sortOrderCredentialList(sortButtonText.ask.mode);
+    }
   };
 
   return (
@@ -102,7 +107,7 @@ export const SearchForm = () => {
       </Box>
       <Flex mt={4} justifyContent={"flex-end"}>
         <Button w={180} colorScheme={"gray"} onClick={() => handleClickSort()}>
-          {sortState}
+          {sortState.text}
         </Button>
       </Flex>
     </>

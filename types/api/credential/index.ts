@@ -2,7 +2,7 @@ export type SearchFormItem = {
   badgeName?: string;
   issuedFrom?: string;
   issuedTo?: string;
-  sortOrder: "ask" | "desk";
+  sortOrder: string;
 };
 
 export type CredentialList = {

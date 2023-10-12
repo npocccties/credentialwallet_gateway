@@ -3,7 +3,8 @@ import { atom, useRecoilValue, useSetRecoilState } from "recoil";
 
 import { CredentialListActions, CredentialListGetters, CredentialListState } from "@/share/store/credentialList/types";
 import { RECOIL_ATOMS_KEYS } from "@/share/store/keys";
-import { useCredentialListApi } from "@/share/usecases/credentialList/useCredentialListApi";
+import { useCredentialListApi, useSearchCredentialListApi } from "@/share/usecases/credentialList/useCredentialListApi";
+import { SearchFormItem } from "@/types/api/credential";
 
 const defaultState: CredentialListState = {
   badgeVcList: [],
@@ -30,7 +31,7 @@ export const credentialListGetters: CredentialListGetters = {
 };
 
 // Action をカスタムフックとして定義
-/**  credentialList の fetch */
+// credentialList の fetch
 const useFetchCredentialList = () => {
   const setState = useSetRecoilState(credentialListState);
 
@@ -45,6 +46,60 @@ const useFetchCredentialList = () => {
   }, [setState]);
 
   return { fetchCredentialList };
+};
+
+// 検索リクエスト時のAction
+const useSearchCredentialList = () => {
+  const setState = useSetRecoilState(credentialListState);
+
+  const searchCredentialList = useCallback(
+    async (param: SearchFormItem) => {
+      const { data } = await useSearchCredentialListApi(param);
+      setState(() => {
+        if (!data) {
+          return defaultState;
+        }
+        return data;
+      });
+    },
+    [setState],
+  );
+
+  return { searchCredentialList };
+};
+
+// sort時のAction
+const useSortOrderCredentialList = () => {
+  const setState = useSetRecoilState(credentialListState);
+
+  const sortOrderCredentialList = useCallback(
+    (sortOrder: string) => {
+      setState((prev) => {
+        const badgeVcList = prev.badgeVcList;
+        if (sortOrder === "ask") {
+          const askOrderList = [...badgeVcList].sort(
+            (x, y) => new Date(x.badgeIssuedon).getTime() - new Date(y.badgeIssuedon).getTime(),
+          );
+          return {
+            ...prev,
+            badgeVcList: askOrderList,
+          };
+        } else if (sortOrder === "desk") {
+          const deskOrderList = [...badgeVcList].sort(
+            (x, y) => new Date(y.badgeIssuedon).getTime() - new Date(x.badgeIssuedon).getTime(),
+          );
+          return {
+            ...prev,
+            badgeVcList: deskOrderList,
+          };
+        }
+        return prev;
+      });
+    },
+    [setState],
+  );
+
+  return { sortOrderCredentialList };
 };
 
 // /** Badgeを追加 */
@@ -70,5 +125,7 @@ const useFetchCredentialList = () => {
 
 export const credentialListActions: CredentialListActions = {
   useFetchCredentialList,
+  useSearchCredentialList,
+  useSortOrderCredentialList,
   // useSetBadgeVc,
 };
