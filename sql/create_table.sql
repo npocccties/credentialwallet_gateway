@@ -68,9 +68,10 @@ create index on submissions (
 
 -- バッジ発行者選択
 create table badge_issuer_selectors (
-    badge_issuer_selector_id serial not null,            -- バッジVC ID
-    badge_issuer_selector_name varchar(256) not null,    -- マイウォレットID
-    badge_issue_url text not null,                       -- バッジ発行者選択
+    badge_issuer_selector_id serial not null,            -- バッジ発行者選択ID
+    badge_issuer_selector_name varchar(256) not null,    -- バッジ発行者選択名
+    badge_issue_url text not null,                       -- バッジ発行URL
     sso_enable boolean not null,                         -- SSO可否
     primary key (badge_issuer_selector_id)
 );
+
