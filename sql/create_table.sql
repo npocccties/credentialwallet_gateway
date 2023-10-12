@@ -21,8 +21,8 @@ create unique index on mywallets (
 create table badge_vcs (
     badge_vc_id serial not null,                      -- バッジVC ID
     mywallet_id integer not null,                     -- マイウォレットID
-    badge_issuer_selector_id varchar(256) not null,   -- バッジ発行者選択
-    badge_issuer_selector_name varchar(256)not  null, -- バッジ発行者選択
+    badge_issuer_selector_id varchar(256) not null,   -- バッジ発行者選択ID
+    badge_issuer_selector_name varchar(256)not  null, -- バッジ発行者選択名
     badge_name varchar(256) not null,                 -- バッジ名
     badge_owner_email text not null,                  -- バッジ所有者EMail
     badge_class_id text not null,                     -- バッジクラスID
@@ -56,8 +56,8 @@ create table submissions (
     mywallet_id integer not null,                 -- マイウォレットID
     submited_at timestamp not null,               -- 提出日時
     submission_email text not null,               -- 提出EMAILアドレス
-    customer_id integer not null,                 -- 提出先ID
-    customer_name varchar(256) not null,          -- 提出先名
+    customer_id integer not null,                 -- バッジ提出先ID
+    customer_name varchar(256) not null,          -- バッジ提出先名
     primary key (badge_vc_id, submited_at),
     foreign key (badge_vc_id) references badge_vcs (badge_vc_id)
 );
@@ -74,4 +74,3 @@ create table badge_issuer_selectors (
     sso_enable boolean not null,                         -- SSO可否
     primary key (badge_issuer_selector_id)
 );
-
