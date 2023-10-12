@@ -12,7 +12,13 @@
   // Set *default* container specific settings.json values on container create.
   "customizations": {
     "vscode": {
-      "extensions": ["dsznajder.es7-react-js-snippets", "mhutchie.git-graph", "esbenp.prettier-vscode", "Prisma.prisma"]
+      "extensions": [
+        "dsznajder.es7-react-js-snippets",
+        "mhutchie.git-graph",
+        "esbenp.prettier-vscode",
+        "Prisma.prisma",
+        "dbaeumer.vscode-eslint"
+      ]
     },
     "settings": {
       "editor.defaultFormatter": "esbenp.prettier-vscode",
