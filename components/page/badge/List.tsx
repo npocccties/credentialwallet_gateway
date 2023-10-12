@@ -4,14 +4,16 @@ import React, { useState } from "react";
 
 import { MyBadgesList, MyBadgesListSp } from "@/components/ui/table/MybadgeList";
 import { IfBadgeInfo } from "@/types/BadgeInfo";
+import { badgeIssuerSelector } from "@prisma/client";
 
-export const BadgeList = () => {
-  // ログインが必要か否か。発行者ドロップダウンに持つ想定
-  const isNeedLogin = false;
+export const BadgeList = ({ issuerList }: { issuerList: badgeIssuerSelector[] }) => {
+  const [isNeedSSO, setisNeedSSO] = useState(false);
+  const [moodleUrl, setMoodleUrl] = useState("");
+  const [isNeedMoodleLogin, setisNeedMoodleLogin] = useState(false);
 
   const [badgeList, setBadgeList] = useState<IfBadgeInfo[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isNeedMoodleLogin, setisNeedMoodleLogin] = useState(false);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,8 +22,8 @@ export const BadgeList = () => {
     const password = "1456";
     setIsLoading(true);
 
-    if (isNeedLogin) {
-      setisNeedMoodleLogin(isNeedLogin);
+    if (!isNeedSSO) {
+      setisNeedMoodleLogin(true);
       return;
     }
 
@@ -34,6 +36,11 @@ export const BadgeList = () => {
     const badgeData = res.data.badgeList;
     setIsLoading(false);
     setBadgeList(badgeData);
+  };
+
+  const handleChangeIssuer = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const isSsoSignin = issuerList.filter((x) => x.badgeIssuerSelectorId.toString() === e.target.value)[0];
+    setisNeedSSO(isSsoSignin.ssoEnable);
   };
 
   if (isNeedMoodleLogin) {
@@ -96,10 +103,15 @@ export const BadgeList = () => {
             <FormLabel mb={2} fontSize={"md"}>
               発行者選択
             </FormLabel>
-            <Select w={64}>
-              <option value={"option1"}>大阪市教育委員会</option>
-              <option value={"option2"}>大阪府教育委員会</option>
-              <option value={"option3"}>堺市教育委員会</option>
+            <Select w={64} onChange={(e) => handleChangeIssuer(e)}>
+              {issuerList.map((item) => {
+                const key = item.badgeIssuerSelectorId;
+                return (
+                  <option key={key} value={key}>
+                    {item.badgeIssuerSelectorName}
+                  </option>
+                );
+              })}
             </Select>
           </Box>
           <Box>
@@ -121,10 +133,15 @@ export const BadgeList = () => {
             <FormLabel mb={2} fontSize={"sm"}>
               発行者選択
             </FormLabel>
-            <Select>
-              <option value={"option1"}>大阪市教育委員会</option>
-              <option value={"option2"}>大阪府教育委員会</option>
-              <option value={"option3"}>堺市教育委員会</option>
+            <Select onChange={(e) => handleChangeIssuer(e)}>
+              {issuerList.map((item) => {
+                const key = item.badgeIssuerSelectorId;
+                return (
+                  <option key={key} value={key}>
+                    {item.badgeIssuerSelectorName}
+                  </option>
+                );
+              })}
             </Select>
           </Box>
           <Box w={"full"} mt={8}>
