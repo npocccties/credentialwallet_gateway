@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
 
 import { DisplayBadgeCount } from "@/components/ui/card/DisplayBadgeCount";
-import { SearchForm } from "@/components/ui/SearchForm";
+import { SearchForm } from "@/components/model/credential/CredentialSearchForm";
 import { VcList } from "@/components/ui/VcList";
 import { credentialListActions } from "@/share/store/credentialList/main";
 
