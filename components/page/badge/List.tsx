@@ -1,93 +1,49 @@
-import { Flex, Box, FormLabel, Select, Button, Text, FormControl, Input, Heading } from "@chakra-ui/react";
-import axios from "axios";
+import { Flex, Box, FormLabel, Select, Button, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 
-import { MyBadgesList, MyBadgesListSp } from "@/components/ui/table/MybadgeList";
-import { IfBadgeInfo } from "@/types/BadgeInfo";
 import { badgeIssuerSelector } from "@prisma/client";
+import { MoodleLoginForm } from "@/components/model/moodle/MoodleLoginform";
+import { badgeListActions, badgeListGetters } from "@/share/store/badgeList/main";
+import { MyBadgesList, MyBadgesListSp } from "@/components/ui/table/MybadgeList";
 
 export const BadgeList = ({ issuerList }: { issuerList: badgeIssuerSelector[] }) => {
-  const [isNeedSSO, setisNeedSSO] = useState(false);
-  const [moodleUrl, setMoodleUrl] = useState("");
-  const [isNeedMoodleLogin, setisNeedMoodleLogin] = useState(false);
+  const [isNeedSSO, setisNeedSSO] = useState(issuerList[0].ssoEnable);
+  const [moodleUrl, setMoodleUrl] = useState(issuerList[0].badgeIssueUrl);
+  const [isNeedMoodleLogin, setIsNeedMoodleLogin] = useState(false);
 
-  const [badgeList, setBadgeList] = useState<IfBadgeInfo[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const badgeList = badgeListGetters.useBadgeList();
+  const { fetchBadgeList } = badgeListActions.useFetchBadgeList();
 
-  const getMyBadges = async () => {
+  const fetchMoodleMyBadgesForSSO = async () => {
     const username = "testtest";
-    const password = "1456";
     setIsLoading(true);
 
     if (!isNeedSSO) {
-      setisNeedMoodleLogin(true);
+      setIsNeedMoodleLogin(true);
+      setIsLoading(false);
       return;
     }
 
-    const res = await axios.post("http://localhost:3000/api/temp/dummyBadge", {
-      username,
-      password,
-    });
-    console.log("res", res.data);
-
-    const badgeData = res.data.badgeList;
+    fetchBadgeList({ username, isNeedSSO, moodleUrl });
     setIsLoading(false);
-    setBadgeList(badgeData);
+  };
+
+  const fetchMoodleMyBadges = async (username: string, password: string) => {
+    setIsLoading(true);
+    fetchBadgeList({ username, password, isNeedSSO, moodleUrl });
+    setIsLoading(false);
   };
 
   const handleChangeIssuer = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const isSsoSignin = issuerList.filter((x) => x.badgeIssuerSelectorId.toString() === e.target.value)[0];
-    setisNeedSSO(isSsoSignin.ssoEnable);
+    const selectIssuer = issuerList.filter((x) => x.badgeIssuerSelectorId.toString() === e.target.value)[0];
+    setisNeedSSO(selectIssuer.ssoEnable);
+    setMoodleUrl(selectIssuer.badgeIssueUrl);
   };
 
   if (isNeedMoodleLogin) {
-    return (
-      <Box w={{ base: "full", sm: "md" }} mt={4}>
-        <Heading textAlign={"center"} fontWeight={600} fontSize={"xl"} lineHeight={"110%"}>
-          Moodleに登録されている
-          <br />
-          ユーザー名とパスワードを入力してください
-        </Heading>
-
-        <FormControl>
-          <Box mt={12}>
-            <FormLabel htmlFor="username">ユーザー名</FormLabel>
-            <Input
-              id="username"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </Box>
-          <Box mt={8}>
-            <FormLabel htmlFor="password">パスワード</FormLabel>
-            <Input
-              id="password"
-              placeholder="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </Box>
-          <Box mt={8}>
-            <Button
-              mt={4}
-              w={"full"}
-              colorScheme="green"
-              onClick={() => {
-                setisNeedMoodleLogin(false);
-                getMyBadges();
-              }}
-            >
-              バッジ一覧取得
-            </Button>
-          </Box>
-        </FormControl>
-      </Box>
-    );
+    return <MoodleLoginForm setIsNeedMoodleLogin={setIsNeedMoodleLogin} getMyBadges={fetchMoodleMyBadges} />;
   } else {
     return (
       <>
@@ -115,7 +71,12 @@ export const BadgeList = ({ issuerList }: { issuerList: badgeIssuerSelector[] })
             </Select>
           </Box>
           <Box>
-            <Button colorScheme={"blue"} type="button" onClick={() => getMyBadges()} isLoading={isLoading}>
+            <Button
+              colorScheme={"blue"}
+              type="button"
+              onClick={() => fetchMoodleMyBadgesForSSO()}
+              isLoading={isLoading}
+            >
               <Text fontSize={"md"}>バッジリスト取得</Text>
             </Button>
           </Box>
@@ -145,7 +106,13 @@ export const BadgeList = ({ issuerList }: { issuerList: badgeIssuerSelector[] })
             </Select>
           </Box>
           <Box w={"full"} mt={8}>
-            <Button w={"full"} colorScheme={"blue"} type="button" onClick={() => getMyBadges()} isLoading={isLoading}>
+            <Button
+              w={"full"}
+              colorScheme={"blue"}
+              type="button"
+              onClick={() => fetchMoodleMyBadgesForSSO()}
+              isLoading={isLoading}
+            >
               <Text fontSize={"sm"}>バッジリスト取得</Text>
             </Button>
           </Box>
