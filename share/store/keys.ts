@@ -1,5 +1,5 @@
 export enum RECOIL_ATOMS_KEYS {
   CREDENTIAL_LIST_STATE = "credentialListState",
-  BADGE_DETAIL_STATE = "badgeDetailState",
+  CREDENTIAL_DETAIL_STATE = "credentialDetailState",
   BADGE_LIST_STATE = "badgeListState",
 }

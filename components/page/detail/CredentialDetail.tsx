@@ -26,13 +26,13 @@ import React, { useRef } from "react";
 import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
 import { pagePath } from "@/constants";
 import { deleteVC } from "@/lib/repository/vc";
-import { badgeDetailGetters } from "@/share/store/badgeDetail/main";
+import { credentialDetailGetters } from "@/share/store/credentialDetail/main";
 import { imageTemp } from "@/templates/imageTemp";
 
 export const CredentialDetail: React.FC = () => {
   const router = useRouter();
   const cancelRef = useRef();
-  const { badgeVc, submissions } = badgeDetailGetters.useBadgeDetail();
+  const { vcDetaildata } = credentialDetailGetters.useCredentialDetail();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -40,31 +40,13 @@ export const CredentialDetail: React.FC = () => {
     // TODO: 未実装
     alert("CSVエクスポート");
   };
-  // const vcPayload = badgeVc && badgeVc.vc_data_payload === "" ? undefined : JSON.parse(badgeVc.vc_data_payload);
-  // const image = vcPayload?.vc.credentialSubject.photo;
-  // const vc = vcPayload?.vc;
-
-  // const storedVC = React.useMemo(() => {
-  //   return storedVCs;
-  // }, [storedVCs]);
-
-  // const decodedVC = React.useMemo(() => {
-  //   if (storedVC) {
-  //     return decodeJWTToVCData(storedVC.vc);
-  //   }
-  // }, [storedVC]);
 
   return (
     <>
-      {badgeVc && (
+      {vcDetaildata && (
         <Box>
           <Box mb="3">
-            <BadgeVcCard
-              image={""}
-              name={badgeVc.badgeName}
-              issuer={badgeVc.badgeIssuerName}
-              issuedate={badgeVc.badgeIssuedon?.toString()}
-            />
+            <BadgeVcCard badgeVc={vcDetaildata} />
           </Box>
           <Box my={12}>
             <Button
@@ -84,9 +66,9 @@ export const CredentialDetail: React.FC = () => {
             {/** TODO: 取得したデータを表示する */}
             <TabPanels>
               <TabPanel>
-                <CredentialSubjectItem name="email" data={badgeVc.badgeEmail} />
-                <CredentialSubjectItem name="発行者" data={badgeVc.badgeIssuerName} />
-                <CredentialSubjectItem name="発行日" data={badgeVc.badgeIssuedon} />
+                <CredentialSubjectItem name="email" data={vcDetaildata.badgeEmail} />
+                <CredentialSubjectItem name="発行者" data={vcDetaildata.badgeIssuerName} />
+                <CredentialSubjectItem name="発行日" data={vcDetaildata.badgeIssuedon} />
                 <CredentialSubjectItem name="コース情報" data={"http://localhost:3000"} />
               </TabPanel>
               <TabPanel>
@@ -94,7 +76,7 @@ export const CredentialDetail: React.FC = () => {
                 <KnowledgeBadgeItem name="学校安全と危機管理 (v1.0)" image={imageTemp} />
               </TabPanel>
               <TabPanel>
-                <SubmittionHistoryItem name="大阪市教育委員会" date={badgeVc.badgeIssuedon} />
+                <SubmittionHistoryItem name="大阪市教育委員会" date={vcDetaildata.badgeIssuedon} />
               </TabPanel>
             </TabPanels>
           </Tabs>
@@ -193,7 +175,7 @@ const KnowledgeBadgeItem: React.FC<KnowledgeBadgeItemProps> = ({ name, image }) 
 
 interface SubmittionHistoryItemProps {
   name: string;
-  date: Date;
+  date: string;
 }
 
 const SubmittionHistoryItem: React.FC<SubmittionHistoryItemProps> = ({ name, date }) => {

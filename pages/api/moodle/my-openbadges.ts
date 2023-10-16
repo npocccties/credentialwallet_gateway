@@ -1,4 +1,3 @@
-import { myBadgesList } from "../../../lib/moodle";
 import { Session, withSession } from "../../../lib/session";
 import { IfBadgeInfo } from "../../../types/BadgeInfo";
 
@@ -8,23 +7,19 @@ type Data = {
   badgeList: IfBadgeInfo[];
 };
 
-export default async function handler(
-  req: NextApiRequest & Session,
-  res: NextApiResponse<Data>
-) {
+export default async function handler(req: NextApiRequest & Session, res: NextApiResponse<Data>) {
   const { username, password } = req.body;
 
-  console.log(
-    `### start my-openbadges username=${username} pw=${password} ####`
-  );
+  console.log(`### start my-openbadges username=${username} pw=${password} ####`);
   await withSession(req, res);
   const sessionId = req.session.id;
 
+  const badgeList = [];
   //try {
-  const badgeList: IfBadgeInfo[] = await myBadgesList(username, password);
-  console.log("End myOpenbadges my badges count:", badgeList.length);
-  for (let i = 0; i < badgeList.length; i++) {
-    console.log(`badges[${i}] ${badgeList[i].name}`);
-  }
+  // const badgeList: IfBadgeInfo[] = await myBadgesList(username, password);
+  // console.log("End myOpenbadges my badges count:", badgeList.length);
+  // for (let i = 0; i < badgeList.length; i++) {
+  //   console.log(`badges[${i}] ${badgeList[i].name}`);
+  // }
   res.status(200).json({ badgeList });
 }

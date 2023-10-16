@@ -3,9 +3,9 @@ import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import prisma from "@/lib/prisma";
-import { BadgeDetail } from "@/types/data";
+import { CredentialDetail } from "@/types/api/credential/detail";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<BadgeDetail>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<CredentialDetail>) {
   console.log("server id", req.query.badge_vc_id);
   // TODO: badge_vc_idからbadges_idを取得し、データをもとに知識バッジを取得
   const badgeInfo = await axios.get(
@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         badgeVcId: Number(req.query.badge_vc_id),
       },
     }),
-    prisma.submissions.findMany({
+    prisma.submission.findMany({
       where: {
         badgeVcId: Number(req.query.badge_vc_id),
       },
@@ -32,7 +32,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   ]);
 
   res.status(200).json({
-    badgeVc: badgeVc,
-    submissions,
+    vcDetaildata: {
+      badgeVcId: 0,
+      badgeName: "",
+      badgeEmail: "",
+      badgeIssuerName: "",
+      badgeIssuedon: "",
+      badgeExpires: "",
+      vcDataPayload: "",
+      courseUrl: "",
+      submissions: [],
+    },
+    knowledgeBadges: [],
+    submissionsHistories: [],
+    badgeExportData: "",
   });
 }
