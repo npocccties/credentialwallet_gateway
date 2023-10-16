@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
-import { badgeCostomerTestData } from "./testdata/badge_customer";
-import { lmsListTestData } from "./testdata/lmsList";
+import { badgeCustomerTestData } from "./testdata/badge_customer";
+import { lmsListTestData } from "./testdata/lms_list";
 import { badgeVcsTestData } from "./testdata/badge_vcs";
 import { submissionsTestData } from "./testdata/submissions";
 
@@ -22,7 +22,7 @@ async function main() {
     data: badgeVcsTestData,
   });
   await prisma.badgeCustomer.createMany({
-    data: badgeCostomerTestData,
+    data: badgeCustomerTestData,
   });
   await prisma.submission.createMany({
     data: submissionsTestData,

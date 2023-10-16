@@ -107,6 +107,15 @@ npx prisma studio
     make down-dev
     ```
 
+## テストデータ作成
+コンテナ起動後、chilowallet-appに入り、下記を実行
+```
+npx prisma db seed
+```
+
+もしType Error等で失敗する場合は、`npx prisma generate`を実行してから再度上記のコマンドを実行してください。
+※ ビルドキャッシュなどの影響で、稀にschema.prismaの中身がローカルのファイルと異なった状態でコピーされていることがあります。その場合はdockerのキャッシュを適宜削除して再度コンテナを起動してください。
+
 
 # 環境変数
 
