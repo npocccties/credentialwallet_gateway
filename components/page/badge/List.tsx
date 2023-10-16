@@ -1,14 +1,14 @@
 import { Flex, Box, FormLabel, Select, Button, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 
-import { badgeIssuerSelector } from "@prisma/client";
 import { MoodleLoginForm } from "@/components/model/moodle/MoodleLoginform";
 import { badgeListActions, badgeListGetters } from "@/share/store/badgeList/main";
 import { MyBadgesList, MyBadgesListSp } from "@/components/ui/table/MybadgeList";
+import { LmsList } from "@prisma/client";
 
-export const BadgeList = ({ issuerList }: { issuerList: badgeIssuerSelector[] }) => {
+export const BadgeList = ({ issuerList }: { issuerList: LmsList[] }) => {
   const [isNeedSSO, setisNeedSSO] = useState(issuerList[0].ssoEnable);
-  const [moodleUrl, setMoodleUrl] = useState(issuerList[0].badgeIssueUrl);
+  const [moodleUrl, setMoodleUrl] = useState(issuerList[0].lmsUrl);
   const [isNeedMoodleLogin, setIsNeedMoodleLogin] = useState(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -37,9 +37,9 @@ export const BadgeList = ({ issuerList }: { issuerList: badgeIssuerSelector[] })
   };
 
   const handleChangeIssuer = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectIssuer = issuerList.filter((x) => x.badgeIssuerSelectorId.toString() === e.target.value)[0];
+    const selectIssuer = issuerList.filter((x) => x.lmsId.toString() === e.target.value)[0];
     setisNeedSSO(selectIssuer.ssoEnable);
-    setMoodleUrl(selectIssuer.badgeIssueUrl);
+    setMoodleUrl(selectIssuer.lmsUrl);
   };
 
   if (isNeedMoodleLogin) {
@@ -61,10 +61,10 @@ export const BadgeList = ({ issuerList }: { issuerList: badgeIssuerSelector[] })
             </FormLabel>
             <Select w={64} onChange={(e) => handleChangeIssuer(e)}>
               {issuerList.map((item) => {
-                const key = item.badgeIssuerSelectorId;
+                const key = item.lmsId;
                 return (
                   <option key={key} value={key}>
-                    {item.badgeIssuerSelectorName}
+                    {item.lmsName}
                   </option>
                 );
               })}
@@ -96,10 +96,10 @@ export const BadgeList = ({ issuerList }: { issuerList: badgeIssuerSelector[] })
             </FormLabel>
             <Select onChange={(e) => handleChangeIssuer(e)}>
               {issuerList.map((item) => {
-                const key = item.badgeIssuerSelectorId;
+                const key = item.lmsId;
                 return (
                   <option key={key} value={key}>
-                    {item.badgeIssuerSelectorName}
+                    {item.lmsName}
                   </option>
                 );
               })}

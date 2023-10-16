@@ -17,3 +17,9 @@ build-local:
 	docker compose -f docker-compose.dev-local.yml build
 build-dev:
 	script/build-dev.sh
+
+.PHONY: restart
+restart-local:
+	docker compose -f docker-compose.dev-local.yml restart
+restart-dev:
+	docker compose -f docker-compose.dev-server-db.yml -f docker-compose.dev-server.yml restart

@@ -1,6 +1,6 @@
-import { badgeCustomer } from "@prisma/client";
+import { BadgeCustomer } from "@prisma/client";
 
-export const badgeCostomerTestData: badgeCustomer[] = [
+export const badgeCostomerTestData: BadgeCustomer[] = [
   {
     customerId: 1,
     customerName: "大阪市",
