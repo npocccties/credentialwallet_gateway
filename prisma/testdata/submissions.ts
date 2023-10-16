@@ -5,7 +5,7 @@ import { dateToJtc } from "./badge_vcs";
 export const submissionsTestData: Submission[] = [
   {
     badgeVcId: 1,
-    mywalletId: 1,
+    myWalletId: 1,
     submitedAt: dateToJtc(faker.date.anytime()),
     submissionEmail: "aaa@example.com",
     customerId: 1,
@@ -13,7 +13,7 @@ export const submissionsTestData: Submission[] = [
   },
   {
     badgeVcId: 1,
-    mywalletId: 1,
+    myWalletId: 1,
     submitedAt: dateToJtc(faker.date.anytime()),
     submissionEmail: "aaa@example.com",
     customerId: 2,
@@ -21,7 +21,7 @@ export const submissionsTestData: Submission[] = [
   },
   {
     badgeVcId: 1,
-    mywalletId: 1,
+    myWalletId: 1,
     submitedAt: dateToJtc(faker.date.anytime()),
     submissionEmail: "aaa@example.com",
     customerId: 3,
@@ -29,7 +29,7 @@ export const submissionsTestData: Submission[] = [
   },
   {
     badgeVcId: 1,
-    mywalletId: 1,
+    myWalletId: 1,
     submitedAt: dateToJtc(faker.date.anytime()),
     submissionEmail: "aaa@example.com",
     customerId: 4,
@@ -37,7 +37,7 @@ export const submissionsTestData: Submission[] = [
   },
   {
     badgeVcId: 2,
-    mywalletId: 1,
+    myWalletId: 1,
     submitedAt: dateToJtc(faker.date.anytime()),
     submissionEmail: "aaa@example.com",
     customerId: 1,
@@ -45,7 +45,7 @@ export const submissionsTestData: Submission[] = [
   },
   {
     badgeVcId: 2,
-    mywalletId: 1,
+    myWalletId: 1,
     submitedAt: dateToJtc(faker.date.anytime()),
     submissionEmail: "aaa@example.com",
     customerId: 3,

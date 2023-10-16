@@ -13,7 +13,7 @@ export const dateToJtc = (dateUTC: Date) => {
 export const badgeVcsTestData: BadgeVc[] = [
   {
     badgeVcId: 1,
-    mywalletId: 1,
+    myWalletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
     badgeName: "子ども理解の教育心理学 (v1.0)",
@@ -31,7 +31,7 @@ export const badgeVcsTestData: BadgeVc[] = [
   },
   {
     badgeVcId: 2,
-    mywalletId: 1,
+    myWalletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
     badgeName: "Society5.0時代の学校情報化 (v1.0))",
@@ -49,7 +49,7 @@ export const badgeVcsTestData: BadgeVc[] = [
   },
   {
     badgeVcId: 3,
-    mywalletId: 1,
+    myWalletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
     badgeName: "GIGAスクール時代のICT活用入門 (v1.0)",
@@ -67,7 +67,7 @@ export const badgeVcsTestData: BadgeVc[] = [
   },
   {
     badgeVcId: 4,
-    mywalletId: 1,
+    myWalletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
     badgeName: "組織的対応の必要性とチーム学校づくり (v1.0)",
@@ -85,7 +85,7 @@ export const badgeVcsTestData: BadgeVc[] = [
   },
   {
     badgeVcId: 5,
-    mywalletId: 1,
+    myWalletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
     badgeName: "地域や保護者との連携 (v1.0)",
@@ -103,7 +103,7 @@ export const badgeVcsTestData: BadgeVc[] = [
   },
   {
     badgeVcId: 6,
-    mywalletId: 1,
+    myWalletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
     badgeName: "SDGsの学習：基礎理論編 (v1.0)",
@@ -121,7 +121,7 @@ export const badgeVcsTestData: BadgeVc[] = [
   },
   {
     badgeVcId: 7,
-    mywalletId: 1,
+    myWalletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
     badgeName: "新しい食の安全を考える-遺伝子組換え (v1.0)",
@@ -139,7 +139,7 @@ export const badgeVcsTestData: BadgeVc[] = [
   },
   {
     badgeVcId: 8,
-    mywalletId: 1,
+    myWalletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
     badgeName: "子どもの心に耳をすます‐感情の社会化を促す関わり (v1.0)",
@@ -157,7 +157,7 @@ export const badgeVcsTestData: BadgeVc[] = [
   },
   {
     badgeVcId: 9,
-    mywalletId: 1,
+    myWalletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
     badgeName: "配慮を要する子ども・特別な援助ニーズのある子どもへの指導、支援 (v1.0)",
@@ -175,7 +175,7 @@ export const badgeVcsTestData: BadgeVc[] = [
   },
   {
     badgeVcId: 10,
-    mywalletId: 1,
+    myWalletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
     badgeName: "人権の尊重 (v1.0)",
@@ -193,7 +193,7 @@ export const badgeVcsTestData: BadgeVc[] = [
   },
   {
     badgeVcId: 11,
-    mywalletId: 1,
+    myWalletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
     badgeName: "学校安全と危機管理 (v1.0)",

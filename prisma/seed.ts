@@ -12,7 +12,7 @@ async function main() {
   for (let i = 0; i < 10; i++) {
     await prisma.myWallet.create({
       data: {
-        mywalletId: i,
+        myWalletId: i,
         orthrosId: faker.string.uuid(),
         createdAt: faker.date.anytime(),
       },

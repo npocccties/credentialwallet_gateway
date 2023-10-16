@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   // TODO: ログイン判定処理
 
   // TODO: SAMLのOrthorsIDをもとに、MyWalletIdを取得しセットする
-  const mywalletId = 1;
+  const myWalletId = 1;
   const sertchState: SearchFormItem = {
     badgeName: badgeName,
     issuedFrom: issuedFrom === "" ? undefined : issuedFrom,
@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const [badgeVcs, submissions, customers, submissionCount, badgeCount] = await Promise.all([
     prisma.badgeVc.findMany({
       where: {
-        mywalletId: mywalletId,
+        myWalletId: myWalletId,
         badgeName: {
           contains: sertchState.badgeName,
         },
@@ -38,18 +38,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }),
     prisma.submission.findMany({
       where: {
-        mywalletId: mywalletId,
+        myWalletId: myWalletId,
       },
     }),
     prisma.badgeCustomer.findMany(),
     prisma.submission.count({
       where: {
-        mywalletId: mywalletId,
+        myWalletId: myWalletId,
       },
     }),
     prisma.badgeVc.count({
       where: {
-        mywalletId: mywalletId,
+        myWalletId: myWalletId,
       },
     }),
   ]);
@@ -80,7 +80,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     detailSubmissions: [],
   };
 
-  const submitList = submissions.filter((x) => x.mywalletId === mywalletId);
+  const submitList = submissions.filter((x) => x.myWalletId === myWalletId);
   customers.forEach((customer) => {
     if (!submitList.some((x) => x.customerId === customer.customerId)) return;
 
