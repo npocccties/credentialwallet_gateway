@@ -23,6 +23,7 @@ create table badge_vcs (
     mywallet_id integer not null,               -- マイウォレットID
     lms_id integer not null,                    -- バッジ取得LMSの選択ID
     lms_name varchar(256)not  null,             -- バッジ取得LMSの選択表示名
+    badge_uniquehash text not null,             -- バッジユニークハッシュ
     badge_name varchar(256) not null,           -- バッジ名
     badge_owner_email text not null,            -- バッジ所有者EMail
     badge_class_id text not null,               -- バッジクラスID
