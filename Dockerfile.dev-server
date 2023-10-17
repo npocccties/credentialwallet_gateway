@@ -44,9 +44,11 @@ COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-EXPOSE 3000
+# USER nextjs
 
-ENV PORT 3000
-ENV HOSTNAME localhost
+# EXPOSE 3001
+
+# ENV PORT 3001
+# ENV HOSTNAME localhost
 
 CMD ["yarn", "cmd:start:dev"]
