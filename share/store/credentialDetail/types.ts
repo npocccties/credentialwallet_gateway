@@ -1,13 +1,14 @@
-import { CredentialDetail } from "@/types/api/credential/detail";
+import { VcDetailData } from "@/types/api/credential/detail";
 
-export type CredentialDetailState = CredentialDetail;
+export type VcDetailState = VcDetailData | {};
 
-export type CredentialDetailGetters = {
-  useCredentialDetail: () => CredentialDetailState;
+export type VcDetailGetters = {
+  useVcDetail: () => VcDetailState;
 };
 
-export type CredentialDetailActions = {
-  useFetchCredentialDetail: () => {
-    fetchCredentialDetail: (vsId: string) => void;
+export type VcDetailActions = {
+  useSetVcDetail: () => {
+    setVcDetail: (vcDetailData: VcDetailData) => void;
   };
+  useDeleteCredential: () => { deleteCredential: (badgeVcId: number) => void };
 };

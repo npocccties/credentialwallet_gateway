@@ -8,7 +8,7 @@ export type CredentialDetailData = {
 };
 
 export type VcDetailData = DisplayBadgeVc & {
-  badgeEmail: string;
+  badgeEarnerEmail: string;
   badgeExpires: string;
   courseUrl: string;
   submissions: BadgeVcSubmission[];

@@ -1,65 +1,63 @@
 import { useCallback } from "react";
 import { atom, useRecoilValue, useSetRecoilState } from "recoil";
 
-import {
-  CredentialDetailActions,
-  CredentialDetailGetters,
-  CredentialDetailState,
-} from "@/share/store/credentialDetail/types";
+import { VcDetailActions, VcDetailGetters } from "@/share/store/credentialDetail/types";
 import { RECOIL_ATOMS_KEYS } from "@/share/store/keys";
-import { useCredentialDetailApi } from "@/share/usecases/credentialDetail/useCredentialDetailApi";
-import { CredentialDetail } from "@/types/api/credential/detail";
+import { VcDetailData } from "@/types/api/credential/detail";
+import { useDeleteCredentialApi } from "@/share/usecases/credentialDetail/useCredentialDetailApi";
 
-const defaultValue: CredentialDetail = {
-  vcDetaildata: {
-    badgeVcId: 0,
-    badgeName: "",
-    badgeEmail: "",
-    badgeIssuerName: "",
-    badgeIssuedon: "",
-    badgeExpires: "",
-    vcDataPayload: "",
-    courseUrl: "",
-    submissions: [],
-  },
-  knowledgeBadges: [],
-  submissionsHistories: [],
-  badgeExportData: "",
+const defaultValue: VcDetailData | {} = {
+  vcDetaildata: {},
 };
 
-const credentialDetailState = atom<CredentialDetailState>({
+const vcDetailState = atom<VcDetailData | {}>({
   key: RECOIL_ATOMS_KEYS.CREDENTIAL_DETAIL_STATE,
   default: defaultValue,
 });
 
-const useCredentialDetail = () => {
-  return useRecoilValue(credentialDetailState);
+const useVcDetail = () => {
+  return useRecoilValue(vcDetailState);
 };
 
-export const credentialDetailGetters: CredentialDetailGetters = {
-  useCredentialDetail,
+export const vcDetailGetters: VcDetailGetters = {
+  useVcDetail,
 };
 
 /**  credentialDetail の fetch */
-const useFetchCredentialDetail = () => {
-  const setState = useSetRecoilState(credentialDetailState);
+const useSetVcDetail = () => {
+  const setState = useSetRecoilState(vcDetailState);
 
-  const fetchCredentialDetail = useCallback(
-    async (vcId: string) => {
-      const { data } = await useCredentialDetailApi(vcId);
+  const setVcDetail = useCallback(
+    async (vcDetailData: VcDetailData) => {
       setState(() => {
-        if (!data) {
+        if (!vcDetailData) {
           return defaultValue;
         }
-        return data;
+        return vcDetailData;
       });
     },
     [setState],
   );
 
-  return { fetchCredentialDetail };
+  return { setVcDetail };
 };
 
-export const credentialDetailActions: CredentialDetailActions = {
-  useFetchCredentialDetail,
+/**  credential の delete */
+const useDeleteCredential = () => {
+  const setState = useSetRecoilState(vcDetailState);
+
+  const deleteCredential = useCallback(
+    async (badgeVcId: number) => {
+      useDeleteCredentialApi(badgeVcId);
+      setState(defaultValue);
+    },
+    [setState],
+  );
+
+  return { deleteCredential };
+};
+
+export const vcDetailActions: VcDetailActions = {
+  useSetVcDetail,
+  useDeleteCredential,
 };

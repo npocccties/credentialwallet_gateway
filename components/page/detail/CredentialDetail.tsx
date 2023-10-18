@@ -1,4 +1,3 @@
-import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -8,45 +7,43 @@ import {
   AlertDialogOverlay,
   Box,
   Button,
-  Divider,
   Flex,
-  Link,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
   useDisclosure,
-  Image,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
 
 import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
 import { pagePath } from "@/constants";
-import { deleteVC } from "@/lib/repository/vc";
-import { credentialDetailGetters } from "@/share/store/credentialDetail/main";
-import { imageTemp } from "@/templates/imageTemp";
+import { CredentialDetailData } from "@/types/api/credential/detail";
+import { vcDetailActions } from "@/share/store/credentialDetail/main";
+import { VcDetailTabPanel } from "@/components/ui/tabPanel/VcDetailTabPanel";
 
-export const CredentialDetail: React.FC = () => {
+export const CredentialDetail: React.FC<CredentialDetailData> = ({
+  vcDetailData,
+  knowledgeBadges,
+  submissionsHistories,
+  badgeExportData,
+}) => {
   const router = useRouter();
   const cancelRef = useRef();
-  const { vcDetaildata } = credentialDetailGetters.useCredentialDetail();
+  const isDeleteDisabled = vcDetailData.submissions.length !== 0;
 
+  const { deleteCredential } = vcDetailActions.useDeleteCredential();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleExportCsv = () => {
-    // TODO: 未実装
-    alert("CSVエクスポート");
-  };
+  const fileName = `${vcDetailData.badgeName}.json`;
+  const blobData = new Blob([JSON.stringify(badgeExportData)], {
+    type: "text/json",
+  });
+  const downloadUrl = URL.createObjectURL(blobData);
 
   return (
     <>
-      {vcDetaildata && (
+      {vcDetailData && (
         <Box>
           <Box mb="3">
-            <BadgeVcCard badgeVc={vcDetaildata} />
+            <BadgeVcCard badgeVc={vcDetailData} />
           </Box>
           <Box my={12}>
             <Button
@@ -57,34 +54,16 @@ export const CredentialDetail: React.FC = () => {
               バッジ提出
             </Button>
           </Box>
-          <Tabs size="md" variant="enclosed">
-            <TabList mb={6}>
-              <Tab>詳細</Tab>
-              <Tab>知識バッジ</Tab>
-              <Tab>提出履歴</Tab>
-            </TabList>
-            {/** TODO: 取得したデータを表示する */}
-            <TabPanels>
-              <TabPanel>
-                <CredentialSubjectItem name="email" data={vcDetaildata.badgeEmail} />
-                <CredentialSubjectItem name="発行者" data={vcDetaildata.badgeIssuerName} />
-                <CredentialSubjectItem name="発行日" data={vcDetaildata.badgeIssuedon} />
-                <CredentialSubjectItem name="コース情報" data={"http://localhost:3000"} />
-              </TabPanel>
-              <TabPanel>
-                <KnowledgeBadgeItem name="学校安全と危機管理 (v1.0)" image={imageTemp} />
-                <KnowledgeBadgeItem name="学校安全と危機管理 (v1.0)" image={imageTemp} />
-              </TabPanel>
-              <TabPanel>
-                <SubmittionHistoryItem name="大阪市教育委員会" date={vcDetaildata.badgeIssuedon} />
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
+          <VcDetailTabPanel
+            vcDetailData={vcDetailData}
+            knowledgeBadges={knowledgeBadges}
+            submissionsHistories={submissionsHistories}
+          />
           <Flex justifyContent={"space-between"}>
-            <Button colorScheme="red" w={160} onClick={onOpen}>
+            <Button colorScheme="red" w={160} disabled={isDeleteDisabled} onClick={onOpen}>
               削除
             </Button>
-            <Button colorScheme="blue" w={160} onClick={() => handleExportCsv()}>
+            <Button as="a" colorScheme="blue" w={160} href={downloadUrl} download={fileName}>
               エクスポート
             </Button>
           </Flex>
@@ -109,7 +88,7 @@ export const CredentialDetail: React.FC = () => {
                     ml={3}
                     colorScheme="red"
                     onClick={() => {
-                      deleteVC(router.query.vcID as string);
+                      deleteCredential(vcDetailData.badgeVcId);
                       router.push(pagePath.mywallet.list);
                     }}
                   >
@@ -122,76 +101,5 @@ export const CredentialDetail: React.FC = () => {
         </Box>
       )}
     </>
-  );
-};
-
-interface CredentialSubjectItemProps {
-  name: string;
-  data: string | Date;
-}
-
-const CredentialSubjectItem: React.FC<CredentialSubjectItemProps> = ({ name, data }) => {
-  return (
-    <Box>
-      <Text color="gray" mb={4}>
-        {name}
-      </Text>
-      {"コース情報" === name ? (
-        <Text fontSize="lg" my={8}>
-          <Link href={data as string} color={"teal"} isExternal>
-            OKUTEPのコース情報を見る <ExternalLinkIcon />
-          </Link>
-        </Text>
-      ) : (
-        <Text fontSize="lg" my={8}>
-          {data}
-        </Text>
-      )}
-      <Divider mb={8} />
-    </Box>
-  );
-};
-
-interface KnowledgeBadgeItemProps {
-  image: string;
-  name: string;
-}
-
-const KnowledgeBadgeItem: React.FC<KnowledgeBadgeItemProps> = ({ name, image }) => {
-  return (
-    <>
-      <Flex direction={"row"} alignItems={"center"}>
-        <Box>
-          <Image h={24} w={24} fit={"cover"} src={"data:image/png;base64," + image} alt={"test"} />
-        </Box>
-        <Box ml={16}>
-          <Text fontSize="lg">{name}</Text>
-        </Box>
-      </Flex>
-      <Divider mt={4} mb={8} />
-    </>
-  );
-};
-
-interface SubmittionHistoryItemProps {
-  name: string;
-  date: string;
-}
-
-const SubmittionHistoryItem: React.FC<SubmittionHistoryItemProps> = ({ name, date }) => {
-  return (
-    <Box>
-      <Text color="gray">提出日時</Text>
-      <Text fontSize="lg" mt={2} mb={8}>
-        {date}
-      </Text>
-      <Text color="gray" mt={4}>
-        提出先
-      </Text>
-      <Text fontSize="lg" mt={2} mb={8}>
-        {name}
-      </Text>
-      <Divider mb={8} />
-    </Box>
   );
 };

@@ -27,6 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         badgeName: {
           contains: sertchState.badgeName,
         },
+        deletedAt: null,
         badgeIssuedon: {
           gte: sertchState.issuedFrom && new Date(sertchState.issuedFrom),
           lt: sertchState.issuedTo && new Date(sertchState.issuedTo),
@@ -50,6 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     prisma.badgeVc.count({
       where: {
         walletId: walletId,
+        deletedAt: null,
       },
     }),
   ]);

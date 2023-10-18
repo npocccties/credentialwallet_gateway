@@ -2,15 +2,15 @@ import axios from "axios";
 
 import { api } from "../api";
 
-import { CredentialDetailState } from "@/share/store/credentialDetail/types";
+export const useDeleteCredentialApi = async (badgeVcId: number) => {
+  const apiPath = api.v1.credential.delete;
+  const deleteVcId = badgeVcId.toString();
 
-export const useCredentialDetailApi = async (vcId: string) => {
-  const apiPath = api.v1.credential.detail;
+  try {
+    if (!deleteVcId) throw new Error("削除するバッジのIDが指定されていません");
 
-  if (!vcId) return { data: undefined };
-
-  const { data } = await axios.get<CredentialDetailState>(`${apiPath}?badge_vc_id=${vcId}`);
-  console.log("api", data);
-
-  return { data };
+    await axios.post(`${apiPath}?badgeVcId=${deleteVcId}`);
+  } catch (e) {
+    throw new Error(e);
+  }
 };
