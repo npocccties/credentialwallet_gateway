@@ -60,7 +60,7 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
               badgeVc.submissions.map((item, index) => {
                 return (
                   <Box key={index} w={"100%"} mb={1} borderBottom={"1px"} borderColor={"gray.200"}>
-                    <SubmissionsList submitedAt={item.submitedAt} customerName={item.customerName} />
+                    <SubmissionsList submitedAt={item.submitedAt} consumerName={item.consumerName} />
                   </Box>
                 );
               })
@@ -102,7 +102,7 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
               badgeVc.submissions.map((item, index) => {
                 return (
                   <Box key={index} w={"100%"} mb={1} borderBottom={"1px"} borderColor={"gray.200"}>
-                    <SubmissionsList submitedAt={item.submitedAt} customerName={item.customerName} />
+                    <SubmissionsList submitedAt={item.submitedAt} consumerName={item.consumerName} />
                   </Box>
                 );
               })
@@ -114,14 +114,14 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
   );
 };
 
-const SubmissionsList = ({ submitedAt, customerName }: { submitedAt: string; customerName: string }) => {
+const SubmissionsList = ({ submitedAt, consumerName }: { submitedAt: string; consumerName: string }) => {
   return (
     <Flex direction={"row"} justifyContent={"space-between"} gap={2}>
       <Box>
         <Text fontSize={"xs"}>{formatDateToJST(submitedAt)}</Text>
       </Box>
       <Box>
-        <Text fontSize={"xs"}>{customerName}</Text>
+        <Text fontSize={"xs"}>{consumerName}</Text>
       </Box>
     </Flex>
   );

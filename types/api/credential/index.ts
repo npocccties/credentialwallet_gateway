@@ -23,7 +23,7 @@ export type DisplayBadgeVc = {
 export type BadgeVcList = DisplayBadgeVc[];
 
 export type BadgeVcSubmission = {
-  customerName: string;
+  consumerName: string;
   submitedAt: string;
 };
 

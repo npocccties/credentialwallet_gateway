@@ -1,18 +1,18 @@
 import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
-import { badgeCustomerTestData } from "./testdata/badge_customer";
 import { lmsListTestData } from "./testdata/lms_list";
 import { badgeVcsTestData } from "./testdata/badge_vcs";
 import { submissionsTestData } from "./testdata/submissions";
+import { badgeConsumerTestData } from "./testdata/badge_consumers";
 
 const prisma = new PrismaClient();
 
 async function main() {
   // テストデータの挿入;
   for (let i = 0; i < 10; i++) {
-    await prisma.myWallet.create({
+    await prisma.wallet.create({
       data: {
-        myWalletId: i,
+        walletId: i,
         orthrosId: faker.string.uuid(),
         createdAt: faker.date.anytime(),
       },
@@ -21,8 +21,8 @@ async function main() {
   await prisma.badgeVc.createMany({
     data: badgeVcsTestData,
   });
-  await prisma.badgeCustomer.createMany({
-    data: badgeCustomerTestData,
+  await prisma.badgeConsumer.createMany({
+    data: badgeConsumerTestData,
   });
   await prisma.submission.createMany({
     data: submissionsTestData,

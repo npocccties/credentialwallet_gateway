@@ -8,64 +8,67 @@ datasource db {
 }
 
 model BadgeVc {
-  badgeVcId       Int          @id @default(autoincrement()) @map("badge_vc_id")
-  myWalletId      Int          @map("mywallet_id")
-  lmsId           Int          @map("lms_id")
-  lmsName         String       @map("lms_name") @db.VarChar(256)
-  badgeName       String       @map("badge_name") @db.VarChar(256)
-  badgeOwnerEmail String       @map("badge_owner_email")
-  badgeClassId    String       @map("badge_class_id")
-  badgeIssuerName String       @map("badge_issuer_name") @db.VarChar(256)
-  badgeIssuedon   DateTime     @map("badge_issuedon") @db.Timestamp(6)
-  badgeExpires    DateTime     @map("badge_expires") @db.Timestamp(6)
-  vcDataHeader    String       @map("vc_data_header")
-  vcDataPayload   String       @map("vc_data_payload")
-  vcDataSignature String       @map("vc_data_signature")
-  createdAt       DateTime     @map("created_at") @db.Timestamp(6)
-  deletedAt       DateTime?    @map("deleted_at") @db.Timestamp(6)
-  myWallets       MyWallet     @relation(fields: [myWalletId], references: [myWalletId], onDelete: NoAction, onUpdate: NoAction)
-  submissions     Submission[]
+  badgeVcId        Int          @id @default(autoincrement()) @map("badge_vc_id")
+  badgeClassId     String       @map("badge_class_id")
+  badgeIssuerName  String       @map("badge_issuer_name") @db.VarChar(256)
+  badgeIssuedon    DateTime     @map("badge_issuedon") @db.Timestamp(6)
+  vcDataHeader     String       @map("vc_data_header")
+  vcDataPayload    String       @map("vc_data_payload")
+  vcDataSignature  String       @map("vc_data_signature")
+  badgeExpires     DateTime     @map("badge_expires") @db.Timestamp(6)
+  createdAt        DateTime     @map("created_at") @db.Timestamp(6)
+  deletedAt        DateTime?    @map("deleted_at") @db.Timestamp(6)
+  badgeName        String       @map("badge_name") @db.VarChar(256)
+  lmsId            Int          @map("lms_id")
+  lmsName          String       @map("lms_name") @db.VarChar(256)
+  badgeEarnerEmail String       @map("badge_earner_email")
+  badgeUniquehash  String       @map("badge_uniquehash")
+  walletId         Int          @map("wallet_id")
+  wallets          Wallet       @relation(fields: [walletId], references: [walletId], onDelete: NoAction, onUpdate: NoAction)
+  submissions      Submission[]
 
-  @@index([myWalletId])
+  @@index([walletId])
   @@map("badge_vcs")
-}
-
-model MyWallet {
-  myWalletId Int       @id @default(autoincrement()) @map("mywallet_id")
-  orthrosId  String    @unique(map: "mywallets_orthros_id_idx") @map("orthros_id")
-  createdAt  DateTime  @map("created_at") @db.Timestamp(6)
-  badgeVcs   BadgeVc[]
-
-  @@map("mywallets")
 }
 
 model Submission {
   badgeVcId       Int      @map("badge_vc_id")
-  myWalletId      Int      @map("mywallet_id")
-  submitedAt      DateTime @map("submited_at") @db.Timestamp(6)
   submissionEmail String   @map("submission_email")
-  customerId      Int      @map("customer_id")
-  customerName    String   @map("customer_name") @db.VarChar(256)
-  myWallets       BadgeVc  @relation(fields: [badgeVcId], references: [badgeVcId], onDelete: NoAction, onUpdate: NoAction)
+  submitedAt      DateTime @map("submited_at") @db.Timestamp(6)
+  consumerId      Int      @map("consumer_id")
+  consumerName    String   @map("consumer_name") @db.VarChar(256)
+  walletId        Int      @map("wallet_id")
+  wallets         BadgeVc  @relation(fields: [badgeVcId], references: [badgeVcId], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([badgeVcId, submitedAt])
-  @@index([myWalletId])
+  @@index([walletId])
   @@map("submissions")
 }
 
-model BadgeCustomer {
-  customerId   Int    @id @default(autoincrement()) @map("customer_id")
-  customerName String @map("customer_name") @db.VarChar(256)
-  cabinetUrl   String @map("cabinet_url")
+model LmsList {
+  lmsName        String  @map("lms_name") @db.VarChar(256)
+  lmsAccessToken String  @map("lms_access_token")
+  lmsId          Int     @id @default(autoincrement()) @map("lms_id")
+  lmsServuce     String  @map("lms_servuce")
+  lmsUrl         String  @map("lms_url")
+  ssoEnabled     Boolean @map("sso_enabled")
 
-  @@map("badge_customers")
+  @@map("lms_list")
 }
 
-model LmsList {
-  lmsId      Int     @id @default(autoincrement()) @map("lms_list")
-  lmsName    String  @db.VarChar(256) @map("lms_name")
-  lmsUrl     String  @map("lmsUrl")
-  ssoEnable  Boolean @map("ssoEnable")
-  
-  @@map("lms_list")
+model BadgeConsumer {
+  consumerId   Int    @id @default(autoincrement()) @map("consumer_id")
+  consumerName String @map("consumer_name") @db.VarChar(256)
+  cabinetUrl   String @map("cabinet_url")
+
+  @@map("badge_consumers")
+}
+
+model Wallet {
+  walletId  Int       @id @default(autoincrement()) @map("wallet_id")
+  orthrosId String    @unique(map: "wallets_orthros_id_idx") @map("orthros_id")
+  createdAt DateTime  @map("created_at") @db.Timestamp(6)
+  badge_vcs BadgeVc[]
+
+  @@map("wallets")
 }

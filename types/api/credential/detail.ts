@@ -1,7 +1,7 @@
 import { BadgeVcSubmission, DisplayBadgeVc } from "@/types/api/credential";
 
-export type CredentialDetail = {
-  vcDetaildata: VcDetailData;
+export type CredentialDetailData = {
+  vcDetailData: VcDetailData;
   knowledgeBadges: KnowledgeBadges;
   submissionsHistories: SubmissionsHistories;
   badgeExportData: string;
@@ -17,13 +17,13 @@ export type VcDetailData = DisplayBadgeVc & {
 export type KnowledgeBadges = KnowledgeBadge[];
 
 export type KnowledgeBadge = {
-  badgeImage: string;
+  badgeImageUrl: string;
   badgeName: string;
 };
 
 export type SubmissionsHistories = SubmissionsHistory[];
 
 export type SubmissionsHistory = {
-  customerName: string;
+  consumerName: string;
   submitedAt: string;
 };

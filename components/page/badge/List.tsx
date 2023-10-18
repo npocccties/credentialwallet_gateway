@@ -7,7 +7,7 @@ import { MyBadgesList, MyBadgesListSp } from "@/components/ui/table/MybadgeList"
 import { LmsList } from "@prisma/client";
 
 export const BadgeList = ({ issuerList }: { issuerList: LmsList[] }) => {
-  const [isNeedSSO, setisNeedSSO] = useState(issuerList[0].ssoEnable);
+  const [isNeedSSO, setisNeedSSO] = useState(issuerList[0].ssoEnabled);
   const [moodleUrl, setMoodleUrl] = useState(issuerList[0].lmsUrl);
   const [isNeedMoodleLogin, setIsNeedMoodleLogin] = useState(false);
 
@@ -38,7 +38,7 @@ export const BadgeList = ({ issuerList }: { issuerList: LmsList[] }) => {
 
   const handleChangeIssuer = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectIssuer = issuerList.filter((x) => x.lmsId.toString() === e.target.value)[0];
-    setisNeedSSO(selectIssuer.ssoEnable);
+    setisNeedSSO(selectIssuer.ssoEnabled);
     setMoodleUrl(selectIssuer.lmsUrl);
   };
 

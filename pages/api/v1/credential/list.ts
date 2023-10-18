@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   // TODO: ログイン判定処理
 
   // TODO: SAMLのOrthorsIDをもとに、MyWalletIdを取得しセットする
-  const myWalletId = 1;
+  const walletId = 1;
   const sertchState: SearchFormItem = {
     badgeName: badgeName,
     issuedFrom: issuedFrom === "" ? undefined : issuedFrom,
@@ -20,10 +20,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     sortOrder: sortOrder,
   };
 
-  const [badgeVcs, submissions, customers, submissionCount, badgeCount] = await Promise.all([
+  const [badgeVcs, submissions, consumers, submissionCount, badgeCount] = await Promise.all([
     prisma.badgeVc.findMany({
       where: {
-        myWalletId: myWalletId,
+        walletId: walletId,
         badgeName: {
           contains: sertchState.badgeName,
         },
@@ -38,18 +38,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }),
     prisma.submission.findMany({
       where: {
-        myWalletId: myWalletId,
+        walletId: walletId,
       },
     }),
-    prisma.badgeCustomer.findMany(),
+    prisma.badgeConsumer.findMany(),
     prisma.submission.count({
       where: {
-        myWalletId: myWalletId,
+        walletId: walletId,
       },
     }),
     prisma.badgeVc.count({
       where: {
-        myWalletId: myWalletId,
+        walletId: walletId,
       },
     }),
   ]);
@@ -67,7 +67,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const submission = submissions.filter((s) => s.badgeVcId === badgeVc.badgeVcId);
     submission.forEach((sub) => {
       vc.submissions.push({
-        customerName: sub.customerName,
+        consumerName: sub.consumerName,
         submitedAt: sub.submitedAt.toString(),
       });
     });
@@ -80,13 +80,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     detailSubmissions: [],
   };
 
-  const submitList = submissions.filter((x) => x.myWalletId === myWalletId);
-  customers.forEach((customer) => {
-    if (!submitList.some((x) => x.customerId === customer.customerId)) return;
+  const submitList = submissions.filter((x) => x.walletId === walletId);
+  consumers.forEach((consumer) => {
+    if (!submitList.some((x) => x.consumerId === consumer.consumerId)) return;
 
     submissionsAll.detailSubmissions.push({
-      cabinetToSubmit: customer.customerName,
-      submitCount: submissions.filter((item) => item.customerId === customer.customerId).length,
+      cabinetToSubmit: consumer.consumerName,
+      submitCount: submissions.filter((item) => item.consumerId === consumer.consumerId).length,
     });
   });
 
