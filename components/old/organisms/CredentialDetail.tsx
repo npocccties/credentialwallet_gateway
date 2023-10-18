@@ -16,7 +16,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import moment from "moment";
+import { format, fromUnixTime } from "date-fns";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
@@ -69,18 +69,18 @@ export const CredentialDetail: React.FC = () => {
                 </Box>
                 <Box marginBottom={"3"}>
                   <Text color="gray">Issue date</Text>
-                  <Text fontSize="lg">{moment.unix(decodedVC.iat).format("YYYY/MM/DD HH:mm")}</Text>
+                  <Text fontSize="lg">{format(fromUnixTime(decodedVC.iat), "yyyy/MM/dd HH:mm")}</Text>
                 </Box>
                 <Box marginBottom={"3"}>
                   <Text color="gray">Expiry date</Text>
-                  <Text fontSize="lg">{moment.unix(decodedVC.exp).format("YYYY/MM/DD HH:mm")}</Text>
+                  <Text fontSize="lg">{format(fromUnixTime(decodedVC.exp), "yyyy/MM/dd HH:mm")}</Text>
                 </Box>
               </TabPanel>
               <TabPanel>
                 {storedVC.vcHistory ? (
                   storedVC.vcHistory.map((history) => (
                     <Box key={history.timestamp}>
-                      <Text fontSize={"sm"}>{moment(history.timestamp).format("YYYY/MM/DD HH:mm")}</Text>
+                      <Text fontSize={"sm"}>{format(fromUnixTime(history.timestamp), "YYYY/MM/DD HH:mm")}</Text>
                       <Text>{history.message}</Text>
                     </Box>
                   ))

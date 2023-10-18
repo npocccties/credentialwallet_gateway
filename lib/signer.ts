@@ -1,6 +1,6 @@
 import ION from "@decentralized-identity/ion-tools";
+import { add, getUnixTime } from "date-fns";
 import { calculateThumbprint, JWK } from "jose/jwk/thumbprint";
-import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
 
 import { DID_ION_KEY_ID, SIOP_VALIDITY_IN_MINUTES } from "../configs/constants";
@@ -32,7 +32,7 @@ export interface SiopOptions {
         path?: string;
         encoding?: string;
         format?: string;
-      }?
+      }?,
     ];
   };
   pin?: string;
@@ -97,8 +97,8 @@ export class Signer {
         kid: `${this.did}#${DID_ION_KEY_ID}`,
       },
       payload: {
-        iat: moment().unix(),
-        exp: moment().add(SIOP_VALIDITY_IN_MINUTES, "minutes").unix(),
+        iat: getUnixTime(Date.now()),
+        exp: getUnixTime(add(new Date(), { minutes: SIOP_VALIDITY_IN_MINUTES })),
         did: this.did,
         jti: uuidv4().toUpperCase(),
         sub: await calculateThumbprint(this.keyPair.publicJwk),
@@ -124,8 +124,8 @@ export class Signer {
         kid: `${this.did}#${DID_ION_KEY_ID}`,
       },
       payload: {
-        iat: moment().unix(),
-        exp: moment().add(SIOP_VALIDITY_IN_MINUTES, "minutes").unix(),
+        iat: getUnixTime(Date.now()),
+        exp: getUnixTime(add(new Date(), { minutes: SIOP_VALIDITY_IN_MINUTES })),
         sub: this.did,
         iss: "https://self-issued.me/v2/openid-vc",
         ...options,
@@ -142,9 +142,9 @@ export class Signer {
         kid: `${this.did}#${DID_ION_KEY_ID}`,
       },
       payload: {
-        iat: moment().unix(),
-        exp: moment().add(SIOP_VALIDITY_IN_MINUTES, "minutes").unix(),
-        nbf: moment().unix(),
+        iat: getUnixTime(Date.now()),
+        exp: getUnixTime(add(new Date(), { minutes: SIOP_VALIDITY_IN_MINUTES })),
+        nbf: getUnixTime(Date.now()),
         jti: uuidv4().toUpperCase(),
         vp: {
           "@context": ["https://www.w3.org/2018/credentials/v1"],
