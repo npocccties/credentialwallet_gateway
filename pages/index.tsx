@@ -4,7 +4,7 @@ import type { NextPage } from "next";
 
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
-import { MyWaletVCList } from "@/components/page/mywallet/List";
+import { MyWaletVCList } from "@/components/page/wallet/List";
 import { SERVICE_NAME, SERVICE_DESCRITION } from "@/configs";
 
 const Home: NextPage = () => {

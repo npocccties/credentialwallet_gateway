@@ -1,11 +1,10 @@
 export const api = {
   v1: {
-    mywallet: {
-      add: "/api/v1/mywallet/add",
+    wallet: {
+      add: "/api/v1/wallet/add",
     },
     credential: {
       list: "/api/v1/credential/list",
-      detail: "/api/v1/credential/detail",
       delete: "/api/v1/credential/delete",
     },
     badge: {

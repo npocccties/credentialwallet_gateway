@@ -11,12 +11,10 @@ servers:
 tags:
   - name: user_badgelist
     description: バッジリスト取得
-  - name: mywallet add
-    description: マイウォレット登録
+  - name: wallet add
+    description: ウォレット作成
   - name: credential list
     description: VC一覧
-  - name: credential detail
-    description: VC詳細
   - name: credential delete
     description: VC削除
   - name: badge list
@@ -46,10 +44,10 @@ paths:
                 $ref: "#/components/schemas/user_badgelist"
         "400":
           description: Bad request
-  /mywallet/add:
+  /wallet/add:
     post:
       tags:
-        - mywallet add
+        - wallet add
       description: ログイン情報をもとにマイウォレットを登録します
       parameters:
         - name: saml
@@ -102,33 +100,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/vcList"
-        "400":
-          description: Bad request
-  /credential/detail/{id}:
-    get:
-      tags:
-        - credential detail
-      description: VCとして変換したバッジの詳細情報を返却します
-      parameters:
-        - name: saml
-          in: header
-          description: SAML by BASE64
-          required: true
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: mywallet badge vc id
-          required: true
-          schema:
-            type: number
-      responses:
-        "200":
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/vcDetail"
         "400":
           description: Bad request
   /credential/delete/{id}:
@@ -255,7 +226,7 @@ components:
                       type: string
             required:
               - badgeVcId
-              - myWalletId
+              - walletId
               - badgeName
         submissionsAll:
           $ref: "#/components/schemas/submissions"
@@ -281,64 +252,6 @@ components:
             required:
               - cabinetToSubmit
               - submitCount
-
-    vcDetail:
-      type: object
-      properties:
-        vcDetailData:
-          type: object
-          properties:
-            badgeVcId:
-              type: integer
-            badgeName:
-              type: string
-            badgeEmail:
-              type: string
-            badgeIssuerName:
-              type: string
-            badgeIssuedon:
-              type: string
-            badgeExpires:
-              type: string
-            vcDataPayload:
-              type: string
-            courseUrl:
-              type: string
-            submissions:
-              type: array
-              items:
-                type: object
-                properties:
-                  customerName:
-                    type: string
-                  submitedAt:
-                    type: string
-          required:
-            - badgeVcId
-            - myWalletId
-        knowledgeBadge:
-          type: array
-          items:
-            type: object
-            properties:
-              badgeImage:
-                type: string
-              badgeName:
-                type: string
-        submissionsHistory:
-          type: array
-          items:
-            type: object
-            properties:
-              customerName:
-                type: string
-              submitedAt:
-                type: string
-            required:
-              - customerName
-              - submitedAt
-        badgeExportData:
-          type: string
 
     moodleBadgeData:
       type: array

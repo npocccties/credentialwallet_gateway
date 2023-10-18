@@ -6,9 +6,9 @@ type Props = {
   name: string;
 };
 
-export const AddMyWallet = ({ id, name }: Props) => {
+export const AddWallet = ({ id, name }: Props) => {
   const handleClickButton = () => {
-    // TODO: マイウォレット作成処理
+    // TODO: ウォレット作成処理
   };
   return (
     <Flex direction={"column"} px={{ base: 4, sm: 0 }}>

@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   // TODO: ログイン判定処理
 
-  // TODO: SAMLのOrthorsIDをもとに、MyWalletIdを取得しセットする
+  // TODO: SAMLのOrthorsIDをもとに、walletIdを取得しセットする
   const walletId = 1;
   const sertchState: SearchFormItem = {
     badgeName: badgeName,

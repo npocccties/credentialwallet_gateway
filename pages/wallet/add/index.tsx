@@ -2,7 +2,7 @@ import React from "react";
 
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
-import { AddMyWallet } from "@/components/page/mywallet/Add";
+import { AddWallet } from "@/components/page/wallet/Add";
 import { SERVICE_DESCRITION, SERVICE_NAME } from "@/configs";
 
 const index = () => {
@@ -10,7 +10,7 @@ const index = () => {
   return (
     <Layout maxW="xl">
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
-      <AddMyWallet id={"xxxxxx-dddddd-yyyyyy"} name={"○○ 太郎"} />
+      <AddWallet id={"xxxxxx-dddddd-yyyyyy"} name={"○○ 太郎"} />
     </Layout>
   );
 };

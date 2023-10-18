@@ -19,7 +19,7 @@ export async function getServerSideProps(
   context,
 ): Promise<GetServerSidePropsResult<ErrorProps | CredentialDetailData>> {
   // TODO: ログイン情報を取得し、マイウォレットIDを取得
-  // const myWalletId = context.cookies.orthros
+  // const walletId = context.cookies.orthros
 
   const id = context.params.badge_vc_id;
 

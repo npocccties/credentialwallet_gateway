@@ -1,8 +1,8 @@
 export const pagePath = {
-  mywallet: {
+  wallet: {
     list: "/",
-    add: "/mywallet/add",
-    detail: "/mywallet/detail",
+    add: "/wallet/add",
+    detail: "/wallet/detail",
   },
   badge: {
     list: "/badge/list",

@@ -36,7 +36,7 @@ export const SubmissionBadge = () => {
             <Button
               colorScheme={"gray"}
               w={120}
-              onClick={() => router.push(`${pagePath.mywallet.detail}/${router.query.badge_vc_id}`)}
+              onClick={() => router.push(`${pagePath.wallet.detail}/${router.query.badge_vc_id}`)}
             >
               戻る
             </Button>

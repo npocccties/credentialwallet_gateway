@@ -89,7 +89,7 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
                     colorScheme="red"
                     onClick={() => {
                       deleteCredential(vcDetailData.badgeVcId);
-                      router.push(pagePath.mywallet.list);
+                      router.push(pagePath.wallet.list);
                     }}
                   >
                     削除
