@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
-import { DisplayBadgeCount } from "@/components/ui/card/DisplayBadgeCount";
 import { SearchForm } from "@/components/model/credential/CredentialSearchForm";
+import { DisplayBadgeCount } from "@/components/ui/card/DisplayBadgeCount";
 import { VcList } from "@/components/ui/VcList";
 import { credentialListActions } from "@/share/store/credentialList/main";
 

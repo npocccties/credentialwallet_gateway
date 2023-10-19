@@ -1,4 +1,3 @@
-import { credentialListGetters } from "@/share/store/credentialList/main";
 import {
   Accordion,
   AccordionButton,
@@ -13,6 +12,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React from "react";
+
+import { credentialListGetters } from "@/share/store/credentialList/main";
 
 export const DisplayBadgeCount = () => {
   const { totalBadgeCount, submissionsAll } = credentialListGetters.useCredentialList();

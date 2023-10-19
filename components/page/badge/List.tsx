@@ -1,10 +1,10 @@
 import { Flex, Box, FormLabel, Select, Button, Text } from "@chakra-ui/react";
+import { LmsList } from "@prisma/client";
 import React, { useState } from "react";
 
 import { MoodleLoginForm } from "@/components/model/moodle/MoodleLoginform";
-import { badgeListActions, badgeListGetters } from "@/share/store/badgeList/main";
 import { MyBadgesList, MyBadgesListSp } from "@/components/ui/table/MybadgeList";
-import { LmsList } from "@prisma/client";
+import { badgeListActions, badgeListGetters } from "@/share/store/badgeList/main";
 
 export const BadgeList = ({ issuerList }: { issuerList: LmsList[] }) => {
   const [isNeedSSO, setisNeedSSO] = useState(issuerList[0].ssoEnabled);

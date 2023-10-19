@@ -1,16 +1,16 @@
+import axios from "axios";
+import { GetServerSidePropsResult } from "next";
+import { ErrorProps } from "next/error";
 import React, { useEffect } from "react";
 
 import { Layout } from "@/components/Layout";
 import { CredentialDetail } from "@/components/page/detail/CredentialDetail";
-import { GetServerSidePropsResult } from "next";
-import { ErrorProps } from "next/error";
-import { CredentialDetailData, KnowledgeBadges, VcDetailData } from "@/types/api/credential/detail";
-import { vcDetailActions } from "@/share/store/credentialDetail/main";
-import axios from "axios";
-import prisma from "@/lib/prisma";
-import { BadgeVcSubmission } from "@/types/api/credential";
-import { Alignment, KnowledgeBadgeInfo, WisdomBadgeInfo } from "@/types/BadgeInfo";
 import { convertUTCtoJSTstr } from "@/lib/date";
+import prisma from "@/lib/prisma";
+import { vcDetailActions } from "@/share/store/credentialDetail/main";
+import { BadgeVcSubmission } from "@/types/api/credential";
+import { CredentialDetailData, KnowledgeBadges, VcDetailData } from "@/types/api/credential/detail";
+import { Alignment, KnowledgeBadgeInfo, WisdomBadgeInfo } from "@/types/BadgeInfo";
 
 export type Context = {
   params: { badge_vc_id: string };

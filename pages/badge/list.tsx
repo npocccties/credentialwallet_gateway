@@ -1,9 +1,9 @@
+import { GetServerSideProps } from "next";
 import React from "react";
 
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
 import { BadgeList } from "@/components/page/badge/List";
-import { GetServerSideProps } from "next";
 import prisma, { LmsList } from "@/lib/prisma";
 
 type Props = {

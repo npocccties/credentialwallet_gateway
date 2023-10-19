@@ -14,10 +14,10 @@ import { useRouter } from "next/router";
 import React, { useRef } from "react";
 
 import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
-import { pagePath } from "@/constants";
-import { CredentialDetailData } from "@/types/api/credential/detail";
-import { vcDetailActions } from "@/share/store/credentialDetail/main";
 import { VcDetailTabPanel } from "@/components/ui/tabPanel/VcDetailTabPanel";
+import { pagePath } from "@/constants";
+import { vcDetailActions } from "@/share/store/credentialDetail/main";
+import { CredentialDetailData } from "@/types/api/credential/detail";
 
 export const CredentialDetail: React.FC<CredentialDetailData> = ({
   vcDetailData,
