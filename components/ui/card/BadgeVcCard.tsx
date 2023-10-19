@@ -1,7 +1,7 @@
 import { Box, Flex, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 import React from "react";
 
-import { formatDateToJST } from "@/lib/date";
+import { JSTdateToDisplay } from "@/lib/date";
 import { DisplayBadgeVc } from "@/types/api/credential";
 
 type Props = {
@@ -40,7 +40,7 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
           <Text mx={2}>/</Text>
           <Text fontSize={"xs"}>発行日</Text>
           <Text fontSize={"sm"} ml={2}>
-            {formatDateToJST(badgeVc.badgeIssuedon)}
+            {JSTdateToDisplay(badgeVc.badgeIssuedon)}
           </Text>
         </Flex>
       </GridItem>
@@ -81,7 +81,7 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
           <Flex direction={"column"}>
             <Text fontSize={"9px"}>発行日</Text>
             <Text fontSize={"12px"} ml={1}>
-              {formatDateToJST(badgeVc.badgeIssuedon)}
+              {JSTdateToDisplay(badgeVc.badgeIssuedon)}
             </Text>
           </Flex>
         </Flex>
@@ -118,7 +118,7 @@ const SubmissionsList = ({ submitedAt, consumerName }: { submitedAt: string; con
   return (
     <Flex direction={"row"} justifyContent={"space-between"} gap={2}>
       <Box>
-        <Text fontSize={"xs"}>{formatDateToJST(submitedAt)}</Text>
+        <Text fontSize={"xs"}>{JSTdateToDisplay(submitedAt)}</Text>
       </Box>
       <Box>
         <Text fontSize={"xs"}>{consumerName}</Text>

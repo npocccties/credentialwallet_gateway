@@ -1,3 +1,4 @@
+import { JSTdatetimeToDisplay, JSTdateToDisplay } from "@/lib/date";
 import { VcDetailData, KnowledgeBadges, SubmissionsHistories } from "@/types/api/credential/detail";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { Text, Tabs, TabList, Tab, TabPanels, TabPanel, Box, Divider, Flex, Link, Image } from "@chakra-ui/react";
@@ -22,7 +23,7 @@ export const VcDetailTabPanel = ({ vcDetailData, knowledgeBadges, submissionsHis
         <TabPanel>
           <CredentialSubjectItem name="email" data={badgeEarnerEmail} />
           <CredentialSubjectItem name="発行者" data={badgeIssuerName} />
-          <CredentialSubjectItem name="発行日" data={badgeIssuedon} />
+          <CredentialSubjectItem name="発行日" data={JSTdateToDisplay(badgeIssuedon)} />
           <CredentialSubjectItem name="コース情報" data={courseUrl} />
         </TabPanel>
         <TabPanel>
@@ -98,7 +99,7 @@ const SubmittionHistoryItem: React.FC<SubmittionHistoryItemProps> = ({ name, dat
     <Box>
       <Text color="gray">提出日時</Text>
       <Text fontSize="lg" mt={2} mb={8}>
-        {date}
+        {JSTdatetimeToDisplay(date)}
       </Text>
       <Text color="gray" mt={4}>
         提出先

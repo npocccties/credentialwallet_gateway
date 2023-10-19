@@ -1,7 +1,7 @@
 export type SearchFormItem = {
   badgeName?: string;
-  issuedFrom?: string;
-  issuedTo?: string;
+  issuedFrom?: string | Date;
+  issuedTo?: string | Date;
   sortOrder: string;
 };
 

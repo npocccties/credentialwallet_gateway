@@ -24,6 +24,7 @@
     "axios": "^0.25.0",
     "browser-passworder": "^2.0.3",
     "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
     "express-session": "^1.17.2",
     "framer-motion": "^5",
     "ioredis": "^4.28.3",

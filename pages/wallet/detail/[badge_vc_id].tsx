@@ -10,6 +10,7 @@ import axios from "axios";
 import prisma from "@/lib/prisma";
 import { BadgeVcSubmission } from "@/types/api/credential";
 import { Alignment, KnowledgeBadgeInfo, WisdomBadgeInfo } from "@/types/BadgeInfo";
+import { convertUTCtoJSTstr } from "@/lib/date";
 
 export type Context = {
   params: { badge_vc_id: string };
@@ -44,7 +45,7 @@ export async function getServerSideProps(
   const sub = submissions.map((sub): BadgeVcSubmission => {
     return {
       consumerName: sub.consumerName,
-      submitedAt: sub.submitedAt.toString(),
+      submitedAt: convertUTCtoJSTstr(sub.submitedAt),
     };
   });
 
@@ -77,8 +78,8 @@ export async function getServerSideProps(
     badgeName: badgeVc.badgeName,
     badgeEarnerEmail: badgeVc.badgeEarnerEmail,
     badgeIssuerName: badgeVc.badgeIssuerName,
-    badgeIssuedon: badgeVc.badgeIssuedon.toString(),
-    badgeExpires: badgeVc.badgeExpires.toString(),
+    badgeIssuedon: convertUTCtoJSTstr(badgeVc.badgeIssuedon),
+    badgeExpires: convertUTCtoJSTstr(badgeVc.badgeExpires),
     vcDataPayload: badgeVc.vcDataPayload,
     courseUrl: courseInfo[0].targetUrl,
     submissions: sub,

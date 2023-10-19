@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import prisma, { BadgeVc, Prisma } from "@/lib/prisma";
 import { BadgeVcList, CredentialList, DisplayBadgeVc, SearchFormItem, SubmissionsAll } from "@/types/api/credential";
+import { convertJSTstrToUTCdate, convertUTCtoJSTstr } from "@/lib/date";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<CredentialList | {}>) {
   // const perPage = 10;
@@ -15,8 +16,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const walletId = 1;
   const sertchState: SearchFormItem = {
     badgeName: badgeName,
-    issuedFrom: issuedFrom === "" ? undefined : issuedFrom,
-    issuedTo: issuedTo === "" ? undefined : issuedTo,
+    issuedFrom: issuedFrom === "" || !issuedFrom ? undefined : convertJSTstrToUTCdate(issuedFrom),
+    issuedTo: issuedTo === "" || !issuedTo ? undefined : convertJSTstrToUTCdate(issuedTo),
     sortOrder: sortOrder,
   };
 
@@ -29,8 +30,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         },
         deletedAt: null,
         badgeIssuedon: {
-          gte: sertchState.issuedFrom && new Date(sertchState.issuedFrom),
-          lt: sertchState.issuedTo && new Date(sertchState.issuedTo),
+          gte: sertchState.issuedFrom,
+          lt: sertchState.issuedTo,
         },
       },
       orderBy: {
@@ -61,7 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       badgeVcId: badgeVc.badgeVcId,
       badgeName: badgeVc.badgeName,
       badgeIssuerName: badgeVc.badgeIssuerName,
-      badgeIssuedon: badgeVc.badgeIssuedon.toString(),
+      badgeIssuedon: convertUTCtoJSTstr(badgeVc.badgeIssuedon),
       vcDataPayload: badgeVc.vcDataPayload,
       submissions: [],
     };
@@ -70,7 +71,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     submission.forEach((sub) => {
       vc.submissions.push({
         consumerName: sub.consumerName,
-        submitedAt: sub.submitedAt.toString(),
+        submitedAt: convertUTCtoJSTstr(sub.submitedAt),
       });
     });
 
