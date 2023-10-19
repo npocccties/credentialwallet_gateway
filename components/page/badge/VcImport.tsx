@@ -1,17 +1,23 @@
 import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
-import { Box, Flex, Button, Text, Image, VStack } from "@chakra-ui/react";
+import { Box, Flex, Button, Text, Image, VStack, Divider, Stack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import { Loading } from "@/components/Loading";
 import { ResponseState } from "@/components/ui/response/ResponseState";
 import { pagePath } from "@/constants";
-import { imageTemp } from "@/templates/imageTemp";
+import { JSTdateToDisplay } from "@/lib/date";
+import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
 type ResponseStatus = "success" | "failed" | undefined;
+type Props = {
+  badgeMetaData: BadgeMetaData;
+  badgeEmail: string;
+};
 
-export const VcAdd = () => {
+export const VcImport = ({ badgeMetaData, badgeEmail }: Props) => {
   const router = useRouter();
+
   const [isVcIntake, setIsVcIntake] = useState(false);
   const [responseState, setRequestState] = useState<ResponseStatus>(undefined);
 
@@ -24,26 +30,32 @@ export const VcAdd = () => {
 
   if (!isVcIntake) {
     return (
-      <VStack w={"100%"} mt={6} gap={16}>
+      <Box w={"100%"} mt={6} gap={16}>
         <Box textAlign={"left"}>
           <Text fontSize={{ base: "sm", sm: "md" }} textAlign={"center"}>
             このバッジをマイウォレットに取り込みますか？
           </Text>
         </Box>
-        <Box>
-          <Image w={48} h={48} fit={"cover"} src={"data:image/png;base64," + imageTemp} alt={"test"} />
+        <Box mt={8} display={"flex"} justifyContent={"center"}>
+          <Image w={48} h={48} fit={"cover"} src={badgeMetaData.badge.image} alt={"test"} />
         </Box>
-        <Box w={"full"}>
+        <Stack w={"full"} mt={8} alignItems={"stretch"}>
+          <BadgeDataItem name="バッジ名" data={badgeMetaData.badge.name} />
+          <BadgeDataItem name="email" data={badgeEmail} />
+          <BadgeDataItem name="発行者" data={badgeMetaData.badge.issuer.name} />
+          <BadgeDataItem name="発行日" data={JSTdateToDisplay(badgeMetaData.issuedOn.toString())} />
+        </Stack>
+        <Box w={"full"} mt={8}>
           <Flex justifyContent={"space-between"}>
             <Button colorScheme={"gray"} w={160} onClick={() => router.push(pagePath.badge.list)}>
               キャンセル
             </Button>
             <Button colorScheme={"blue"} w={160} onClick={() => handleClickIntake()}>
-              取り込み
+              インポート
             </Button>
           </Flex>
         </Box>
-      </VStack>
+      </Box>
     );
   } else {
     return (
@@ -71,4 +83,23 @@ export const VcAdd = () => {
       </VStack>
     );
   }
+};
+
+interface BadgeDataItemProps {
+  name: string;
+  data: string | Date;
+}
+
+const BadgeDataItem: React.FC<BadgeDataItemProps> = ({ name, data }) => {
+  return (
+    <Box>
+      <Text color="gray" mb={4} textAlign={"left"}>
+        {name}
+      </Text>
+      <Text fontSize="lg" my={8} textAlign={"left"}>
+        {data}
+      </Text>
+      <Divider mb={8} />
+    </Box>
+  );
 };

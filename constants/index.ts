@@ -6,7 +6,7 @@ export const pagePath = {
   },
   badge: {
     list: "/badge/list",
-    vcadd: "/badge/vc-add",
+    import: "/badge/import",
   },
   submission: {
     enter: "/submission",

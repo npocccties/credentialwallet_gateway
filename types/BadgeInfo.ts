@@ -23,6 +23,7 @@ export interface IfBadgeInfo {
   dateissued: number;
   email: string;
   badgeurl: string;
+  vcConverted?: boolean;
 }
 // export type IfBadgeInfo = {
 //   id: number;

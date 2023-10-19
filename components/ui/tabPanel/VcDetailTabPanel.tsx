@@ -1,8 +1,9 @@
-import { JSTdatetimeToDisplay, JSTdateToDisplay } from "@/lib/date";
-import { VcDetailData, KnowledgeBadges, SubmissionsHistories } from "@/types/api/credential/detail";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { Text, Tabs, TabList, Tab, TabPanels, TabPanel, Box, Divider, Flex, Link, Image } from "@chakra-ui/react";
 import React from "react";
+
+import { JSTdatetimeToDisplay, JSTdateToDisplay } from "@/lib/date";
+import { VcDetailData, KnowledgeBadges, SubmissionsHistories } from "@/types/api/credential/detail";
 
 type Props = {
   vcDetailData: VcDetailData;

@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { BadgeInfo } from "@/types/api/badge";
+
+import { IfBadgeInfo } from "@/types/BadgeInfo";
+import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
 const MOODLE_BASE = process.env.MOODLE_BASE;
 const OPENBADGE_URL_BASE = `${MOODLE_BASE}/badges/assertion.php?obversion=2`;
@@ -52,7 +54,7 @@ const getMyTokenAdmin = async (username: string, moodleUrl: string): Promise<str
   }
 };
 
-const getMyBadges = async (token: string, moodleUrl: string): Promise<BadgeInfo[]> => {
+const getMyBadges = async (token: string, moodleUrl: string): Promise<IfBadgeInfo[]> => {
   const myBadgesURL = `${moodleUrl}/webservice/rest/server.php?wsfunction=core_badges_get_user_badges&moodlewsrestformat=json&wstoken=${token}`;
   console.log("myBadgesURL =", myBadgesURL);
 
@@ -79,7 +81,7 @@ export const myBadgesList = async (
   password: string,
   isNeedSSO: boolean,
   moodleUrl: string,
-): Promise<BadgeInfo[]> => {
+): Promise<IfBadgeInfo[]> => {
   try {
     let token = "";
     if (isNeedSSO) {
@@ -87,7 +89,7 @@ export const myBadgesList = async (
     } else {
       token = await getMyToken(username, password, moodleUrl);
     }
-    const badgesInfoJson: BadgeInfo[] = await getMyBadges(token, moodleUrl);
+    const badgesInfoJson: IfBadgeInfo[] = await getMyBadges(token, moodleUrl);
 
     return badgesInfoJson;
   } catch (err) {
@@ -96,12 +98,12 @@ export const myBadgesList = async (
   }
 };
 
-export const myOpenBadge = async (uniquehash: string): Promise<any> => {
+export const myOpenBadge = async (uniquehash: string): Promise<BadgeMetaData> => {
   console.log(`start myOpenBadge selected uniquehash=[${uniquehash}]`);
-  const myOpenBadgeURL = `${OPENBADGE_URL_BASE}&b=${uniquehash}`;
+  const myOpenBadgeURL = `https://z.cccties.org/41a/badges/assertion.php?obversion=2&b=${uniquehash}`;
   try {
     const openBadgeMeta = await axios.get(myOpenBadgeURL).then((res) => res.data);
-    // console.log("openBadgeMetadata=", openBadgeMeta);
+    console.log("openBadgeMetadata=", openBadgeMeta);
     return openBadgeMeta;
   } catch (err) {
     console.error(`error end myOpenBadge`);

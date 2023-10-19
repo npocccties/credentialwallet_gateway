@@ -1,3 +1,5 @@
+import { IfBadgeInfo } from "@/types/BadgeInfo";
+
 export type BadgeListReqestParam = {
   username: string;
   isNeedSSO: boolean;
@@ -5,19 +7,4 @@ export type BadgeListReqestParam = {
   password?: string;
 };
 
-export type BadgeList = BadgeInfo[];
-
-export type BadgeInfo = {
-  id: number;
-  name: string;
-  description: string;
-  timecreated: number;
-  issuername: string;
-  issuerurl: string;
-  expiredate?: number;
-  message: string;
-  uniquehash: string;
-  dateissued: number;
-  email: string;
-  badgeurl: string;
-};
+export type BadgeList = IfBadgeInfo[];
