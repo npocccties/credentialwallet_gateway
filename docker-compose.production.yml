@@ -6,7 +6,6 @@ services:
     ports:
       - '80:80'
       - '443:443'
-      - '3002:3000'
     networks:
       - app_network
     volumes:
