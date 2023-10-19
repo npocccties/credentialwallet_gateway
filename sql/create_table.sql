@@ -1,6 +1,6 @@
 drop table if exists wallets cascade;
 drop table if exists badge_vcs cascade;
-drop table if exists badge_customers cascade;
+drop table if exists badge_consumers cascade;
 drop table if exists submissions cascade;
 drop table if exists lms_list cascade;
 -- ----------------------------------------------------------------------------------------------------
