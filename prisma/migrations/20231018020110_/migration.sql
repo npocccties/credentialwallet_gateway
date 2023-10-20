@@ -16,7 +16,7 @@
   - Added the required column `badge_uniquehash` to the `badge_vcs` table without a default value. This is not possible if the table is not empty.
   - Added the required column `wallet_id` to the `badge_vcs` table without a default value. This is not possible if the table is not empty.
   - Added the required column `lms_access_token` to the `lms_list` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `lms_servuce` to the `lms_list` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `lms_service` to the `lms_list` table without a default value. This is not possible if the table is not empty.
   - Added the required column `lms_url` to the `lms_list` table without a default value. This is not possible if the table is not empty.
   - Added the required column `sso_enabled` to the `lms_list` table without a default value. This is not possible if the table is not empty.
   - Added the required column `consumer_id` to the `submissions` table without a default value. This is not possible if the table is not empty.
@@ -47,7 +47,7 @@ DROP COLUMN "lms_list",
 DROP COLUMN "ssoEnable",
 ADD COLUMN     "lms_access_token" TEXT NOT NULL,
 ADD COLUMN     "lms_id" SERIAL NOT NULL,
-ADD COLUMN     "lms_servuce" TEXT NOT NULL,
+ADD COLUMN     "lms_service" TEXT NOT NULL,
 ADD COLUMN     "lms_url" TEXT NOT NULL,
 ADD COLUMN     "sso_enabled" BOOLEAN NOT NULL,
 ADD CONSTRAINT "lms_list_pkey" PRIMARY KEY ("lms_id");

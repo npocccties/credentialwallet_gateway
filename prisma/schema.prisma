@@ -49,7 +49,7 @@ model LmsList {
   lmsName        String  @map("lms_name") @db.VarChar(256)
   lmsAccessToken String  @map("lms_access_token")
   lmsId          Int     @id @default(autoincrement()) @map("lms_id")
-  lmsServuce     String  @map("lms_servuce")
+  lmsServuce     String  @map("lms_service")
   lmsUrl         String  @map("lms_url")
   ssoEnabled     Boolean @map("sso_enabled")
 

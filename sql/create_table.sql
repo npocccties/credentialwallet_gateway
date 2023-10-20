@@ -74,6 +74,6 @@ create table lms_list (
     lms_url text not null,                      -- バッジ取得LMSサイトURL
     sso_enabled boolean not null,               -- SSO可否
     lms_access_token text not null,             -- バッジ取得LMSアクセストークン
-    lms_servuce text not null,                  -- バッジ取得LMSサービス名
+    lms_service text not null,                  -- バッジ取得LMSサービス名
     primary key (lms_id)
 );
