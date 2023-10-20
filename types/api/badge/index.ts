@@ -1,4 +1,5 @@
 import { IfBadgeInfo } from "@/types/BadgeInfo";
+import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
 export type BadgeListReqestParam = {
   username: string;
@@ -8,3 +9,9 @@ export type BadgeListReqestParam = {
 };
 
 export type BadgeList = IfBadgeInfo[];
+
+export type BadgeImportRequestParam = {
+  uniquehash: string;
+  email: string;
+  badgeMetaData: BadgeMetaData;
+};

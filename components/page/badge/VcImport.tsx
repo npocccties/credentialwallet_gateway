@@ -7,6 +7,7 @@ import { Loading } from "@/components/Loading";
 import { ResponseState } from "@/components/ui/response/ResponseState";
 import { pagePath } from "@/constants";
 import { JSTdateToDisplay } from "@/lib/date";
+import { useBadgeImportApi } from "@/share/usecases/badgeImport/useBadgeImportApi";
 import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
 type ResponseStatus = "success" | "failed" | undefined;
@@ -18,17 +19,22 @@ type Props = {
 export const VcImport = ({ badgeMetaData, badgeEmail }: Props) => {
   const router = useRouter();
 
-  const [isVcIntake, setIsVcIntake] = useState(false);
+  const [isVcImport, setIsVcImport] = useState(false);
   const [responseState, setRequestState] = useState<ResponseStatus>(undefined);
 
-  const handleClickIntake = () => {
-    setIsVcIntake(true);
-    setTimeout(() => {
+  const handleClickImport = async () => {
+    const uniquehash = router.query.uniquehash as string;
+    setIsVcImport(true);
+
+    try {
+      await useBadgeImportApi({ uniquehash, email: badgeEmail, badgeMetaData });
       setRequestState("success");
-    }, 3000);
+    } catch (e) {
+      setRequestState("failed");
+    }
   };
 
-  if (!isVcIntake) {
+  if (!isVcImport) {
     return (
       <Box w={"100%"} mt={6} gap={16}>
         <Box textAlign={"left"}>
@@ -50,7 +56,7 @@ export const VcImport = ({ badgeMetaData, badgeEmail }: Props) => {
             <Button colorScheme={"gray"} w={160} onClick={() => router.push(pagePath.badge.list)}>
               キャンセル
             </Button>
-            <Button colorScheme={"blue"} w={160} onClick={() => handleClickIntake()}>
+            <Button colorScheme={"blue"} w={160} onClick={() => handleClickImport()}>
               インポート
             </Button>
           </Flex>

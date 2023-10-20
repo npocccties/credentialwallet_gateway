@@ -6,6 +6,7 @@ export type BadgeMetaData = {
   issuedOn: Date;
   expires: Date;
   badge: Badge;
+  verify: Verify;
 };
 
 type Badge = {
@@ -33,4 +34,9 @@ export type Issuer = {
 type Recipient = {
   type: string;
   identity: string;
+};
+
+type Verify = {
+  type: string;
+  url: string;
 };

@@ -1,20 +1,9 @@
 import axios from "axios";
 
-import { Signer } from "./signer";
-import { decodeJWTToVCData } from "./utils";
-import { AcquiredIdToken, Manifest, VCRequest } from "../types";
-
-interface Descriptor {
-  id?: string;
-  path?: string;
-  encoding?: string;
-  format?: string;
-  path_nested?: {
-    id?: string;
-    format?: string;
-    path?: string;
-  };
-}
+import { initKeyPair2 } from "@/lib/repository/keyPair";
+import { Signer } from "@/lib/signer";
+import { decodeJWTToVCData, VCData } from "@/lib/utils";
+import { AcquiredIdToken, Manifest, VCRequest } from "@/types";
 
 interface IIssueResponse {
   data: {
@@ -23,12 +12,18 @@ interface IIssueResponse {
 }
 
 export const issue = async (
-  signer: Signer,
   vcRequest: VCRequest,
   manifest: Manifest,
   acquiredIdToken: AcquiredIdToken,
   options?: { [key: string]: any },
-): Promise<void> => {
+): Promise<VCData> => {
+  // TODO: 仮のデータ
+  const password = "1456";
+  const key = await initKeyPair2(password);
+
+  const signer = new Signer();
+  await signer.init(key);
+
   let attestations: any = { ...acquiredIdToken };
 
   const issueRequestIdToken = await signer.siop({
@@ -46,9 +41,10 @@ export const issue = async (
   const vcDecodedData = decodeJWTToVCData(vc);
   console.log("length", vc.length);
 
-  const complete = await axios.post(vcRequest.redirect_uri ? vcRequest.redirect_uri : vcRequest.client_id, {
+  await axios.post(vcRequest.redirect_uri ? vcRequest.redirect_uri : vcRequest.client_id, {
     state: vcRequest.state,
     code: "issuance_successful",
   });
-  console.log("final", complete);
+
+  return vcDecodedData;
 };

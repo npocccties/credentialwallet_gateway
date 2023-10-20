@@ -23,6 +23,11 @@ export const initKeyPair = async (password: string): Promise<void> => {
   saveKeyPairBlob(keyPairBlob);
 };
 
+export const initKeyPair2 = async (password: string): Promise<KeyPair> => {
+  const keyPair: KeyPair = await ION.generateKeyPair();
+  return keyPair;
+};
+
 export const saveKeyPairBlob = (keyPairBlob: string): void => {
   localStorage.setItem(LOCAL_STORAGE_KEY_PAIR, keyPairBlob);
 };
