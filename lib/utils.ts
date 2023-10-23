@@ -1,6 +1,9 @@
-import jsonwebtoken from "jsonwebtoken"
+import jsonwebtoken from "jsonwebtoken";
+
 import { QR_REQUEST_URI_KEY } from "../configs/constants";
 import { Manifest, VCRequest } from "../types";
+
+const crypto = require("crypto").webcrypto;
 
 export interface JWTHeader {
   kid: string;
@@ -33,7 +36,7 @@ export const getProtectedHeaderFromVCRequest = (jwt: string): JWTHeader => {
 };
 
 export const getRequestFromVCRequest = (
-  jwt: string
+  jwt: string,
 ): {
   // vcRequestType: VCRequestType;
   vcRequest: VCRequest;
