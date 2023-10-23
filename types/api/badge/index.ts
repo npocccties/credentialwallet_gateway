@@ -19,4 +19,6 @@ export type BadgeImportRequestParam = {
   uniquehash: string;
   email: string;
   badgeMetaData: BadgeMetaData;
+  lmsId: number;
+  lmsName: string;
 };

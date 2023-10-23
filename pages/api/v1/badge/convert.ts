@@ -2,21 +2,22 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { getBadgeClassById, setOpenBadgeMetadataToImage, validateOpenBadge } from "@/lib/openbadge";
 import { Session, withSession } from "@/lib/session";
-import { getRequestFromVCRequest, calcPinhash, VCData } from "@/lib/utils";
+import { getRequestFromVCRequest, calcPinhash } from "@/lib/utils";
 import { issue } from "@/server/services/issue.service";
 import { issueRequest } from "@/server/services/issueRequest.service";
 import { getManifest } from "@/server/services/manifest.service";
+import { registerBadgeVc } from "@/server/services/registerBadgeVc";
 import { verifyVcRequest } from "@/server/services/verifyVcReqest.service";
-import { BadgeMetaData } from "@/types/badgeInfo/metaData";
+import { BadgeImportRequestParam } from "@/types/api/badge";
 
-type RequestBody = {
-  uniquehash: string;
-  email: string;
-  badgeMetaData: BadgeMetaData;
-};
+type RequestBody = BadgeImportRequestParam;
 
 export default async function handler(req: NextApiRequest & Session, res: NextApiResponse) {
-  const { uniquehash, email, badgeMetaData }: RequestBody = req.body;
+  const { uniquehash, email, badgeMetaData, lmsId, lmsName }: RequestBody = req.body;
+
+  // TODO: Orthrosログイン情報をもとにwalletIdを取得
+  const walletId = 1;
+
   console.log(`### start getMyOpenBadge uniquehash=${uniquehash} email=${email} ####`);
 
   const result = await validateOpenBadge(email, badgeMetaData);
@@ -62,16 +63,15 @@ export default async function handler(req: NextApiRequest & Session, res: NextAp
     acquiredAttestation["idTokens"] = { "https://self-issued.me": vcRequest.id_token_hint };
   }
 
-  let vcData: VCData;
   try {
     const pinhash = await calcPinhash(pin.toString(), vcRequest.pin.salt);
-    vcData = await issue(vcRequest, manifest, acquiredAttestation, { pin: pinhash });
+    const vcJwt = await issue(vcRequest, manifest, acquiredAttestation, { pin: pinhash });
+
+    await registerBadgeVc({ walletId, lmsId, lmsName, uniquehash, badgeMetaData, email, vcJwt });
   } catch (e) {
     console.error(e.message);
+    res.status(500).json({ e });
   }
-
-  // TODO: 保存処理の実装
-  // await saveBadgeVc({});
 
   res.status(200).json({});
 }

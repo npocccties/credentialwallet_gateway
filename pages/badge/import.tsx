@@ -21,7 +21,11 @@ const ImportVCPage = (props: Props) => {
   return (
     <Layout align="center" textAlign="center" maxW="2xl">
       <Metatag title="Get Open Badge from Moodle" description="Moodle" />
-      {isBadgeSelect ? <VcImport /> : <BadgeList lmsList={props.issuerList} setIsBadgeSelect={setIsBadgeSelect} />}
+      {isBadgeSelect ? (
+        <VcImport setIsBadgeSelect={setIsBadgeSelect} />
+      ) : (
+        <BadgeList lmsList={props.issuerList} setIsBadgeSelect={setIsBadgeSelect} />
+      )}
     </Layout>
   );
 };

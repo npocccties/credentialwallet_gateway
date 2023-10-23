@@ -1,7 +1,7 @@
 import axios from "axios";
-import manifestTemlate from "../templates/manifest.json";
-import issuanceConfig from "../templates/issuance_request_config.json";
 
+import issuanceConfig from "../templates/issuance_request_config.json";
+import manifestTemlate from "../templates/manifest.json";
 import presentationConfig from "../templates/presentation_request_config.json";
 
 // const did_authority = "did:web:www.zkip.site";
@@ -17,8 +17,7 @@ const msal = require("@azure/msal-node");
 const msalConfig = {
   auth: {
     clientId: process.env.vcApp_client_id as string,
-    authority:
-      "https://login.microsoftonline.com/" + process.env.vcApp_azTenantId,
+    authority: "https://login.microsoftonline.com/" + process.env.vcApp_azTenantId,
     clientSecret: process.env.vcApp_client_secret as string,
     // clientId: "9fd98d3f-ef1a-478a-b360-5630c369bd45",
     // authority:
@@ -47,7 +46,7 @@ const msalClientCredentialRequest = {
 export const createManifest = async () => {
   const { data } = await axios.post(
     "https://beta.did.msidentity.com/f88bec5c-c13f-4f27-972f-72540d188693/api/portable/v1.0/admin/contracts",
-    manifestTemlate
+    manifestTemlate,
   );
 };
 
@@ -82,9 +81,7 @@ export const getManifestURL = (id: string): string => {
  * @param openBadgeMetadata アップロードさらたOpenBadgeのメタデータ
  * @returns
  */
-export const prepareIssueRequest = async (
-  openBadgeMetadata: any
-): Promise<string> => {
+export const prepareIssueRequest = async (openBadgeMetadata: any): Promise<string> => {
   console.log("### start prepareIssueRequest ###", openBadgeMetadata.badge);
   const { data } = await axios.get(openBadgeMetadata.badge);
   console.log("data:", data);
@@ -128,23 +125,22 @@ export const issueRequest = async (
   email: string,
   sessionId: string,
   base64ImageWithoutPrefix: string,
-  issuedon: string,
-  expires: string
+  issuedOn: string,
+  expires: string,
 ) => {
   console.log(`### START issueRequest sessionId:${sessionId}###`);
-  console.log(`issuedOn = ${issuedon},expores=${expires}`);
+  console.log(`issuedOn = ${issuedOn},expores=${expires}`);
 
   let accessToken = "";
   try {
-    const result = await msalCca.acquireTokenByClientCredential(
-      msalClientCredentialRequest
-    );
+    const result = await msalCca.acquireTokenByClientCredential(msalClientCredentialRequest);
     if (result) {
       accessToken = result.accessToken;
       // console.log("accessToken:", accessToken);
     }
-  } catch {
+  } catch (e) {
     console.log("failed to get access token");
+    console.log(e);
   }
 
   const pin = Math.floor(1000 + Math.random() * 9000);
@@ -153,7 +149,7 @@ export const issueRequest = async (
   issuanceConfig.claims.photo = base64ImageWithoutPrefix;
   issuanceConfig.claims.email = email;
   issuanceConfig.claims.verificationURL = verificationURL;
-  issuanceConfig.claims.issued = issuedon;
+  issuanceConfig.claims.issued = issuedOn;
   issuanceConfig.claims.expire = expires;
 
   //console.log();
@@ -166,8 +162,7 @@ export const issueRequest = async (
   issuanceConfig.authority = did_authority;
   // callback urlの指定
   if (process.env.baseURL === "http://localhost:3000") {
-    issuanceConfig.callback.url =
-      "https://example.com/api/issuer/issuance-request-callback"; // localhostだとAPI実行でエラーになるため、ダミー
+    issuanceConfig.callback.url = "https://example.com/api/issuer/issuance-request-callback"; // localhostだとAPI実行でエラーになるため、ダミー
   } else {
     const callbakURL = `${process.env.baseURL}/api/issuer/issuance-request-callback`;
     issuanceConfig.callback.url = callbakURL;
@@ -233,7 +228,7 @@ export const issueRequestOld = async (
   openBadgeMetadata: any,
   email: string,
   sessionId: string,
-  base64ImageWithoutPrefix: string
+  base64ImageWithoutPrefix: string,
 ) => {
   console.log(`### START issueRequest sessionId:${sessionId}###`);
   // TODO:
@@ -241,9 +236,7 @@ export const issueRequestOld = async (
   // access_tokenを取得する
   let accessToken = "";
   try {
-    const result = await msalCca.acquireTokenByClientCredential(
-      msalClientCredentialRequest
-    );
+    const result = await msalCca.acquireTokenByClientCredential(msalClientCredentialRequest);
     if (result) {
       accessToken = result.accessToken;
       // console.log("accessToken:", accessToken);
@@ -283,8 +276,7 @@ export const issueRequestOld = async (
   issuanceConfig.authority = did_authority;
   // callback urlの指定
   if (process.env.baseURL === "http://localhost:3000") {
-    issuanceConfig.callback.url =
-      "https://example.com/api/issuer/issuance-request-callback"; // localhostだとAPI実行でエラーになるため、ダミー
+    issuanceConfig.callback.url = "https://example.com/api/issuer/issuance-request-callback"; // localhostだとAPI実行でエラーになるため、ダミー
   } else {
     const callbakURL = `${process.env.baseURL}/api/issuer/issuance-request-callback`;
     issuanceConfig.callback.url = callbakURL;
@@ -342,9 +334,7 @@ export const presentationRequest = async (sessionId: string) => {
   console.log(`### START presentationRequest sessionId:${sessionId}`);
   let accessToken = "";
   try {
-    const result = await msalCca.acquireTokenByClientCredential(
-      msalClientCredentialRequest
-    );
+    const result = await msalCca.acquireTokenByClientCredential(msalClientCredentialRequest);
     if (result) {
       accessToken = result.accessToken;
     }
@@ -358,11 +348,9 @@ export const presentationRequest = async (sessionId: string) => {
   presentationConfig.registration.clientName = clientName;
   presentationConfig.authority = did_authority;
   if (process.env.baseURL === "http://localhost:3000") {
-    presentationConfig.callback.url =
-      "https://example.com/api/verifier/presentation-request-callback"; // localhostだとAPI実行でエラーになるため、ダミー
+    presentationConfig.callback.url = "https://example.com/api/verifier/presentation-request-callback"; // localhostだとAPI実行でエラーになるため、ダミー
   } else {
-    presentationConfig.callback.url =
-      process.env.baseURL + "/api/verifier/presentation-request-callback";
+    presentationConfig.callback.url = process.env.baseURL + "/api/verifier/presentation-request-callback";
   }
 
   // セッションidを入れてコールバック側へ引き継ぐ

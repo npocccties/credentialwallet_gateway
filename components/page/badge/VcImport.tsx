@@ -1,37 +1,33 @@
 import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 import { Box, Flex, Button, Text, Image, VStack, Divider, Stack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 import { Loading } from "@/components/Loading";
 import { ResponseState } from "@/components/ui/response/ResponseState";
-import { pagePath } from "@/constants";
 import { JSTdateToDisplay } from "@/lib/date";
 import { badgeMetadataGetters } from "@/share/store/badgeMetaData/main";
 import { selectBadgeGetters } from "@/share/store/selectBadge/main";
 import { useBadgeImportApi } from "@/share/usecases/badgeImport/useBadgeImportApi";
-import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
 type ResponseStatus = "success" | "failed" | undefined;
 type Props = {
-  badgeMetaData: BadgeMetaData;
-  badgeEmail: string;
+  setIsBadgeSelect: Dispatch<SetStateAction<boolean>>;
 };
 
-export const VcImport = () => {
+export const VcImport = ({ setIsBadgeSelect }: Props) => {
   const router = useRouter();
 
   const [isVcImport, setIsVcImport] = useState(false);
   const [responseState, setRequestState] = useState<ResponseStatus>(undefined);
   const badgeMetaData = badgeMetadataGetters.useBadgeMetaData();
-  const badgeEmail = selectBadgeGetters.useSelectBadgeData().email;
+  const { email, uniquehash, lmsId, lmsName } = selectBadgeGetters.useSelectBadgeData();
 
   const handleClickImport = async () => {
-    const uniquehash = router.query.uniquehash as string;
     setIsVcImport(true);
 
     try {
-      await useBadgeImportApi({ uniquehash, email: badgeEmail, badgeMetaData });
+      await useBadgeImportApi({ uniquehash, email, badgeMetaData, lmsId, lmsName });
       setRequestState("success");
     } catch (e) {
       setRequestState("failed");
@@ -53,13 +49,13 @@ export const VcImport = () => {
             </Box>
             <Stack w={"full"} mt={8} alignItems={"stretch"}>
               <BadgeDataItem name="バッジ名" data={badgeMetaData.badge.name} />
-              <BadgeDataItem name="email" data={badgeEmail} />
+              <BadgeDataItem name="email" data={email} />
               <BadgeDataItem name="発行者" data={badgeMetaData.badge.issuer.name} />
               <BadgeDataItem name="発行日" data={JSTdateToDisplay(badgeMetaData.issuedOn.toString())} />
             </Stack>
             <Box w={"full"} mt={8}>
               <Flex justifyContent={"space-between"}>
-                <Button colorScheme={"gray"} w={160} onClick={() => router.push(pagePath.badge.list)}>
+                <Button colorScheme={"gray"} w={160} onClick={() => setIsBadgeSelect(false)}>
                   キャンセル
                 </Button>
                 <Button colorScheme={"blue"} w={160} onClick={() => handleClickImport()}>
