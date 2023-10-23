@@ -3,10 +3,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getBadgeClassById, setOpenBadgeMetadataToImage, validateOpenBadge } from "@/lib/openbadge";
 import { Session, withSession } from "@/lib/session";
 import { getRequestFromVCRequest, calcPinhash, VCData } from "@/lib/utils";
-import { issue } from "@/services/issue.service";
-import { issueRequest } from "@/services/issueRequest.service";
-import { getManifest } from "@/services/manifest.service";
-import { verifyVcRequest } from "@/services/verifyVcReqest.service";
+import { issue } from "@/server/services/issue.service";
+import { issueRequest } from "@/server/services/issueRequest.service";
+import { getManifest } from "@/server/services/manifest.service";
+import { verifyVcRequest } from "@/server/services/verifyVcReqest.service";
 import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
 type RequestBody = {
