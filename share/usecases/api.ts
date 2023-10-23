@@ -9,6 +9,7 @@ export const api = {
     },
     badge: {
       convert: "/api/v1/badge/convert",
+      metadata: "/api/v1/badge/metadata",
       list: "/api/v1/badge/list",
     },
   },

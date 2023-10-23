@@ -7,6 +7,8 @@ import { Loading } from "@/components/Loading";
 import { ResponseState } from "@/components/ui/response/ResponseState";
 import { pagePath } from "@/constants";
 import { JSTdateToDisplay } from "@/lib/date";
+import { badgeMetadataGetters } from "@/share/store/badgeMetaData/main";
+import { selectBadgeGetters } from "@/share/store/selectBadge/main";
 import { useBadgeImportApi } from "@/share/usecases/badgeImport/useBadgeImportApi";
 import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
@@ -16,11 +18,13 @@ type Props = {
   badgeEmail: string;
 };
 
-export const VcImport = ({ badgeMetaData, badgeEmail }: Props) => {
+export const VcImport = () => {
   const router = useRouter();
 
   const [isVcImport, setIsVcImport] = useState(false);
   const [responseState, setRequestState] = useState<ResponseStatus>(undefined);
+  const badgeMetaData = badgeMetadataGetters.useBadgeMetaData();
+  const badgeEmail = selectBadgeGetters.useSelectBadgeData().email;
 
   const handleClickImport = async () => {
     const uniquehash = router.query.uniquehash as string;
@@ -42,25 +46,29 @@ export const VcImport = ({ badgeMetaData, badgeEmail }: Props) => {
             このバッジをマイウォレットに取り込みますか？
           </Text>
         </Box>
-        <Box mt={8} display={"flex"} justifyContent={"center"}>
-          <Image w={48} h={48} fit={"cover"} src={badgeMetaData.badge.image} alt={"test"} />
-        </Box>
-        <Stack w={"full"} mt={8} alignItems={"stretch"}>
-          <BadgeDataItem name="バッジ名" data={badgeMetaData.badge.name} />
-          <BadgeDataItem name="email" data={badgeEmail} />
-          <BadgeDataItem name="発行者" data={badgeMetaData.badge.issuer.name} />
-          <BadgeDataItem name="発行日" data={JSTdateToDisplay(badgeMetaData.issuedOn.toString())} />
-        </Stack>
-        <Box w={"full"} mt={8}>
-          <Flex justifyContent={"space-between"}>
-            <Button colorScheme={"gray"} w={160} onClick={() => router.push(pagePath.badge.list)}>
-              キャンセル
-            </Button>
-            <Button colorScheme={"blue"} w={160} onClick={() => handleClickImport()}>
-              インポート
-            </Button>
-          </Flex>
-        </Box>
+        {badgeMetaData && (
+          <>
+            <Box mt={8} display={"flex"} justifyContent={"center"}>
+              <Image w={48} h={48} fit={"cover"} src={badgeMetaData.badge.image} alt={"test"} />
+            </Box>
+            <Stack w={"full"} mt={8} alignItems={"stretch"}>
+              <BadgeDataItem name="バッジ名" data={badgeMetaData.badge.name} />
+              <BadgeDataItem name="email" data={badgeEmail} />
+              <BadgeDataItem name="発行者" data={badgeMetaData.badge.issuer.name} />
+              <BadgeDataItem name="発行日" data={JSTdateToDisplay(badgeMetaData.issuedOn.toString())} />
+            </Stack>
+            <Box w={"full"} mt={8}>
+              <Flex justifyContent={"space-between"}>
+                <Button colorScheme={"gray"} w={160} onClick={() => router.push(pagePath.badge.list)}>
+                  キャンセル
+                </Button>
+                <Button colorScheme={"blue"} w={160} onClick={() => handleClickImport()}>
+                  インポート
+                </Button>
+              </Flex>
+            </Box>
+          </>
+        )}
       </Box>
     );
   } else {

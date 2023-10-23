@@ -3,8 +3,8 @@ import { atom, useRecoilValue, useSetRecoilState } from "recoil";
 
 import { VcDetailActions, VcDetailGetters } from "@/share/store/credentialDetail/types";
 import { RECOIL_ATOMS_KEYS } from "@/share/store/keys";
-import { VcDetailData } from "@/types/api/credential/detail";
 import { useDeleteCredentialApi } from "@/share/usecases/credentialDetail/useCredentialDetailApi";
+import { VcDetailData } from "@/types/api/credential/detail";
 
 const defaultValue: VcDetailData | {} = {
   vcDetaildata: {},

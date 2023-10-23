@@ -5,7 +5,6 @@ export const pagePath = {
     detail: "/wallet/detail",
   },
   badge: {
-    list: "/badge/list",
     import: "/badge/import",
   },
   submission: {

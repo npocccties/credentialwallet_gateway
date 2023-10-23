@@ -1,9 +1,11 @@
 import { Flex, Box, BoxProps, CloseButton, FlexProps, Text } from "@chakra-ui/react";
 import React from "react";
 
+import { pagePath } from "@/constants";
+
 const LinkItems: Array<{ name: string; link?: string }> = [
   { name: "マイウォレット", link: "/" },
-  { name: "バッジ取り込み", link: "/badge/list" },
+  { name: "バッジ取り込み", link: pagePath.badge.import },
   { name: "分析" },
 ];
 

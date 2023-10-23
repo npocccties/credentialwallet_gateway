@@ -4,8 +4,13 @@ import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 export type BadgeListReqestParam = {
   username: string;
   isNeedSSO: boolean;
-  moodleUrl: string;
+  lmsUrl: string;
   password?: string;
+};
+
+export type BadgeMetaDataReqestParam = {
+  lmsUrl: string;
+  uniquehash: string;
 };
 
 export type BadgeList = IfBadgeInfo[];

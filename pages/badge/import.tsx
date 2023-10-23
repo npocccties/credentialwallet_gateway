@@ -1,34 +1,29 @@
-import { GetServerSidePropsResult } from "next";
-import React from "react";
+import { GetServerSideProps } from "next";
+import React, { useState } from "react";
 
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
+import { BadgeList } from "@/components/page/badge/List";
 import { VcImport } from "@/components/page/badge/VcImport";
-import { myOpenBadge } from "@/lib/moodle";
-import { BadgeMetaData } from "@/types/badgeInfo/metaData";
+import prisma, { LmsList } from "@/lib/prisma";
 
 type Props = {
-  badgeMetaData: BadgeMetaData;
-  badgeEmail: string;
+  issuerList: LmsList[];
 };
 
-export async function getServerSideProps(context): Promise<GetServerSidePropsResult<Props>> {
-  const { uniquehash, email } = context.query;
-  console.log("import", uniquehash, email);
+export const getServerSideProps: GetServerSideProps = async () => {
+  const issuerList = await prisma.lmsList.findMany();
+  return { props: { issuerList } };
+};
 
-  const badgeMetaData = await myOpenBadge(uniquehash);
-
-  return { props: { badgeMetaData, badgeEmail: email } };
-}
-const VcImportPage = (props: Props) => {
-  const { badgeMetaData, badgeEmail } = props;
-  console.log("badgeData", badgeMetaData);
+const ImportVCPage = (props: Props) => {
+  const [isBadgeSelect, setIsBadgeSelect] = useState(false);
   return (
-    <Layout align="center" textAlign="center" maxW="md">
+    <Layout align="center" textAlign="center" maxW="2xl">
       <Metatag title="Get Open Badge from Moodle" description="Moodle" />
-      <VcImport badgeMetaData={badgeMetaData} badgeEmail={badgeEmail} />
+      {isBadgeSelect ? <VcImport /> : <BadgeList lmsList={props.issuerList} setIsBadgeSelect={setIsBadgeSelect} />}
     </Layout>
   );
 };
 
-export default VcImportPage;
+export default ImportVCPage;
