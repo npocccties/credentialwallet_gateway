@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { myOpenBadge } from "@/lib/moodle";
+import { myOpenBadge } from "@/server/services/lmsAccess.service";
 import { BadgeMetaDataApiResponse } from "@/share/usecases/badgeMetaData/useFetchBadgeMetaDataApi";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<BadgeMetaDataApiResponse>) {

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { myBadgesList } from "@/lib/moodle";
+import { myBadgesList } from "@/server/services/lmsAccess.service";
 import prisma from "@/lib/prisma";
 import { Session, withSession } from "@/lib/session";
 import { IfBadgeInfo } from "@/types/BadgeInfo";
