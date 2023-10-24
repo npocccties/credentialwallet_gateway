@@ -1,25 +1,35 @@
 import { Flex, Box, FormLabel, Select, Button, Text } from "@chakra-ui/react";
 import { LmsList } from "@prisma/client";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 import { MoodleLoginForm } from "@/components/model/moodle/MoodleLoginform";
 import { MyBadgesList, MyBadgesListSp } from "@/components/ui/table/MybadgeList";
-import { pagePath } from "@/constants";
 import { badgeListActions, badgeListGetters } from "@/share/store/badgeList/main";
+import { badgeMetaDataActions } from "@/share/store/badgeMetaData/main";
+import { selectBadgeActions } from "@/share/store/selectBadge/main";
 
-export const BadgeList = ({ issuerList }: { issuerList: LmsList[] }) => {
+export const BadgeList = ({
+  lmsList,
+  setIsBadgeSelect,
+}: {
+  lmsList: LmsList[];
+  setIsBadgeSelect: Dispatch<SetStateAction<boolean>>;
+}) => {
   const router = useRouter();
-  const [isNeedSSO, setisNeedSSO] = useState(issuerList[0].ssoEnabled);
-  const [moodleUrl, setMoodleUrl] = useState(issuerList[0].lmsUrl);
+  const [isNeedSSO, setisNeedSSO] = useState(lmsList[0].ssoEnabled);
+  const [lmsUrl, setLmsUrl] = useState(lmsList[0].lmsUrl);
   const [isNeedMoodleLogin, setIsNeedMoodleLogin] = useState(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const badgeList = badgeListGetters.useBadgeList();
   const { fetchBadgeList } = badgeListActions.useFetchBadgeList();
+  const { fetchBadgeMetaData } = badgeMetaDataActions.useFetchBadgeMetaData();
+  const { setSelectBadge } = selectBadgeActions.useSetSelectBadge();
 
   const fetchMoodleMyBadgesForSSO = async () => {
+    // TODO: 仮実装 Orthrosから取得を想定
     const username = "testtest";
     setIsLoading(true);
 
@@ -29,24 +39,28 @@ export const BadgeList = ({ issuerList }: { issuerList: LmsList[] }) => {
       return;
     }
 
-    fetchBadgeList({ username, isNeedSSO, moodleUrl });
+    fetchBadgeList({ username, isNeedSSO, lmsUrl });
     setIsLoading(false);
   };
 
   const fetchMoodleMyBadges = async (username: string, password: string) => {
     setIsLoading(true);
-    fetchBadgeList({ username, password, isNeedSSO, moodleUrl });
+    fetchBadgeList({ username, password, isNeedSSO, lmsUrl });
     setIsLoading(false);
   };
 
   const handleChangeIssuer = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectIssuer = issuerList.filter((x) => x.lmsId.toString() === e.target.value)[0];
+    const selectIssuer = lmsList.filter((x) => x.lmsId.toString() === e.target.value)[0];
     setisNeedSSO(selectIssuer.ssoEnabled);
-    setMoodleUrl(selectIssuer.lmsUrl);
+    setLmsUrl(selectIssuer.lmsUrl);
   };
 
   const handleBadgeSelect = (uniquehash: string, email: string) => {
-    router.push({ pathname: pagePath.badge.import, query: { uniquehash, email } });
+    const { lmsId, lmsName } = lmsList.find((x) => x.lmsUrl === lmsUrl);
+
+    fetchBadgeMetaData({ uniquehash, lmsUrl });
+    setSelectBadge({ email, uniquehash, lmsId, lmsName });
+    setIsBadgeSelect(true);
   };
 
   if (isNeedMoodleLogin) {
@@ -67,7 +81,7 @@ export const BadgeList = ({ issuerList }: { issuerList: LmsList[] }) => {
               発行者選択
             </FormLabel>
             <Select w={64} onChange={(e) => handleChangeIssuer(e)}>
-              {issuerList.map((item) => {
+              {lmsList.map((item) => {
                 const key = item.lmsId;
                 return (
                   <option key={key} value={key}>
@@ -102,7 +116,7 @@ export const BadgeList = ({ issuerList }: { issuerList: LmsList[] }) => {
               発行者選択
             </FormLabel>
             <Select onChange={(e) => handleChangeIssuer(e)}>
-              {issuerList.map((item) => {
+              {lmsList.map((item) => {
                 const key = item.lmsId;
                 return (
                   <option key={key} value={key}>

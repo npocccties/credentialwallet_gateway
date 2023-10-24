@@ -83,4 +83,5 @@ export interface VCRequest {
     hash?: string;
     salt?: string;
   };
+  id_token_hint: string;
 }

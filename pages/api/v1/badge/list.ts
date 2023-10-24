@@ -10,13 +10,13 @@ type Data = {
 };
 
 export default async function handler(req: NextApiRequest & Session, res: NextApiResponse<Data>) {
-  const { username, password, isNeedSSO, moodleUrl } = req.body;
+  const { username, password, isNeedSSO, lmsUrl } = req.body;
 
   await withSession(req, res);
   const sessionId = req.session.id;
 
   // TODO: SSO時のTokenの取得タイミング検討
-  const badgeList: IfBadgeInfo[] = await myBadgesList(username, password, isNeedSSO, moodleUrl);
+  const badgeList: IfBadgeInfo[] = await myBadgesList(username, password, isNeedSSO, lmsUrl);
 
   // TODO: ログイン情報からマイウォレットIDを取得する
   const walletId = 1;

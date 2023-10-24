@@ -10,13 +10,13 @@ type BadgeListApiResponse = {
 
 export const useBadgeListApi = async (param: BadgeListReqestParam) => {
   const apiPath = api.v1.badge.list;
-  const { username, isNeedSSO, moodleUrl, password } = param;
+  const { username, isNeedSSO, lmsUrl, password } = param;
 
   const res = await axios.post<BadgeListApiResponse>(apiPath, {
     username,
     password,
     isNeedSSO,
-    moodleUrl,
+    lmsUrl,
   });
 
   return res.data;

@@ -16,7 +16,7 @@ model BadgeVc {
   vcDataPayload    String       @map("vc_data_payload")
   vcDataSignature  String       @map("vc_data_signature")
   badgeExpires     DateTime     @map("badge_expires") @db.Timestamp(6)
-  createdAt        DateTime     @map("created_at") @db.Timestamp(6)
+  createdAt        DateTime     @map("created_at") @db.Timestamp(6) @default(now())
   deletedAt        DateTime?    @map("deleted_at") @db.Timestamp(6)
   badgeName        String       @map("badge_name") @db.VarChar(256)
   lmsId            Int          @map("lms_id")
