@@ -9,7 +9,7 @@ export const useDeleteCredentialApi = async (badgeVcId: number) => {
   try {
     if (!deleteVcId) throw new Error("削除するバッジのIDが指定されていません");
 
-    await axios.post(`${apiPath}?badgeVcId=${deleteVcId}`);
+    await axios.post(`${apiPath}/${deleteVcId}`);
   } catch (e) {
     throw new Error(e);
   }

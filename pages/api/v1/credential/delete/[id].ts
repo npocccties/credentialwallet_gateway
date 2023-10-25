@@ -3,16 +3,15 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const deleteVcId = req.query.badgeVcId;
+  const { id } = req.query;
 
-  // TODO: 日付のフォーマット形式
   try {
     await prisma.badgeVc.update({
       data: {
         deletedAt: new Date(),
       },
       where: {
-        badgeVcId: Number(deleteVcId),
+        badgeVcId: Number(id),
       },
     });
 

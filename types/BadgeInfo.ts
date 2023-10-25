@@ -70,12 +70,12 @@ export type Alignment = {
   targetUrl: string;
 };
 
-export type Criteria = {
+type Criteria = {
   id: string;
   narrative: string;
 };
 
-export type Image = {
+type Image = {
   id: string;
   author: string;
 };

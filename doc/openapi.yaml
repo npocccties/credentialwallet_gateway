@@ -149,7 +149,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/moodleBadgeData"
+                $ref: "#/components/schemas/badgeList"
         "400":
           description: Bad request
   /badge/convert:
@@ -164,15 +164,61 @@ paths:
           required: true
           schema:
             type: string
-        - name: uniqueHash
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uniqueHash:
+                  type: string
+                email:
+                  type: string
+                badgeMetaData:
+                  type: string
+                lmsId:
+                  type: string
+                lmsName:
+                  type: string
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Bad request
+        "500":
+          description: server error
+  /badge/metadata:
+    get:
+      tags:
+        - badge metadata
+      description: 一覧で選択されたバッジのメタデータを返却します
+      parameters:
+        - name: saml
+          in: header
+          description: SAML by BASE64
+          required: true
+          schema:
+            type: string
+        - name: uniquehash
           in: query
-          description: convering badges uniqueHash
+          description: select badge uniquehash
+          required: true
+          schema:
+            type: string
+        - name: lmsUrl
+          in: query
+          description: select lms url
           required: true
           schema:
             type: string
       responses:
         "200":
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badgeMetaData"
         "400":
           description: Bad request
 
@@ -253,7 +299,7 @@ components:
               - cabinetToSubmit
               - submitCount
 
-    moodleBadgeData:
+    badgeList:
       type: array
       items:
         type: object
@@ -264,9 +310,99 @@ components:
             type: string
           description:
             type: string
-          createdAt:
+          timecreated:
+            type: integer
+          issuername:
             type: string
-          uniqueHash:
+          issuerurl:
             type: string
-          convertVcFlag:
+          expireddate:
+            type: integer
+          message:
+            type: string
+          uniquehash:
+            type: string
+          dateissued:
+            type: integer
+          email:
+            type: string
+          badgeurl:
+            type: string
+          vcConverted?:
             type: boolean
+
+    badgeMetaData:
+      type: object
+      properties:
+        "@context":
+          type: string
+        id:
+          type: string
+        type:
+          type: string
+        recipient:
+          $ref: "#/components/schemas/recipient"
+        issuedOn:
+          type: string
+          format: date-time
+        expires:
+          type: string
+          format: date-time
+        badge:
+          $ref: "#/components/schemas/badge"
+        verify:
+          $ref: "#/components/schemas/verify"
+
+    badge:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+        criteria:
+          $ref: "#/components/schemas/criteria"
+        issuer:
+          $ref: "#/components/schemas/issuer"
+
+    criteria:
+      type: object
+      properties:
+        narrative:
+          type: string
+
+    issuer:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+        email:
+          type: string
+
+    recipient:
+      type: object
+      properties:
+        type:
+          type: string
+        identity:
+          type: string
+
+    verify:
+      type: object
+      properties:
+        type:
+          type: string
+        url:
+          type: string
