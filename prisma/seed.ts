@@ -1,9 +1,10 @@
 import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
-import { lmsListTestData } from "./testdata/lms_list";
-import { badgeVcsTestData } from "./testdata/badge_vcs";
-import { submissionsTestData } from "./testdata/submissions";
+
 import { badgeConsumerTestData } from "./testdata/badge_consumers";
+import { badgeVcsTestData } from "./testdata/badge_vcs";
+import { lmsListTestData } from "./testdata/lms_list";
+import { submissionsTestData } from "./testdata/submissions";
 
 const prisma = new PrismaClient();
 

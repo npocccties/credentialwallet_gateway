@@ -9,21 +9,21 @@ datasource db {
 
 model BadgeVc {
   badgeVcId        Int          @id @default(autoincrement()) @map("badge_vc_id")
+  walletId         Int          @map("wallet_id")
+  lmsId            Int          @map("lms_id")
+  lmsName          String       @map("lms_name") @db.VarChar(256)
+  badgeUniquehash  String       @map("badge_uniquehash")
+  badgeName        String       @map("badge_name") @db.VarChar(256)
+  badgeEarnerEmail String       @map("badge_earner_email")
   badgeClassId     String       @map("badge_class_id")
   badgeIssuerName  String       @map("badge_issuer_name") @db.VarChar(256)
   badgeIssuedon    DateTime     @map("badge_issuedon") @db.Timestamp(6)
+  badgeExpires     DateTime     @map("badge_expires") @db.Timestamp(6)
   vcDataHeader     String       @map("vc_data_header")
   vcDataPayload    String       @map("vc_data_payload")
   vcDataSignature  String       @map("vc_data_signature")
-  badgeExpires     DateTime     @map("badge_expires") @db.Timestamp(6)
   createdAt        DateTime     @map("created_at") @db.Timestamp(6) @default(now())
   deletedAt        DateTime?    @map("deleted_at") @db.Timestamp(6)
-  badgeName        String       @map("badge_name") @db.VarChar(256)
-  lmsId            Int          @map("lms_id")
-  lmsName          String       @map("lms_name") @db.VarChar(256)
-  badgeEarnerEmail String       @map("badge_earner_email")
-  badgeUniquehash  String       @map("badge_uniquehash")
-  walletId         Int          @map("wallet_id")
   wallets          Wallet       @relation(fields: [walletId], references: [walletId], onDelete: NoAction, onUpdate: NoAction)
   submissions      Submission[]
 
@@ -33,11 +33,11 @@ model BadgeVc {
 
 model Submission {
   badgeVcId       Int      @map("badge_vc_id")
-  submissionEmail String   @map("submission_email")
+  walletId        Int      @map("wallet_id")
   submitedAt      DateTime @map("submited_at") @db.Timestamp(6)
+  submissionEmail String   @map("submission_email")
   consumerId      Int      @map("consumer_id")
   consumerName    String   @map("consumer_name") @db.VarChar(256)
-  walletId        Int      @map("wallet_id")
   wallets         BadgeVc  @relation(fields: [badgeVcId], references: [badgeVcId], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([badgeVcId, submitedAt])
@@ -46,12 +46,12 @@ model Submission {
 }
 
 model LmsList {
-  lmsName        String  @map("lms_name") @db.VarChar(256)
-  lmsAccessToken String  @map("lms_access_token")
   lmsId          Int     @id @default(autoincrement()) @map("lms_id")
-  lmsServuce     String  @map("lms_service")
+  lmsName        String  @map("lms_name") @db.VarChar(256)
   lmsUrl         String  @map("lms_url")
   ssoEnabled     Boolean @map("sso_enabled")
+  lmsAccessToken String  @map("lms_access_token")
+  lmsService     String  @map("lms_service")
 
   @@map("lms_list")
 }

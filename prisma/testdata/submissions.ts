@@ -1,10 +1,11 @@
 import { faker } from "@faker-js/faker";
 import { Submission } from "@prisma/client";
+
 import { dateToJtc } from "./badge_vcs";
 
 export const submissionsTestData: Submission[] = [
   {
-    badgeVcId: 1,
+    badgeVcId: 101,
     walletId: 1,
     submitedAt: dateToJtc(faker.date.anytime()),
     submissionEmail: "aaa@example.com",
@@ -12,7 +13,7 @@ export const submissionsTestData: Submission[] = [
     consumerName: "大阪市",
   },
   {
-    badgeVcId: 1,
+    badgeVcId: 101,
     walletId: 1,
     submitedAt: dateToJtc(faker.date.anytime()),
     submissionEmail: "aaa@example.com",
@@ -20,7 +21,7 @@ export const submissionsTestData: Submission[] = [
     consumerName: "大阪府",
   },
   {
-    badgeVcId: 1,
+    badgeVcId: 101,
     walletId: 1,
     submitedAt: dateToJtc(faker.date.anytime()),
     submissionEmail: "aaa@example.com",
@@ -28,7 +29,7 @@ export const submissionsTestData: Submission[] = [
     consumerName: "堺市",
   },
   {
-    badgeVcId: 1,
+    badgeVcId: 101,
     walletId: 1,
     submitedAt: dateToJtc(faker.date.anytime()),
     submissionEmail: "aaa@example.com",
@@ -36,7 +37,7 @@ export const submissionsTestData: Submission[] = [
     consumerName: "大阪市大学連合",
   },
   {
-    badgeVcId: 2,
+    badgeVcId: 102,
     walletId: 1,
     submitedAt: dateToJtc(faker.date.anytime()),
     submissionEmail: "aaa@example.com",
@@ -44,7 +45,7 @@ export const submissionsTestData: Submission[] = [
     consumerName: "大阪市",
   },
   {
-    badgeVcId: 2,
+    badgeVcId: 102,
     walletId: 1,
     submitedAt: dateToJtc(faker.date.anytime()),
     submissionEmail: "aaa@example.com",

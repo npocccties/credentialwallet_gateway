@@ -12,7 +12,7 @@ export const dateToJtc = (dateUTC: Date) => {
 
 export const badgeVcsTestData: BadgeVc[] = [
   {
-    badgeVcId: 1,
+    badgeVcId: 101,
     walletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
@@ -31,7 +31,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     deletedAt: null,
   },
   {
-    badgeVcId: 2,
+    badgeVcId: 102,
     walletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
@@ -50,7 +50,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     deletedAt: null,
   },
   {
-    badgeVcId: 3,
+    badgeVcId: 103,
     walletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
@@ -69,7 +69,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     deletedAt: null,
   },
   {
-    badgeVcId: 4,
+    badgeVcId: 104,
     walletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
@@ -88,7 +88,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     deletedAt: null,
   },
   {
-    badgeVcId: 5,
+    badgeVcId: 105,
     walletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
@@ -107,7 +107,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     deletedAt: null,
   },
   {
-    badgeVcId: 6,
+    badgeVcId: 106,
     walletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
@@ -126,7 +126,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     deletedAt: null,
   },
   {
-    badgeVcId: 7,
+    badgeVcId: 107,
     walletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
@@ -145,7 +145,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     deletedAt: null,
   },
   {
-    badgeVcId: 8,
+    badgeVcId: 108,
     walletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
@@ -164,7 +164,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     deletedAt: null,
   },
   {
-    badgeVcId: 9,
+    badgeVcId: 109,
     walletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
@@ -183,7 +183,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     deletedAt: null,
   },
   {
-    badgeVcId: 10,
+    badgeVcId: 110,
     walletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
@@ -202,7 +202,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     deletedAt: null,
   },
   {
-    badgeVcId: 11,
+    badgeVcId: 111,
     walletId: 1,
     lmsId: 1,
     lmsName: "大阪教育大学",
