@@ -17,7 +17,7 @@ export const ResponseState = ({ icon, status, message }: { icon: ReactNode; stat
       </Box>
       <Box>
         <Button colorScheme={"blue"} onClick={() => router.push(pagePath.wallet.list)}>
-          マイウォレットに戻る
+          ウォレットに戻る
         </Button>
       </Box>
     </>

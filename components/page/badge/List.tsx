@@ -1,13 +1,13 @@
-import { Flex, Box, FormLabel, Select, Button, Text } from "@chakra-ui/react";
+import { Flex, Box, FormLabel, Select } from "@chakra-ui/react";
 import { LmsList } from "@prisma/client";
-import { useRouter } from "next/router";
 import React, { Dispatch, SetStateAction, useState } from "react";
 
+import { Loading } from "@/components/Loading";
 import { MoodleLoginForm } from "@/components/model/moodle/MoodleLoginform";
 import { MyBadgesList, MyBadgesListSp } from "@/components/ui/table/MybadgeList";
 import { badgeListActions, badgeListGetters } from "@/share/store/badgeList/main";
 import { badgeMetaDataActions } from "@/share/store/badgeMetaData/main";
-import { selectBadgeActions } from "@/share/store/selectBadge/main";
+import { selectBadgeActions, selectBadgeGetters } from "@/share/store/selectBadge/main";
 
 export const BadgeList = ({
   lmsList,
@@ -16,47 +16,52 @@ export const BadgeList = ({
   lmsList: LmsList[];
   setIsBadgeSelect: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const router = useRouter();
-  const [isNeedSSO, setisNeedSSO] = useState(lmsList[0].ssoEnabled);
-  const [lmsUrl, setLmsUrl] = useState(lmsList[0].lmsUrl);
+  const badgeList = badgeListGetters.useBadgeList();
+  const selectBadge = selectBadgeGetters.useSelectBadgeData();
+  const { fetchBadgeList } = badgeListActions.useFetchBadgeList();
+  const { clearBadgeList } = badgeListActions.useClearBadgeList();
+  const { fetchBadgeMetaData } = badgeMetaDataActions.useFetchBadgeMetaData();
+  const { setSelectBadge } = selectBadgeActions.useSetSelectBadge();
+
+  const [selectLmsId, setSelectLmsId] = useState(selectBadge.lmsId.toString());
   const [isNeedMoodleLogin, setIsNeedMoodleLogin] = useState(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const badgeList = badgeListGetters.useBadgeList();
-  const { fetchBadgeList } = badgeListActions.useFetchBadgeList();
-  const { fetchBadgeMetaData } = badgeMetaDataActions.useFetchBadgeMetaData();
-  const { setSelectBadge } = selectBadgeActions.useSetSelectBadge();
+  const fetchMoodleMyBadges = async (username: string, password: string) => {
+    setIsLoading(true);
+    fetchBadgeList({ username, password, lmsId: Number(selectLmsId) });
+    setIsLoading(false);
+  };
 
-  const fetchMoodleMyBadgesForSSO = async () => {
-    // TODO: 仮実装 Orthrosから取得を想定
-    const username = "testtest";
+  const handleChangeIssuer = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectLmsId(e.target.value);
+    if (e.target.value === "") {
+      clearBadgeList();
+      return;
+    }
+
     setIsLoading(true);
 
-    if (!isNeedSSO) {
+    const selectIssuer = lmsList.filter((x) => x.lmsId.toString() === e.target.value)[0];
+    const { lmsId, ssoEnabled } = selectIssuer;
+
+    if (!ssoEnabled) {
       setIsNeedMoodleLogin(true);
       setIsLoading(false);
       return;
     }
 
-    fetchBadgeList({ username, isNeedSSO, lmsUrl });
-    setIsLoading(false);
-  };
+    // TODO: 仮実装 Orthrosから取得を想定
+    const username = "testtest";
 
-  const fetchMoodleMyBadges = async (username: string, password: string) => {
-    setIsLoading(true);
-    fetchBadgeList({ username, password, isNeedSSO, lmsUrl });
-    setIsLoading(false);
-  };
+    fetchBadgeList({ username, lmsId });
 
-  const handleChangeIssuer = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectIssuer = lmsList.filter((x) => x.lmsId.toString() === e.target.value)[0];
-    setisNeedSSO(selectIssuer.ssoEnabled);
-    setLmsUrl(selectIssuer.lmsUrl);
+    setIsLoading(false);
   };
 
   const handleBadgeSelect = (uniquehash: string, email: string) => {
-    const { lmsId, lmsName } = lmsList.find((x) => x.lmsUrl === lmsUrl);
+    const { lmsId, lmsName, lmsUrl } = lmsList.find((x) => x.lmsId.toString() === selectLmsId);
 
     fetchBadgeMetaData({ uniquehash, lmsUrl });
     setSelectBadge({ email, uniquehash, lmsId, lmsName });
@@ -78,9 +83,10 @@ export const BadgeList = ({
         >
           <Box mt={4}>
             <FormLabel mb={2} fontSize={"md"}>
-              発行者選択
+              学習サービス名選択
             </FormLabel>
-            <Select w={64} onChange={(e) => handleChangeIssuer(e)}>
+            <Select w={72} value={selectLmsId} onChange={(e) => handleChangeIssuer(e)}>
+              <option value=""></option>
               {lmsList.map((item) => {
                 const key = item.lmsId;
                 return (
@@ -90,16 +96,6 @@ export const BadgeList = ({
                 );
               })}
             </Select>
-          </Box>
-          <Box>
-            <Button
-              colorScheme={"blue"}
-              type="button"
-              onClick={() => fetchMoodleMyBadgesForSSO()}
-              isLoading={isLoading}
-            >
-              <Text fontSize={"md"}>バッジリスト取得</Text>
-            </Button>
           </Box>
         </Flex>
 
@@ -113,9 +109,10 @@ export const BadgeList = ({
         >
           <Box w={"full"} mt={8}>
             <FormLabel mb={2} fontSize={"sm"}>
-              発行者選択
+              学習サービス名選択
             </FormLabel>
-            <Select onChange={(e) => handleChangeIssuer(e)}>
+            <Select value={selectLmsId} onChange={(e) => handleChangeIssuer(e)}>
+              <option value=""></option>
               {lmsList.map((item) => {
                 const key = item.lmsId;
                 return (
@@ -126,26 +123,21 @@ export const BadgeList = ({
               })}
             </Select>
           </Box>
-          <Box w={"full"} mt={8}>
-            <Button
-              w={"full"}
-              colorScheme={"blue"}
-              type="button"
-              onClick={() => fetchMoodleMyBadgesForSSO()}
-              isLoading={isLoading}
-            >
-              <Text fontSize={"sm"}>バッジリスト取得</Text>
-            </Button>
-          </Box>
         </Flex>
 
         <Flex w="full" align={"center"} direction={"column"}>
-          <Box display={{ sm: "block", base: "none" }}>
-            {<MyBadgesList badgeList={badgeList} handleBadgeSelect={handleBadgeSelect} />}
-          </Box>
-          <Box display={{ sm: "none", base: "block" }}>
-            {<MyBadgesListSp badgeList={badgeList} handleBadgeSelect={handleBadgeSelect} />}
-          </Box>
+          {isLoading ? (
+            <Loading message="バッジリスト読込中" />
+          ) : (
+            <>
+              <Box display={{ sm: "block", base: "none" }}>
+                {<MyBadgesList badgeList={badgeList} handleBadgeSelect={handleBadgeSelect} />}
+              </Box>
+              <Box display={{ sm: "none", base: "block" }}>
+                {<MyBadgesListSp badgeList={badgeList} handleBadgeSelect={handleBadgeSelect} />}
+              </Box>
+            </>
+          )}
         </Flex>
       </>
     );

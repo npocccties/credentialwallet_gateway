@@ -1,6 +1,8 @@
 import { Box, Heading, FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState } from "react";
 
+import { badgeListActions } from "@/share/store/badgeList/main";
+
 export const MoodleLoginForm = ({
   setIsNeedMoodleLogin,
   getMyBadges,
@@ -10,6 +12,8 @@ export const MoodleLoginForm = ({
 }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const { clearBadgeList } = badgeListActions.useClearBadgeList();
   return (
     <Box w={{ base: "full", sm: "md" }} mt={4}>
       <Heading textAlign={"center"} fontWeight={600} fontSize={"xl"} lineHeight={"110%"}>
@@ -52,6 +56,7 @@ export const MoodleLoginForm = ({
             w={"full"}
             colorScheme="gray"
             onClick={() => {
+              clearBadgeList();
               setIsNeedMoodleLogin(false);
             }}
           >

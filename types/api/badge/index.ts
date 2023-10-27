@@ -3,8 +3,7 @@ import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
 export type BadgeListReqestParam = {
   username: string;
-  isNeedSSO: boolean;
-  lmsUrl: string;
+  lmsId: number;
   password?: string;
 };
 

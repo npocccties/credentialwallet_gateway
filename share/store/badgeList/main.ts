@@ -40,6 +40,19 @@ const useFetchBadgeList = () => {
   return { fetchBadgeList };
 };
 
+const useClearBadgeList = () => {
+  const setState = useSetRecoilState(badgeListState);
+
+  const clearBadgeList = useCallback(async () => {
+    setState(() => {
+      return defaultState;
+    });
+  }, [setState]);
+
+  return { clearBadgeList };
+};
+
 export const badgeListActions: BadgeListActions = {
   useFetchBadgeList,
+  useClearBadgeList,
 };

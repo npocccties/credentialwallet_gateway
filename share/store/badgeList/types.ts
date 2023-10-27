@@ -10,4 +10,7 @@ export type BadgeListActions = {
   useFetchBadgeList: () => {
     fetchBadgeList: (param: BadgeListReqestParam) => void;
   };
+  useClearBadgeList: () => {
+    clearBadgeList: () => void;
+  };
 };

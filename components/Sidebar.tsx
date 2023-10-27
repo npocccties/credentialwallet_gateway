@@ -1,13 +1,8 @@
-import { Flex, Box, BoxProps, CloseButton, FlexProps, Text } from "@chakra-ui/react";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { Flex, Box, BoxProps, CloseButton, FlexProps, Text, Link } from "@chakra-ui/react";
 import React from "react";
 
-import { pagePath } from "@/constants";
-
-const LinkItems: Array<{ name: string; link?: string }> = [
-  { name: "マイウォレット", link: "/" },
-  { name: "バッジ取り込み", link: pagePath.badge.import },
-  { name: "分析" },
-];
+import { sidebarItems } from "@/constants/sidebar";
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
@@ -28,8 +23,8 @@ export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       <Flex h="20" alignItems="center" p="8" justifyContent="flex-end" borderBottom="1px" borderColor="gray.400">
         <CloseButton onClick={onClose} />
       </Flex>
-      {LinkItems.map((item) => (
-        <NavItem key={item.name} name={item.name} link={item.link} />
+      {sidebarItems.map((item) => (
+        <NavItem key={item.name} name={item.name} link={item.link} external={item.external} />
       ))}
     </Box>
   );
@@ -38,11 +33,17 @@ export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 interface NavItemProps extends FlexProps {
   name: string;
   link?: string;
+  external?: boolean;
 }
 
-const NavItem = ({ name, link, ...rest }: NavItemProps) => {
+const NavItem = ({ name, link, external, ...rest }: NavItemProps) => {
   return (
-    <Box as="a" href={link ? link : "#"} style={{ textDecoration: "none" }} _focus={{ boxShadow: "none" }}>
+    <Link
+      href={link ? link : "#"}
+      style={{ textDecoration: "none" }}
+      _focus={{ boxShadow: "none" }}
+      isExternal={external}
+    >
       <Flex
         align="center"
         p="6"
@@ -56,8 +57,11 @@ const NavItem = ({ name, link, ...rest }: NavItemProps) => {
         }}
         {...rest}
       >
-        <Text fontSize="md">{name}</Text>
+        <Text fontSize="md" mr={2}>
+          {name}
+        </Text>{" "}
+        {external && <ExternalLinkIcon />}
       </Flex>
-    </Box>
+    </Link>
   );
 };

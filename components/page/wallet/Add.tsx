@@ -14,7 +14,7 @@ export const AddWallet = ({ id, name }: Props) => {
     <Flex direction={"column"} px={{ base: 4, sm: 0 }}>
       <Center>
         <Text fontSize={{ base: "2xl", sm: "3xl" }} mt={{ base: 8, sm: 4 }}>
-          マイウォレット登録
+          ウォレット登録
         </Text>
       </Center>
       <Box mt={{ base: 8, sm: 16 }}>
@@ -35,7 +35,7 @@ export const AddWallet = ({ id, name }: Props) => {
         <Center>
           <Button colorScheme={"blue"} size={"md"}>
             <Text fontSize={"sm"} onClick={() => handleClickButton()}>
-              マイウォレットを作成する
+              ウォレットを作成する
             </Text>
           </Button>
         </Center>

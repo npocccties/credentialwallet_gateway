@@ -39,7 +39,7 @@ export const VcImport = ({ setIsBadgeSelect }: Props) => {
       <Box w={"100%"} mt={6} gap={16}>
         <Box textAlign={"left"}>
           <Text fontSize={{ base: "sm", sm: "md" }} textAlign={"center"}>
-            このバッジをマイウォレットに取り込みますか？
+            このバッジをウォレットに取り込みますか？
           </Text>
         </Box>
         {badgeMetaData && (

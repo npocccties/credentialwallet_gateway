@@ -8,23 +8,28 @@ import { VcImport } from "@/components/page/badge/VcImport";
 import prisma, { LmsList } from "@/lib/prisma";
 
 type Props = {
-  issuerList: LmsList[];
+  lmsList: LmsList[];
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const issuerList = await prisma.lmsList.findMany();
-  return { props: { issuerList } };
+  const lmsList = await prisma.lmsList.findMany({
+    orderBy: {
+      lmsId: "asc",
+    },
+  });
+  return { props: { lmsList } };
 };
 
 const ImportVCPage = (props: Props) => {
   const [isBadgeSelect, setIsBadgeSelect] = useState(false);
+  const pageWidth = isBadgeSelect ? "md" : "2xl";
   return (
-    <Layout align="center" textAlign="center" maxW="2xl">
+    <Layout align="center" textAlign="center" maxW={pageWidth}>
       <Metatag title="Get Open Badge from Moodle" description="Moodle" />
       {isBadgeSelect ? (
         <VcImport setIsBadgeSelect={setIsBadgeSelect} />
       ) : (
-        <BadgeList lmsList={props.issuerList} setIsBadgeSelect={setIsBadgeSelect} />
+        <BadgeList lmsList={props.lmsList} setIsBadgeSelect={setIsBadgeSelect} />
       )}
     </Layout>
   );

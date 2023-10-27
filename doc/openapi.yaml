@@ -48,7 +48,7 @@ paths:
     post:
       tags:
         - wallet add
-      description: ログイン情報をもとにマイウォレットを登録します
+      description: ログイン情報をもとにウォレットを登録します
       parameters:
         - name: saml
           in: header
