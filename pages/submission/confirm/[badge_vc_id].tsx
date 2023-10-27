@@ -1,6 +1,11 @@
+import dynamic from "next/dynamic";
+
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
-import { Confirm } from "@/components/page/submission/Confirm";
+
+const Confirm = dynamic(() => import("@/components/page/submission/Confirm").then((mod) => mod.Confirm), {
+  ssr: false,
+});
 
 const SubmittionConfirmPage = () => {
   return (

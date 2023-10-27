@@ -12,5 +12,15 @@ export const api = {
       metadata: "/api/v1/badge/metadata",
       list: "/api/v1/badge/list",
     },
+    submission: {
+      sendmail: "/api/v1/submission/sendmail",
+      vc: "/api/v1/submission/vc",
+    },
+  },
+};
+
+export const cabinetApi = {
+  v1: {
+    submissionBadge: "/api/v1/submission_badge",
   },
 };

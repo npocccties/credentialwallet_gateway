@@ -11,4 +11,11 @@ export const pagePath = {
     enter: "/submission",
     confirm: "/submission/confirm",
   },
-};
+} as const;
+
+export const sessionStorageKey = {
+  confirmCode: "confirmCode",
+  submissionEmail: "submissionEmail",
+  consumer: "consumer",
+  badgeVc: "badgeVc",
+} as const;

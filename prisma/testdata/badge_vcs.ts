@@ -24,7 +24,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     badgeIssuedon: dateToJtc(faker.date.anytime()),
     badgeExpires: dateToJtc(faker.date.anytime()),
     vcDataHeader:
-      "eyJhbGciOiJFUzI1NksiLCJraWQiOiJkaWQ6d2ViOmRldi1wb3J0YWwub2t1LmNjY3RpZXMub3JnI2U2MTVkMjRhYmQ0YjQyMjc4OGFkNmJmMDM1YmIwM2FidmNTaWduaW5nS2V5LTg3OTRlIiwidHlwIjoiSldUIn0",
+      '{"alg":"ES256K","kid":"did:web:dev-portal.oku.cccties.org#e615d24abd4b422788ad6bf035bb03abvcSigningKey-8794e","typ":"JWT"}',
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
@@ -43,7 +43,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     badgeIssuedon: dateToJtc(faker.date.anytime()),
     badgeExpires: dateToJtc(faker.date.anytime()),
     vcDataHeader:
-      "eyJhbGciOiJFUzI1NksiLCJraWQiOiJkaWQ6d2ViOmRldi1wb3J0YWwub2t1LmNjY3RpZXMub3JnI2U2MTVkMjRhYmQ0YjQyMjc4OGFkNmJmMDM1YmIwM2FidmNTaWduaW5nS2V5LTg3OTRlIiwidHlwIjoiSldUIn0",
+      '{"alg":"ES256K","kid":"did:web:dev-portal.oku.cccties.org#e615d24abd4b422788ad6bf035bb03abvcSigningKey-8794e","typ":"JWT"}',
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
@@ -62,7 +62,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     badgeIssuedon: dateToJtc(faker.date.anytime()),
     badgeExpires: dateToJtc(faker.date.anytime()),
     vcDataHeader:
-      "eyJhbGciOiJFUzI1NksiLCJraWQiOiJkaWQ6d2ViOmRldi1wb3J0YWwub2t1LmNjY3RpZXMub3JnI2U2MTVkMjRhYmQ0YjQyMjc4OGFkNmJmMDM1YmIwM2FidmNTaWduaW5nS2V5LTg3OTRlIiwidHlwIjoiSldUIn0",
+      '{"alg":"ES256K","kid":"did:web:dev-portal.oku.cccties.org#e615d24abd4b422788ad6bf035bb03abvcSigningKey-8794e","typ":"JWT"}',
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
@@ -81,7 +81,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     badgeIssuedon: dateToJtc(faker.date.anytime()),
     badgeExpires: dateToJtc(faker.date.anytime()),
     vcDataHeader:
-      "eyJhbGciOiJFUzI1NksiLCJraWQiOiJkaWQ6d2ViOmRldi1wb3J0YWwub2t1LmNjY3RpZXMub3JnI2U2MTVkMjRhYmQ0YjQyMjc4OGFkNmJmMDM1YmIwM2FidmNTaWduaW5nS2V5LTg3OTRlIiwidHlwIjoiSldUIn0",
+      '{"alg":"ES256K","kid":"did:web:dev-portal.oku.cccties.org#e615d24abd4b422788ad6bf035bb03abvcSigningKey-8794e","typ":"JWT"}',
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
@@ -100,7 +100,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     badgeIssuedon: dateToJtc(faker.date.anytime()),
     badgeExpires: dateToJtc(faker.date.anytime()),
     vcDataHeader:
-      "eyJhbGciOiJFUzI1NksiLCJraWQiOiJkaWQ6d2ViOmRldi1wb3J0YWwub2t1LmNjY3RpZXMub3JnI2U2MTVkMjRhYmQ0YjQyMjc4OGFkNmJmMDM1YmIwM2FidmNTaWduaW5nS2V5LTg3OTRlIiwidHlwIjoiSldUIn0",
+      '{"alg":"ES256K","kid":"did:web:dev-portal.oku.cccties.org#e615d24abd4b422788ad6bf035bb03abvcSigningKey-8794e","typ":"JWT"}',
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
@@ -119,7 +119,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     badgeIssuedon: dateToJtc(faker.date.anytime()),
     badgeExpires: dateToJtc(faker.date.anytime()),
     vcDataHeader:
-      "eyJhbGciOiJFUzI1NksiLCJraWQiOiJkaWQ6d2ViOmRldi1wb3J0YWwub2t1LmNjY3RpZXMub3JnI2U2MTVkMjRhYmQ0YjQyMjc4OGFkNmJmMDM1YmIwM2FidmNTaWduaW5nS2V5LTg3OTRlIiwidHlwIjoiSldUIn0",
+      '{"alg":"ES256K","kid":"did:web:dev-portal.oku.cccties.org#e615d24abd4b422788ad6bf035bb03abvcSigningKey-8794e","typ":"JWT"}',
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
@@ -138,7 +138,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     badgeIssuedon: dateToJtc(faker.date.anytime()),
     badgeExpires: dateToJtc(faker.date.anytime()),
     vcDataHeader:
-      "eyJhbGciOiJFUzI1NksiLCJraWQiOiJkaWQ6d2ViOmRldi1wb3J0YWwub2t1LmNjY3RpZXMub3JnI2U2MTVkMjRhYmQ0YjQyMjc4OGFkNmJmMDM1YmIwM2FidmNTaWduaW5nS2V5LTg3OTRlIiwidHlwIjoiSldUIn0",
+      '{"alg":"ES256K","kid":"did:web:dev-portal.oku.cccties.org#e615d24abd4b422788ad6bf035bb03abvcSigningKey-8794e","typ":"JWT"}',
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
@@ -157,7 +157,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     badgeIssuedon: dateToJtc(faker.date.anytime()),
     badgeExpires: dateToJtc(faker.date.anytime()),
     vcDataHeader:
-      "eyJhbGciOiJFUzI1NksiLCJraWQiOiJkaWQ6d2ViOmRldi1wb3J0YWwub2t1LmNjY3RpZXMub3JnI2U2MTVkMjRhYmQ0YjQyMjc4OGFkNmJmMDM1YmIwM2FidmNTaWduaW5nS2V5LTg3OTRlIiwidHlwIjoiSldUIn0",
+      '{"alg":"ES256K","kid":"did:web:dev-portal.oku.cccties.org#e615d24abd4b422788ad6bf035bb03abvcSigningKey-8794e","typ":"JWT"}',
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
@@ -176,7 +176,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     badgeIssuedon: dateToJtc(faker.date.anytime()),
     badgeExpires: dateToJtc(faker.date.anytime()),
     vcDataHeader:
-      "eyJhbGciOiJFUzI1NksiLCJraWQiOiJkaWQ6d2ViOmRldi1wb3J0YWwub2t1LmNjY3RpZXMub3JnI2U2MTVkMjRhYmQ0YjQyMjc4OGFkNmJmMDM1YmIwM2FidmNTaWduaW5nS2V5LTg3OTRlIiwidHlwIjoiSldUIn0",
+      '{"alg":"ES256K","kid":"did:web:dev-portal.oku.cccties.org#e615d24abd4b422788ad6bf035bb03abvcSigningKey-8794e","typ":"JWT"}',
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
@@ -195,7 +195,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     badgeIssuedon: dateToJtc(faker.date.anytime()),
     badgeExpires: dateToJtc(faker.date.anytime()),
     vcDataHeader:
-      "eyJhbGciOiJFUzI1NksiLCJraWQiOiJkaWQ6d2ViOmRldi1wb3J0YWwub2t1LmNjY3RpZXMub3JnI2U2MTVkMjRhYmQ0YjQyMjc4OGFkNmJmMDM1YmIwM2FidmNTaWduaW5nS2V5LTg3OTRlIiwidHlwIjoiSldUIn0",
+      '{"alg":"ES256K","kid":"did:web:dev-portal.oku.cccties.org#e615d24abd4b422788ad6bf035bb03abvcSigningKey-8794e","typ":"JWT"}',
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
@@ -214,7 +214,7 @@ export const badgeVcsTestData: BadgeVc[] = [
     badgeIssuedon: dateToJtc(faker.date.anytime()),
     badgeExpires: dateToJtc(faker.date.anytime()),
     vcDataHeader:
-      "eyJhbGciOiJFUzI1NksiLCJraWQiOiJkaWQ6d2ViOmRldi1wb3J0YWwub2t1LmNjY3RpZXMub3JnI2U2MTVkMjRhYmQ0YjQyMjc4OGFkNmJmMDM1YmIwM2FidmNTaWduaW5nS2V5LTg3OTRlIiwidHlwIjoiSldUIn0",
+      '{"alg":"ES256K","kid":"did:web:dev-portal.oku.cccties.org#e615d24abd4b422788ad6bf035bb03abvcSigningKey-8794e","typ":"JWT"}',
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
