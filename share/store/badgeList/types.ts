@@ -8,7 +8,7 @@ export type BadgeListGetters = {
 
 export type BadgeListActions = {
   useFetchBadgeList: () => {
-    fetchBadgeList: (param: BadgeListReqestParam) => void;
+    fetchBadgeList: (param: BadgeListReqestParam) => Promise<void>;
   };
   useClearBadgeList: () => {
     clearBadgeList: () => void;

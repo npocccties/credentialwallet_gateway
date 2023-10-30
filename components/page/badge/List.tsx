@@ -30,7 +30,7 @@ export const BadgeList = ({
 
   const fetchMoodleMyBadges = async (username: string, password: string) => {
     setIsLoading(true);
-    fetchBadgeList({ username, password, lmsId: Number(selectLmsId) });
+    await fetchBadgeList({ username, password, lmsId: Number(selectLmsId) });
     setIsLoading(false);
   };
 
@@ -53,17 +53,17 @@ export const BadgeList = ({
     }
 
     // TODO: 仮実装 Orthrosから取得を想定
-    const username = "testtest";
+    const username = "user2";
 
-    fetchBadgeList({ username, lmsId });
+    await fetchBadgeList({ username, lmsId });
 
     setIsLoading(false);
   };
 
-  const handleBadgeSelect = (uniquehash: string, email: string) => {
+  const handleBadgeSelect = async (uniquehash: string, email: string) => {
     const { lmsId, lmsName, lmsUrl } = lmsList.find((x) => x.lmsId.toString() === selectLmsId);
 
-    fetchBadgeMetaData({ uniquehash, lmsUrl });
+    await fetchBadgeMetaData({ uniquehash, lmsUrl });
     setSelectBadge({ email, uniquehash, lmsId, lmsName });
     setIsBadgeSelect(true);
   };

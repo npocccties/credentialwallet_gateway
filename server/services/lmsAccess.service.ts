@@ -98,9 +98,7 @@ export const myBadgesList = async (username: string, password: string, selectLms
 
 export const myOpenBadge = async (uniquehash: string, lmsUrl: string): Promise<BadgeMetaData> => {
   console.log(`start myOpenBadge selected uniquehash=[${uniquehash}]`);
-  // TODO: 選択されたMoodleのURLを差し込む
-  // const myOpenBadgeURL = `${lmsUrl}/badges/assertion.php?obversion=2&b=${uniquehash}`;
-  const myOpenBadgeURL = `https://z.cccties.org/41a/badges/assertion.php?obversion=2&b=${uniquehash}`;
+  const myOpenBadgeURL = `${lmsUrl}/badges/assertion.php?obversion=2&b=${uniquehash}`;
   try {
     const openBadgeMeta = await axios.get(myOpenBadgeURL).then((res) => res.data);
     console.log("openBadgeMetadata=", openBadgeMeta);

@@ -9,6 +9,6 @@ export type BadgeMetaDataGetters = {
 
 export type BadgeMetaDataActions = {
   useFetchBadgeMetaData: () => {
-    fetchBadgeMetaData: (param: BadgeMetaDataReqestParam) => void;
+    fetchBadgeMetaData: (param: BadgeMetaDataReqestParam) => Promise<void>;
   };
 };

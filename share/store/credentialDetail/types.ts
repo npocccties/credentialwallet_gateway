@@ -8,7 +8,7 @@ export type VcDetailGetters = {
 
 export type VcDetailActions = {
   useSetVcDetail: () => {
-    setVcDetail: (vcDetailData: VcDetailData) => void;
+    setVcDetail: (vcDetailData: VcDetailData) => Promise<void>;
   };
-  useDeleteCredential: () => { deleteCredential: (badgeVcId: number) => void };
+  useDeleteCredential: () => { deleteCredential: (badgeVcId: number) => Promise<void> };
 };

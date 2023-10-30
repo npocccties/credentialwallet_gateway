@@ -27,7 +27,7 @@ const useSetSelectBadge = () => {
   const setState = useSetRecoilState(selectBadgeState);
 
   const setSelectBadge = useCallback(
-    async (params: SelectBadgeState) => {
+    (params: SelectBadgeState) => {
       const { email, uniquehash, lmsId: lmsId, lmsName } = params;
       setState(() => {
         return {

@@ -8,10 +8,10 @@ export type CredentialListGetters = {
 
 export type CredentialListActions = {
   useFetchCredentialList: () => {
-    fetchCredentialList: () => void;
+    fetchCredentialList: () => Promise<void>;
   };
   useSearchCredentialList: () => {
-    searchCredentialList: (param: SearchFormItem) => void;
+    searchCredentialList: (param: SearchFormItem) => Promise<void>;
   };
   useSortOrderCredentialList: () => {
     sortOrderCredentialList: (sortOrder: string) => void;
