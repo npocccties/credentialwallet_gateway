@@ -152,7 +152,11 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 | :----------------------------------- | :------------------------------------------ | :------------------- |
 |baseURL|アプリケーション起動時のURL|http://localhost:3000|
 |clientName|アプリケーションの名称|chilowallet|
+|did_authority|VC発行者のDID|-|
 |vcApp_client_id|AzureクライアントID|-|
 |vcApp_azTenantId|AzureテナントID|-|
 |vcApp_client_secret|Azureクライアントシークレット|-|
 |vcApp_scope|AzureへVC発行要求するためのスコープ配列|-|
+|NEXT_PUBLIC_COPYRIGHT|フッターに表示するcopyright|-|
+|NEXT_PUBLIC_COPYRIGHT_LINK|フッターに表示するcopyrightのリンク|-|
+|NEXT_PUBLIC_E_PORTFOLIO_URL|e-ポートフォリオシステムへのリンク|-|
