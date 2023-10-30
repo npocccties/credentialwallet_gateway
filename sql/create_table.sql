@@ -25,11 +25,11 @@ create table badge_vcs (
     lms_name varchar(256)not  null,             -- バッジ取得LMSの選択表示名
     badge_uniquehash text not null,             -- バッジユニークハッシュ
     badge_name varchar(256) not null,           -- バッジ名
-    badge_earner_email text not null,           -- バッジ獲得者EMail
+    badge_earner_email varchar(256) not null,   -- バッジ獲得者EMail
     badge_class_id text not null,               -- バッジクラスID
     badge_issuer_name varchar(256) not null,    -- バッジ発行者名
     badge_issuedon timestamp not null,          -- バッジ発行日時
-    badge_expires timestamp not null,           -- バッジ有効期限
+    badge_expires timestamp,                    -- バッジ有効期限
     vc_data_header text not null,               -- VCデータヘッダ
     vc_data_payload text not null,              -- VCデータペイロード
     vc_data_signature text not null,            -- VCデータ署名
@@ -56,7 +56,7 @@ create table submissions (
     badge_vc_id integer not null,               -- バッジVC ID
     wallet_id integer not null,                 -- ウォレットID
     submited_at timestamp not null,             -- 提出日時
-    submission_email text not null,             -- 提出EMAILアドレス
+    submission_email varchar(256) not null,     -- 提出EMAILアドレス
     consumer_id integer not null,               -- バッジ提出先ID
     consumer_name varchar(256) not null,        -- バッジ提出先名
     primary key (badge_vc_id, submited_at),
