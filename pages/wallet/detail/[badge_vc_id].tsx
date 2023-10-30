@@ -37,9 +37,7 @@ export async function getServerSideProps(
     }),
   ]);
 
-  // TODO: バッジのclassIdをもとに、対象となるMoodleにリクエストを送信する
-  const url = "https://lms.okutep.osaka-kyoiku.ac.jp/badges/badge_json.php?id=300";
-  // const url = badgeVc.badgeClassId;
+  const url = badgeVc.badgeClassId;
   const badgeMetaData: WisdomBadgeInfo = await axios.get(url).then((res) => res.data);
 
   const sub = submissions.map((sub): BadgeVcSubmission => {

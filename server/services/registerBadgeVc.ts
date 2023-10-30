@@ -17,6 +17,9 @@ type Arg = {
 export const registerBadgeVc = async ({ walletId, lmsId, lmsName, uniquehash, badgeMetaData, email, vcJwt }: Arg) => {
   const { vcHeader, vcPayload, vcSignature } = splitJwt(vcJwt);
 
+  // TODO: NULL対応までの仮データ
+  const expires = "2024-09-06T07:13:46.000Z";
+
   const decodeVcPayload = Buffer.from(vcPayload, "base64").toString();
   const decodeVcHeader = Buffer.from(vcHeader, "base64").toString();
 
@@ -34,7 +37,7 @@ export const registerBadgeVc = async ({ walletId, lmsId, lmsName, uniquehash, ba
     badgeClassId: badgeMetaData.badge.id,
     badgeIssuerName: badgeMetaData.badge.issuer.name,
     badgeIssuedon: badgeMetaData.issuedOn,
-    badgeExpires: badgeMetaData.expires,
+    badgeExpires: expires,
     vcDataHeader: decodeVcHeader,
     vcDataPayload: decodeVcPayload,
     vcDataSignature: vcSignature,

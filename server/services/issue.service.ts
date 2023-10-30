@@ -1,7 +1,7 @@
+import ION from "@decentralized-identity/ion-tools";
 import axios from "axios";
 
-import { initKeyPair2 } from "@/lib/repository/keyPair";
-import { Signer } from "@/lib/signer";
+import { KeyPair, Signer } from "@/lib/signer";
 import { AcquiredIdToken, Manifest, VCRequest } from "@/types";
 
 interface IIssueResponse {
@@ -16,9 +16,8 @@ export const issue = async (
   acquiredIdToken: AcquiredIdToken,
   options?: { [key: string]: any },
 ): Promise<string> => {
-  // TODO: 仮のデータ
-  const password = "1456";
-  const key = await initKeyPair2(password);
+  // TODO: subのdidをどう作成するかを考える
+  const key: KeyPair = await ION.generateKeyPair();
 
   const signer = new Signer();
   await signer.init(key);

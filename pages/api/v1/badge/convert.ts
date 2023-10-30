@@ -43,8 +43,8 @@ export default async function handler(req: NextApiRequest & Session, res: NextAp
     email,
     req.session.id,
     openBadgeImage,
-    badgeMetaData.issuedOn.toString(),
-    badgeMetaData.expires.toString(),
+    badgeMetaData.issuedOn?.toString(),
+    badgeMetaData.expires?.toString(),
   );
 
   if (!url) {
