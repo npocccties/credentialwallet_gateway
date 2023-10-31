@@ -20,7 +20,13 @@ tags:
   - name: badge list
     description: バッジデータ取得
   - name: badge convert
-    description: バッジVC取り込み
+    description: バッジをVCに変換しDBに保存
+  - name: badge metadata
+    description: バッジのmetadataを取得
+  - name: submission sendmail
+    description: 確認コードを入力されたemailアドレスに送信
+  - name: submission vc
+    description: バッジデータの提出
 
 paths:
   /user_badgelist:
@@ -126,7 +132,7 @@ paths:
         "400":
           description: Bad request
   /badge/list:
-    get:
+    post:
       tags:
         - badge list
       description: 選択された発行者のMoodleにあるバッジのリストを取得します
@@ -137,12 +143,19 @@ paths:
           required: true
           schema:
             type: string
-        - name: issuer
-          in: query
-          description: select moodle issuer
-          required: true
-          schema:
-            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                lmsId:
+                  type: string
       responses:
         "200":
           description: Successful operation
@@ -212,6 +225,70 @@ paths:
           required: true
           schema:
             type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badgeMetaData"
+        "400":
+          description: Bad request
+  /submission/sendmail:
+    post:
+      tags:
+        - submission sendmail
+      description: 確認コードを入力されたemailアドレスに送信します
+      parameters:
+        - name: saml
+          in: header
+          description: SAML by BASE64
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badgeMetaData"
+        "400":
+          description: Bad request
+  /submission/vc:
+    post:
+      tags:
+        - submission vc
+      description: バッジを提出します
+      parameters:
+        - name: saml
+          in: header
+          description: SAML by BASE64
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                consumerId:
+                  type: string
+                email:
+                  type: string
+                badgeVcId:
+                  type: string
       responses:
         "200":
           description: Successful operation
