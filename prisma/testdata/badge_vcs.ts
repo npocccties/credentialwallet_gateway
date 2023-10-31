@@ -28,7 +28,6 @@ export const badgeVcsTestData: BadgeVc[] = [
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
-    deletedAt: null,
   },
   {
     badgeVcId: 102,
@@ -47,7 +46,6 @@ export const badgeVcsTestData: BadgeVc[] = [
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
-    deletedAt: null,
   },
   {
     badgeVcId: 103,
@@ -66,7 +64,6 @@ export const badgeVcsTestData: BadgeVc[] = [
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
-    deletedAt: null,
   },
   {
     badgeVcId: 104,
@@ -85,7 +82,6 @@ export const badgeVcsTestData: BadgeVc[] = [
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
-    deletedAt: null,
   },
   {
     badgeVcId: 105,
@@ -104,7 +100,6 @@ export const badgeVcsTestData: BadgeVc[] = [
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
-    deletedAt: null,
   },
   {
     badgeVcId: 106,
@@ -123,7 +118,6 @@ export const badgeVcsTestData: BadgeVc[] = [
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
-    deletedAt: null,
   },
   {
     badgeVcId: 107,
@@ -142,7 +136,6 @@ export const badgeVcsTestData: BadgeVc[] = [
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
-    deletedAt: null,
   },
   {
     badgeVcId: 108,
@@ -161,7 +154,6 @@ export const badgeVcsTestData: BadgeVc[] = [
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
-    deletedAt: null,
   },
   {
     badgeVcId: 109,
@@ -180,7 +172,6 @@ export const badgeVcsTestData: BadgeVc[] = [
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
-    deletedAt: null,
   },
   {
     badgeVcId: 110,
@@ -199,7 +190,6 @@ export const badgeVcsTestData: BadgeVc[] = [
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
-    deletedAt: null,
   },
   {
     badgeVcId: 111,
@@ -218,6 +208,5 @@ export const badgeVcsTestData: BadgeVc[] = [
     vcDataPayload: JSON.stringify(vcPayload),
     vcDataSignature: "LTEPeGNPX9CqQNVIdiaWTdUV0U6I1dNPSInk95H1IE0tU5EZb4TMR0D-hOgNC1YwBbztQmWsJkGEipErxwooQ",
     createdAt: dateToJtc(faker.date.anytime()),
-    deletedAt: null,
   },
 ];

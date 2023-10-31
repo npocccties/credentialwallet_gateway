@@ -34,7 +34,6 @@ create table badge_vcs (
     vc_data_payload text not null,              -- VCデータペイロード
     vc_data_signature text not null,            -- VCデータ署名
     created_at timestamp not null,              -- 作成日時
-    deleted_at timestamp null,                  -- 削除日時
     primary key (badge_vc_id),
     foreign key (wallet_id) references wallets (wallet_id)
 );

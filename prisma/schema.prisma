@@ -23,7 +23,6 @@ model BadgeVc {
   vcDataPayload    String       @map("vc_data_payload")
   vcDataSignature  String       @map("vc_data_signature")
   createdAt        DateTime     @map("created_at") @db.Timestamp(6) @default(now())
-  deletedAt        DateTime?    @map("deleted_at") @db.Timestamp(6)
   wallets          Wallet       @relation(fields: [walletId], references: [walletId], onDelete: NoAction, onUpdate: NoAction)
   submissions      Submission[]
 
