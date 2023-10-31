@@ -6,10 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { id } = req.query;
 
   try {
-    await prisma.badgeVc.update({
-      data: {
-        deletedAt: new Date(),
-      },
+    await prisma.badgeVc.delete({
       where: {
         badgeVcId: Number(id),
       },

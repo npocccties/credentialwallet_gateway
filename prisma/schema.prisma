@@ -18,7 +18,7 @@ model BadgeVc {
   badgeClassId     String       @map("badge_class_id")
   badgeIssuerName  String       @map("badge_issuer_name") @db.VarChar(256)
   badgeIssuedon    DateTime     @map("badge_issuedon") @db.Timestamp(6)
-  badgeExpires     DateTime     @map("badge_expires") @db.Timestamp(6)
+  badgeExpires     DateTime?    @map("badge_expires") @db.Timestamp(6)
   vcDataHeader     String       @map("vc_data_header")
   vcDataPayload    String       @map("vc_data_payload")
   vcDataSignature  String       @map("vc_data_signature")

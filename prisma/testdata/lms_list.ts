@@ -4,7 +4,7 @@ export const lmsListTestData: LmsList[] = [
   {
     lmsId: 1,
     lmsName: "OKUTEP",
-    lmsUrl: "https://z.cccties.org/41a",
+    lmsUrl: "https://dev-lms.oku.cccties.org",
     ssoEnabled: false,
     lmsAccessToken: "",
     lmsService: "moodle_mobile_app",
@@ -12,7 +12,7 @@ export const lmsListTestData: LmsList[] = [
   {
     lmsId: 2,
     lmsName: "○○ラーニング",
-    lmsUrl: "https://xxxx/yyyy",
+    lmsUrl: "https://dev-lms.oku.cccties.org",
     ssoEnabled: true,
     lmsAccessToken: "v721b60a05b20d1083594c14166dd0a9c",
     lmsService: "moodle_mobile_app",
@@ -20,7 +20,7 @@ export const lmsListTestData: LmsList[] = [
   {
     lmsId: 3,
     lmsName: "BBBラーニング",
-    lmsUrl: "https://zzzz/aaaa",
+    lmsUrl: "https://dev-lms.oku.cccties.org",
     ssoEnabled: true,
     lmsAccessToken: "v721b60a05b20d1083594c14166dd0a9c",
     lmsService: "moodle_mobile_app",
@@ -28,7 +28,7 @@ export const lmsListTestData: LmsList[] = [
   {
     lmsId: 4,
     lmsName: "CCC学習",
-    lmsUrl: "https://kkkk/yyyy",
+    lmsUrl: "https://dev-lms.oku.cccties.org",
     ssoEnabled: true,
     lmsAccessToken: "v721b60a05b20d1083594c14166dd0a9c",
     lmsService: "moodle_mobile_app",
