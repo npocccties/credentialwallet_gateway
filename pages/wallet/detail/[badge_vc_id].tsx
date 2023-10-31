@@ -69,7 +69,8 @@ export async function getServerSideProps(
   });
 
   const submissionsHistories = sub;
-  const badgeExportData = JSON.stringify(badgeMetaData);
+  const vcPayload = JSON.parse(badgeVc.vcDataPayload);
+  const badgeExportData = vcPayload.vc.credentialSubject.photo;
 
   const vcDetailData: VcDetailData = {
     badgeVcId: badgeVc.badgeVcId,

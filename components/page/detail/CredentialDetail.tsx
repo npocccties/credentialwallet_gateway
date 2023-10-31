@@ -32,19 +32,6 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
   const { deleteCredential } = vcDetailActions.useDeleteCredential();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const exportData = {
-    fileName: "",
-    downloadUrl: "",
-  };
-
-  if (typeof window !== "undefined") {
-    exportData.fileName = `${vcDetailData.badgeName}.json`;
-    const blobData = new Blob([JSON.stringify(badgeExportData)], {
-      type: "text/json",
-    });
-    exportData.downloadUrl = URL.createObjectURL(blobData);
-  }
-
   return (
     <>
       {vcDetailData && (
@@ -70,7 +57,13 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
             <Button colorScheme="red" w={160} disabled={isDeleteDisabled} onClick={onOpen}>
               削除
             </Button>
-            <Button as="a" colorScheme="blue" w={160} href={exportData.downloadUrl} download={exportData.fileName}>
+            <Button
+              as="a"
+              colorScheme="blue"
+              w={160}
+              href={`data:image/png;base64,${badgeExportData}`}
+              download={`${vcDetailData.badgeName}.png`}
+            >
               エクスポート
             </Button>
           </Flex>
