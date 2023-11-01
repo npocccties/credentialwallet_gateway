@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { getBadgeClassById, setOpenBadgeMetadataToImage, validateOpenBadge } from "@/lib/openbadge";
 import { Session, withSession } from "@/lib/session";
 import { getRequestFromVCRequest, calcPinhash } from "@/lib/utils";
 import { issue } from "@/server/services/issue.service";
 import { issueRequest } from "@/server/services/issueRequest.service";
 import { getManifest } from "@/server/services/manifest.service";
-import { registerBadgeVc } from "@/server/services/registerBadgeVc";
+import { getBadgeClassById, setOpenBadgeMetadataToImage, validateOpenBadge } from "@/server/services/openBadge.service";
+import { registerBadgeVc } from "@/server/services/registerBadgeVc.service";
 import { verifyVcRequest } from "@/server/services/verifyVcReqest.service";
 import { BadgeImportRequestParam } from "@/types/api/badge";
 
@@ -17,8 +17,6 @@ export default async function handler(req: NextApiRequest & Session, res: NextAp
 
   // TODO: Orthrosログイン情報をもとにwalletIdを取得
   const walletId = 1;
-
-  console.log(`### start getMyOpenBadge uniquehash=${uniquehash} email=${email} ####`);
 
   const result = await validateOpenBadge(email, badgeMetaData);
   if (!result) {
