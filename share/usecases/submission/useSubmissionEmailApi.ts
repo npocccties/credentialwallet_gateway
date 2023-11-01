@@ -1,7 +1,6 @@
-import axios from "axios";
-
 import { api } from "../api";
 
+import { axiosClient } from "@/lib/axios";
 import { SendMail, SubmissionEmailRequestParam } from "@/types/api/submission";
 
 type Response = SendMail;
@@ -10,7 +9,7 @@ export const useSubmissionEmailApi = async (param: SubmissionEmailRequestParam):
   const { consumerId, email } = param;
   const apiPath = api.v1.submission.sendmail;
 
-  const res = await axios.post(apiPath, {
+  const res = await axiosClient.post(apiPath, {
     consumerId: consumerId,
     email: email,
   });

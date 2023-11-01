@@ -1,16 +1,10 @@
-import axios from "axios";
-
 import { api } from "../api";
+
+import { axiosClient } from "@/lib/axios";
 
 export const useDeleteCredentialApi = async (badgeVcId: number) => {
   const apiPath = api.v1.credential.delete;
   const deleteVcId = badgeVcId.toString();
 
-  try {
-    if (!deleteVcId) throw new Error("削除するバッジのIDが指定されていません");
-
-    await axios.post(`${apiPath}/${deleteVcId}`);
-  } catch (e) {
-    throw new Error(e);
-  }
+  await axiosClient.post(`${apiPath}/${deleteVcId}`);
 };

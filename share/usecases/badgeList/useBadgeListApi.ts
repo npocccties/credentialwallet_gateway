@@ -1,7 +1,6 @@
-import axios from "axios";
-
 import { api } from "../api";
 
+import { axiosClient } from "@/lib/axios";
 import { BadgeList, BadgeListReqestParam } from "@/types/api/badge/index";
 
 type BadgeListApiResponse = {
@@ -12,7 +11,7 @@ export const useBadgeListApi = async (param: BadgeListReqestParam) => {
   const apiPath = api.v1.badge.list;
   const { username, lmsId, password } = param;
 
-  const res = await axios.post<BadgeListApiResponse>(apiPath, {
+  const res = await axiosClient.post<BadgeListApiResponse>(apiPath, {
     username,
     password,
     lmsId,

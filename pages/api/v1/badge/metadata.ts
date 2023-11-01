@@ -7,6 +7,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const uniquehash = req.query.uniquehash as string;
   const lmsUrl = req.query.lmsUrl as string;
 
-  const badgeMetaData = await myOpenBadge(uniquehash, lmsUrl);
-  res.status(200).json({ data: badgeMetaData });
+  try {
+    const badgeMetaData = await myOpenBadge(uniquehash, lmsUrl);
+
+    res.status(200).json({ data: badgeMetaData });
+  } catch (e) {
+    res.status(500).json(e);
+  }
 }

@@ -36,15 +36,20 @@ export default async function handler(req: NextApiRequest & Session, res: NextAp
   await withSession(req, res);
   const sessionId = req.session.id;
 
-  const badgeList: IfBadgeInfo[] = await myBadgesList(username, password, selectLms);
+  try {
+    const badgeList: IfBadgeInfo[] = await myBadgesList(username, password, selectLms);
 
-  badgeList.map((badge) => {
-    if (badgeVcs.some((x) => x.badgeUniquehash === badge.uniquehash)) {
-      badge.vcConverted = true;
-      return;
-    }
-    badge.vcConverted = false;
-  });
+    badgeList.map((badge) => {
+      if (badgeVcs.some((x) => x.badgeUniquehash === badge.uniquehash)) {
+        badge.vcConverted = true;
+        return;
+      }
+      badge.vcConverted = false;
+    });
 
-  res.status(200).json({ badgeList });
+    res.status(200).json({ badgeList });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json(e);
+  }
 }
