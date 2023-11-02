@@ -9,8 +9,9 @@ type CredentialListApiResponse = {
 
 export const useCredentialListApi = async () => {
   const apiPath = api.v1.credential.list;
+  const defaultSort = "desk";
 
-  const res = await axiosClient.get<CredentialListApiResponse>(apiPath);
+  const res = await axiosClient.get<CredentialListApiResponse>(`${apiPath}?sortOrder=${defaultSort}`);
 
   return res.data;
 };

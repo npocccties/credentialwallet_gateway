@@ -1,100 +1,51 @@
+import { z } from "zod";
+
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { convertJSTstrToUTCdate, convertUTCtoJSTstr } from "@/lib/date";
-import prisma, { BadgeVc, Prisma } from "@/lib/prisma";
-import { BadgeVcList, CredentialList, DisplayBadgeVc, SearchFormItem, SubmissionsAll } from "@/types/api/credential";
+import { errors } from "@/constants/error";
+import { convertJSTstrToUTCdate } from "@/lib/date";
+import { getCredentialList } from "@/server/services/credentialList.service";
+import { CredentialList, SearchFormItem } from "@/types/api/credential";
+
+const isValidDate = (value: string): boolean => {
+  if (value === "") return true;
+  const timestamp = Date.parse(value);
+  return !isNaN(timestamp);
+};
+
+const querySchema = z.object({
+  badgeName: z.string().optional(),
+  issuedFrom: z.union([z.string().refine(isValidDate), z.date()]).optional(),
+  issuedTo: z.union([z.string().refine(isValidDate), z.date()]).optional(),
+  sortOrder: z.string(),
+});
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<CredentialList | {}>) {
   // const perPage = 10;
   // const skip = perPage * (req.body.page - 1);
-  const searchQueryparam = req.query as { [key: string]: string };
-  const { badgeName, issuedFrom, issuedTo, sortOrder } = searchQueryparam;
 
+  const result = querySchema.safeParse(req.query);
+  if (!result.success) {
+    return res.status(400).json({ error: { message: errors.response400.message } });
+  }
+
+  const { badgeName, issuedFrom, issuedTo, sortOrder } = result.data;
   // TODO: ログイン判定処理
 
   // TODO: SAMLのOrthorsIDをもとに、walletIdを取得しセットする
   const walletId = 1;
-  const sertchState: SearchFormItem = {
+  const searchState: SearchFormItem = {
     badgeName: badgeName,
-    issuedFrom: issuedFrom === "" || !issuedFrom ? undefined : convertJSTstrToUTCdate(issuedFrom),
-    issuedTo: issuedTo === "" || !issuedTo ? undefined : convertJSTstrToUTCdate(issuedTo),
+    issuedFrom: issuedFrom === "" || !issuedFrom ? undefined : convertJSTstrToUTCdate(issuedFrom.toString()),
+    issuedTo: issuedTo === "" || !issuedTo ? undefined : convertJSTstrToUTCdate(issuedTo.toString()),
     sortOrder: sortOrder,
   };
 
-  const [badgeVcs, submissions, consumers, submissionCount, badgeCount] = await Promise.all([
-    prisma.badgeVc.findMany({
-      where: {
-        walletId: walletId,
-        badgeName: {
-          contains: sertchState.badgeName,
-        },
-        badgeIssuedon: {
-          gte: sertchState.issuedFrom,
-          lt: sertchState.issuedTo,
-        },
-      },
-      orderBy: {
-        badgeIssuedon: sertchState.sortOrder === "ask" ? Prisma.SortOrder.asc : Prisma.SortOrder.desc,
-      },
-    }),
-    prisma.submission.findMany({
-      where: {
-        walletId: walletId,
-      },
-    }),
-    prisma.badgeConsumer.findMany(),
-    prisma.submission.count({
-      where: {
-        walletId: walletId,
-      },
-    }),
-    prisma.badgeVc.count({
-      where: {
-        walletId: walletId,
-      },
-    }),
-  ]);
-
-  const badgeVcList: BadgeVcList = badgeVcs.map((badgeVc: BadgeVc): DisplayBadgeVc => {
-    const vc: DisplayBadgeVc = {
-      badgeVcId: badgeVc.badgeVcId,
-      badgeName: badgeVc.badgeName,
-      badgeIssuerName: badgeVc.badgeIssuerName,
-      badgeIssuedon: convertUTCtoJSTstr(badgeVc.badgeIssuedon),
-      vcDataPayload: badgeVc.vcDataPayload,
-      submissions: [],
-    };
-
-    const submission = submissions.filter((s) => s.badgeVcId === badgeVc.badgeVcId);
-    submission.forEach((sub) => {
-      vc.submissions.push({
-        consumerName: sub.consumerName,
-        submitedAt: convertUTCtoJSTstr(sub.submitedAt),
-      });
-    });
-
-    return vc;
-  });
-
-  const submissionsAll: SubmissionsAll = {
-    totalSubmission: submissionCount,
-    detailSubmissions: [],
-  };
-
-  const submitList = submissions.filter((x) => x.walletId === walletId);
-  consumers.forEach((consumer) => {
-    if (!submitList.some((x) => x.consumerId === consumer.consumerId)) return;
-
-    submissionsAll.detailSubmissions.push({
-      cabinetToSubmit: consumer.consumerName,
-      submitCount: submissions.filter((item) => item.consumerId === consumer.consumerId).length,
-    });
-  });
-
+  const { badgeVcList, submissionsAll, totalBadgeCount } = await getCredentialList({ searchState, walletId });
   const data: CredentialList = {
     badgeVcList: badgeVcList,
     submissionsAll: submissionsAll,
-    totalBadgeCount: badgeCount,
+    totalBadgeCount: totalBadgeCount,
   };
 
   res.status(200).json({ data });

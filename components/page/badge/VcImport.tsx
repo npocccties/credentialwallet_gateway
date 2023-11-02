@@ -1,6 +1,5 @@
 import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 import { Box, Flex, Button, Text, Image, VStack, Divider, Stack } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import React, { Dispatch, SetStateAction, useState } from "react";
 
 import { Loading } from "@/components/Loading";
@@ -16,8 +15,6 @@ type Props = {
 };
 
 export const VcImport = ({ setIsBadgeSelect }: Props) => {
-  const router = useRouter();
-
   const [isVcImport, setIsVcImport] = useState(false);
   const [responseState, setRequestState] = useState<ResponseStatus>(undefined);
   const badgeMetaData = badgeMetadataGetters.useBadgeMetaData();

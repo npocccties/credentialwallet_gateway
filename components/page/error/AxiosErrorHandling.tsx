@@ -13,6 +13,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
+import { errors } from "@/constants/error";
 import { axiosClient } from "@/lib/axios";
 
 type Props = {
@@ -47,7 +48,7 @@ export const AxiosErrorHandling = (props: Props) => {
             return Promise.reject(error.response?.data);
           default:
             setUnexpectedError(true);
-            setErrorMessage("予期せぬエラーが発生しました。");
+            setErrorMessage("予期せぬエラー");
             return Promise.reject(error.response?.data);
         }
       },
@@ -63,8 +64,8 @@ export const AxiosErrorHandling = (props: Props) => {
       <>
         {children}
         <ErrorDialog
-          title={"Un Expected Error"}
-          message={"予期せぬエラーが発生しました。管理者へお問い合わせください。"}
+          title={errors.unexpectedError.label}
+          message={errors.unexpectedError.message}
           detail={errorMessage}
         />
       </>
@@ -73,22 +74,14 @@ export const AxiosErrorHandling = (props: Props) => {
     return (
       <>
         {children}
-        <ErrorDialog
-          title={"500: Internal Server Error"}
-          message={"サーバーサイドの処理中にエラーが発生しました。管理者へお問い合わせください。"}
-          detail={errorMessage}
-        />
+        <ErrorDialog title={errors.response500.label} message={errors.response500.message} detail={errorMessage} />
       </>
     );
   } else if (clientReqestError) {
     return (
       <>
         {children}
-        <ErrorDialog
-          title={"400: Bad Request"}
-          message={"リクエスト時のパラメータが不正です。"}
-          detail={errorMessage}
-        />
+        <ErrorDialog title={errors.response400.label} message={errors.response400.message} detail={errorMessage} />
       </>
     );
   } else {
@@ -123,7 +116,7 @@ const ErrorDialog = ({ title, message, detail }: { title: string; message: strin
                 router.reload();
               }}
             >
-              戻る
+              閉じる
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

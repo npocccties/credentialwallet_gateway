@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     await prisma.badgeVc.delete({
       where: {
-        badgeVcId: Number(id),
+        badgeVcId: id,
       },
     });
 

@@ -2,21 +2,18 @@ import crypto from "crypto";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import { errors } from "@/constants/error";
 import { validateEmail } from "@/lib/validation";
+import { ErrorResponse } from "@/types/api/error";
 import { SendMail, SubmissionEmailRequestParam } from "@/types/api/submission";
 
 type SuccessResponse = SendMail;
-
-// TODO: 全体的な共通定義にしたい
-type ErrorResponse = {
-  error: string;
-};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<SuccessResponse | ErrorResponse>) {
   const { consumerId, email } = req.body as SubmissionEmailRequestParam;
 
   if (!validateEmail(email)) {
-    res.status(400).json({ error: "emailアドレスが不正な値です" });
+    res.status(400).json({ error: { errorMessage: errors.validation.email } });
   }
   // TODO: メールサーバーに送信する情報を作成
 
