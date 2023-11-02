@@ -38,7 +38,7 @@ export const AxiosErrorHandling = (props: Props) => {
         if (error.response?.data?.error?.detail?.message) {
           detailmessage = error.response?.data?.error?.detail?.message;
         } else {
-          detailmessage = error.response?.data?.error.errorMessage;
+          detailmessage = error.response?.data?.error?.errorMessage;
         }
 
         switch (error.response?.status) {
