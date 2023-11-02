@@ -1,6 +1,8 @@
 import { myBadgesList } from "./lmsAccess.service";
 
+import { errors } from "@/constants/error";
 import prisma from "@/lib/prisma";
+import { BadgeListResponse } from "@/types/api/badge";
 import { IfBadgeInfo } from "@/types/BadgeInfo";
 
 type Arg = {
@@ -10,7 +12,12 @@ type Arg = {
   lmsId: number;
 };
 
-export const getBadgeListFormMoodle = async ({ walletId, username, password, lmsId }: Arg): Promise<IfBadgeInfo[]> => {
+export const getBadgeListFormMoodle = async ({
+  walletId,
+  username,
+  password,
+  lmsId,
+}: Arg): Promise<BadgeListResponse> => {
   const [badgeVcs, selectLms] = await Promise.all([
     prisma.badgeVc.findMany({
       select: {
@@ -29,16 +36,23 @@ export const getBadgeListFormMoodle = async ({ walletId, username, password, lms
     }),
   ]);
 
-  // TODO: パスワード入力時とSSO時でエラーを切り分けたい
-  const badgeList: IfBadgeInfo[] = await myBadgesList(username, password, selectLms);
+  try {
+    // TODO: パスワード入力時とSSO時でエラーを切り分けたい
+    const badgeList: IfBadgeInfo[] = await myBadgesList(username, password, selectLms);
 
-  badgeList.map((badge) => {
-    if (badgeVcs.some((x) => x.badgeUniquehash === badge.uniquehash)) {
-      badge.vcConverted = true;
-      return;
+    badgeList.map((badge) => {
+      if (badgeVcs.some((x) => x.badgeUniquehash === badge.uniquehash)) {
+        badge.vcConverted = true;
+        return;
+      }
+      badge.vcConverted = false;
+    });
+
+    return { badgeList };
+  } catch (e) {
+    if (e.message === errors.moodleErrorCode.invalidLogin) {
+      return { badgeList: [], loginError: e.message };
     }
-    badge.vcConverted = false;
-  });
-
-  return badgeList;
+    throw e;
+  }
 };

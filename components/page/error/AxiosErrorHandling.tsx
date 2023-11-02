@@ -33,6 +33,14 @@ export const AxiosErrorHandling = (props: Props) => {
         return response;
       },
       (error: AxiosError) => {
+        console.error(error.response?.data?.error?.detail);
+        let detailmessage = "";
+        if (error.response?.data?.error?.detail?.message) {
+          detailmessage = error.response?.data?.error?.detail?.message;
+        } else {
+          detailmessage = error.response?.data?.error.errorMessage;
+        }
+
         switch (error.response?.status) {
           //TODO: 未実装 401 UnAuthrized
           case 401:
@@ -40,15 +48,15 @@ export const AxiosErrorHandling = (props: Props) => {
             return Promise.reject(error.response?.data);
           case 400:
             setClientReqestError(true);
-            setErrorMessage(error.response?.data?.message);
+            setErrorMessage(detailmessage);
             return Promise.reject(error.response?.data);
           case 500:
             setServerError(true);
-            setErrorMessage(error.response?.data?.message);
+            setErrorMessage(detailmessage);
             return Promise.reject(error.response?.data);
           default:
             setUnexpectedError(true);
-            setErrorMessage("予期せぬエラー");
+            setErrorMessage(detailmessage);
             return Promise.reject(error.response?.data);
         }
       },
@@ -59,37 +67,27 @@ export const AxiosErrorHandling = (props: Props) => {
     };
   }, []);
 
-  if (unexpectedError) {
-    return (
-      <>
-        {children}
+  return (
+    <>
+      {children}
+      {unexpectedError && (
         <ErrorDialog
           title={errors.unexpectedError.label}
           message={errors.unexpectedError.message}
           detail={errorMessage}
         />
-      </>
-    );
-  } else if (serverError) {
-    return (
-      <>
-        {children}
+      )}
+      {serverError && (
         <ErrorDialog title={errors.response500.label} message={errors.response500.message} detail={errorMessage} />
-      </>
-    );
-  } else if (clientReqestError) {
-    return (
-      <>
-        {children}
+      )}
+      {clientReqestError && (
         <ErrorDialog title={errors.response400.label} message={errors.response400.message} detail={errorMessage} />
-      </>
-    );
-  } else {
-    return <>{children}</>;
-  }
+      )}
+    </>
+  );
 };
 
-const ErrorDialog = ({ title, message, detail }: { title: string; message: string; detail }) => {
+const ErrorDialog = ({ title, message, detail }: { title: string; message: string; detail: any }) => {
   const router = useRouter();
   const cancelRef = useRef();
   const { onClose } = useDisclosure();

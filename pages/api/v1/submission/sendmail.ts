@@ -26,6 +26,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // TODO: メールサーバーにリクエストを送信
     res.status(200).json({ hashConfirmCode, confirmCode });
   } catch (e) {
-    res.status(400).json({ error: e });
+    res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
   }
 }

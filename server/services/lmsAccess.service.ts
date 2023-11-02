@@ -1,6 +1,7 @@
 import { LmsList } from "@prisma/client";
 import axios, { AxiosRequestConfig } from "axios";
 
+import { errors } from "@/constants/error";
 import { IfBadgeInfo } from "@/types/BadgeInfo";
 import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
@@ -18,10 +19,17 @@ const getMyToken = async (username: string, password: string, selectLms: LmsList
 
   try {
     const { data } = await axios(options);
+    if (data.error) {
+      throw new Error(data.errorcode);
+    }
+
     return data.token;
   } catch (err) {
     if (axios.isAxiosError(err)) {
       console.log("Error getMyTokens:(axios)", err.message);
+    }
+    if (err.message === errors.moodleErrorCode.invalidLogin) {
+      console.log("moodle login error");
     }
     throw err;
   }

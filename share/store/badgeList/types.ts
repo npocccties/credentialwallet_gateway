@@ -1,6 +1,6 @@
-import { BadgeList, BadgeListReqestParam } from "@/types/api/badge";
+import { BadgeListReqestParam, BadgeListResponse } from "@/types/api/badge";
 
-export type BadgeListState = BadgeList;
+export type BadgeListState = BadgeListResponse;
 
 export type BadgeListGetters = {
   useBadgeList: () => BadgeListState;

@@ -1,10 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import { errors } from "@/constants/error";
 import prisma from "@/lib/prisma";
 import { cabinetApi } from "@/share/usecases/api";
+import { ErrorResponse } from "@/types/api/error";
 import { SubmissionVcRequestParam } from "@/types/api/submission";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorResponse>) {
   const { consumerId, email, badgeVcId } = req.body as SubmissionVcRequestParam;
   console.log("req", consumerId, email, badgeVcId);
 
@@ -48,8 +50,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // });
 
     console.log("resData", resData);
-    res.status(200).json({});
+    res.status(200);
   } catch (e) {
-    res.status(400).json({ error: e });
+    res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
   }
 }

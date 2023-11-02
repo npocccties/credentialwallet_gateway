@@ -7,12 +7,17 @@ export type BadgeListReqestParam = {
   password?: string;
 };
 
+export type BadgeListResponse = {
+  badgeList: BadgeList;
+  loginError?: string;
+};
+
 export type BadgeMetaDataReqestParam = {
   lmsUrl: string;
   uniquehash: string;
 };
 
-export type BadgeList = IfBadgeInfo[];
+type BadgeList = IfBadgeInfo[];
 
 export type BadgeImportRequestParam = {
   uniquehash: string;

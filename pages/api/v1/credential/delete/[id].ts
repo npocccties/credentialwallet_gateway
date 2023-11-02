@@ -2,7 +2,9 @@ import { z } from "zod";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import { errors } from "@/constants/error";
 import prisma from "@/lib/prisma";
+import { ErrorResponse } from "@/types/api/error";
 
 const querySchema = z.object({
   id: z
@@ -13,10 +15,10 @@ const querySchema = z.object({
     .transform((v) => Number(v)),
 });
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorResponse>) {
   const result = querySchema.safeParse(req.query);
   if (!result.success) {
-    return res.status(400).json({ error: { message: "idが不正な値です" } });
+    return res.status(400).json({ error: { errorMessage: errors.response400.message } });
   }
 
   const { id } = result.data;
@@ -30,6 +32,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     res.status(204);
   } catch (e) {
-    res.status(400).json({ error: e });
+    res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
   }
 }

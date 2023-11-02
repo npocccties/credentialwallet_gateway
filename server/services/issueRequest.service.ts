@@ -37,9 +37,6 @@ export const issueRequest = async (
   issuedOn: string,
   expires: string,
 ) => {
-  console.log(`### START issueRequest sessionId:${sessionId}###`);
-  console.log(`issuedOn = ${issuedOn},expores=${expires}`);
-
   let accessToken = "";
   try {
     const result = await msalCca.acquireTokenByClientCredential(msalClientCredentialRequest);
@@ -48,7 +45,7 @@ export const issueRequest = async (
     }
   } catch (e) {
     console.log("failed to get access token");
-    console.log(e);
+    throw e;
   }
 
   const pin = Math.floor(1000 + Math.random() * 9000);
@@ -92,22 +89,19 @@ export const issueRequest = async (
   };
 
   const client_api_request_endpoint =
-    "https://verifiedid.did.msidentity.com/v1.0/verifiableCredentials/createIssuanceRequest";
+    "https://verifiedid.did.msidentity.com/v1.0/verifiablecredentials/createIssuanceRequest";
   let url = "";
   try {
     const response = await fetch(client_api_request_endpoint, fetchOptions);
     const resp = await response.json();
     if (resp.error) {
-      console.log("failed createIssuanceRequest:", resp.error);
+      throw new Error(resp.error);
     }
-    console.log(resp);
     url = resp.url;
-    console.log("url =", url);
   } catch (e) {
     console.log("ERROR END:", e);
+    throw e;
   }
-
-  console.log("### END issueRequest ###");
 
   return { pin, url, sessionId };
 };
