@@ -1,6 +1,19 @@
-import { Flex, Box, FormLabel, Select } from "@chakra-ui/react";
+import {
+  Flex,
+  Box,
+  FormLabel,
+  Select,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { LmsList } from "@prisma/client";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import { Loading } from "@/components/Loading";
 import { MoodleLoginForm } from "@/components/model/moodle/MoodleLoginform";
@@ -16,7 +29,8 @@ export const BadgeList = ({
   lmsList: LmsList[];
   setIsBadgeSelect: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const badgeList = badgeListGetters.useBadgeList();
+  const cancelRef = useRef();
+  const { badgeList, loginError } = badgeListGetters.useBadgeList();
   const selectBadge = selectBadgeGetters.useSelectBadgeData();
   const { fetchBadgeList } = badgeListActions.useFetchBadgeList();
   const { clearBadgeList } = badgeListActions.useClearBadgeList();
@@ -27,6 +41,7 @@ export const BadgeList = ({
   const [isNeedMoodleLogin, setIsNeedMoodleLogin] = useState(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const fetchMoodleMyBadges = async (username: string, password: string) => {
     setIsLoading(true);
@@ -67,6 +82,13 @@ export const BadgeList = ({
     setSelectBadge({ email, uniquehash, lmsId, lmsName });
     setIsBadgeSelect(true);
   };
+
+  useEffect(() => {
+    if (loginError) {
+      onOpen();
+      setSelectLmsId("");
+    }
+  }, [badgeList]);
 
   if (isNeedMoodleLogin) {
     return <MoodleLoginForm setIsNeedMoodleLogin={setIsNeedMoodleLogin} getMyBadges={fetchMoodleMyBadges} />;
@@ -139,6 +161,23 @@ export const BadgeList = ({
             </>
           )}
         </Flex>
+        <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                ログインエラー
+              </AlertDialogHeader>
+
+              <AlertDialogBody>ユーザー名、パスワードが一致しませんでした</AlertDialogBody>
+
+              <AlertDialogFooter>
+                <Button ref={cancelRef} onClick={onClose}>
+                  閉じる
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
       </>
     );
   }

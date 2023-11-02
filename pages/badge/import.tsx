@@ -5,6 +5,7 @@ import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
 import { BadgeList } from "@/components/page/badge/List";
 import { VcImport } from "@/components/page/badge/VcImport";
+import { errors } from "@/constants/error";
 import prisma, { LmsList } from "@/lib/prisma";
 
 type Props = {
@@ -12,12 +13,16 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const lmsList = await prisma.lmsList.findMany({
-    orderBy: {
-      lmsId: "asc",
-    },
-  });
-  return { props: { lmsList } };
+  try {
+    const lmsList = await prisma.lmsList.findMany({
+      orderBy: {
+        lmsId: "asc",
+      },
+    });
+    return { props: { lmsList } };
+  } catch {
+    throw new Error(errors.response500.message);
+  }
 };
 
 const ImportVCPage = (props: Props) => {

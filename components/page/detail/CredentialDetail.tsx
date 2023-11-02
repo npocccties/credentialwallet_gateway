@@ -32,6 +32,10 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
   const { deleteCredential } = vcDetailActions.useDeleteCredential();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const handleClickDelete = async () => {
+    await deleteCredential(vcDetailData.badgeVcId);
+    router.push(pagePath.wallet.list);
+  };
   return (
     <>
       {vcDetailData && (
@@ -88,8 +92,7 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
                     ml={3}
                     colorScheme="red"
                     onClick={() => {
-                      deleteCredential(vcDetailData.badgeVcId);
-                      router.push(pagePath.wallet.list);
+                      handleClickDelete();
                     }}
                   >
                     削除

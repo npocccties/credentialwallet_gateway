@@ -1,6 +1,7 @@
 import { LmsList } from "@prisma/client";
 import axios, { AxiosRequestConfig } from "axios";
 
+import { errors } from "@/constants/error";
 import { IfBadgeInfo } from "@/types/BadgeInfo";
 import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
@@ -18,12 +19,17 @@ const getMyToken = async (username: string, password: string, selectLms: LmsList
 
   try {
     const { data } = await axios(options);
-    console.log("getToken", data.token);
+    if (data.error) {
+      throw new Error(data.errorcode);
+    }
+
     return data.token;
   } catch (err) {
-    console.log("Error getMyTokens 01:", err);
     if (axios.isAxiosError(err)) {
       console.log("Error getMyTokens:(axios)", err.message);
+    }
+    if (err.message === errors.moodleErrorCode.invalidLogin) {
+      console.log("moodle login error");
     }
     throw err;
   }
@@ -40,14 +46,10 @@ const getMyTokenAdmin = async (username: string, selectLms: LmsList): Promise<st
     url: tokenURL,
     //httpsAgent: new https.Agent({ rejectUnauthorized: false }), // SSL Error: Unable to verify the first certificateの回避　正式な証明書なら出ないはず
   };
-  console.log("requestUrl Admin", tokenURL);
-
   try {
     const { data } = await axios(options);
-    console.log("getTokenAdmin", data.token);
     return data.token;
   } catch (err) {
-    console.log("Error getMyTokenAdmin 01:", err);
     if (axios.isAxiosError(err)) {
       console.log("Error getMyTokens:(axios)", err.message);
     }
@@ -58,7 +60,6 @@ const getMyTokenAdmin = async (username: string, selectLms: LmsList): Promise<st
 const getMyBadges = async (token: string, selectLms: LmsList): Promise<IfBadgeInfo[]> => {
   const { lmsUrl } = selectLms;
   const myBadgesURL = `${lmsUrl}/webservice/rest/server.php?wsfunction=core_badges_get_user_badges&moodlewsrestformat=json&wstoken=${token}`;
-  console.log("myBadgesURL =", myBadgesURL);
 
   const options: AxiosRequestConfig = {
     method: "GET",
@@ -97,11 +98,9 @@ export const myBadgesList = async (username: string, password: string, selectLms
 };
 
 export const myOpenBadge = async (uniquehash: string, lmsUrl: string): Promise<BadgeMetaData> => {
-  console.log(`start myOpenBadge selected uniquehash=[${uniquehash}]`);
   const myOpenBadgeURL = `${lmsUrl}/badges/assertion.php?obversion=2&b=${uniquehash}`;
   try {
     const openBadgeMeta = await axios.get(myOpenBadgeURL).then((res) => res.data);
-    console.log("openBadgeMetadata=", openBadgeMeta);
     return openBadgeMeta;
   } catch (err) {
     console.error(`error end myOpenBadge`);

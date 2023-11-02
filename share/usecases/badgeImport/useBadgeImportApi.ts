@@ -1,7 +1,6 @@
-import axios from "axios";
-
 import { api } from "../api";
 
+import { axiosClient } from "@/lib/axios";
 import { BadgeImportRequestParam } from "@/types/api/badge/index";
 
 export const useBadgeImportApi = async (param: BadgeImportRequestParam) => {
@@ -9,7 +8,7 @@ export const useBadgeImportApi = async (param: BadgeImportRequestParam) => {
   const { uniquehash, email, badgeMetaData, lmsId, lmsName } = param;
 
   console.log("req", apiPath, uniquehash, email, badgeMetaData);
-  const res = await axios.post(apiPath, {
+  const res = await axiosClient.post(apiPath, {
     uniquehash,
     email,
     badgeMetaData,

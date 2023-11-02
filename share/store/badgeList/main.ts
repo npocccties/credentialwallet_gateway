@@ -6,7 +6,7 @@ import { RECOIL_ATOMS_KEYS } from "@/share/store/keys";
 import { useBadgeListApi } from "@/share/usecases/badgeList/useBadgeListApi";
 import { BadgeListReqestParam } from "@/types/api/badge";
 
-const defaultState: BadgeListState = [];
+const defaultState: BadgeListState = { badgeList: [] };
 
 const badgeListState = atom<BadgeListState>({
   key: RECOIL_ATOMS_KEYS.BADGE_LIST_STATE,
@@ -26,12 +26,12 @@ const useFetchBadgeList = () => {
 
   const fetchBadgeList = useCallback(
     async (param: BadgeListReqestParam) => {
-      const { badgeList } = await useBadgeListApi(param);
+      const data = await useBadgeListApi(param);
       setState(() => {
-        if (!badgeList) {
+        if (!data) {
           return defaultState;
         }
-        return badgeList;
+        return data;
       });
     },
     [setState],
