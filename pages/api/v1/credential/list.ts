@@ -5,7 +5,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { errors } from "@/constants/error";
 import { convertJSTstrToUTCdate } from "@/lib/date";
 import { getCredentialList } from "@/server/services/credentialList.service";
-import { CredentialList, SearchFormItem } from "@/types/api/credential";
+import { CredentialList, CredentialListResponse, SearchFormItem } from "@/types/api/credential";
 import { ErrorResponse } from "@/types/api/error";
 
 const isValidDate = (value: string): boolean => {
@@ -23,7 +23,7 @@ const querySchema = z.object({
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<{ data: CredentialList } | ErrorResponse>,
+  res: NextApiResponse<CredentialListResponse | ErrorResponse>,
 ) {
   // const perPage = 10;
   // const skip = perPage * (req.body.page - 1);
