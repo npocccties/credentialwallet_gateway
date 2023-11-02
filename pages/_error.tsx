@@ -6,9 +6,11 @@ import { useRouter } from "next/router";
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
 import { SERVICE_DESCRITION, SERVICE_NAME } from "@/configs";
+import { errors } from "@/constants/error";
 
 function ErrorPage({ statusCode, errorMessage }) {
   const router = useRouter();
+  const errorLabel = statusCode === 500 ? errors.response500.label : `${statusCode} Not Found`;
 
   const handleBack = () => {
     router.back();
@@ -19,7 +21,7 @@ function ErrorPage({ statusCode, errorMessage }) {
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
       <VStack justifyContent={"center"} gap={16} mt={8}>
         <WarningIcon w={16} h={16} color={"red.500"} />
-        <Text fontSize={"xl"}>{statusCode} Not Found</Text>
+        <Text fontSize={"xl"}>{errorLabel}</Text>
         <Text fontSize={"md"}>{errorMessage}</Text>
 
         <HStack>
