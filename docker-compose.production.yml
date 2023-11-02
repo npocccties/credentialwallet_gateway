@@ -4,8 +4,8 @@ services:
   web:
     image: nginx:1.23.1
     ports:
-      - '80:80'
-      - '443:443'
+      - "80:80"
+      - "443:443"
     networks:
       - app_network
     volumes:
@@ -31,6 +31,13 @@ services:
       - db_network
     container_name: chilowallet
     restart: "no"
+    environment:
+      - LOG_LEVEL=$LOG_LEVEL
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+        max-file: "7"
 
 networks:
   app_network:

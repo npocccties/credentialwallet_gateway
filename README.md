@@ -157,6 +157,8 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 |vcApp_azTenantId|AzureテナントID|-|
 |vcApp_client_secret|Azureクライアントシークレット|-|
 |vcApp_scope|AzureへVC発行要求するためのスコープ配列|-|
+|vc_manifest_url|Entra Verified Idで発行者として登録しているmanifest url|-|
+|LOG_LEVEL|ログレベルの設定|-|
 |NEXT_PUBLIC_COPYRIGHT|フッターに表示するcopyright|-|
 |NEXT_PUBLIC_COPYRIGHT_LINK|フッターに表示するcopyrightのリンク|-|
 |NEXT_PUBLIC_E_PORTFOLIO_URL|e-ポートフォリオシステムへのリンク|-|
