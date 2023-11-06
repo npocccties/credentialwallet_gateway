@@ -1,6 +1,7 @@
 import ION from "@decentralized-identity/ion-tools";
 import axios from "axios";
 
+import { loggerDebug } from "@/lib/logger";
 import { KeyPair, Signer } from "@/lib/signer";
 import { AcquiredIdToken, Manifest, VCRequest } from "@/types";
 
@@ -30,6 +31,8 @@ export const issue = async (
     attestations,
     pin: options?.pin,
   });
+
+  loggerDebug("issue request id token", issueRequestIdToken);
 
   const issueResponse = await axios.post<string, IIssueResponse>(manifest.input.credentialIssuer, issueRequestIdToken, {
     headers: { "Content-Type": "text/plain" },

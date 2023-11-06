@@ -1,6 +1,7 @@
 import { myBadgesList } from "./lmsAccess.service";
 
 import { errors } from "@/constants/error";
+import { loggerError } from "@/lib/logger";
 import prisma from "@/lib/prisma";
 import { BadgeListResponse } from "@/types/api/badge";
 import { IfBadgeInfo } from "@/types/BadgeInfo";
@@ -21,8 +22,6 @@ export const getBadgeListFormMoodle = async ({
   const [badgeVcs, selectLms] = await Promise.all([
     prisma.badgeVc.findMany({
       select: {
-        badgeVcId: true,
-        walletId: true,
         badgeUniquehash: true,
       },
       where: {
@@ -37,7 +36,6 @@ export const getBadgeListFormMoodle = async ({
   ]);
 
   try {
-    // TODO: パスワード入力時とSSO時でエラーを切り分けたい
     const badgeList: IfBadgeInfo[] = await myBadgesList(username, password, selectLms);
 
     badgeList.map((badge) => {
@@ -53,6 +51,8 @@ export const getBadgeListFormMoodle = async ({
     if (e.message === errors.moodleErrorCode.invalidLogin) {
       return { badgeList: [], loginError: e.message };
     }
+
+    loggerError("ERROR! server/services/badgeList.service", e.message);
     throw e;
   }
 };

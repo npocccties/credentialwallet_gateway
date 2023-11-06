@@ -1,5 +1,6 @@
 import axios from "axios";
 
+import { loggerError } from "@/lib/logger";
 import { getManifestFromJWT } from "@/lib/utils";
 
 export const getManifest = async (manifestURL: string) => {
@@ -9,6 +10,6 @@ export const getManifest = async (manifestURL: string) => {
     });
     return getManifestFromJWT(manifestToken);
   } catch (e) {
-    console.error(e);
+    loggerError("failed get manifest data", e);
   }
 };

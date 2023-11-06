@@ -3,6 +3,8 @@ import { Readable } from "stream";
 
 import axios from "axios";
 
+import { loggerDebug, loggerError } from "@/lib/logger";
+
 const Through = require("stream").PassThrough;
 
 const pngitxt = require("png-itxt");
@@ -15,7 +17,7 @@ export const getBadgeClassById = async (badgeClassId: string): Promise<any> => {
 
     return badgeClass;
   } catch (err) {
-    console.error(err);
+    loggerError("failed to access for badge class id", err);
     throw err;
   }
 };
@@ -26,7 +28,7 @@ export const getBadgeClass = async (openBadgeMetadata: any): Promise<any> => {
 
     return badgeClass;
   } catch (err) {
-    console.error(err);
+    loggerError("failed to getBadgeClass", err);
     throw err;
   }
 };
@@ -58,7 +60,7 @@ export const setOpenBadgeMetadataToImage = async (imageString: string, assertion
         resolve(openBadgesBase64EncodedData);
       })
       .on("error", (err: Error) => {
-        console.log("pngitxt Error:", err);
+        loggerError("pngitxt Error:", err);
         reject(err);
       });
   });
@@ -88,6 +90,8 @@ export const validateOpenBadge = async (email: string, openBadgeMetadata: any) =
     .createHash("sha256")
     .update(email + saltVal)
     .digest("hex");
+
+  loggerDebug(`validateOpenBadge inputHash=${inputEmailHash} expectedhash=${expectedEmailHash}`);
 
   if (inputEmailHash !== expectedEmailHash) {
     return false;

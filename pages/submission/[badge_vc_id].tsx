@@ -6,6 +6,8 @@ import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
 import { SubmissionBadge } from "@/components/page/submission/SubmissionBadge";
 import { errors } from "@/constants/error";
+import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
+import { loggerError, loggerInfo } from "@/lib/logger";
 import prisma from "@/lib/prisma";
 import { SubmissionEntry } from "@/types/api/submission";
 
@@ -18,10 +20,16 @@ const querySchema = z.object({
     .transform((v) => Number(v)),
 });
 
+const pagePath = "/submission/[badge_vc_id]";
+
 export async function getServerSideProps(context): Promise<GetServerSidePropsResult<SubmissionEntry>> {
+  loggerInfo(logStartForPageSSR(pagePath));
+  loggerInfo("request query", context.params);
+
   const result = querySchema.safeParse(context.params);
 
   if (!result.success) {
+    loggerError(`${logStatus.error} bad request! ${pagePath}`);
     return { notFound: true };
   }
   const id = result.data.badge_vc_id;
@@ -41,6 +49,7 @@ export async function getServerSideProps(context): Promise<GetServerSidePropsRes
     ]);
 
     if (!badgeVc) {
+      loggerError(`${logStatus.error} badgeVc not found! ${pagePath}`);
       return { notFound: true };
     }
 
@@ -48,8 +57,13 @@ export async function getServerSideProps(context): Promise<GetServerSidePropsRes
     const vcPayload = vcDataPayload && JSON.parse(vcDataPayload);
     const vcImage = vcPayload.vc.credentialSubject.photo;
 
+    loggerInfo(`${logStatus.success} ${pagePath}`);
+    loggerInfo(logEndForPageSSR(pagePath));
+
     return { props: { badgeConsumers, vcImage, badgeVcId } };
-  } catch {
+  } catch (e) {
+    loggerError(`${logStatus.error} ${pagePath}`, e.message);
+
     throw new Error(errors.response500.message);
   }
 }

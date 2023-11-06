@@ -3,7 +3,10 @@ import { z } from "zod";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { errors } from "@/constants/error";
+import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
+import { loggerError, loggerInfo } from "@/lib/logger";
 import { myOpenBadge } from "@/server/services/lmsAccess.service";
+import { api } from "@/share/usecases/api";
 import { BadgeMetaDataApiResponse } from "@/share/usecases/badgeMetaData/useFetchBadgeMetaDataApi";
 import { ErrorResponse } from "@/types/api/error";
 
@@ -12,13 +15,20 @@ const querySchema = z.object({
   lmsUrl: z.string().url(),
 });
 
+const apiPath = api.v1.badge.metadata;
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<BadgeMetaDataApiResponse | ErrorResponse>,
 ) {
+  loggerInfo(`${logStartForApi(apiPath)}`);
+  loggerInfo("request query", req.query);
+
   const result = querySchema.safeParse(req.query);
 
   if (!result.success) {
+    loggerError(`${logStatus.error} bad request!`, req.query);
+
     return res.status(400).json({ error: { errorMessage: errors.response400.message } });
   }
 
@@ -26,9 +36,13 @@ export default async function handler(
 
   try {
     const badgeMetaData = await myOpenBadge(uniquehash, lmsUrl);
+    loggerInfo(`${logStatus.success} ${apiPath}`, badgeMetaData);
 
     res.status(200).json({ data: badgeMetaData });
   } catch (e) {
+    loggerError(`${logStatus.error} ${apiPath}`, e.message);
+
     res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
   }
+  loggerInfo(`${logEndForApi(apiPath)}`);
 }

@@ -2,6 +2,8 @@ import { LmsList } from "@prisma/client";
 import axios, { AxiosRequestConfig } from "axios";
 
 import { errors } from "@/constants/error";
+import { logStatus } from "@/constants/log";
+import { loggerDebug, loggerError } from "@/lib/logger";
 import { IfBadgeInfo } from "@/types/BadgeInfo";
 import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
@@ -15,7 +17,7 @@ const getMyToken = async (username: string, password: string, selectLms: LmsList
     url: tokenURL,
     //httpsAgent: new https.Agent({ rejectUnauthorized: false }), // SSL Error: Unable to verify the first certificateの回避　正式な証明書なら出ないはず
   };
-  console.log("requestUrl", tokenURL);
+  loggerDebug("moodle requestUrl", `${tokenUrlBase}?username=${username}&password=****&service=${lmsService}`);
 
   try {
     const { data } = await axios(options);
@@ -26,10 +28,10 @@ const getMyToken = async (username: string, password: string, selectLms: LmsList
     return data.token;
   } catch (err) {
     if (axios.isAxiosError(err)) {
-      console.log("Error getMyTokens:(axios)", err.message);
+      loggerError("Error getMyTokens:(axios)", err.message);
     }
     if (err.message === errors.moodleErrorCode.invalidLogin) {
-      console.log("moodle login error");
+      loggerError("moodle login error");
     }
     throw err;
   }
@@ -46,12 +48,15 @@ const getMyTokenAdmin = async (username: string, selectLms: LmsList): Promise<st
     url: tokenURL,
     //httpsAgent: new https.Agent({ rejectUnauthorized: false }), // SSL Error: Unable to verify the first certificateの回避　正式な証明書なら出ないはず
   };
+
+  loggerDebug("moodle sso requestUrl", tokenURL);
+
   try {
     const { data } = await axios(options);
     return data.token;
   } catch (err) {
     if (axios.isAxiosError(err)) {
-      console.log("Error getMyTokens:(axios)", err.message);
+      loggerError("Error getMyTokens:(axios)", err.message);
     }
     throw err;
   }
@@ -68,13 +73,11 @@ const getMyBadges = async (token: string, selectLms: LmsList): Promise<IfBadgeIn
   };
   try {
     const { data } = await axios(options);
-    console.log("response=", data.badges);
+    loggerDebug("response getMyBadges", data.badges);
+
     return data.badges;
   } catch (err) {
-    console.error("Error getMyBadges 01:", err);
-    if (axios.isAxiosError(err)) {
-      console.log("Error getMyBadges:(axios)", err.message);
-    }
+    loggerError(`${logStatus.error}`, err.message);
     throw err;
   }
 };
@@ -92,7 +95,7 @@ export const myBadgesList = async (username: string, password: string, selectLms
 
     return badgesInfoJson;
   } catch (err) {
-    console.log(`error end myBadgedsList`);
+    loggerError(`${logStatus.error} server/service/lmsAccess.service myBadgesList`);
     throw err;
   }
 };
@@ -103,7 +106,7 @@ export const myOpenBadge = async (uniquehash: string, lmsUrl: string): Promise<B
     const openBadgeMeta = await axios.get(myOpenBadgeURL).then((res) => res.data);
     return openBadgeMeta;
   } catch (err) {
-    console.error(`error end myOpenBadge`);
+    loggerError(`${logStatus.error} server/services/lmsAccess.service myOpenBadge`);
     throw err;
   }
 };

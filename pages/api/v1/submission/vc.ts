@@ -1,14 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { errors } from "@/constants/error";
+import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
+import { loggerError, loggerInfo } from "@/lib/logger";
 import prisma from "@/lib/prisma";
-import { cabinetApi } from "@/share/usecases/api";
+import { api, cabinetApi } from "@/share/usecases/api";
 import { ErrorResponse } from "@/types/api/error";
 import { SubmissionVcRequestParam } from "@/types/api/submission";
 
+const apiPath = api.v1.submission.vc;
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorResponse>) {
+  loggerInfo(logStartForApi(apiPath));
+  loggerInfo("request body", req.body);
+
   const { consumerId, email, badgeVcId } = req.body as SubmissionVcRequestParam;
-  console.log("req", consumerId, email, badgeVcId);
 
   try {
     const [consumer, badgeVc] = await Promise.all([
@@ -50,8 +56,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // });
 
     console.log("resData", resData);
+    loggerInfo(`${logStatus.success} ${apiPath}`, resData);
+
     res.status(200);
   } catch (e) {
+    loggerError(`${logStatus.error} ${apiPath}`, e.message);
+
     res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
   }
+  loggerInfo(logEndForApi(apiPath));
 }

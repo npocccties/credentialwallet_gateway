@@ -64,5 +64,6 @@ export function convertJSTstrToUTCdate(dateStr: string): Date {
  * @returns JSTフォーマットの文字列
  */
 export function convertUTCtoJSTstr(utcDate: Date | string): string {
+  if (!utcDate) return null;
   return formatInTimeZone(utcDate, jstTimeZone, defaultFormatStr);
 }

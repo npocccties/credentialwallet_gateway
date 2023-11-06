@@ -1,10 +1,13 @@
 import ION from "@decentralized-identity/ion-tools";
 import axios from "axios";
 
+import { loggerDebug, loggerError } from "@/lib/logger";
 import { getRequestUrlFromUrlMessage, getProtectedHeaderFromVCRequest } from "@/lib/utils";
 
 export const verifyVcRequest = async (vcRequestUrl: string) => {
   const requestUrl = getRequestUrlFromUrlMessage(vcRequestUrl);
+
+  loggerDebug("verifyVcRequest requestUrl", requestUrl);
 
   let vcRequestInJwt = "";
   let vcRequestVerified = "";
@@ -16,9 +19,9 @@ export const verifyVcRequest = async (vcRequestUrl: string) => {
       jws: vcRequestInJwt,
       publicJwk: issDIDDocument.didDocument.verificationMethod[0].publicKeyJwk,
     });
-    console.log("vcRequestVerified", vcRequestVerified);
+    loggerDebug("vcRequestVerified", vcRequestVerified);
   } catch (e) {
-    console.log("error", e);
+    loggerError("failed to verifyVcRequest", e);
     throw new Error("verify error", e);
   }
 

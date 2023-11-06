@@ -2,15 +2,27 @@ import { Parser } from "xml2js";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import { errors } from "@/constants/error";
+import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
+import { loggerError, loggerInfo } from "@/lib/logger";
 import prisma from "@/lib/prisma";
+import { api } from "@/share/usecases/api";
 import { UserBadgeList } from "@/types/api/user_badgelist";
 
+const apiPath = api.v1.user_badgelist;
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse<UserBadgeList | {}>) {
+  loggerInfo(logStartForApi(apiPath));
+  loggerInfo("request method", req.method);
+  loggerInfo("request body", req.body);
+
   var SamlResponse_atob: string, SamlResponse_xml;
   const { method, body } = req;
   const { SamlResponse, saml } = body;
 
   if (method !== "POST") {
+    loggerError(`${logStatus.error} bad request! not POST method`, req.method);
+
     res.status(400).json({});
     return;
   }
@@ -28,6 +40,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   //入力パラメータ不正の場合
   if (!check || !reqOrthrosId) {
+    loggerError(`${logStatus.error} bad request!`, reqOrthrosId);
+
     res.status(400).json({});
     return;
   }
@@ -43,25 +57,33 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   //対応するorthrosIdがない場合
   if (!findWalletId || findWalletId.length <= 0) {
+    loggerError(`${logStatus.error} bad request! not found orthrosId`);
+
     res.status(400).json({});
     return;
   }
 
-  //badge_vcsテーブルからreqOrthrosIdに対応するバッジ情報を取得
-  const findBadgeList = await prisma.badgeVc.findMany({
-    select: {
-      badgeClassId: true,
-      badgeName: true,
-    },
-    where: {
-      walletId: findWalletId[0].walletId,
-    },
-  });
+  try {
+    //badge_vcsテーブルからreqOrthrosIdに対応するバッジ情報を取得
+    const findBadgeList = await prisma.badgeVc.findMany({
+      select: {
+        badgeClassId: true,
+        badgeName: true,
+      },
+      where: {
+        walletId: findWalletId[0].walletId,
+      },
+    });
 
-  console.log(findBadgeList);
+    loggerInfo(`${logStatus.success} ${apiPath}`, findBadgeList);
 
-  res.status(200).json(findBadgeList);
-  return;
+    res.status(200).json(findBadgeList);
+  } catch (e) {
+    loggerError(`${logStatus.error} ${apiPath}`, e.message);
+
+    res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+  }
+  loggerInfo(logEndForApi(apiPath));
 }
 
 function checkSamlResponse(SamlResponse) {

@@ -7,7 +7,9 @@ import { z } from "zod";
 import { Layout } from "@/components/Layout";
 import { CredentialDetail } from "@/components/page/detail/CredentialDetail";
 import { errors } from "@/constants/error";
+import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { convertUTCtoJSTstr } from "@/lib/date";
+import { loggerError, loggerInfo } from "@/lib/logger";
 import prisma from "@/lib/prisma";
 import { vcDetailActions } from "@/share/store/credentialDetail/main";
 import { BadgeVcSubmission } from "@/types/api/credential";
@@ -27,15 +29,20 @@ const querySchema = z.object({
     .transform((v) => Number(v)),
 });
 
+const pagePath = "/wallet/detail/[badge_vc_id]";
+
 export async function getServerSideProps(
   context,
 ): Promise<GetServerSidePropsResult<ErrorProps | CredentialDetailData>> {
+  loggerInfo(logStartForPageSSR(pagePath));
   // TODO: ログイン情報を取得し、ウォレットIDを取得
   // const walletId = context.cookies.orthros
 
   const result = querySchema.safeParse(context.params);
 
   if (!result.success) {
+    loggerError(`${logStatus.error} bad request!`, context.params);
+
     return { notFound: true };
   }
   const id = result.data.badge_vc_id;
@@ -55,11 +62,16 @@ export async function getServerSideProps(
     ]);
 
     if (!badgeVc) {
+      loggerError(`${logStatus.error} badgeVc not found!`, context.params);
       return { notFound: true };
     }
 
     const url = badgeVc.badgeClassId;
     const badgeMetaData: WisdomBadgeInfo = await axios.get(url).then((res) => res.data);
+    if (!badgeMetaData) {
+      loggerError(`${logStatus.error} wisdom badge not found!`, context.params);
+      throw new Error("wisdom badge not found");
+    }
 
     const sub = submissions.map((sub): BadgeVcSubmission => {
       return {
@@ -84,6 +96,10 @@ export async function getServerSideProps(
         return data;
       }),
     ).then((result) => result);
+    if (!knowledgeBadgeInfo) {
+      loggerError(`${logStatus.error} knowledge badge not found!`, context.params);
+      throw new Error("knowledge badge not found");
+    }
 
     knowledgeBadgeInfo.map((item) => {
       knowledgeBadges.push({ badgeName: item.name, badgeImageUrl: item.image.id });
@@ -105,8 +121,12 @@ export async function getServerSideProps(
       submissions: sub,
     };
 
+    loggerInfo(`${logStatus.success} ${pagePath}`);
+    loggerInfo(logEndForPageSSR(pagePath));
+
     return { props: { vcDetailData, knowledgeBadges, submissionsHistories, badgeExportData } };
   } catch (e) {
+    loggerError(`${logStatus.error} ${pagePath}`, e.message);
     throw new Error(errors.response500.message);
   }
 }

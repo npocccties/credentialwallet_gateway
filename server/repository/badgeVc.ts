@@ -1,3 +1,4 @@
+import { loggerError } from "@/lib/logger";
 import prisma, { Prisma } from "@/lib/prisma";
 
 export const saveBadgeVc = async (input: Prisma.BadgeVcCreateInput) => {
@@ -6,7 +7,7 @@ export const saveBadgeVc = async (input: Prisma.BadgeVcCreateInput) => {
       data: input,
     });
   } catch (e) {
-    console.log(e.message);
-    throw new Error(e);
+    loggerError("failed to saveBadgeVc", e.message);
+    throw e;
   }
 };

@@ -16,6 +16,7 @@ export const api = {
       sendmail: "/api/v1/submission/sendmail",
       vc: "/api/v1/submission/vc",
     },
+    user_badgelist: "/api/v1/user_badgelist",
   },
 };
 

@@ -1,3 +1,5 @@
+import { logStatus } from "@/constants/log";
+import { loggerDebug, loggerError } from "@/lib/logger";
 import issuanceConfig from "@/templates/issuance_request_config.json";
 
 const did_authority = process.env.did_authority as string;
@@ -44,7 +46,7 @@ export const issueRequest = async (
       accessToken = result.accessToken;
     }
   } catch (e) {
-    console.log("failed to get access token");
+    loggerError("failed to get access token MS Entra");
     throw e;
   }
 
@@ -70,7 +72,7 @@ export const issueRequest = async (
   } else {
     const callbakURL = `${process.env.baseURL}/api/issuer/issuance-request-callback`;
     issuanceConfig.callback.url = callbakURL;
-    console.log("callbackURL =", callbakURL);
+    loggerDebug("callbackURL", callbakURL);
   }
 
   // セッションidを入れてコールバック側へ引き継ぐ
@@ -88,6 +90,8 @@ export const issueRequest = async (
     },
   };
 
+  loggerDebug("issueReqest fetchOptions", fetchOptions);
+
   const client_api_request_endpoint =
     "https://verifiedid.did.msidentity.com/v1.0/verifiablecredentials/createIssuanceRequest";
   let url = "";
@@ -99,7 +103,7 @@ export const issueRequest = async (
     }
     url = resp.url;
   } catch (e) {
-    console.log("ERROR END:", e);
+    loggerError(`${logStatus.error} failed to issue request`);
     throw e;
   }
 
