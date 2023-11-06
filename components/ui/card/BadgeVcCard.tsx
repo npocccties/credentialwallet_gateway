@@ -9,10 +9,9 @@ type Props = {
 };
 
 export const BadgeVcCard = ({ badgeVc }: Props) => {
-  // const { card } = storedVC.manifest.display;
-
   const vcPayload = badgeVc.vcDataPayload && JSON.parse(badgeVc.vcDataPayload);
   const image = vcPayload?.vc?.credentialSubject.photo;
+
   return (
     <Grid
       border={"2px"}

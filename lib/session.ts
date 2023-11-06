@@ -1,5 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import session from "express-session";
+import { NextApiRequest, NextApiResponse } from "next";
+
 import { connectMiddleware } from "./connect";
 
 export type Session = { session: { [key: string]: any } };
@@ -12,9 +13,6 @@ const config = {
   store: sessionStore,
 };
 
-export const withSession = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
+export const withSession = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectMiddleware(req, res, session(config));
 };
