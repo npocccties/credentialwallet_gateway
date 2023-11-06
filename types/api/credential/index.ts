@@ -20,6 +20,7 @@ export type DisplayBadgeVc = {
   badgeName: string;
   badgeIssuerName: string;
   badgeIssuedon: string;
+  badgeExpires: string;
   vcDataPayload: string;
   submissions: BadgeVcSubmissions;
 };

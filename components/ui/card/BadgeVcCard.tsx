@@ -1,7 +1,7 @@
 import { Box, Flex, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 import React from "react";
 
-import { JSTdateToDisplay } from "@/lib/date";
+import { isBefoerCurrentTimeJST, JSTdateToDisplay } from "@/lib/date";
 import { DisplayBadgeVc } from "@/types/api/credential";
 
 type Props = {
@@ -12,6 +12,8 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
   const vcPayload = badgeVc.vcDataPayload && JSON.parse(badgeVc.vcDataPayload);
   const image = vcPayload?.vc?.credentialSubject.photo;
 
+  const expired = isBefoerCurrentTimeJST(badgeVc.badgeExpires);
+
   return (
     <Grid
       border={"2px"}
@@ -19,6 +21,7 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
       rounded="2xl"
       templateColumns={"repeat(3, 1fr)"}
       p={{ base: 3, sm: 6 }}
+      backgroundColor={expired && "gray.300"}
     >
       <GridItem display={"grid"} placeItems={"center"} rowSpan={3} p={{ base: 1, sm: 2 }}>
         <Image fit={"cover"} src={"data:image/png;base64," + image} alt={"test"} />
@@ -27,6 +30,11 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
         <Text fontSize={{ sm: "xl", base: "md" }} fontWeight={"bold"}>
           {badgeVc.badgeName}
         </Text>
+        {expired && (
+          <Text fontSize={{ base: "12px", sm: "sm" }} mt={2} color={"red"}>
+            有効期限切れ
+          </Text>
+        )}
       </GridItem>
 
       {/** desktop */}

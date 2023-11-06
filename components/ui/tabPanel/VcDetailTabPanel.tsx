@@ -9,10 +9,11 @@ type Props = {
   vcDetailData: VcDetailData;
   knowledgeBadges: KnowledgeBadges;
   submissionsHistories: SubmissionsHistories;
+  expired: boolean;
 };
 
-export const VcDetailTabPanel = ({ vcDetailData, knowledgeBadges, submissionsHistories }: Props) => {
-  const { badgeEarnerEmail, badgeIssuerName, badgeIssuedon, courseUrl } = vcDetailData;
+export const VcDetailTabPanel = ({ vcDetailData, knowledgeBadges, submissionsHistories, expired }: Props) => {
+  const { badgeEarnerEmail, badgeIssuerName, badgeExpires, courseUrl } = vcDetailData;
   return (
     <Tabs size="md" variant="enclosed">
       <TabList mb={6}>
@@ -24,7 +25,7 @@ export const VcDetailTabPanel = ({ vcDetailData, knowledgeBadges, submissionsHis
         <TabPanel>
           <CredentialSubjectItem name="email" data={badgeEarnerEmail} />
           <CredentialSubjectItem name="発行者" data={badgeIssuerName} />
-          <CredentialSubjectItem name="発行日" data={JSTdateToDisplay(badgeIssuedon)} />
+          <CredentialSubjectItem name="有効期限" data={JSTdateToDisplay(badgeExpires)} isDanger={expired} />
           <CredentialSubjectItem name="コース情報" data={courseUrl} />
         </TabPanel>
         <TabPanel>
@@ -45,9 +46,10 @@ export const VcDetailTabPanel = ({ vcDetailData, knowledgeBadges, submissionsHis
 interface CredentialSubjectItemProps {
   name: string;
   data: string | Date;
+  isDanger?: boolean;
 }
 
-const CredentialSubjectItem: React.FC<CredentialSubjectItemProps> = ({ name, data }) => {
+const CredentialSubjectItem: React.FC<CredentialSubjectItemProps> = ({ name, data, isDanger }) => {
   return (
     <Box>
       <Text color="gray" mb={4}>
@@ -59,9 +61,13 @@ const CredentialSubjectItem: React.FC<CredentialSubjectItemProps> = ({ name, dat
             OKUTEPのコース情報を見る <ExternalLinkIcon />
           </Link>
         </Text>
+      ) : data ? (
+        <Text fontSize="lg" my={8} color={isDanger && "red"}>
+          {data}
+        </Text>
       ) : (
         <Text fontSize="lg" my={8}>
-          {data}
+          ------
         </Text>
       )}
       <Divider mb={8} />

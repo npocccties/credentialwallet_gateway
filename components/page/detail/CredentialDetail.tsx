@@ -16,6 +16,7 @@ import React, { useRef } from "react";
 import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
 import { VcDetailTabPanel } from "@/components/ui/tabPanel/VcDetailTabPanel";
 import { pagePath } from "@/constants";
+import { isBefoerCurrentTimeJST } from "@/lib/date";
 import { vcDetailActions } from "@/share/store/credentialDetail/main";
 import { CredentialDetailData } from "@/types/api/credential/detail";
 
@@ -27,7 +28,8 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
 }) => {
   const router = useRouter();
   const cancelRef = useRef();
-  const isDeleteDisabled = vcDetailData.submissions.length !== 0;
+  const expired = isBefoerCurrentTimeJST(vcDetailData.badgeExpires);
+  const isDeleteDisabled = vcDetailData.submissions.length !== 0 && !expired;
 
   const { deleteCredential } = vcDetailActions.useDeleteCredential();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -47,6 +49,7 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
             <Button
               colorScheme="teal"
               w="full"
+              disabled={expired}
               onClick={() => router.push(`${pagePath.submission.enter}/${router.query.badge_vc_id}`)}
             >
               バッジ提出
@@ -56,6 +59,7 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
             vcDetailData={vcDetailData}
             knowledgeBadges={knowledgeBadges}
             submissionsHistories={submissionsHistories}
+            expired={expired}
           />
           <Flex justifyContent={"space-between"}>
             <Button colorScheme="red" w={160} disabled={isDeleteDisabled} onClick={onOpen}>
