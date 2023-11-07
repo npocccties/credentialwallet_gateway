@@ -11,12 +11,16 @@ down-local:
 	docker compose -f docker-compose.dev-local.yml down
 down-dev:
 	script/down-dev.sh
+down-prod:
+	script/down-prod.sh
 
 .PHONY: build
 build-local:
 	docker compose -f docker-compose.dev-local.yml build
 build-dev:
 	script/build-dev.sh
+build-prod:
+	script/build-prod.sh
 
 .PHONY: restart
 restart-local:
