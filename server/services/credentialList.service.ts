@@ -35,7 +35,7 @@ export const getCredentialList = async ({ searchState, walletId }: CredentialsRe
   });
 
   const submissionsAll: SubmissionsAll = {
-    totalSubmission: submissionCount,
+    totalSubmissionBadges: submissionCount,
     detailSubmissions: [],
   };
 

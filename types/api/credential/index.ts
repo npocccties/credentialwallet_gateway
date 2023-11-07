@@ -35,7 +35,7 @@ export type BadgeVcSubmission = {
 export type BadgeVcSubmissions = BadgeVcSubmission[];
 
 export type SubmissionsAll = {
-  totalSubmission: number;
+  totalSubmissionBadges: number;
   detailSubmissions: DetailSubmissions;
 };
 

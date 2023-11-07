@@ -1,16 +1,4 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Center,
-  Flex,
-  Grid,
-  GridItem,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Center, Grid, GridItem } from "@chakra-ui/react";
 import React from "react";
 
 import { credentialListGetters } from "@/share/store/credentialList/main";
@@ -27,62 +15,37 @@ export const DisplayBadgeCount = () => {
     >
       <Grid templateColumns={"repeat(2, 1fr)"}>
         <GridItem>
-          <DisplauCountData color="blue" text="取得数" count={totalBadgeCount} />
+          <DisplauCountData color="blue" prefixText="バッジ" text="保管数" count={totalBadgeCount} />
         </GridItem>
         <GridItem>
-          <DisplauCountData color="skyblue" text="提出数" count={submissionsAll.totalSubmission} />
+          <DisplauCountData
+            color="skyblue"
+            prefixText="うち"
+            text="提出済"
+            count={submissionsAll.totalSubmissionBadges}
+          />
         </GridItem>
         <GridItem></GridItem>
-        <GridItem>
-          <Center>
-            <Accordion allowToggle>
-              <AccordionItem border={"none"}>
-                <AccordionButton pt={0} pb={0}>
-                  <AccordionIcon />
-                  <Box as="span" flex={"1"} textAlign={"left"}>
-                    <Text fontSize={{ base: "12px", sm: "14px" }}>提出先別一覧</Text>
-                  </Box>
-                </AccordionButton>
-                <AccordionPanel pb={2}>
-                  {submissionsAll.detailSubmissions.map((item, index) => {
-                    return (
-                      <Flex
-                        key={index}
-                        direction={"row"}
-                        alignItems={"center"}
-                        justifyContent={"space-between"}
-                        borderBottom={"1px"}
-                        borderColor={"gray.200"}
-                      >
-                        <Text fontSize={"12px"} maxW={{ base: "70px", sm: "100%" }}>
-                          {item.cabinetToSubmit}
-                        </Text>
-                        <Flex direction={"row"} alignItems={"center"} ml={{ base: 1, sm: 2 }}>
-                          <Text fontSize={{ base: "12px", sm: "14px" }} color={"skyblue"}>
-                            提出数
-                          </Text>
-                          <Text fontSize={"16px"} ml={2}>
-                            {item.submitCount}
-                          </Text>
-                        </Flex>
-                      </Flex>
-                    );
-                  })}
-                </AccordionPanel>
-              </AccordionItem>
-            </Accordion>
-          </Center>
-        </GridItem>
       </Grid>
     </Box>
   );
 };
 
-const DisplauCountData = ({ color, text, count }: { color: string; text: string; count: number }) => {
+const DisplauCountData = ({
+  color,
+  prefixText,
+  text,
+  count,
+}: {
+  color: string;
+  prefixText: string;
+  text: string;
+  count: number;
+}) => {
   return (
     <Center>
       <Box as="span" textAlign={"left"} fontSize={{ base: "12px", sm: "16px" }}>
-        バッジ
+        {prefixText}
       </Box>
       <Box as="span" fontSize={{ base: "16px", sm: "24px" }} color={color}>
         {text}

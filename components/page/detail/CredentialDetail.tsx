@@ -29,7 +29,7 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
   const router = useRouter();
   const cancelRef = useRef();
   const expired = isBefoerCurrentTimeJST(vcDetailData.badgeExpires);
-  const isDeleteDisabled = vcDetailData.submissions.length !== 0 && !expired;
+  const isDeleteDisabled = vcDetailData.submissions.length !== 0;
 
   const { deleteCredential } = vcDetailActions.useDeleteCredential();
   const { isOpen, onOpen, onClose } = useDisclosure();

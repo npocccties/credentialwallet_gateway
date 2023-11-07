@@ -54,7 +54,7 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
       <GridItem display={{ base: "none", sm: "block" }} px="2" py="1" alignItems="center" colSpan={2}>
         <Grid templateColumns={"100px 1fr"} alignItems={"flex-start"} mr={4}>
           <Box mb={0}>
-            <Text fontSize={"xs"}>バッジ提出状況</Text>
+            <Text fontSize={"xs"}>バッジ提出履歴</Text>
           </Box>
           <Flex ml={4} direction={"column"}>
             {badgeVc.submissions.length === 0 ? (
@@ -96,7 +96,7 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
       <GridItem display={{ base: "block", sm: "none" }} px="2" py="1" alignItems="center" colSpan={2}>
         <Flex direction={"column"} mr={0}>
           <Box mb={1}>
-            <Text fontSize={"9px"}>バッジ提出状況</Text>
+            <Text fontSize={"9px"}>バッジ提出履歴</Text>
           </Box>
           <Flex ml={{ base: 1, sm: 4 }} direction={"column"}>
             {badgeVc.submissions.length === 0 ? (

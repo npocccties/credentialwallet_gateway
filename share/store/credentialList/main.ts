@@ -9,7 +9,7 @@ import { SearchFormItem } from "@/types/api/credential";
 const defaultState: CredentialListState = {
   badgeVcList: [],
   submissionsAll: {
-    totalSubmission: 0,
+    totalSubmissionBadges: 0,
     detailSubmissions: [],
   },
   totalBadgeCount: 0,

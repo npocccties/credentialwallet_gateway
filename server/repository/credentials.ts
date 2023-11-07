@@ -5,7 +5,7 @@ import { CredentialsRequest } from "../types";
 import prisma from "@/lib/prisma";
 
 export const credentials = async ({ searchState, walletId }: CredentialsRequest) => {
-  const [badgeVcs, submissions, consumers, submissionCount, badgeCount] = await Promise.all([
+  const [badgeVcs, submissions, consumers, submissionBadgeVcs, badgeCount] = await Promise.all([
     prisma.badgeVc.findMany({
       where: {
         walletId: walletId,
@@ -27,10 +27,11 @@ export const credentials = async ({ searchState, walletId }: CredentialsRequest)
       },
     }),
     prisma.badgeConsumer.findMany(),
-    prisma.submission.count({
+    prisma.submission.findMany({
       where: {
         walletId: walletId,
       },
+      distinct: ["badgeVcId"],
     }),
     prisma.badgeVc.count({
       where: {
@@ -38,6 +39,8 @@ export const credentials = async ({ searchState, walletId }: CredentialsRequest)
       },
     }),
   ]);
+
+  const submissionCount = submissionBadgeVcs.length;
 
   return { badgeVcs, submissions, consumers, submissionCount, badgeCount };
 };
