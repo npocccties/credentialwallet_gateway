@@ -89,5 +89,7 @@ export default async function handler(req: NextApiRequest & Session, res: NextAp
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
 
     return res.status(500).json({ error: { errorMessage: errors.vcImportFailed, detail: e } });
+  } finally {
+    loggerInfo(logEndForApi(apiPath));
   }
 }

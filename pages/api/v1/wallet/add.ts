@@ -15,11 +15,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // TODO: walletの登録処理を実装
 
-    res.status(200).json({});
+    return res.status(200).json({});
   } catch (e) {
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
 
-    res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+    return res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+  } finally {
+    loggerInfo(logEndForApi(apiPath));
   }
-  loggerInfo(logEndForApi(apiPath));
 }

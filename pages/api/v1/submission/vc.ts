@@ -58,11 +58,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     console.log("resData", resData);
     loggerInfo(`${logStatus.success} ${apiPath}`, resData);
 
-    res.status(200);
+    return res.status(200);
   } catch (e) {
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
 
-    res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+    return res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+  } finally {
+    loggerInfo(logEndForApi(apiPath));
   }
-  loggerInfo(logEndForApi(apiPath));
 }

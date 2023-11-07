@@ -38,11 +38,12 @@ export default async function handler(
     const badgeMetaData = await myOpenBadge(uniquehash, lmsUrl);
     loggerInfo(`${logStatus.success} ${apiPath}`, badgeMetaData);
 
-    res.status(200).json({ data: badgeMetaData });
+    return res.status(200).json({ data: badgeMetaData });
   } catch (e) {
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
 
-    res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+    return res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+  } finally {
+    loggerInfo(`${logEndForApi(apiPath)}`);
   }
-  loggerInfo(`${logEndForApi(apiPath)}`);
 }

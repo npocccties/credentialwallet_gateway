@@ -28,11 +28,12 @@ export default async function handler(
 
     loggerInfo(`${logStatus.success} ${apiPath}`, badgeList);
 
-    res.status(200).json(badgeList);
+    return res.status(200).json(badgeList);
   } catch (e) {
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
 
-    res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+    return res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+  } finally {
+    loggerInfo(logEndForApi(apiPath));
   }
-  loggerInfo(logEndForApi(apiPath));
 }

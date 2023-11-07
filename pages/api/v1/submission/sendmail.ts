@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   if (!validateEmail(email)) {
     loggerError(`${logStatus.error} bad request!`, req.body);
 
-    res.status(400).json({ error: { errorMessage: errors.validation.email } });
+    return res.status(400).json({ error: { errorMessage: errors.validation.email } });
   }
   // TODO: メールサーバーに送信する情報を作成
 
@@ -37,11 +37,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     loggerInfo(`${logStatus.success} ${apiPath}`);
 
-    res.status(200).json({ hashConfirmCode, confirmCode });
+    return res.status(200).json({ hashConfirmCode, confirmCode });
   } catch (e) {
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
 
-    res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+    return res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+  } finally {
+    loggerInfo(logEndForApi(apiPath));
   }
-  loggerInfo(logEndForApi(apiPath));
 }

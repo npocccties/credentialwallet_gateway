@@ -48,7 +48,7 @@ export const VcImport = ({ setIsBadgeSelect }: Props) => {
               <BadgeDataItem name="バッジ名" data={badgeMetaData.badge.name} />
               <BadgeDataItem name="email" data={email} />
               <BadgeDataItem name="発行者" data={badgeMetaData.badge.issuer.name} />
-              <BadgeDataItem name="発行日" data={JSTdateToDisplay(badgeMetaData.issuedOn.toString())} />
+              <BadgeDataItem name="有効期限" data={JSTdateToDisplay(badgeMetaData.expires?.toString()) ?? "------"} />
             </Stack>
             <Box w={"full"} mt={8}>
               <Flex justifyContent={"space-between"}>
