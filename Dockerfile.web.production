@@ -30,7 +30,7 @@ RUN mkdir -p /usr/src && \
 
 COPY ./bin/compile-nginx /bin/compile-nginx
 
-RUN chmod +x compile-nginx
+RUN chmod +x /bin/compile-nginx
 RUN compile-nginx
 
 FROM nginx:alpine
