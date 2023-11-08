@@ -47,8 +47,7 @@ cd /usr/src/nginx-$NGINX_VERSION
             --with-stream_ssl_preread_module \
             --with-cc-opt='-Os -fomit-frame-pointer' \
             --with-ld-opt=-Wl,--as-needed \
-            --add-dynamic-module=${NGINX_SHIB_DIR} \
-            -Werror=deprecated-declarations
+            --add-dynamic-module=${NGINX_SHIB_DIR}
 
 make
 make install

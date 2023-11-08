@@ -19,7 +19,7 @@ RUN mkdir -p /usr/src && \
     gcc \
     libc-dev \
     make \
-    openssl-dev \
+    openssl \
     pcre-dev \
     zlib-dev \
     linux-headers \
