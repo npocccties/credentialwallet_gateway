@@ -1,8 +1,7 @@
 # ref: https://code.osu.edu/asctech/docker/shibboleth/-/tree/master/nginx
-# Nginxのversionを 1.23.1 に上げた（ビルドエラーになるので）
-# compile-nginx 実行直前に権限を与えた（エラーになるので）
 FROM nginx:alpine AS builder
 
+# Nginxのversionを 1.23.1 に上げた（ビルドエラーになるので）
 ENV NGINX_VERSION=1.23.1
 
 ENV NGINX_URL="http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" \
@@ -33,6 +32,7 @@ RUN mkdir -p /usr/src && \
 
 COPY ./bin/compile-nginx /bin/compile-nginx
 
+# compile-nginx 実行直前に権限を与えた（エラーになるので）
 RUN chmod +x /bin/compile-nginx
 RUN compile-nginx
 
