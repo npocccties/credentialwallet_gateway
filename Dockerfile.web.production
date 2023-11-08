@@ -1,7 +1,7 @@
 # ref: https://code.osu.edu/asctech/docker/shibboleth/-/tree/master/nginx
 FROM nginx:alpine AS builder
 
-ENV NGINX_VERSION=1.17.2
+ENV NGINX_VERSION=1.25.3
 
 ENV NGINX_URL="http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" \
     NGINX_SHIB_URL="https://github.com/nginx-shib/nginx-http-shibboleth/archive/master.zip" \
