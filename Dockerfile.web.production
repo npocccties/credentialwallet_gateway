@@ -1,6 +1,7 @@
 # ref: https://code.osu.edu/asctech/docker/shibboleth/-/tree/master/nginx
 FROM nginx:alpine AS builder
 
+# Nginx のバージョンを以下にしないと ngx_http_shibboleth_module.so の読み込み時にエラーになるので以下にしている
 ENV NGINX_VERSION=1.25.3
 
 ENV NGINX_URL="http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" \
