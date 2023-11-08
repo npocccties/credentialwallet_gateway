@@ -2,7 +2,7 @@
 FROM nginx:alpine AS builder
 
 # Nginxのversionを 1.17.2 から上げた（ビルドエラーになるので）
-ENV NGINX_VERSION=1.18.0
+ENV NGINX_VERSION=1.19.10
 
 ENV NGINX_URL="http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" \
     NGINX_SHIB_URL="https://github.com/nginx-shib/nginx-http-shibboleth/archive/master.zip" \
