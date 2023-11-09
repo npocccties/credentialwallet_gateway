@@ -14,7 +14,6 @@ const { persistAtom } = recoilPersist({
 const orthrosUserState = atom<OrthrosUserState>({
   key: RECOIL_ATOMS_KEYS.ORTHROS_USER_STATE,
   default: {
-    eppn: "",
     displayName: "",
   },
   effects_UNSTABLE: [persistAtom],
@@ -33,10 +32,9 @@ const useSetOrthrosUser = () => {
 
   const setOrthrosUser = useCallback(
     (params: OrthrosUserState) => {
-      const { eppn, displayName } = params;
+      const { displayName } = params;
       setState(() => {
         return {
-          eppn: eppn,
           displayName: displayName,
         };
       });

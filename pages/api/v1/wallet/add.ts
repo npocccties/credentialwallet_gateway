@@ -1,3 +1,4 @@
+import { withIronSessionApiRoute } from "iron-session/next";
 import { z } from "zod";
 
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -6,20 +7,21 @@ import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
 import { loggerInfo, loggerError } from "@/lib/logger";
 import prisma from "@/lib/prisma";
+import { sessionOptions } from "@/lib/session";
 import { api } from "@/share/usecases/api";
 import { ErrorResponse } from "@/types/api/error";
 
 const querySchema = z.object({
-  orthrosId: z.string(),
+  eppn: z.string(),
 });
 
 const apiPath = api.v1.wallet.add;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorResponse>) {
+async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorResponse>) {
   loggerInfo(logStartForApi(apiPath));
-  loggerInfo("request query", req.body);
+  loggerInfo("request session", req.session);
 
-  const result = querySchema.safeParse(req.body);
+  const result = querySchema.safeParse(req.session);
 
   if (!result.success) {
     loggerError(`${logStatus.error} bad request!`, req.body);
@@ -29,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   try {
     await prisma.wallet.create({
       data: {
-        orthrosId: result.data.orthrosId,
+        orthrosId: result.data.eppn,
         createdAt: new Date(),
       },
     });
@@ -44,3 +46,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     loggerInfo(logEndForApi(apiPath));
   }
 }
+
+export default withIronSessionApiRoute(handler, sessionOptions);
