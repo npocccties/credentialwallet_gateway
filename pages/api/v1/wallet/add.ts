@@ -27,8 +27,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return res.status(400).json({ error: { errorMessage: errors.response400.message } });
   }
   try {
-    loggerInfo(`${logStatus} ${apiPath}`);
-
     await prisma.wallet.create({
       data: {
         orthrosId: result.data.orthrosId,
@@ -36,6 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       },
     });
 
+    loggerInfo(`${logStatus.success} ${apiPath}`);
     return res.status(200).json();
   } catch (e) {
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
