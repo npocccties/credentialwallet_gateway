@@ -1,5 +1,4 @@
 export type OrthrosUserState = {
-  eppn: string;
   displayName: string;
 };
 

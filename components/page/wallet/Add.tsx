@@ -12,10 +12,10 @@ export const AddWallet = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  const { eppn, displayName } = orthrosUserGetters.useOrthrosUserData();
+  const { displayName } = orthrosUserGetters.useOrthrosUserData();
 
   const handleClickButton = async () => {
-    await useAddWalletApi({ orthrosId: eppn });
+    await useAddWalletApi();
 
     onOpen();
   };
@@ -26,7 +26,8 @@ export const AddWallet = () => {
           ウォレット作成
         </Text>
       </Center>
-      <Box mt={{ base: 8, sm: 16 }}>
+      {/** TODO: 表示するかを確認する */}
+      {/* <Box mt={{ base: 8, sm: 16 }}>
         <Text as="h2" fontSize={{ base: "xl", sm: "2xl" }}>
           Orthros ID
         </Text>
@@ -34,7 +35,7 @@ export const AddWallet = () => {
           <Text fontSize={{ base: "md", sm: "xl" }}>{eppn}</Text>
         </Box>
         <Divider />
-      </Box>
+      </Box> */}
       <Box mt={{ base: 8, sm: 16 }}>
         <Text as="h2" fontSize={{ base: "xl", sm: "2xl" }}>
           氏名

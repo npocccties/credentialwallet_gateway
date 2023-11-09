@@ -1,4 +1,5 @@
 import axios from "axios";
+import { withIronSessionSsr } from "iron-session/next";
 import { GetServerSidePropsResult } from "next";
 import { ErrorProps } from "next/error";
 import React, { useEffect } from "react";
@@ -11,6 +12,8 @@ import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log
 import { convertUTCtoJSTstr } from "@/lib/date";
 import { loggerError, loggerInfo } from "@/lib/logger";
 import prisma from "@/lib/prisma";
+import { sessionOptions } from "@/lib/session";
+import { getWalletId } from "@/server/services/wallet.service";
 import { vcDetailActions } from "@/share/store/credentialDetail/main";
 import { BadgeVcSubmission } from "@/types/api/credential";
 import { CredentialDetailData, KnowledgeBadges, VcDetailData } from "@/types/api/credential/detail";
@@ -31,12 +34,10 @@ const querySchema = z.object({
 
 const pagePath = "/wallet/detail/[badge_vc_id]";
 
-export async function getServerSideProps(
+export const getServerSideProps = withIronSessionSsr(async function (
   context,
 ): Promise<GetServerSidePropsResult<ErrorProps | CredentialDetailData>> {
   loggerInfo(logStartForPageSSR(pagePath));
-  // TODO: ログイン情報を取得し、ウォレットIDを取得
-  // const walletId = context.cookies.orthros
 
   const result = querySchema.safeParse(context.params);
 
@@ -46,17 +47,21 @@ export async function getServerSideProps(
     return { notFound: true };
   }
   const id = result.data.badge_vc_id;
+  const eppn = context.req.session.eppn;
 
   try {
+    const walletId = await getWalletId(eppn);
     const [badgeVc, submissions] = await Promise.all([
       prisma.badgeVc.findUnique({
         where: {
           badgeVcId: id,
+          walletId: walletId,
         },
       }),
       prisma.submission.findMany({
         where: {
           badgeVcId: id,
+          walletId: walletId,
         },
       }),
     ]);
@@ -129,7 +134,7 @@ export async function getServerSideProps(
     loggerError(`${logStatus.error} ${pagePath}`, e.message);
     throw new Error(errors.response500.message);
   }
-}
+}, sessionOptions);
 
 const CredentialDetailPage = (props: CredentialDetailData) => {
   const { vcDetailData, knowledgeBadges, submissionsHistories, badgeExportData } = props;

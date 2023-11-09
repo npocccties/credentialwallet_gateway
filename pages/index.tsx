@@ -1,3 +1,4 @@
+import { withIronSessionSsr } from "iron-session/next";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
@@ -12,23 +13,27 @@ import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
 import prisma from "@/lib/prisma";
+import { sessionOptions } from "@/lib/session";
 import { orthrosUserActions } from "@/share/store/loginUser/Orthros/main";
 
 type Props = {
-  eppn: string;
   displayName: string;
   isCreatedWallet: boolean;
 };
 
-export async function getServerSideProps(context): Promise<GetServerSidePropsResult<Props>> {
+export const getServerSideProps = withIronSessionSsr(async function ({
+  req,
+  res,
+}): Promise<GetServerSidePropsResult<Props>> {
   loggerInfo(logStartForPageSSR(pagePath.wallet.list));
   // const eppn = context.req.headers["eppn"] as string;
   // const displayName = context.req.headers["displayName"] as string;
 
-  const eppn = "zaburo@nii.co.jp";
-  const displayName = "テスト 三郎";
+  // const eppn = "tegsdgdsfasete@nii.co.jp";
+  const eppn = "e652f67b-8f76-4f1a-a235-3387a297e1be";
+  const displayName = "テストの人2";
 
-  loggerInfo("context.req.headers", context.req.headers);
+  loggerInfo("req.headers", req.headers);
 
   if (!eppn || !displayName) {
     // TODO: Orthrosにリダイレクトする？
@@ -44,11 +49,12 @@ export async function getServerSideProps(context): Promise<GetServerSidePropsRes
     });
 
     const isCreatedWallet = !createdWallet ? false : true;
+    req.session.eppn = eppn;
+    await req.session.save();
 
     loggerInfo(`${logStatus.success} ${pagePath.wallet.list}`);
     return {
       props: {
-        eppn,
         displayName,
         isCreatedWallet,
       },
@@ -60,14 +66,14 @@ export async function getServerSideProps(context): Promise<GetServerSidePropsRes
   } finally {
     loggerInfo(logEndForPageSSR(pagePath.wallet.list));
   }
-}
+}, sessionOptions);
 
-const Home: NextPage<Props> = ({ eppn, displayName, isCreatedWallet }) => {
+const Home: NextPage<Props> = ({ displayName, isCreatedWallet }) => {
   const router = useRouter();
   const { setOrthrosUser } = orthrosUserActions.useSetOrthrosUser();
 
   useEffect(() => {
-    setOrthrosUser({ eppn, displayName });
+    setOrthrosUser({ displayName });
 
     if (!isCreatedWallet) {
       router.push(pagePath.wallet.add);
