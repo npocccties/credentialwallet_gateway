@@ -5,8 +5,7 @@ services:
     # image: nginx:1.23.1
     image: openresty/openresty:1.21.4.2-1-alpine-fat
     ports:
-      # http だと eppn がこないので除外してみる
-      # - "80:80"
+      - "80:80"
       - "443:443"
     networks:
       - app_network
