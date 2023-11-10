@@ -1,9 +1,11 @@
+import { withIronSessionApiRoute } from "iron-session/next";
+
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import { Session, withSession } from "@/lib/session";
+import { sessionOptions } from "@/lib/session";
 import { getRequestFromVCRequest, calcPinhash } from "@/lib/utils";
 import { issue } from "@/server/services/issue.service";
 import { issueRequest } from "@/server/services/issueRequest.service";
@@ -11,6 +13,7 @@ import { getManifest } from "@/server/services/manifest.service";
 import { getBadgeClassById, setOpenBadgeMetadataToImage, validateOpenBadge } from "@/server/services/openBadge.service";
 import { registerBadgeVc } from "@/server/services/registerBadgeVc.service";
 import { verifyVcRequest } from "@/server/services/verifyVcReqest.service";
+import { getWalletId } from "@/server/services/wallet.service";
 import { api } from "@/share/usecases/api";
 import { BadgeImportRequestParam } from "@/types/api/badge";
 import { ErrorResponse } from "@/types/api/error";
@@ -19,14 +22,18 @@ type RequestBody = BadgeImportRequestParam;
 
 const apiPath = api.v1.badge.convert;
 
-export default async function handler(req: NextApiRequest & Session, res: NextApiResponse<void | ErrorResponse>) {
+async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorResponse>) {
   loggerInfo(`${logStartForApi(apiPath)}`);
-  loggerInfo("request body", req.body);
 
   const { uniquehash, email, badgeMetaData, lmsId, lmsName }: RequestBody = req.body;
+  loggerInfo("request body", { uniquehash, email, lmsId, lmsName });
 
-  // TODO: Orthrosログイン情報をもとにwalletIdを取得
-  const walletId = 1;
+  const eppn = req.session.eppn;
+
+  if (!eppn) {
+    return res.status(401).json({ error: { errorMessage: errors.unAuthrizedError.detail.noSession } });
+  }
+
   const { image } = badgeMetaData.badge;
   // image : "data:image/png;base64,iVBORw0KGg..."; // base64エンコードされた画像データ
   const base64ImageWithoutPrefix = image.split(",")[1];
@@ -44,7 +51,6 @@ export default async function handler(req: NextApiRequest & Session, res: NextAp
     const openBadgeImage = await setOpenBadgeMetadataToImage(base64ImageWithoutPrefix, badgeMetaData);
 
     const manifestURL = process.env.vc_manifest_url;
-    await withSession(req, res);
     const badgeClass = await getBadgeClassById(badgeMetaData.badge.id);
     const verificationURL = badgeMetaData.verify.url;
 
@@ -54,7 +60,7 @@ export default async function handler(req: NextApiRequest & Session, res: NextAp
       badgeClass,
       verificationURL,
       email,
-      req.session.id,
+      req.session.eppn,
       openBadgeImage,
       badgeMetaData.issuedOn?.toString(),
       badgeMetaData.expires?.toString(),
@@ -80,6 +86,7 @@ export default async function handler(req: NextApiRequest & Session, res: NextAp
     const vcJwt = await issue(vcRequest, manifest, acquiredAttestation, { pin: pinhash });
     loggerInfo(logEndForApi(apiPath, "issue"));
 
+    const walletId = await getWalletId(eppn);
     await registerBadgeVc({ walletId, lmsId, lmsName, uniquehash, badgeMetaData, email, vcJwt });
 
     loggerInfo(`${logStatus.success} ${apiPath}`);
@@ -93,3 +100,5 @@ export default async function handler(req: NextApiRequest & Session, res: NextAp
     loggerInfo(logEndForApi(apiPath));
   }
 }
+
+export default withIronSessionApiRoute(handler, sessionOptions);

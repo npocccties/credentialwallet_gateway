@@ -1,18 +1,16 @@
-import session from "express-session";
-import { NextApiRequest, NextApiResponse } from "next";
+import type { IronSessionOptions } from "iron-session";
 
-import { connectMiddleware } from "./connect";
-
-export type Session = { session: { [key: string]: any } };
-const sessionStore = new session.MemoryStore();
-
-const config = {
-  saveUninitialized: true,
-  secret: "keyboard cat",
-  resave: false,
-  store: sessionStore,
+export const sessionOptions: IronSessionOptions = {
+  password: process.env.session_password,
+  cookieName: "chilowallet",
+  cookieOptions: {
+    // TODO: 開発環境用
+    secure: true,
+  },
 };
 
-export const withSession = async (req: NextApiRequest, res: NextApiResponse) => {
-  await connectMiddleware(req, res, session(config));
-};
+declare module "iron-session" {
+  interface IronSessionData {
+    eppn: string;
+  }
+}

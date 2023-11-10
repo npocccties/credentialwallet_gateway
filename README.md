@@ -130,6 +130,9 @@ npx prisma db seed
 |DB_USER|DBのユーザ名|-|
 |DB_PASS|DBのパスワード|-|
 |DATABASE_URL|接続先データベースのURL|-|
+|LOG_LEVEL|ログレベルの設定|-|
+|LOG_MAX_SIZE|ログの最大サイズ|-|
+|LOG_MAX_FILE|ログの世代数|-|
 
 ## Next.jsアプリケーション用
 Next.jsアプリケーションでは、環境毎に以下のパターンで.envファイルを参照します。
@@ -158,7 +161,16 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 |vcApp_client_secret|Azureクライアントシークレット|-|
 |vcApp_scope|AzureへVC発行要求するためのスコープ配列|-|
 |vc_manifest_url|Entra Verified Idで発行者として登録しているmanifest url|-|
-|LOG_LEVEL|ログレベルの設定|-|
+|session_password|[session作成時](https://github.com/vvo/iron-session#nextjs-usage)に使用するパスワード（32文字以上）|-|
+|private_key_jwk|Walletの鍵情報（秘密鍵、公開鍵のペア）|-|
 |NEXT_PUBLIC_COPYRIGHT|フッターに表示するcopyright|-|
 |NEXT_PUBLIC_COPYRIGHT_LINK|フッターに表示するcopyrightのリンク|-|
 |NEXT_PUBLIC_E_PORTFOLIO_URL|e-ポートフォリオシステムへのリンク|-|
+
+### 鍵の作成
+node環境上で、下記を実行
+```
+node script/keypair.ts
+```
+プロジェクトの直下に秘密鍵と公開鍵のキーペアが作成されるので、出力された内容を環境変数に設定してください。
+※ 鍵の情報は外部に漏れないよう大切に保管してください。

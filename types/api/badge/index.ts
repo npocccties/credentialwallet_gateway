@@ -2,8 +2,8 @@ import { IfBadgeInfo } from "@/types/BadgeInfo";
 import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
 export type BadgeListReqestParam = {
-  username: string;
   lmsId: number;
+  username?: string;
   password?: string;
 };
 

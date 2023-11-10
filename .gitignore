@@ -11,3 +11,5 @@ db/
 .env.production
 .vscode/*
 !.vscode/launch.json
+
+key.txt

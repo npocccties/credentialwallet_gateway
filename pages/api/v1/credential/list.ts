@@ -1,12 +1,15 @@
+import { withIronSessionApiRoute } from "iron-session/next";
 import { z } from "zod";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
-import { convertJSTstrToUTCdate } from "@/lib/date";
+import { convertJSTstrToUTCdate, convertJSTstrToUTCdateAddOneDay } from "@/lib/date";
 import { loggerError, loggerInfo } from "@/lib/logger";
+import { sessionOptions } from "@/lib/session";
 import { getCredentialList } from "@/server/services/credentialList.service";
+import { getWalletId } from "@/server/services/wallet.service";
 import { api } from "@/share/usecases/api";
 import { CredentialList, CredentialListResponse, SearchFormItem } from "@/types/api/credential";
 import { ErrorResponse } from "@/types/api/error";
@@ -26,10 +29,7 @@ const querySchema = z.object({
 
 const apiPath = api.v1.credential.list;
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<CredentialListResponse | ErrorResponse>,
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse<CredentialListResponse | ErrorResponse>) {
   loggerInfo(`${logStartForApi(apiPath)}`);
   loggerInfo("request query", req.query);
   // const perPage = 10;
@@ -43,15 +43,18 @@ export default async function handler(
   }
 
   const { badgeName, issuedFrom, issuedTo, sortOrder } = result.data;
-  // TODO: ログイン判定処理
+  const eppn = req.session.eppn;
+
+  if (!eppn) {
+    return res.status(401).json({ error: { errorMessage: errors.unAuthrizedError.detail.noSession } });
+  }
 
   try {
-    // TODO: SAMLのOrthorsIDをもとに、walletIdを取得しセットする
-    const walletId = 1;
+    const walletId = await getWalletId(eppn);
     const searchState: SearchFormItem = {
       badgeName: badgeName,
       issuedFrom: issuedFrom === "" || !issuedFrom ? undefined : convertJSTstrToUTCdate(issuedFrom.toString()),
-      issuedTo: issuedTo === "" || !issuedTo ? undefined : convertJSTstrToUTCdate(issuedTo.toString()),
+      issuedTo: issuedTo === "" || !issuedTo ? undefined : convertJSTstrToUTCdateAddOneDay(issuedTo.toString()),
       sortOrder: sortOrder,
     };
 
@@ -72,3 +75,5 @@ export default async function handler(
     loggerInfo(`${logEndForApi(apiPath)}`);
   }
 }
+
+export default withIronSessionApiRoute(handler, sessionOptions);

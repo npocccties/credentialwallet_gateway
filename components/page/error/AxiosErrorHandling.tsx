@@ -25,6 +25,7 @@ export const AxiosErrorHandling = (props: Props) => {
   const [unexpectedError, setUnexpectedError] = useState(false);
   const [serverError, setServerError] = useState(false);
   const [clientReqestError, setClientReqestError] = useState(false);
+  const [UnAuthrized, setUnAuthrized] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
@@ -42,9 +43,9 @@ export const AxiosErrorHandling = (props: Props) => {
         }
 
         switch (error.response?.status) {
-          //TODO: 未実装 401 UnAuthrized
           case 401:
-            setErrorMessage(error.message);
+            setUnAuthrized(true);
+            setErrorMessage(detailmessage);
             return Promise.reject(error.response?.data);
           case 400:
             setClientReqestError(true);
@@ -70,6 +71,14 @@ export const AxiosErrorHandling = (props: Props) => {
   return (
     <>
       {children}
+
+      {UnAuthrized && (
+        <ErrorDialog
+          title={errors.unAuthrizedError.label}
+          message={errors.unAuthrizedError.message}
+          detail={errorMessage}
+        />
+      )}
       {unexpectedError && (
         <ErrorDialog
           title={errors.unexpectedError.label}
