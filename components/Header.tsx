@@ -1,7 +1,7 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Box, Flex, Link, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React from "react";
+import React, { memo, useEffect, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
 
 import { orthrosUserGetters } from "@/share/store/loginUser/Orthros/main";
@@ -11,8 +11,13 @@ type Props = {
   showContents: boolean;
 };
 
-export const Header: React.FC<Props> = ({ onOpen, showContents = true }) => {
+export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) => {
+  const [name, setName] = useState("");
   const { displayName } = orthrosUserGetters.useOrthrosUserData();
+
+  useEffect(() => {
+    setName(displayName);
+  }, []);
   return (
     <Box as="header" position={"fixed"} w={"100%"} zIndex={1000}>
       <Flex
@@ -41,7 +46,7 @@ export const Header: React.FC<Props> = ({ onOpen, showContents = true }) => {
             <>
               <Flex gap={"16px"} alignItems={"center"} display={{ base: "none", sm: "flex" }}>
                 <FaUserAlt />
-                <Text fontSize={"xl"}>{displayName}</Text>
+                <Text fontSize={"xl"}>{name}</Text>
               </Flex>
               <Flex gap={"16px"} alignItems={"center"} display={{ base: "flex", sm: "none" }}>
                 <Menu>
@@ -49,7 +54,7 @@ export const Header: React.FC<Props> = ({ onOpen, showContents = true }) => {
                     <FaUserAlt />
                   </MenuButton>
                   <MenuList>
-                    <MenuItem>{displayName}</MenuItem>
+                    <MenuItem>{name}</MenuItem>
                   </MenuList>
                 </Menu>
               </Flex>
@@ -59,4 +64,4 @@ export const Header: React.FC<Props> = ({ onOpen, showContents = true }) => {
       </Flex>
     </Box>
   );
-};
+});

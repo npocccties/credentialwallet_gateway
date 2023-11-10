@@ -55,7 +55,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorRes
     const verificationURL = badgeMetaData.verify.url;
 
     loggerInfo(logStartForApi(apiPath, "issue request"));
-    // TODO: session idについて考える
     const { pin, url } = await issueRequest(
       manifestURL,
       badgeClass,

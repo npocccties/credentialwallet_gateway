@@ -21,7 +21,6 @@ const msalClientCredentialRequest = {
 };
 
 /**
- * issueRequestとの違いは  const { data } = await axios.get(openBadgeMetadata.badge);　がないだけ
  * @param manifestId
  * @param badgeClass
  * @param email
