@@ -18,3 +18,11 @@ export const logStartForPageSSR = (pagePath: string, sub: string = "") => {
 export const logEndForPageSSR = (pagePath: string, sub: string = "") => {
   return `**************end SSR ${sub} ${pagePath}**************`;
 };
+
+export const logStartForOther = (fileName: string, sub: string = "") => {
+  return `**************start ${sub} ${fileName}**************`;
+};
+
+export const logEndForOther = (fileName: string, sub: string = "") => {
+  return `**************end ${sub} ${fileName}**************`;
+};
