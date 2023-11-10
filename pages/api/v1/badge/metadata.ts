@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
-import { loggerError, loggerInfo } from "@/lib/logger";
+import { loggerDebug, loggerError, loggerInfo } from "@/lib/logger";
 import { myOpenBadge } from "@/server/services/lmsAccess.service";
 import { api } from "@/share/usecases/api";
 import { BadgeMetaDataApiResponse } from "@/share/usecases/badgeMetaData/useFetchBadgeMetaDataApi";
@@ -36,7 +36,8 @@ export default async function handler(
 
   try {
     const badgeMetaData = await myOpenBadge(uniquehash, lmsUrl);
-    loggerInfo(`${logStatus.success} ${apiPath}`, badgeMetaData);
+    loggerDebug("get badgeMetaData", badgeMetaData);
+    loggerInfo(`${logStatus.success} ${apiPath}`);
 
     return res.status(200).json({ data: badgeMetaData });
   } catch (e) {

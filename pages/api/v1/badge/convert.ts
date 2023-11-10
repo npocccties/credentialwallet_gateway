@@ -24,9 +24,9 @@ const apiPath = api.v1.badge.convert;
 
 async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorResponse>) {
   loggerInfo(`${logStartForApi(apiPath)}`);
-  loggerInfo("request body", req.body);
 
   const { uniquehash, email, badgeMetaData, lmsId, lmsName }: RequestBody = req.body;
+  loggerInfo("request body", { uniquehash, email, lmsId, lmsName });
 
   const eppn = req.session.eppn;
   const { image } = badgeMetaData.badge;
