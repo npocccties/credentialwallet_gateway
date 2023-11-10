@@ -1,4 +1,4 @@
-import { parseISO, fromUnixTime, format, parse, isAfter } from "date-fns";
+import { parseISO, fromUnixTime, format, parse, isAfter, addDays } from "date-fns";
 import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
 const jstTimeZone = "Asia/Tokyo";
@@ -57,6 +57,16 @@ export function convertUNIXorISOstrToJST(dateInput: string | number): string | n
  */
 export function convertJSTstrToUTCdate(dateStr: string): Date {
   return zonedTimeToUtc(dateStr, jstTimeZone);
+}
+
+/**
+ * JSTの日付文字列をUTC時刻に変換し、日付を1日分進めて返却する
+ * @param dateStr yyyy-MM-dd
+ * @returns UTCのDateオブジェクト
+ */
+export function convertJSTstrToUTCdateAddOneDay(dateStr: string): Date {
+  const utcTime = zonedTimeToUtc(dateStr, jstTimeZone);
+  return addDays(utcTime, 1);
 }
 
 /**
