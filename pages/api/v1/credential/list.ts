@@ -5,7 +5,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
-import { convertJSTstrToUTCdate } from "@/lib/date";
+import { convertJSTstrToUTCdate, convertJSTstrToUTCdateAddOneDay } from "@/lib/date";
 import { loggerError, loggerInfo } from "@/lib/logger";
 import { sessionOptions } from "@/lib/session";
 import { getCredentialList } from "@/server/services/credentialList.service";
@@ -54,7 +54,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<CredentialListR
     const searchState: SearchFormItem = {
       badgeName: badgeName,
       issuedFrom: issuedFrom === "" || !issuedFrom ? undefined : convertJSTstrToUTCdate(issuedFrom.toString()),
-      issuedTo: issuedTo === "" || !issuedTo ? undefined : convertJSTstrToUTCdate(issuedTo.toString()),
+      issuedTo: issuedTo === "" || !issuedTo ? undefined : convertJSTstrToUTCdateAddOneDay(issuedTo.toString()),
       sortOrder: sortOrder,
     };
 
