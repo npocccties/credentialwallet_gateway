@@ -43,7 +43,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<CredentialListR
   }
 
   const { badgeName, issuedFrom, issuedTo, sortOrder } = result.data;
-  // TODO: ログイン判定処理 (middlewareで実装する？)
   const eppn = req.session.eppn;
 
   try {

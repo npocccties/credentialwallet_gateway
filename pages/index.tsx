@@ -30,8 +30,8 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   // const displayName = context.req.headers["displayName"] as string;
 
   // const eppn = "tegsdgdsfasete@nii.co.jp";
-  const eppn = "e652f67b-8f76-4f1a-a235-3387a297e1be";
-  const displayName = "テストの人2";
+  const eppn = "user3";
+  const displayName = "user3";
 
   loggerInfo("req.headers", req.headers);
 

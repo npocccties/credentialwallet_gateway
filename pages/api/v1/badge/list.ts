@@ -24,7 +24,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<BadgeListRespon
 
   try {
     const walletId = await getWalletId(eppn);
-    const badgeList = await getBadgeListFromMoodle({ walletId, username, password, lmsId });
+    const reqUsername = password ? username : eppn;
+    const badgeList = await getBadgeListFromMoodle({ walletId, username: reqUsername, password, lmsId });
 
     loggerDebug("get badgeList", badgeList);
     loggerInfo(`${logStatus.success} ${apiPath}`);
