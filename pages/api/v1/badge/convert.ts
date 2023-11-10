@@ -29,6 +29,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorRes
   loggerInfo("request body", { uniquehash, email, lmsId, lmsName });
 
   const eppn = req.session.eppn;
+
+  if (!eppn) {
+    return res.status(401).json({ error: { errorMessage: errors.unAuthrizedError.detail.noSession } });
+  }
+
   const { image } = badgeMetaData.badge;
   // image : "data:image/png;base64,iVBORw0KGg..."; // base64エンコードされた画像データ
   const base64ImageWithoutPrefix = image.split(",")[1];
