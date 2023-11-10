@@ -45,6 +45,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<CredentialListR
   const { badgeName, issuedFrom, issuedTo, sortOrder } = result.data;
   const eppn = req.session.eppn;
 
+  if (!eppn) {
+    return res.status(401).json({ error: { errorMessage: errors.unAuthrizedError.detail.noSession } });
+  }
+
   try {
     const walletId = await getWalletId(eppn);
     const searchState: SearchFormItem = {

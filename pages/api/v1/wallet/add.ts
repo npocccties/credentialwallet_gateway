@@ -28,10 +28,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorRes
 
     return res.status(400).json({ error: { errorMessage: errors.response400.message } });
   }
+
+  const eppn = result.data.eppn;
+
+  if (!eppn) {
+    return res.status(401).json({ error: { errorMessage: errors.unAuthrizedError.detail.noSession } });
+  }
+
   try {
     await prisma.wallet.create({
       data: {
-        orthrosId: result.data.eppn,
+        orthrosId: eppn,
         createdAt: new Date(),
       },
     });
