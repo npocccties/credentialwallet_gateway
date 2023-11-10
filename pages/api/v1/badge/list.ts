@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
-import { loggerError, loggerInfo } from "@/lib/logger";
+import { loggerDebug, loggerError, loggerInfo } from "@/lib/logger";
 import { sessionOptions } from "@/lib/session";
 import { getBadgeListFormMoodle as getBadgeListFromMoodle } from "@/server/services/badgeList.service";
 import { getWalletId } from "@/server/services/wallet.service";
@@ -26,7 +26,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<BadgeListRespon
     const walletId = await getWalletId(eppn);
     const badgeList = await getBadgeListFromMoodle({ walletId, username, password, lmsId });
 
-    loggerInfo(`${logStatus.success} ${apiPath}`, badgeList);
+    loggerDebug("get badgeList", badgeList);
+    loggerInfo(`${logStatus.success} ${apiPath}`);
 
     return res.status(200).json(badgeList);
   } catch (e) {
