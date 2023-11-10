@@ -2,7 +2,8 @@ version: "3.9"
 
 services:
   web:
-    image: nginx:1.23.1
+    # image: nginx:1.23.1
+    image: openresty/openresty:1.21.4.2-1-alpine-fat
     ports:
       - "80:80"
       - "443:443"
