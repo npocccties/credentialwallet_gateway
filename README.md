@@ -158,6 +158,7 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 |vcApp_client_secret|Azureクライアントシークレット|-|
 |vcApp_scope|AzureへVC発行要求するためのスコープ配列|-|
 |vc_manifest_url|Entra Verified Idで発行者として登録しているmanifest url|-|
+|session_password|[session作成時](https://github.com/vvo/iron-session#nextjs-usage)に使用するパスワード（32文字以上）|-|
 |LOG_LEVEL|ログレベルの設定|-|
 |NEXT_PUBLIC_COPYRIGHT|フッターに表示するcopyright|-|
 |NEXT_PUBLIC_COPYRIGHT_LINK|フッターに表示するcopyrightのリンク|-|
