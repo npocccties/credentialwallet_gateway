@@ -1,4 +1,3 @@
-import axios from "axios";
 import { withIronSessionSsr } from "iron-session/next";
 import { GetServerSidePropsResult } from "next";
 import { ErrorProps } from "next/error";
@@ -11,13 +10,17 @@ import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { convertUTCtoJSTstr } from "@/lib/date";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import prisma from "@/lib/prisma";
 import { sessionOptions } from "@/lib/session";
-import { getWalletId } from "@/server/services/wallet.service";
+import {
+  createVcDetailData,
+  getBadgeMetaData,
+  getCredentialDetail,
+  getKnowledgeBadges,
+} from "@/server/services/credentialDetail.service";
 import { vcDetailActions } from "@/share/store/credentialDetail/main";
 import { BadgeVcSubmission } from "@/types/api/credential";
-import { CredentialDetailData, KnowledgeBadges, VcDetailData } from "@/types/api/credential/detail";
-import { Alignment, KnowledgeBadgeInfo, WisdomBadgeInfo } from "@/types/BadgeInfo";
+import { CredentialDetailData, VcDetailData } from "@/types/api/credential/detail";
+import { WisdomBadgeInfo } from "@/types/BadgeInfo";
 
 export type Context = {
   params: { badge_vc_id: string };
@@ -50,33 +53,14 @@ export const getServerSideProps = withIronSessionSsr(async function (
   const eppn = context.req.session.eppn;
 
   try {
-    const walletId = await getWalletId(eppn);
-    const [badgeVc, submissions] = await Promise.all([
-      prisma.badgeVc.findUnique({
-        where: {
-          badgeVcId: id,
-          walletId: walletId,
-        },
-      }),
-      prisma.submission.findMany({
-        where: {
-          badgeVcId: id,
-          walletId: walletId,
-        },
-      }),
-    ]);
+    const { badgeVc, submissions } = await getCredentialDetail({ badgeVcId: id, eppn });
 
     if (!badgeVc) {
       loggerError(`${logStatus.error} badgeVc not found!`, context.params);
       return { notFound: true };
     }
 
-    const url = badgeVc.badgeClassId;
-    const badgeMetaData: WisdomBadgeInfo = await axios.get(url).then((res) => res.data);
-    if (!badgeMetaData) {
-      loggerError(`${logStatus.error} wisdom badge not found!`, context.params);
-      throw new Error("wisdom badge not found");
-    }
+    const badgeMetaData: WisdomBadgeInfo = await getBadgeMetaData(badgeVc);
 
     const sub = submissions.map((sub): BadgeVcSubmission => {
       return {
@@ -85,46 +69,13 @@ export const getServerSideProps = withIronSessionSsr(async function (
       };
     });
 
-    const knowledgeBadges: KnowledgeBadges = [];
-    const alignments: Alignment[] = [];
-    const courseInfo = badgeMetaData.alignments.map((item) => {
-      if (item.targetUrl.includes("/course")) {
-        return item;
-      }
-
-      alignments.push(item);
-    });
-
-    const knowledgeBadgeInfo: KnowledgeBadgeInfo[] = await Promise.all(
-      alignments.map((alignment) => {
-        const data = axios.get(alignment.targetUrl).then((res) => res.data);
-        return data;
-      }),
-    ).then((result) => result);
-    if (!knowledgeBadgeInfo) {
-      loggerError(`${logStatus.error} knowledge badge not found!`, context.params);
-      throw new Error("knowledge badge not found");
-    }
-
-    knowledgeBadgeInfo.map((item) => {
-      knowledgeBadges.push({ badgeName: item.name, badgeImageUrl: item.image.id });
-    });
+    const { courseInfo, knowledgeBadges } = await getKnowledgeBadges(badgeMetaData);
 
     const submissionsHistories = sub;
     const vcPayload = JSON.parse(badgeVc.vcDataPayload);
     const badgeExportData = vcPayload.vc.credentialSubject.photo;
 
-    const vcDetailData: VcDetailData = {
-      badgeVcId: badgeVc.badgeVcId,
-      badgeName: badgeVc.badgeName,
-      badgeEarnerEmail: badgeVc.badgeEarnerEmail,
-      badgeIssuerName: badgeVc.badgeIssuerName,
-      badgeIssuedon: convertUTCtoJSTstr(badgeVc.badgeIssuedon),
-      badgeExpires: convertUTCtoJSTstr(badgeVc.badgeExpires),
-      vcDataPayload: badgeVc.vcDataPayload,
-      courseUrl: courseInfo[0].targetUrl,
-      submissions: sub,
-    };
+    const vcDetailData: VcDetailData = createVcDetailData(badgeVc, sub, courseInfo);
 
     loggerInfo(`${logStatus.success} ${pagePath}`);
     loggerInfo(logEndForPageSSR(pagePath));
