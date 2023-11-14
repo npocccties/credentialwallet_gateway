@@ -1,4 +1,3 @@
-import { withIronSessionApiRoute } from "iron-session/next";
 import { z } from "zod";
 
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -7,7 +6,6 @@ import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
 import { convertJSTstrToUTCdate, convertJSTstrToUTCdateAddOneDay } from "@/lib/date";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import { sessionOptions } from "@/lib/session";
 import { getCredentialList } from "@/server/services/credentialList.service";
 import { getWalletId } from "@/server/services/wallet.service";
 import { api } from "@/share/usecases/api";
@@ -76,4 +74,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<CredentialListR
   }
 }
 
-export default withIronSessionApiRoute(handler, sessionOptions);
+export default handler;

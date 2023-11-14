@@ -11,7 +11,7 @@ const customJestConfig = {
   moduleNameMapper: { "^@/(.*)$": "<rootDir>/$1" },
   testMatch: ["**/?(*.)+(spec|test).[jt]s?(x)"],
   testEnvironment: "jest-environment-jsdom",
-  setupFilesAfterEnv: ["./jest.setup.ts", "<rootDir>/test-server/prisma/singleton.ts"],
+  setupFilesAfterEnv: ["./jest.setup.ts", "<rootDir>/test-server/mocks/prisma/singleton.ts"],
 };
 
 /** @type {import('jest').Config} */

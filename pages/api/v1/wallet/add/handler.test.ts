@@ -4,7 +4,8 @@ import { createRequest, createResponse } from "node-mocks-http";
 import handler from "./handler";
 
 import { api } from "@/share/usecases/api";
-import { prismaMock } from "@/test-server/prisma/singleton";
+import { mockAddWallet } from "@/test-server/mocks/mockData";
+import { prismaMock } from "@/test-server/mocks/prisma/singleton";
 
 type ApiRequest = NextApiRequest & ReturnType<typeof createRequest>;
 type ApiResponse = NextApiResponse & ReturnType<typeof createResponse>;
@@ -33,11 +34,7 @@ describe(api.v1.wallet.add, () => {
   });
 
   test("ウォレットの作成が成功し200が返る", async () => {
-    prismaMock.wallet.create.mockResolvedValue({
-      walletId: 1,
-      orthrosId: "xxxxxx-yyyyyyyy-@niii.co.jp",
-      createdAt: new Date(),
-    });
+    prismaMock.wallet.create.mockResolvedValue(mockAddWallet);
 
     const mockReq = createRequest<ApiRequest>({
       session: {
