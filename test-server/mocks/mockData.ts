@@ -25,3 +25,88 @@ export const mockSubmissionsAll = {
   totalSubmissionBadges: 0,
   detailSubmissions: [],
 };
+
+export const mockBadgeList = {
+  badgeList: [
+    {
+      id: 32,
+      name: "test test 3",
+      description: "test badge",
+      timecreated: 1690332339,
+      timemodified: 1690333563,
+      usercreated: 2,
+      usermodified: 2,
+      issuername: "bbbbbbbb",
+      issuerurl: "https://{domain}",
+      issuercontact: "bbbbbbbbbb@example.net",
+      expiredate: 1721919600,
+      expireperiod: null,
+      type: 1,
+      courseid: null,
+      message:
+        '<p>あなたにバッジ「 %badgename% 」が授与されました!</p> <p>このバッジに関する詳細情報は %badgelink% バッジ情報ページをご覧ください。</p> <p>あなたは「 <a href="https://{domain}/badges/mybadges.php">バッジを管理する</a> 」ページでバッジを管理およびダウンロードできます。</p>',
+      messagesubject: "おめでとうございます! あなたはバッジを取得しました!",
+      attachment: 1,
+      notification: 0,
+      nextcron: null,
+      status: 3,
+      issuedid: 19,
+      uniquehash: "8d6d839383cd6e03624b98b70ce4f475f43c2d04",
+      dateissued: 1690333563,
+      dateexpire: 1721919600,
+      visible: 1,
+      email: "test@example.com",
+      version: "",
+      language: "ja",
+      imageauthorname: "",
+      imageauthoremail: "",
+      imageauthorurl: "",
+      imagecaption: "",
+      badgeurl: "https://{domain}/webservice/pluginfile.php/1/badges/badgeimage/32/f3",
+      alignment: [],
+      relatedbadges: [],
+    },
+  ],
+};
+
+export const mockBadgeMetaData = {
+  recipient: {
+    identity: "sha256$b7e1fba9f7d18fcadd371525823a684a69f270b0503c616532ff1f4e7137a563",
+    type: "email",
+    hashed: true,
+    salt: "badges1652333434",
+  },
+  badge: {
+    name: "test test 3",
+    description: "test badge",
+    image: "data:image/png;base64,iVBORw0KGgoA...ZjMD/A8+RlnxJopqmAAAAAElFTkSuQmCC",
+    criteria: {
+      id: "https://{domain}/badges/badgeclass.php?id=32",
+      narrative:
+        "この条件でバッジ授与\n * このバッジは次のロールのユーザによって授与される必要があります:\nマネージャ\n\n",
+    },
+    issuer: {
+      name: "bbbbbbbb",
+      url: "https://{domain}",
+      email: "bbbbbbbbbb@example.net",
+      "@context": "https://w3id.org/openbadges/v2",
+      id: "https://{domain}/badges/issuer_json.php?id=32",
+      type: "Issuer",
+    },
+    "@context": "https://w3id.org/openbadges/v2",
+    id: "https://{domain}/badges/badge_json.php?id=32",
+    type: "BadgeClass",
+    version: "",
+    "@language": "ja",
+  },
+  verify: {
+    type: "hosted",
+    url: "https://{domain}/badges/assertion.php?b=8d6d839383cd6e03624b98b70ce4f475f43c2d04&obversion=2",
+  },
+  issuedOn: "2023-07-26T10:06:03+09:00",
+  evidence: "https://{domain}/badges/badge.php?hash=8d6d839383cd6e03624b98b70ce4f475f43c2d04",
+  expires: "2024-07-26T00:00:00+09:00",
+  "@context": "https://w3id.org/openbadges/v2",
+  type: "Assertion",
+  id: "https://{domain}/badges/assertion.php?b=8d6d839383cd6e03624b98b70ce4f475f43c2d04&obversion=2",
+};

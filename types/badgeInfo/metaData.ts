@@ -34,6 +34,7 @@ export type Issuer = {
 type Recipient = {
   type: string;
   identity: string;
+  salt: string;
 };
 
 type Verify = {

@@ -1,12 +1,11 @@
-import { withIronSessionApiRoute } from "iron-session/next";
+import { z } from "zod";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
 import { loggerDebug, loggerError, loggerInfo } from "@/lib/logger";
-import { sessionOptions } from "@/lib/session";
-import { getBadgeListFormMoodle as getBadgeListFromMoodle } from "@/server/services/badgeList.service";
+import { getBadgeListFromMoodle } from "@/server/services/badgeList.service";
 import { getWalletId } from "@/server/services/wallet.service";
 import { api } from "@/share/usecases/api";
 import { BadgeListReqestParam, BadgeListResponse } from "@/types/api/badge";
@@ -14,8 +13,22 @@ import { ErrorResponse } from "@/types/api/error";
 
 const apiPath = api.v1.badge.list;
 
+const querySchema = z.object({
+  username: z.string().optional(),
+  password: z.string().optional(),
+  lmsId: z.number(),
+});
+
 async function handler(req: NextApiRequest, res: NextApiResponse<BadgeListResponse | ErrorResponse>) {
   loggerInfo(logStartForApi(apiPath));
+
+  const result = querySchema.safeParse(req.body);
+  if (!result.success) {
+    loggerError(`${logStatus.error} bad request!`, req.body);
+
+    return res.status(400).json({ error: { errorMessage: errors.response400.message } });
+  }
+
   const { username, password, lmsId } = req.body as BadgeListReqestParam;
 
   loggerInfo("request body", { username, password: "****", lmsId });
@@ -44,4 +57,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<BadgeListRespon
   }
 }
 
-export default withIronSessionApiRoute(handler, sessionOptions);
+export default handler;
