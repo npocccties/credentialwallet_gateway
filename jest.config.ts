@@ -19,7 +19,7 @@ async function jestConfig() {
   const nextJestConfig = await createJestConfig(customJestConfig)();
   return {
     ...nextJestConfig,
-    transformIgnorePatterns: [`/node_modules/(?!${["uuid"].join("|")})`],
+    transformIgnorePatterns: [`/node_modules/(?!${["uuid", "jose"].join("|")})`],
   };
 }
 

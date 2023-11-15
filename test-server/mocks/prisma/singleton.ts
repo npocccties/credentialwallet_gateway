@@ -16,4 +16,7 @@ beforeEach(() => {
 /**
  * used to unit test services
  */
-export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+// NOTE: https://github.com/prisma/prisma/issues/10203#issuecomment-1451897646
+export const prismaMock = prisma as unknown as DeepMockProxy<{
+  [K in keyof PrismaClient]: Omit<PrismaClient[K], "groupBy">;
+}>;
