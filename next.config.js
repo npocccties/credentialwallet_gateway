@@ -4,6 +4,8 @@ const nextConfig = {
   experimental: {
     outputStandalone: true,
   },
+  output: "wallet",
+  assetPrefix: "/wallet"
 };
 
 module.exports = nextConfig;
