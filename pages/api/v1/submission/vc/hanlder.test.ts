@@ -8,6 +8,7 @@ import { api } from "@/share/usecases/api";
 type ApiRequest = NextApiRequest & ReturnType<typeof createRequest>;
 type ApiResponse = NextApiResponse & ReturnType<typeof createResponse>;
 
+jest.mock("@/server/services/wallet.service");
 jest.mock("@/server/services/submission.service");
 
 describe(api.v1.badge.metadata, () => {
@@ -24,8 +25,12 @@ describe(api.v1.badge.metadata, () => {
   test("cabinetへのapiリクエストが完了し、レスポンスデータと200が返る", async () => {
     const mockReq = createRequest<ApiRequest>({
       body: {
-        consumerId: "1",
-        badgeVcId: "1",
+        consumerId: 1,
+        email: "xxx@exaple.com",
+        badgeVcId: 1,
+      },
+      session: {
+        eppn: "testtest",
       },
     });
     const mockRes = createResponse<ApiResponse>();
