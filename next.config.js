@@ -1,14 +1,14 @@
 /** @type {import('next').NextConfig} */
 
-const isDevelopment = process.env.NODE_ENV == 'production'
+const isProduction = process.env.NODE_ENV == 'production'
 
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
     outputStandalone: true,
   },
-  output: isDevelopment ? "wallet" : "",
-  assetPrefix: isDevelopment ? "/wallet" : ""
+  output: isProduction ? "wallet" : "",
+  assetPrefix: isProduction ? "/wallet" : ""
 };
 
 module.exports = nextConfig;
