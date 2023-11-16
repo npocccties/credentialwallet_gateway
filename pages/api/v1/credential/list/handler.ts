@@ -9,7 +9,7 @@ import { loggerError, loggerInfo } from "@/lib/logger";
 import { getCredentialList } from "@/server/services/credentialList.service";
 import { getWalletId } from "@/server/services/wallet.service";
 import { api } from "@/share/usecases/api";
-import { CredentialList, CredentialListResponse, SearchFormItem } from "@/types/api/credential";
+import { CredentialList, SearchFormItem } from "@/types/api/credential";
 import { ErrorResponse } from "@/types/api/error";
 
 const isValidDate = (value: string): boolean => {
@@ -27,7 +27,7 @@ const querySchema = z.object({
 
 const apiPath = api.v1.credential.list;
 
-async function handler(req: NextApiRequest, res: NextApiResponse<CredentialListResponse | ErrorResponse>) {
+async function handler(req: NextApiRequest, res: NextApiResponse<CredentialList | ErrorResponse>) {
   loggerInfo(`${logStartForApi(apiPath)}`);
   loggerInfo("request query", req.query);
   // const perPage = 10;
@@ -57,14 +57,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<CredentialListR
     };
 
     const { badgeVcList, submissionsAll, totalBadgeCount } = await getCredentialList({ searchState, walletId });
-    const data: CredentialList = {
-      badgeVcList: badgeVcList,
-      submissionsAll: submissionsAll,
-      totalBadgeCount: totalBadgeCount,
-    };
     loggerInfo(`${logStatus.success} ${apiPath}`);
 
-    return res.status(200).json({ data });
+    return res.status(200).json({ badgeVcList, submissionsAll, totalBadgeCount });
   } catch (e) {
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
 
