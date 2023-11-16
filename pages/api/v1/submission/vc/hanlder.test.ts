@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createRequest, createResponse } from "node-mocks-http";
 
-import handler from "./index.api";
+import handler from "./handler";
 
 import { api } from "@/share/usecases/api";
 

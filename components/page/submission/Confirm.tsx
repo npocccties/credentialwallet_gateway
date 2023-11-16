@@ -46,9 +46,9 @@ export const Confirm = () => {
 
     try {
       setIsSubmission(true);
-      await useSubmissionVcApi({ consumerId, email: submissionEmail, badgeVcId });
+      const data = await useSubmissionVcApi({ consumerId, email: submissionEmail, badgeVcId });
 
-      setRequestState("success");
+      setRequestState(data.result);
     } catch (e) {
       console.error(e.message);
     }
@@ -154,7 +154,7 @@ export const Confirm = () => {
           <ResponseState
             icon={<WarningIcon w={8} h={8} color="red.500" />}
             status="verification failure!"
-            message="検証に失敗しました"
+            message="バッジの検証に失敗しました"
           />
         )}
         {responseState === "other errors" && (

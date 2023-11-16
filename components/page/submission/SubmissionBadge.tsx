@@ -34,8 +34,10 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
 
     console.log("動作確認用", data.confirmCode);
 
+    const consumerId = typeof input.consumerId === "string" ? Number(input.consumerId) : input.consumerId;
+
     const selectConsumer = {
-      consumerId: input.consumerId,
+      consumerId: consumerId,
       consumerName: badgeConsumers.find((x) => x.consumerId === Number(input.consumerId)).consumerName,
     };
     const badgeVcData = {
