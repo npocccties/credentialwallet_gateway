@@ -1,7 +1,7 @@
 import { loggerError } from "@/lib/logger";
 import prisma from "@/lib/prisma";
 
-export const userWalletId = async (id: string) => {
+export const findUserWalletId = async (id: string) => {
   try {
     const { walletId } = await prisma.wallet.findUnique({
       select: {
@@ -17,4 +17,23 @@ export const userWalletId = async (id: string) => {
     loggerError("failed to userWalletId", e.message);
     throw e;
   }
+};
+
+export const findWallet = async (id: string) => {
+  const createdWallet = await prisma.wallet.findUnique({
+    where: {
+      orthrosId: id,
+    },
+  });
+
+  return createdWallet;
+};
+
+export const createWallet = async (eppn: string) => {
+  prisma.wallet.create({
+    data: {
+      orthrosId: eppn,
+      createdAt: new Date(),
+    },
+  });
 };

@@ -8,7 +8,8 @@ import { VcImport } from "@/components/page/badge/VcImport";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import prisma, { LmsList } from "@/lib/prisma";
+import { LmsList } from "@/lib/prisma";
+import { findAllLmsList } from "@/server/repository/lmsList";
 
 type Props = {
   lmsList: LmsList[];
@@ -19,11 +20,7 @@ const pagePath = "/badge/import";
 export const getServerSideProps: GetServerSideProps = async () => {
   loggerInfo(logStartForPageSSR(pagePath));
   try {
-    const lmsList = await prisma.lmsList.findMany({
-      orderBy: {
-        lmsId: "asc",
-      },
-    });
+    const lmsList = await findAllLmsList();
 
     loggerInfo(`${logStatus.success} ${pagePath}`);
     loggerInfo(logEndForPageSSR(pagePath));

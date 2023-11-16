@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 
-import { saveBadgeVc } from "@/server/repository/badgeVc";
+import { createBadgeVc } from "@/server/repository/badgeVc";
 import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
 type Arg = {
@@ -39,7 +39,7 @@ export const registerBadgeVc = async ({ walletId, lmsId, lmsName, uniquehash, ba
     vcDataSignature: vcSignature,
   };
 
-  await saveBadgeVc(input);
+  await createBadgeVc(input);
 };
 
 const splitJwt = (jwt: string): { vcHeader: string; vcPayload: string; vcSignature: string } => {

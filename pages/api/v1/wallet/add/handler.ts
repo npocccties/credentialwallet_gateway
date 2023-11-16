@@ -4,7 +4,7 @@ import { z } from "zod";
 import { errors } from "@/constants/error";
 import { logStartForApi, logStatus, logEndForApi } from "@/constants/log";
 import { loggerInfo, loggerError } from "@/lib/logger";
-import prisma from "@/lib/prisma";
+import { createWallet } from "@/server/repository/wallet";
 import { api } from "@/share/usecases/api";
 import { ErrorResponse } from "@/types/api/error";
 
@@ -32,12 +32,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorRes
   const eppn = result.data.eppn;
 
   try {
-    await prisma.wallet.create({
-      data: {
-        orthrosId: eppn,
-        createdAt: new Date(),
-      },
-    });
+    await createWallet(eppn);
 
     loggerInfo(`${logStatus.success} ${apiPath}`);
     return res.status(200).json();
