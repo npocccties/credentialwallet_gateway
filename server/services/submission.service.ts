@@ -1,4 +1,5 @@
 import axios from "axios";
+import base64url from "base64url";
 
 import { createSubmission, findConsumerAndBadgeVc } from "../repository/submissionBadge";
 
@@ -50,8 +51,9 @@ export const sendCabinetForVc = async ({
   loggerInfo("request cabinetApiUrl", cabinetApiUrl);
 
   const { vcDataHeader, vcDataPayload } = badgeVc;
-  const vcHeader = Buffer.from(vcDataHeader).toString("base64");
-  const vcPayload = Buffer.from(vcDataPayload).toString("base64");
+
+  const vcHeader = base64url(vcDataHeader);
+  const vcPayload = base64url(vcDataPayload);
 
   const vcJwt = `${vcHeader}.${vcPayload}.${badgeVc.vcDataSignature}`;
   try {
