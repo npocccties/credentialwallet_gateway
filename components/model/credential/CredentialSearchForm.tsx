@@ -66,14 +66,12 @@ export const SearchForm = () => {
       <Box border={"2px solid"} borderColor={"gray.200"} borderRadius={"2xl"} overflow={"hidden"}>
         <Accordion allowToggle borderRadius={"2xl"}>
           <AccordionItem border={"none"}>
-            <h2>
-              <AccordionButton _expanded={{ bg: "gray.200", boxShadow: "none" }}>
-                <AccordionIcon />
-                <Box as="span" flex={"1"} textAlign={"left"}>
-                  検索
-                </Box>
-              </AccordionButton>
-            </h2>
+            <AccordionButton _expanded={{ bg: "gray.200", boxShadow: "none" }}>
+              <AccordionIcon />
+              <Box as="span" flex={"1"} textAlign={"left"}>
+                <h2>検索</h2>
+              </Box>
+            </AccordionButton>
             <AccordionPanel>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl>
@@ -89,7 +87,7 @@ export const SearchForm = () => {
                       <Input id="issuedFrom" type="date" {...register("issuedFrom")} />
                     </GridItem>
                     <GridItem>
-                      <FormLabel htmlFor="issuedtTo">発行日End</FormLabel>
+                      <FormLabel htmlFor="issuedTo">発行日End</FormLabel>
                       <Input id="issuedTo" type="date" {...register("issuedTo")} />
                     </GridItem>
                     <GridItem></GridItem>
