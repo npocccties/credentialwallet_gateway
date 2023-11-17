@@ -1,4 +1,3 @@
-import { withIronSessionApiRoute } from "iron-session/next";
 import { z } from "zod";
 
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -7,7 +6,6 @@ import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
 import { convertJSTstrToUTCdate, convertJSTstrToUTCdateAddOneDay } from "@/lib/date";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import { sessionOptions } from "@/lib/session";
 import { getCredentialList } from "@/server/services/credentialList.service";
 import { getWalletId } from "@/server/services/wallet.service";
 import { api } from "@/share/usecases/api";
@@ -29,11 +27,7 @@ const querySchema = z.object({
 
 const apiPath = api.v1.credential.list;
 
-<<<<<<< HEAD:pages/api/v1/credential/list.ts
-async function handler(req: NextApiRequest, res: NextApiResponse<CredentialListResponse | ErrorResponse>) {
-=======
 async function handler(req: NextApiRequest, res: NextApiResponse<CredentialList | ErrorResponse>) {
->>>>>>> feature-add-test:pages/api/v1/credential/list/handler.ts
   loggerInfo(`${logStartForApi(apiPath)}`);
   loggerInfo("request query", req.query);
   // const perPage = 10;
@@ -75,8 +69,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<CredentialList 
   }
 }
 
-<<<<<<< HEAD:pages/api/v1/credential/list.ts
-export default withIronSessionApiRoute(handler, sessionOptions);
-=======
 export default handler;
->>>>>>> feature-add-test:pages/api/v1/credential/list/handler.ts
