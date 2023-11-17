@@ -4,6 +4,7 @@ import { Readable } from "stream";
 import axios from "axios";
 
 import { loggerDebug, loggerError } from "@/lib/logger";
+import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
 const Through = require("stream").PassThrough;
 
@@ -82,7 +83,7 @@ export const extractOpenBadgeMetadataFromImage = (imageString: string) => {
   });
 };
 
-export const validateOpenBadge = async (email: string, openBadgeMetadata: any) => {
+export const validateOpenBadge = async (email: string, openBadgeMetadata: BadgeMetaData): Promise<boolean> => {
   const [, expectedEmailHash] = openBadgeMetadata.recipient.identity.split("$");
   const salt = openBadgeMetadata.recipient.salt;
   let saltVal = salt === null || salt === undefined ? "" : salt;

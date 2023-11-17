@@ -8,7 +8,7 @@ import { SubmissionBadge } from "@/components/page/submission/SubmissionBadge";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import prisma from "@/lib/prisma";
+import { submissionBadge } from "@/server/repository/submissionBadge";
 import { SubmissionEntry } from "@/types/api/submission";
 
 const querySchema = z.object({
@@ -35,18 +35,7 @@ export async function getServerSideProps(context): Promise<GetServerSidePropsRes
   const id = result.data.badge_vc_id;
 
   try {
-    const [badgeVc, badgeConsumers] = await Promise.all([
-      prisma.badgeVc.findUnique({
-        select: {
-          badgeVcId: true,
-          vcDataPayload: true,
-        },
-        where: {
-          badgeVcId: id,
-        },
-      }),
-      prisma.badgeConsumer.findMany(),
-    ]);
+    const { badgeVc, badgeConsumers } = await submissionBadge({ badgeVcId: id });
 
     if (!badgeVc) {
       loggerError(`${logStatus.error} badgeVc not found! ${pagePath}`);

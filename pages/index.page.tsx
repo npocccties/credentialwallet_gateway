@@ -12,8 +12,8 @@ import { pagePath } from "@/constants";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import prisma from "@/lib/prisma";
 import { sessionOptions } from "@/lib/session";
+import { findWallet } from "@/server/repository/wallet";
 import { orthrosUserActions } from "@/share/store/loginUser/Orthros/main";
 
 type Props = {
@@ -42,11 +42,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   }
 
   try {
-    const createdWallet = await prisma.wallet.findUnique({
-      where: {
-        orthrosId: eppn,
-      },
-    });
+    const createdWallet = await findWallet(eppn);
 
     const isCreatedWallet = !createdWallet ? false : true;
     req.session.eppn = eppn;

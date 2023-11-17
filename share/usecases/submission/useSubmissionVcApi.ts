@@ -2,8 +2,11 @@ import { api } from "../api";
 
 import { axiosClient } from "@/lib/axios";
 import { SubmissionVcRequestParam } from "@/types/api/submission";
+import { SubmissionResponseStatus } from "@/types/status";
 
-export const useSubmissionVcApi = async (param: SubmissionVcRequestParam): Promise<Response> => {
+export const useSubmissionVcApi = async (
+  param: SubmissionVcRequestParam,
+): Promise<{ result: SubmissionResponseStatus }> => {
   const { consumerId, email, badgeVcId } = param;
   const apiPath = api.v1.submission.vc;
 

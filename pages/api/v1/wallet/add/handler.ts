@@ -1,25 +1,25 @@
-import { withIronSessionApiRoute } from "iron-session/next";
+import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 
-import type { NextApiRequest, NextApiResponse } from "next";
-
 import { errors } from "@/constants/error";
-import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
+import { logStartForApi, logStatus, logEndForApi } from "@/constants/log";
 import { loggerInfo, loggerError } from "@/lib/logger";
-import prisma from "@/lib/prisma";
-import { sessionOptions } from "@/lib/session";
+import { createWallet } from "@/server/repository/wallet";
 import { api } from "@/share/usecases/api";
 import { ErrorResponse } from "@/types/api/error";
 
 const querySchema = z.object({
   eppn: z.string(),
 });
-
 const apiPath = api.v1.wallet.add;
 
 async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorResponse>) {
   loggerInfo(logStartForApi(apiPath));
   loggerInfo("request session", req.session);
+
+  if (!req.session) {
+    return res.status(401).json({ error: { errorMessage: errors.unAuthrizedError.detail.noSession } });
+  }
 
   const result = querySchema.safeParse(req.session);
 
@@ -31,17 +31,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorRes
 
   const eppn = result.data.eppn;
 
-  if (!eppn) {
-    return res.status(401).json({ error: { errorMessage: errors.unAuthrizedError.detail.noSession } });
-  }
-
   try {
-    await prisma.wallet.create({
-      data: {
-        orthrosId: eppn,
-        createdAt: new Date(),
-      },
-    });
+    await createWallet(eppn);
 
     loggerInfo(`${logStatus.success} ${apiPath}`);
     return res.status(200).json();
@@ -54,4 +45,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorRes
   }
 }
 
-export default withIronSessionApiRoute(handler, sessionOptions);
+export default handler;

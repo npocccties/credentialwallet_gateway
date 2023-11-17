@@ -5,7 +5,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import prisma from "@/lib/prisma";
+import { deleteBadgeVc } from "@/server/repository/badgeVc";
+import { getWalletId } from "@/server/services/wallet.service";
 import { api } from "@/share/usecases/api";
 import { ErrorResponse } from "@/types/api/error";
 
@@ -32,13 +33,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 
   const { id } = result.data;
+  const eppn = req.session.eppn;
+
+  if (!eppn) {
+    return res.status(401).json({ error: { errorMessage: errors.unAuthrizedError.detail.noSession } });
+  }
 
   try {
-    await prisma.badgeVc.delete({
-      where: {
-        badgeVcId: id,
-      },
-    });
+    const walletId = await getWalletId(eppn);
+    await deleteBadgeVc({ badgeVcId: id, walletId });
 
     loggerInfo(`${logStatus.success} ${apiPath}`);
 
