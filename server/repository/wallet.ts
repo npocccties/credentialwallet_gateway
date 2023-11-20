@@ -30,7 +30,7 @@ export const findWallet = async (id: string) => {
 };
 
 export const createWallet = async (eppn: string) => {
-  prisma.wallet.create({
+  await prisma.wallet.create({
     data: {
       orthrosId: eppn,
       createdAt: new Date(),
