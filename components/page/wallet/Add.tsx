@@ -61,7 +61,7 @@ export const AddWallet = () => {
         isOpen={isOpen}
         onClose={onClose}
         cancelRef={cancelRef}
-        handleOkClick={() => router.push(pagePath.wallet.list)}
+        handleOkClick={() => router.push(pagePath.credential.list)}
       />
     </Flex>
   );

@@ -1,8 +1,6 @@
 export const api = {
   v1: {
-    wallet: {
-      add: "/api/v1/wallet/add",
-    },
+    entry: "/api/v1/entry",
     credential: {
       list: "/api/v1/credential/list",
       delete: "/api/v1/credential/delete",

@@ -11,7 +11,7 @@ servers:
 tags:
   - name: user_badgelist
     description: バッジリスト取得
-  - name: wallet add
+  - name: entry
     description: ウォレット作成
   - name: credential list
     description: VC一覧
@@ -52,10 +52,10 @@ paths:
           description: Bad request
         "500":
           description: Internal Server Error
-  /wallet/add:
+  /entry:
     post:
       tags:
-        - wallet add
+        - entry
       description: ログイン情報をもとにウォレットを登録します
       parameters:
         - name: saml

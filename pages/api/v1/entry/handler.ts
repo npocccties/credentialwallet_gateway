@@ -11,7 +11,7 @@ import { ErrorResponse } from "@/types/api/error";
 const querySchema = z.object({
   eppn: z.string(),
 });
-const apiPath = api.v1.wallet.add;
+const apiPath = api.v1.entry;
 
 async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorResponse>) {
   loggerInfo(logStartForApi(apiPath));

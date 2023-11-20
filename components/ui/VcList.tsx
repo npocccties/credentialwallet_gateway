@@ -19,7 +19,7 @@ export const VcList = () => {
               cursor={"pointer"}
               _hover={{ opacity: 0.9, transition: "0.2s" }}
               onClick={() => {
-                router.push(`${pagePath.wallet.detail}/${badgeVc.badgeVcId}`);
+                router.push(`${pagePath.credential.detail}/${badgeVc.badgeVcId}`);
               }}
             >
               <BadgeVcCard badgeVc={badgeVc} />

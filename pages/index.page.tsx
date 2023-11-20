@@ -25,7 +25,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   req,
   res,
 }): Promise<GetServerSidePropsResult<Props>> {
-  loggerInfo(logStartForPageSSR(pagePath.wallet.list));
+  loggerInfo(logStartForPageSSR(pagePath.credential.list));
   // const eppn = context.req.headers["eppn"] as string;
   // const displayName = context.req.headers["displayName"] as string;
 
@@ -48,7 +48,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     req.session.eppn = eppn;
     await req.session.save();
 
-    loggerInfo(`${logStatus.success} ${pagePath.wallet.list}`);
+    loggerInfo(`${logStatus.success} ${pagePath.credential.list}`);
     return {
       props: {
         displayName,
@@ -56,11 +56,11 @@ export const getServerSideProps = withIronSessionSsr(async function ({
       },
     };
   } catch (e) {
-    loggerError(`${logStatus.error} ${pagePath.wallet.list}`, e.message);
+    loggerError(`${logStatus.error} ${pagePath.credential.list}`, e.message);
 
     throw new Error(errors.response500.message);
   } finally {
-    loggerInfo(logEndForPageSSR(pagePath.wallet.list));
+    loggerInfo(logEndForPageSSR(pagePath.credential.list));
   }
 }, sessionOptions);
 
@@ -72,7 +72,7 @@ const Home: NextPage<Props> = ({ displayName, isCreatedWallet }) => {
     setOrthrosUser({ displayName });
 
     if (!isCreatedWallet) {
-      router.push(pagePath.wallet.add);
+      router.push(pagePath.entry);
     }
   }, []);
 

@@ -121,7 +121,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
                 <Button
                   colorScheme={"gray"}
                   w={120}
-                  onClick={() => router.push(`${pagePath.wallet.detail}/${pathParam}`)}
+                  onClick={() => router.push(`${pagePath.credential.detail}/${pathParam}`)}
                 >
                   戻る
                 </Button>

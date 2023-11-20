@@ -10,7 +10,7 @@ import { prismaMock } from "@/test-server/mocks/prisma/singleton";
 type ApiRequest = NextApiRequest & ReturnType<typeof createRequest>;
 type ApiResponse = NextApiResponse & ReturnType<typeof createResponse>;
 
-describe(api.v1.wallet.add, () => {
+describe(api.v1.entry, () => {
   test("リクエストが不正な値で400が返る", async () => {
     const mockReq = createRequest<ApiRequest>({
       session: {

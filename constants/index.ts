@@ -1,8 +1,8 @@
 export const pagePath = {
-  wallet: {
+  entry: "/entry",
+  credential: {
     list: "/",
-    add: "/wallet/add",
-    detail: "/wallet/detail",
+    detail: "/credential/detail",
   },
   badge: {
     import: "/badge/import",
