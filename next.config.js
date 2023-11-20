@@ -6,8 +6,8 @@ const nextConfig = {
   reactStrictMode: true,
   output: "standalone",
   pageExtensions: ["page.tsx", "api.ts"],
-  output: isProduction ? "wallet" : "",
-  assetPrefix: isProduction ? "/wallet" : "",
+  // output: isProduction ? "wallet" : "",
+  // assetPrefix: isProduction ? "/wallet" : "",
 };
 
 module.exports = nextConfig;
