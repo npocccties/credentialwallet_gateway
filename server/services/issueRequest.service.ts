@@ -2,10 +2,10 @@ import { logStatus } from "@/constants/log";
 import { loggerDebug, loggerError } from "@/lib/logger";
 import issuanceConfig from "@/templates/issuance_request_config.json";
 
+const msal = require("@azure/msal-node");
+
 const did_authority = process.env.did_authority as string;
 const clientName = process.env.clientName as string;
-
-const msal = require("@azure/msal-node");
 
 const msalConfig = {
   auth: {
@@ -14,14 +14,8 @@ const msalConfig = {
     clientSecret: process.env.vcApp_client_secret as string,
   },
 };
-const msalCca = new msal.ConfidentialClientApplication(msalConfig);
-const msalClientCredentialRequest = {
-  scopes: ["3db474b9-6a0c-4840-96ac-1fceb342124f/.default"],
-  skipCache: false,
-};
 
 /**
- * issueRequestとの違いは  const { data } = await axios.get(openBadgeMetadata.badge);　がないだけ
  * @param manifestId
  * @param badgeClass
  * @param email
@@ -39,6 +33,12 @@ export const issueRequest = async (
   issuedOn: string,
   expires: string,
 ) => {
+  const msalCca = new msal.ConfidentialClientApplication(msalConfig);
+  const msalClientCredentialRequest = {
+    scopes: ["3db474b9-6a0c-4840-96ac-1fceb342124f/.default"],
+    skipCache: false,
+  };
+
   let accessToken = "";
   try {
     const result = await msalCca.acquireTokenByClientCredential(msalClientCredentialRequest);

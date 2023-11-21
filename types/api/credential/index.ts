@@ -1,7 +1,3 @@
-export type CredentialListResponse = {
-  data: CredentialList;
-};
-
 export type SearchFormItem = {
   badgeName?: string;
   issuedFrom?: string | Date;

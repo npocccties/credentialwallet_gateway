@@ -7,16 +7,17 @@ import { SidebarContent } from "./Sidebar";
 
 export interface LayoutProps {
   children: React.ReactNode;
+  showHeaderContents?: boolean;
   maxW?: string;
   textAlign?: "center";
   align?: string;
 }
 
-export const Layout: React.VFC<LayoutProps> = ({ children, maxW, textAlign, align }) => {
+export const Layout: React.VFC<LayoutProps> = ({ children, maxW, textAlign, align, showHeaderContents = true }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Flex minHeight={"100vh"} direction={"column"}>
-      <Header onOpen={onOpen} />
+      <Header onOpen={onOpen} showContents={showHeaderContents} />
       <Drawer
         isOpen={isOpen}
         placement="left"

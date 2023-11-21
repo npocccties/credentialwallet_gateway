@@ -11,6 +11,13 @@ export const errors = {
     label: "Un Expected Error",
     message: "予期せぬエラーが発生しました。管理者へお問い合わせください。",
   },
+  unAuthrizedError: {
+    label: "Un Authrized Error",
+    message: "認証情報が確認できませんでした。ログインし直してください。",
+    detail: {
+      noSession: "no session error",
+    },
+  },
   vcImportFailed: "バッジのインポートに失敗しました。",
   validation: {
     email: "eメールアドレスが不正な値です。",

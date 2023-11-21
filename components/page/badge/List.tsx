@@ -67,10 +67,7 @@ export const BadgeList = ({
       return;
     }
 
-    // TODO: 仮実装 Orthrosから取得を想定
-    const username = "user2";
-
-    await fetchBadgeList({ username, lmsId });
+    await fetchBadgeList({ lmsId });
 
     setIsLoading(false);
   };

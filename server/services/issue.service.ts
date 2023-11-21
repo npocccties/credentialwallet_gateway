@@ -1,4 +1,3 @@
-import ION from "@decentralized-identity/ion-tools";
 import axios from "axios";
 
 import { loggerDebug } from "@/lib/logger";
@@ -17,11 +16,13 @@ export const issue = async (
   acquiredIdToken: AcquiredIdToken,
   options?: { [key: string]: any },
 ): Promise<string> => {
-  // TODO: subのdidをどう作成するかを考える
-  const key: KeyPair = await ION.generateKeyPair();
+  const key = process.env.private_key_jwk;
+  const keyObj: KeyPair = JSON.parse(key);
 
   const signer = new Signer();
-  await signer.init(key);
+  await signer.init(keyObj);
+
+  loggerDebug("wallet did", signer.did);
 
   let attestations: any = { ...acquiredIdToken };
 

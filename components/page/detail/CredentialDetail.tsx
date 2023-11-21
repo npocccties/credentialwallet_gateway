@@ -36,7 +36,7 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
 
   const handleClickDelete = async () => {
     await deleteCredential(vcDetailData.badgeVcId);
-    router.push(pagePath.wallet.list);
+    router.push(pagePath.credential.list);
   };
   return (
     <>

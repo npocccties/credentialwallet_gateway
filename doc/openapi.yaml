@@ -11,7 +11,7 @@ servers:
 tags:
   - name: user_badgelist
     description: バッジリスト取得
-  - name: wallet add
+  - name: entry
     description: ウォレット作成
   - name: credential list
     description: VC一覧
@@ -50,10 +50,12 @@ paths:
                 $ref: "#/components/schemas/user_badgelist"
         "400":
           description: Bad request
-  /wallet/add:
+        "500":
+          description: Internal Server Error
+  /entry:
     post:
       tags:
-        - wallet add
+        - entry
       description: ログイン情報をもとにウォレットを登録します
       parameters:
         - name: saml
@@ -67,6 +69,10 @@ paths:
           description: Successful operation
         "400":
           description: Bad request
+        "401":
+          description: Un Authrized Error
+        "500":
+          description: Internal Server Error
   /credential/list:
     get:
       tags:
@@ -108,6 +114,10 @@ paths:
                 $ref: "#/components/schemas/vcList"
         "400":
           description: Bad request
+        "401":
+          description: Un Authrized Error
+        "500":
+          description: Internal Server Error
   /credential/delete/{id}:
     post:
       tags:
@@ -127,10 +137,14 @@ paths:
           schema:
             type: number
       responses:
-        "200":
+        "204":
           description: Successful operation
         "400":
           description: Bad request
+        "401":
+          description: Un Authrized Error
+        "500":
+          description: Internal Server Error
   /badge/list:
     post:
       tags:
@@ -165,6 +179,8 @@ paths:
                 $ref: "#/components/schemas/badgeList"
         "400":
           description: Bad request
+        "500":
+          description: Internal Server Error
   /badge/convert:
     post:
       tags:
@@ -234,6 +250,8 @@ paths:
                 $ref: "#/components/schemas/badgeMetaData"
         "400":
           description: Bad request
+        "500":
+          description: Internal Server Error
   /submission/sendmail:
     post:
       tags:
@@ -261,9 +279,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/badgeMetaData"
+                type: object
+                properties:
+                  hashConfirmCode:
+                    type: string
         "400":
           description: Bad request
+        "500":
+          description: Internal Server Error
   /submission/vc:
     post:
       tags:
@@ -295,9 +318,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/badgeMetaData"
+                type: object
+                properties:
+                  result:
+                    type: string
         "400":
           description: Bad request
+        "500":
+          description: Internal Server Error
 
 components:
   schemas:

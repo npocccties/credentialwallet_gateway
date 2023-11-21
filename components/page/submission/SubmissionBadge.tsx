@@ -34,8 +34,10 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
 
     console.log("動作確認用", data.confirmCode);
 
+    const consumerId = typeof input.consumerId === "string" ? Number(input.consumerId) : input.consumerId;
+
     const selectConsumer = {
-      consumerId: input.consumerId,
+      consumerId: consumerId,
       consumerName: badgeConsumers.find((x) => x.consumerId === Number(input.consumerId)).consumerName,
     };
     const badgeVcData = {
@@ -119,7 +121,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
                 <Button
                   colorScheme={"gray"}
                   w={120}
-                  onClick={() => router.push(`${pagePath.wallet.detail}/${pathParam}`)}
+                  onClick={() => router.push(`${pagePath.credential.detail}/${pathParam}`)}
                 >
                   戻る
                 </Button>

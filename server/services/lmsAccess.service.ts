@@ -15,7 +15,7 @@ const getMyToken = async (username: string, password: string, selectLms: LmsList
   const options: AxiosRequestConfig = {
     method: "GET",
     url: tokenURL,
-    //httpsAgent: new https.Agent({ rejectUnauthorized: false }), // SSL Error: Unable to verify the first certificateの回避　正式な証明書なら出ないはず
+    //httpsAgent: new https.Agent({ rejectUnauthorized: false }), // SSL Error: Unable to verify the first certificateの回避 正式な証明書なら出ないはず
   };
   loggerDebug("moodle requestUrl", `${tokenUrlBase}?username=${username}&password=****&service=${lmsService}`);
 
@@ -46,7 +46,7 @@ const getMyTokenAdmin = async (username: string, selectLms: LmsList): Promise<st
   const options: AxiosRequestConfig = {
     method: "GET",
     url: tokenURL,
-    //httpsAgent: new https.Agent({ rejectUnauthorized: false }), // SSL Error: Unable to verify the first certificateの回避　正式な証明書なら出ないはず
+    //httpsAgent: new https.Agent({ rejectUnauthorized: false }), // SSL Error: Unable to verify the first certificateの回避 正式な証明書なら出ないはず
   };
 
   loggerDebug("moodle sso requestUrl", tokenURL);
@@ -69,7 +69,7 @@ const getMyBadges = async (token: string, selectLms: LmsList): Promise<IfBadgeIn
   const options: AxiosRequestConfig = {
     method: "GET",
     url: myBadgesURL,
-    //httpsAgent: new https.Agent({ rejectUnauthorized: false }), // SSL Error: Unable to verify the first certificateの回避　正式な証明書なら出ないはず
+    //httpsAgent: new https.Agent({ rejectUnauthorized: false }), // SSL Error: Unable to verify the first certificateの回避 正式な証明書なら出ないはず
   };
   try {
     const { data } = await axios(options);

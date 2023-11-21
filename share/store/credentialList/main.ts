@@ -36,7 +36,7 @@ const useFetchCredentialList = () => {
   const setState = useSetRecoilState(credentialListState);
 
   const fetchCredentialList = useCallback(async () => {
-    const { data } = await useCredentialListApi();
+    const data = await useCredentialListApi();
     setState(() => {
       if (!data) {
         return defaultState;
@@ -54,7 +54,7 @@ const useSearchCredentialList = () => {
 
   const searchCredentialList = useCallback(
     async (param: SearchFormItem) => {
-      const { data } = await useSearchCredentialListApi(param);
+      const data = await useSearchCredentialListApi(param);
       setState(() => {
         if (!data) {
           return defaultState;

@@ -13,7 +13,7 @@ type Arg = {
   lmsId: number;
 };
 
-export const getBadgeListFormMoodle = async ({
+export const getBadgeListFromMoodle = async ({
   walletId,
   username,
   password,
