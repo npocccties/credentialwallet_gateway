@@ -11,7 +11,7 @@ import { pagePath } from "@/constants";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import { getUserInfoFormJwt } from "@/lib/login";
+import { getUserInfoFormJwt } from "@/lib/userInfo";
 import { findWallet } from "@/server/repository/wallet";
 import { orthrosUserActions } from "@/share/store/loginUser/Orthros/main";
 

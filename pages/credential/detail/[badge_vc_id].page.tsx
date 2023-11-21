@@ -9,7 +9,7 @@ import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { convertUTCtoJSTstr } from "@/lib/date";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import { getUserInfoFormJwt } from "@/lib/login";
+import { getUserInfoFormJwt } from "@/lib/userInfo";
 import {
   createVcDetailData,
   getBadgeMetaData,

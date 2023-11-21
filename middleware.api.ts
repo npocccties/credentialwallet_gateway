@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { verifyOrthrosJwt } from "./lib/login";
+import { verifyOrthrosJwt } from "./lib/verifyJwt";
 
 import type { NextRequest } from "next/server";
 

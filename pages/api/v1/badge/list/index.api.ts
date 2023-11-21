@@ -5,7 +5,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
 import { loggerDebug, loggerError, loggerInfo } from "@/lib/logger";
-import { getUserInfoFormJwt } from "@/lib/login";
+import { getUserInfoFormJwt } from "@/lib/userInfo";
 import { getBadgeListFromMoodle } from "@/server/services/badgeList.service";
 import { getWalletId } from "@/server/services/wallet.service";
 import { api } from "@/share/usecases/api";
