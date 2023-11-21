@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { pagePath } from "./constants";
 import { verifyOrthrosJwt } from "./lib/verifyJwt";
 
 import type { NextRequest } from "next/server";
@@ -13,17 +14,17 @@ export async function middleware(req: NextRequest) {
   const url = req.nextUrl;
   loggerMWInfo(`access path ${url.pathname}`);
 
-  if (url.pathname === "/") {
-    loggerMWInfo(logEndForOther("middleware access path '/'"));
+  if (url.pathname === pagePath.login.error) {
+    loggerMWInfo(logEndForOther(`middleware access path ${pagePath.login.error}`));
     return res;
   }
+
   const jwt = req.cookies.get("jwt");
   const verify = await verifyOrthrosJwt(jwt);
 
   if (!verify) {
-    // TODO: リダイレクト先の確認
-    loggerMWInfo("invalid access! redirect '/'");
-    return NextResponse.redirect(new URL("/", req.url));
+    loggerMWInfo(`invalid access! redirect ${pagePath.login.error}`);
+    return NextResponse.redirect(new URL(pagePath.login.error, req.url));
   }
 
   loggerMWInfo(logEndForOther("middleware"));

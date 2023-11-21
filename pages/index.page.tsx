@@ -34,12 +34,6 @@ export const getServerSideProps = async function ({ req, res }): Promise<GetServ
 
   loggerInfo("userInfo verify", eppn, displayName);
 
-  if (!eppn || !displayName) {
-    // TODO: Orthrosにリダイレクトする？
-    loggerError(`${logStatus.error} eppn or displayName not found!`);
-    throw new Error("ログイン情報が不正です。");
-  }
-
   try {
     const createdWallet = await findWallet(eppn);
 

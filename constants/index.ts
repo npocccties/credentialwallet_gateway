@@ -11,6 +11,9 @@ export const pagePath = {
     enter: "/submission",
     confirm: "/submission/confirm",
   },
+  login: {
+    error: "/login/error",
+  },
 } as const;
 
 export const sessionStorageKey = {
