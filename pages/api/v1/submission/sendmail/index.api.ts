@@ -29,12 +29,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   try {
     const confirmCode = Math.floor(100000 + Math.random() * 900000).toString();
-    const template = createMailTemplate(email, confirmCode);
+    const template = createMailTemplate(confirmCode);
 
     console.log("confirmCode", confirmCode);
     const hashConfirmCode = crypto.createHash("sha256").update(confirmCode).digest("hex");
 
-    await sendMail(template);
+    await sendMail(email, template, consumerId);
 
     loggerInfo(`${logStatus.success} ${apiPath}`);
 
