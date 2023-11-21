@@ -87,6 +87,12 @@ export const BadgeList = ({
     }
   }, [badgeList]);
 
+  useEffect(() => {
+    return () => {
+      clearBadgeList();
+    };
+  }, []);
+
   if (isNeedMoodleLogin) {
     return <MoodleLoginForm setIsNeedMoodleLogin={setIsNeedMoodleLogin} getMyBadges={fetchMoodleMyBadges} />;
   } else {

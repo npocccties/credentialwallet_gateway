@@ -5,6 +5,7 @@ import { z } from "zod";
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
 import { SubmissionBadge } from "@/components/page/submission/SubmissionBadge";
+import { SERVICE_NAME, SERVICE_DESCRITION } from "@/configs";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
@@ -61,7 +62,7 @@ const SubmissionEnterPage = (props: SubmissionEntry) => {
   const { badgeConsumers, vcImage, badgeVcId } = props;
   return (
     <Layout align="center" textAlign="center" maxW="md">
-      <Metatag title="submission badge" description="バッジ提出" />
+      <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
       <SubmissionBadge badgeConsumers={badgeConsumers} vcImage={vcImage} badgeVcId={badgeVcId} />
     </Layout>
   );

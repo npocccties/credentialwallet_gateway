@@ -5,6 +5,7 @@ import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
 import { BadgeList } from "@/components/page/badge/List";
 import { VcImport } from "@/components/page/badge/VcImport";
+import { SERVICE_DESCRITION, SERVICE_NAME } from "@/configs";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
@@ -37,7 +38,7 @@ const ImportVCPage = (props: Props) => {
   const pageWidth = isBadgeSelect ? "md" : "2xl";
   return (
     <Layout align="center" textAlign="center" maxW={pageWidth}>
-      <Metatag title="Get Open Badge from Moodle" description="Moodle" />
+      <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
       {isBadgeSelect ? (
         <VcImport setIsBadgeSelect={setIsBadgeSelect} />
       ) : (

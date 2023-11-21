@@ -1,5 +1,6 @@
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { Flex, Box, BoxProps, CloseButton, FlexProps, Text, Link } from "@chakra-ui/react";
+import NextLink from "next/link";
 import React from "react";
 
 import { sidebarItems } from "@/constants/sidebar";
@@ -37,31 +38,57 @@ interface NavItemProps extends FlexProps {
 }
 
 const NavItem = ({ name, link, external, ...rest }: NavItemProps) => {
-  return (
-    <Link
-      href={link ? link : "#"}
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
-      isExternal={external}
-    >
-      <Flex
-        align="center"
-        p="6"
-        borderBottom="1px"
-        borderColor="gray.400"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: "gray.400",
-          color: "white",
-        }}
-        {...rest}
+  if (external) {
+    return (
+      <Link
+        href={link ? link : "#"}
+        style={{ textDecoration: "none" }}
+        _focus={{ boxShadow: "none" }}
+        isExternal={external}
       >
-        <Text fontSize="md" mr={2}>
-          {name}
-        </Text>{" "}
-        {external && <ExternalLinkIcon />}
-      </Flex>
-    </Link>
-  );
+        <Flex
+          align="center"
+          p="6"
+          borderBottom="1px"
+          borderColor="gray.400"
+          role="group"
+          cursor="pointer"
+          _hover={{
+            bg: "gray.400",
+            color: "white",
+          }}
+          {...rest}
+        >
+          <Text fontSize="md" mr={2}>
+            {name}
+          </Text>{" "}
+          {external && <ExternalLinkIcon />}
+        </Flex>
+      </Link>
+    );
+  } else {
+    return (
+      <NextLink href={link}>
+        <Link style={{ textDecoration: "none" }} _focus={{ boxShadow: "none" }}>
+          <Flex
+            align="center"
+            p="6"
+            borderBottom="1px"
+            borderColor="gray.400"
+            role="group"
+            cursor="pointer"
+            _hover={{
+              bg: "gray.400",
+              color: "white",
+            }}
+            {...rest}
+          >
+            <Text fontSize="md" mr={2}>
+              {name}
+            </Text>{" "}
+          </Flex>
+        </Link>
+      </NextLink>
+    );
+  }
 };
