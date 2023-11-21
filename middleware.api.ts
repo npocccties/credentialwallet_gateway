@@ -1,5 +1,6 @@
-import { getIronSession } from "iron-session/edge";
 import { NextResponse } from "next/server";
+
+import { verifyOrthrosJwt } from "./lib/login";
 
 import type { NextRequest } from "next/server";
 
@@ -16,19 +17,10 @@ export async function middleware(req: NextRequest) {
     loggerMWInfo(logEndForOther("middleware access path '/'"));
     return res;
   }
+  const jwt = req.cookies.get("jwt");
+  const verify = await verifyOrthrosJwt(jwt);
 
-  // ルート直下以外にアクセス時、sessionにeppnがなければルートにリダイレクトする
-  const session = await getIronSession(req, res, {
-    cookieName: "chilowallet",
-    password: process.env.session_password,
-    cookieOptions: {
-      secure: true,
-    },
-  });
-
-  const { eppn } = session;
-
-  if (!eppn) {
+  if (!verify) {
     loggerMWInfo("not session! redirect '/'");
     return NextResponse.redirect(new URL("/", req.url));
   }
@@ -38,5 +30,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|favicon.ico).*)"],
 };
