@@ -1,4 +1,3 @@
-import { withIronSessionSsr } from "iron-session/next";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
@@ -12,7 +11,7 @@ import { pagePath } from "@/constants";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import { sessionOptions } from "@/lib/session";
+import { getUserInfoFormJwt } from "@/lib/login";
 import { findWallet } from "@/server/repository/wallet";
 import { orthrosUserActions } from "@/share/store/loginUser/Orthros/main";
 
@@ -21,23 +20,23 @@ type Props = {
   isCreatedWallet: boolean;
 };
 
-export const getServerSideProps = withIronSessionSsr(async function ({
-  req,
-  res,
-}): Promise<GetServerSidePropsResult<Props>> {
+export const getServerSideProps = async function ({ req, res }): Promise<GetServerSidePropsResult<Props>> {
   loggerInfo(logStartForPageSSR(pagePath.credential.list));
-  // const eppn = context.req.headers["eppn"] as string;
-  // const displayName = context.req.headers["displayName"] as string;
 
   // const eppn = "tegsdgdsfasete@nii.co.jp";
-  const eppn = "user3";
-  const displayName = "user3";
+  // const eppn = "user3";
+  // const displayName = "user3";
 
-  loggerInfo("req.headers", req.headers);
+  // TODO: 飛んでくるkeyによって変える
+  const jwt = req.cookies.jwt;
+  console.log("cookies", jwt);
+  const { eppn, name: displayName } = getUserInfoFormJwt(jwt);
+
+  loggerInfo("userInfo verify", eppn, displayName);
 
   if (!eppn || !displayName) {
     // TODO: Orthrosにリダイレクトする？
-    loggerError(`${logStatus.error} headers not found!`);
+    loggerError(`${logStatus.error} eppn or displayName not found!`);
     throw new Error("ログイン情報が不正です。");
   }
 
@@ -45,8 +44,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     const createdWallet = await findWallet(eppn);
 
     const isCreatedWallet = !createdWallet ? false : true;
-    req.session.eppn = eppn;
-    await req.session.save();
 
     loggerInfo(`${logStatus.success} ${pagePath.credential.list}`);
     return {
@@ -62,7 +59,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   } finally {
     loggerInfo(logEndForPageSSR(pagePath.credential.list));
   }
-}, sessionOptions);
+};
 
 const Home: NextPage<Props> = ({ displayName, isCreatedWallet }) => {
   const router = useRouter();

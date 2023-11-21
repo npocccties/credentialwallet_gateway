@@ -1,10 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createRequest, createResponse } from "node-mocks-http";
 
-import handler from "./handler";
+import handler from "./[id].api";
 
 import { getWalletId } from "@/server/services/wallet.service";
 import { api } from "@/share/usecases/api";
+import { loginJwt } from "@/test-server/mocks/api/login/cookie";
 import { prismaMock } from "@/test-server/mocks/prisma/singleton";
 
 type ApiRequest = NextApiRequest & ReturnType<typeof createRequest>;
@@ -18,8 +19,8 @@ describe(api.v1.credential.delete, () => {
   test("クエリパラメータが空であれば400が返る", async () => {
     const mockReq = createRequest<ApiRequest>({
       query: {},
-      session: {
-        eppn: "xxxxx-yyy-zzz@nnnn.jp",
+      cookies: {
+        jwt: loginJwt,
       },
     });
     const mockRes = createResponse<ApiResponse>();
@@ -35,8 +36,8 @@ describe(api.v1.credential.delete, () => {
       query: {
         id: "1",
       },
-      session: {
-        eppn: "xxxxx-yyy-zzz@nnnn.jp",
+      cookies: {
+        jwt: loginJwt,
       },
     });
     mockGetWalletId.mockResolvedValue(1);

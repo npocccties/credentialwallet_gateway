@@ -21,7 +21,8 @@ export async function middleware(req: NextRequest) {
   const verify = await verifyOrthrosJwt(jwt);
 
   if (!verify) {
-    loggerMWInfo("not session! redirect '/'");
+    // TODO: リダイレクト先の確認
+    loggerMWInfo("invalid access! redirect '/'");
     return NextResponse.redirect(new URL("/", req.url));
   }
 

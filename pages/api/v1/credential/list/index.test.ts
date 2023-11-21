@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createRequest, createResponse } from "node-mocks-http";
 
-import handler from "./handler";
+import handler from "./index.api";
 
 import { getCredentialList } from "@/server/services/credentialList.service";
 import { getWalletId } from "@/server/services/wallet.service";
 import { api } from "@/share/usecases/api";
+import { loginJwt } from "@/test-server/mocks/api/login/cookie";
 import { mockBadgeVcList, mockSubmissionsAll } from "@/test-server/mocks/mockData";
 
 type ApiRequest = NextApiRequest & ReturnType<typeof createRequest>;
@@ -26,8 +27,8 @@ const mockGetCredentialList = getCredentialList as jest.MockedFunction<typeof ge
 describe(api.v1.credential.list, () => {
   test("クエリパラメータがundifindであれば400が返る", async () => {
     const mockReq = createRequest<ApiRequest>({
-      session: {
-        eppn: "xxxxx-yyy-zzz@nnnn.jp",
+      cookies: {
+        jwt: loginJwt,
       },
     });
     const mockRes = createResponse<ApiResponse>();
@@ -41,8 +42,8 @@ describe(api.v1.credential.list, () => {
       query: {
         sortOrder: "desk",
       },
-      session: {
-        eppn: "xxxxx-yyy-zzz@nnnn.jp",
+      cookies: {
+        jwt: loginJwt,
       },
     });
 
@@ -66,8 +67,8 @@ describe(api.v1.credential.list, () => {
         sortOrder: "desk",
         issuedFrom: "999999-01-01",
       },
-      session: {
-        eppn: "xxxxx-yyy-zzz@nnnn.jp",
+      cookies: {
+        jwt: loginJwt,
       },
     });
 
@@ -83,8 +84,8 @@ describe(api.v1.credential.list, () => {
         sortOrder: "desk",
         issuedTo: "999999-01-01",
       },
-      session: {
-        eppn: "xxxxx-yyy-zzz@nnnn.jp",
+      cookies: {
+        jwt: loginJwt,
       },
     });
 
@@ -94,13 +95,12 @@ describe(api.v1.credential.list, () => {
     expect(mockRes.statusCode).toEqual(400);
   });
 
-  test("eppnがsessionに存在しない場合に401が返る", async () => {
+  test("eppnが取得できない場合に401が返る", async () => {
     const mockReq = createRequest<ApiRequest>({
       query: {
         sortOrder: "desk",
         issuedTo: "2024-01-01",
       },
-      session: {},
     });
 
     const mockRes = createResponse<ApiResponse>();

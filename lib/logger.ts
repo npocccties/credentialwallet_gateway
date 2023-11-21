@@ -71,3 +71,7 @@ const loggerForMiddleware = pino({
 export const loggerMWInfo = (message: string, ...args: any[]) => {
   return loggerForMiddleware.info(args, message);
 };
+
+export const loggerMWError = (message: string, ...args: any[]) => {
+  return loggerForMiddleware.error(args, message);
+};

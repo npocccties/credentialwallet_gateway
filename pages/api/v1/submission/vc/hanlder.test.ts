@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createRequest, createResponse } from "node-mocks-http";
 
-import handler from "./handler";
+import handler from "./index.api";
 
 import { api } from "@/share/usecases/api";
+import { loginJwt } from "@/test-server/mocks/api/login/cookie";
 
 type ApiRequest = NextApiRequest & ReturnType<typeof createRequest>;
 type ApiResponse = NextApiResponse & ReturnType<typeof createResponse>;
@@ -29,8 +30,8 @@ describe(api.v1.badge.metadata, () => {
         email: "xxx@exaple.com",
         badgeVcId: 1,
       },
-      session: {
-        eppn: "testtest",
+      cookies: {
+        jwt: loginJwt,
       },
     });
     const mockRes = createResponse<ApiResponse>();

@@ -1,4 +1,3 @@
-import { withIronSessionSsr } from "iron-session/next";
 import { GetServerSidePropsResult } from "next";
 import { ErrorProps } from "next/error";
 import React, { useEffect } from "react";
@@ -10,7 +9,7 @@ import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { convertUTCtoJSTstr } from "@/lib/date";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import { sessionOptions } from "@/lib/session";
+import { getUserInfoFormJwt } from "@/lib/login";
 import {
   createVcDetailData,
   getBadgeMetaData,
@@ -37,7 +36,7 @@ const querySchema = z.object({
 
 const pagePath = "/wallet/detail/[badge_vc_id]";
 
-export const getServerSideProps = withIronSessionSsr(async function (
+export const getServerSideProps = async function (
   context,
 ): Promise<GetServerSidePropsResult<ErrorProps | CredentialDetailData>> {
   loggerInfo(logStartForPageSSR(pagePath));
@@ -50,7 +49,9 @@ export const getServerSideProps = withIronSessionSsr(async function (
     return { notFound: true };
   }
   const id = result.data.badge_vc_id;
-  const eppn = context.req.session.eppn;
+  // const eppn = context.req.session.eppn;
+  const jwt = context.req.cookies.jwt;
+  const { eppn } = getUserInfoFormJwt(jwt);
 
   try {
     const { badgeVc, submissions } = await getCredentialDetail({ badgeVcId: id, eppn });
@@ -85,7 +86,7 @@ export const getServerSideProps = withIronSessionSsr(async function (
     loggerError(`${logStatus.error} ${pagePath}`, e.message);
     throw new Error(errors.response500.message);
   }
-}, sessionOptions);
+};
 
 const CredentialDetailPage = (props: CredentialDetailData) => {
   const { vcDetailData, knowledgeBadges, submissionsHistories, badgeExportData } = props;

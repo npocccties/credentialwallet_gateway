@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createRequest, createResponse } from "node-mocks-http";
 
-import handler from "./handler";
+import handler from "./index.api";
 
 import { getBadgeListFromMoodle } from "@/server/services/badgeList.service";
 import { getWalletId } from "@/server/services/wallet.service";
 import { api } from "@/share/usecases/api";
+import { loginJwt } from "@/test-server/mocks/api/login/cookie";
 import { mockBadgeList } from "@/test-server/mocks/mockData";
 
 type ApiRequest = NextApiRequest & ReturnType<typeof createRequest>;
@@ -21,8 +22,8 @@ describe(api.v1.badge.list, () => {
   test("bodyがundifindであれば400が返る", async () => {
     const mockReq = createRequest<ApiRequest>({
       body: {},
-      session: {
-        eppn: "xxxxx-yyy-zzz@nnnn.jp",
+      cookies: {
+        jwt: loginJwt,
       },
     });
     const mockRes = createResponse<ApiResponse>();
@@ -37,8 +38,6 @@ describe(api.v1.badge.list, () => {
         username: "test",
         lmsId: 1,
       },
-
-      session: {},
     });
     const mockRes = createResponse<ApiResponse>();
 
@@ -51,8 +50,8 @@ describe(api.v1.badge.list, () => {
       body: {
         lmsId: 1,
       },
-      session: {
-        eppn: "xxxxx-yyy-zzz@nnnn.jp",
+      cookies: {
+        jwt: loginJwt,
       },
     });
 
@@ -73,8 +72,8 @@ describe(api.v1.badge.list, () => {
         username: "test",
         password: "1234",
       },
-      session: {
-        eppn: "xxxxx-yyy-zzz@nnnn.jp",
+      cookies: {
+        jwt: loginJwt,
       },
     });
 

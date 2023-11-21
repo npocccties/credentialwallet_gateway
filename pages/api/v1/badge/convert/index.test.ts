@@ -1,10 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createRequest, createResponse } from "node-mocks-http";
 
-import handler from "./handler";
+import handler from "./index.api";
 
 import { validateOpenBadge } from "@/server/services/openBadge.service";
 import { api } from "@/share/usecases/api";
+import { loginJwt } from "@/test-server/mocks/api/login/cookie";
 import { mockBadgeMetaData } from "@/test-server/mocks/mockData";
 
 type ApiRequest = NextApiRequest & ReturnType<typeof createRequest>;
@@ -19,8 +20,8 @@ describe(api.v1.badge.convert, () => {
   test("bodyが空であれば400が返る", async () => {
     const mockReq = createRequest<ApiRequest>({
       body: {},
-      session: {
-        eppn: "xxxxx-yyy-zzz@nnnn.jp",
+      cookies: {
+        jwt: loginJwt,
       },
     });
     const mockRes = createResponse<ApiResponse>();
@@ -38,8 +39,6 @@ describe(api.v1.badge.convert, () => {
         lmsId: 1,
         lmsName: "○○サービス",
       },
-
-      session: {},
     });
     const mockRes = createResponse<ApiResponse>();
 
@@ -56,8 +55,8 @@ describe(api.v1.badge.convert, () => {
         lmsId: 1,
         lmsName: "○○サービス",
       },
-      session: {
-        eppn: "xxxxx-yyy-zzz@nnnn.jp",
+      cookies: {
+        jwt: loginJwt,
       },
     });
 
@@ -78,8 +77,8 @@ describe(api.v1.badge.convert, () => {
         lmsId: 1,
         lmsName: "○○サービス",
       },
-      session: {
-        eppn: "xxxxx-yyy-zzz@nnnn.jp",
+      cookies: {
+        jwt: loginJwt,
       },
     });
 
