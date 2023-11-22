@@ -30,11 +30,10 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
   });
 
   const onSubmit = async (input: InputForm) => {
-    const data = await useSubmissionEmailApi(input);
-
-    console.log("動作確認用", data.confirmCode);
-
     const consumerId = typeof input.consumerId === "string" ? Number(input.consumerId) : input.consumerId;
+
+    const data = await useSubmissionEmailApi({ email: input.email, consumerId });
+    console.log("動作確認用", data.confirmCode);
 
     const selectConsumer = {
       consumerId: consumerId,

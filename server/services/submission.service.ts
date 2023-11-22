@@ -1,5 +1,6 @@
 import axios from "axios";
 import base64url from "base64url";
+import { createTransport } from "nodemailer";
 
 import { findCabinetUrl } from "../repository/badgeConsumer";
 import { createSubmission, findConsumerAndBadgeVc } from "../repository/submissionBadge";
@@ -10,7 +11,8 @@ import { loggerError, loggerInfo } from "@/lib/logger";
 import { cabinetApi } from "@/share/usecases/api";
 import { SubmissionResponseStatus } from "@/types/status";
 
-const url = process.env.mail_server_url;
+const smtpHost = process.env.smtp_mail_server_host;
+const smtpPort = process.env.smtp_mail_server_port;
 
 export const createMailTemplate = (confirmCode: string) => {
   const messageTemplate = `
@@ -31,14 +33,39 @@ export const createMailTemplate = (confirmCode: string) => {
 };
 
 export const sendMail = async (email: string, message: string, consumerId: number) => {
-  const cabinetUrl = await findCabinetUrl({ consumerId });
+  const { cabinetUrl } = await findCabinetUrl({ consumerId });
 
-  const to = `no-reply@${cabinetUrl}`;
-  const subject = "バッジ提出ワンタイムパスワード";
-  // TODO: メールサーバーにリクエストを送信
-  // await axios.post(url, {
-  //   message: message,
-  // });
+  const options = {
+    host: smtpHost,
+    port: Number(smtpPort),
+    secure: false,
+    requireTLS: false,
+    tls: {
+      // TODO: 開発環境でのみ使用
+      rejectUnauthorized: false,
+    },
+  };
+
+  const url = new URL(cabinetUrl);
+  const host = url.host;
+
+  const mail = {
+    from: `no-reply@${host}.com`,
+    to: email,
+    subject: "バッジ提出ワンタイムパスワード",
+    text: message,
+    html: `<div>${message}</div>`,
+  };
+
+  console.log("options", options);
+  try {
+    const transport = createTransport(options);
+    const result = await transport.sendMail(mail);
+    console.log("result---------", result);
+  } catch (e) {
+    // TODO: エラーをthrowする
+    console.log(e);
+  }
 };
 
 type SubmissionResponse = {

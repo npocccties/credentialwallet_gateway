@@ -1,31 +1,38 @@
 import crypto from "crypto";
 
+import { z } from "zod";
+
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import { validateEmail } from "@/lib/validation";
 import { createMailTemplate, sendMail } from "@/server/services/submission.service";
 import { api } from "@/share/usecases/api";
 import { ErrorResponse } from "@/types/api/error";
-import { SendMail, SubmissionEmailRequestParam } from "@/types/api/submission";
+import { SendMail } from "@/types/api/submission";
 
 type SuccessResponse = SendMail;
 
 const apiPath = api.v1.submission.sendmail;
 
+const querySchema = z.object({
+  email: z.string().email(),
+  consumerId: z.number(),
+});
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse<SuccessResponse | ErrorResponse>) {
   loggerInfo(`${logStartForApi(apiPath)}`);
   loggerInfo("request body", req.body);
 
-  const { consumerId, email } = req.body as SubmissionEmailRequestParam;
+  const result = querySchema.safeParse(req.body);
 
-  if (!validateEmail(email)) {
+  if (!result.success) {
     loggerError(`${logStatus.error} bad request!`, req.body);
 
-    return res.status(400).json({ error: { errorMessage: errors.validation.email } });
+    return res.status(400).json({ error: { errorMessage: errors.response400.detail.body } });
   }
+  const { consumerId, email } = result.data;
 
   try {
     const confirmCode = Math.floor(100000 + Math.random() * 900000).toString();
