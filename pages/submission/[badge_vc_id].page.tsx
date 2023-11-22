@@ -6,6 +6,7 @@ import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
 import { SubmissionBadge } from "@/components/page/submission/SubmissionBadge";
 import { SERVICE_NAME, SERVICE_DESCRITION } from "@/configs";
+import { pagePath } from "@/constants";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
@@ -21,16 +22,16 @@ const querySchema = z.object({
     .transform((v) => Number(v)),
 });
 
-const pagePath = "/submission/[badge_vc_id]";
+const page = pagePath.submission.enter;
 
 export async function getServerSideProps(context): Promise<GetServerSidePropsResult<SubmissionEntry>> {
-  loggerInfo(logStartForPageSSR(pagePath));
+  loggerInfo(logStartForPageSSR(page));
   loggerInfo("request query", context.params);
 
   const result = querySchema.safeParse(context.params);
 
   if (!result.success) {
-    loggerError(`${logStatus.error} bad request! ${pagePath}`);
+    loggerError(`${logStatus.error} bad request! ${page}`);
     return { notFound: true };
   }
   const id = result.data.badge_vc_id;
@@ -39,7 +40,7 @@ export async function getServerSideProps(context): Promise<GetServerSidePropsRes
     const { badgeVc, badgeConsumers } = await submissionBadge({ badgeVcId: id });
 
     if (!badgeVc) {
-      loggerError(`${logStatus.error} badgeVc not found! ${pagePath}`);
+      loggerError(`${logStatus.error} badgeVc not found! ${page}`);
       return { notFound: true };
     }
 
@@ -47,12 +48,12 @@ export async function getServerSideProps(context): Promise<GetServerSidePropsRes
     const vcPayload = vcDataPayload && JSON.parse(vcDataPayload);
     const vcImage = vcPayload.vc.credentialSubject.photo;
 
-    loggerInfo(`${logStatus.success} ${pagePath}`);
-    loggerInfo(logEndForPageSSR(pagePath));
+    loggerInfo(`${logStatus.success} ${page}`);
+    loggerInfo(logEndForPageSSR(page));
 
     return { props: { badgeConsumers, vcImage, badgeVcId } };
   } catch (e) {
-    loggerError(`${logStatus.error} ${pagePath}`, e.message);
+    loggerError(`${logStatus.error} ${page}`, e.message);
 
     throw new Error(errors.response500.message);
   }

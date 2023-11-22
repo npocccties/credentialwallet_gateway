@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { Layout } from "@/components/Layout";
 import { CredentialDetail } from "@/components/page/detail/CredentialDetail";
+import { pagePath } from "@/constants";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { convertUTCtoJSTstr } from "@/lib/date";
@@ -34,12 +35,12 @@ const querySchema = z.object({
     .transform((v) => Number(v)),
 });
 
-const pagePath = "/wallet/detail/[badge_vc_id]";
+const page = pagePath.credential.detail;
 
 export const getServerSideProps = async function (
   context,
 ): Promise<GetServerSidePropsResult<ErrorProps | CredentialDetailData>> {
-  loggerInfo(logStartForPageSSR(pagePath));
+  loggerInfo(logStartForPageSSR(page));
 
   const result = querySchema.safeParse(context.params);
 
@@ -78,12 +79,12 @@ export const getServerSideProps = async function (
 
     const vcDetailData: VcDetailData = createVcDetailData(badgeVc, sub, courseInfo);
 
-    loggerInfo(`${logStatus.success} ${pagePath}`);
-    loggerInfo(logEndForPageSSR(pagePath));
+    loggerInfo(`${logStatus.success} ${page}`);
+    loggerInfo(logEndForPageSSR(page));
 
     return { props: { vcDetailData, knowledgeBadges, submissionsHistories, badgeExportData } };
   } catch (e) {
-    loggerError(`${logStatus.error} ${pagePath}`, e.message);
+    loggerError(`${logStatus.error} ${page}`, e.message);
     throw new Error(errors.response500.message);
   }
 };

@@ -6,6 +6,7 @@ import { Metatag } from "@/components/Metatag";
 import { BadgeList } from "@/components/page/badge/List";
 import { VcImport } from "@/components/page/badge/VcImport";
 import { SERVICE_DESCRITION, SERVICE_NAME } from "@/configs";
+import { pagePath } from "@/constants";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
@@ -16,19 +17,19 @@ type Props = {
   lmsList: LmsList[];
 };
 
-const pagePath = "/badge/import";
+const page = pagePath.badge.import;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  loggerInfo(logStartForPageSSR(pagePath));
+  loggerInfo(logStartForPageSSR(page));
   try {
     const lmsList = await findAllLmsList();
 
-    loggerInfo(`${logStatus.success} ${pagePath}`);
-    loggerInfo(logEndForPageSSR(pagePath));
+    loggerInfo(`${logStatus.success} ${page}`);
+    loggerInfo(logEndForPageSSR(page));
 
     return { props: { lmsList } };
   } catch (e) {
-    loggerError(`${logStatus.error} ${pagePath}`, e.message);
+    loggerError(`${logStatus.error} ${page}`, e.message);
     throw new Error(errors.response500.message);
   }
 };
