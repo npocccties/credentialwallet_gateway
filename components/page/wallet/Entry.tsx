@@ -4,15 +4,17 @@ import React, { useRef } from "react";
 
 import { BasicDialog } from "@/components/ui/dialog/BasicDialog";
 import { pagePath } from "@/constants";
-import { orthrosUserGetters } from "@/share/store/loginUser/Orthros/main";
+import { getCookieValue } from "@/lib/cookie";
+import { getUserInfoFormJwt } from "@/lib/userInfo";
 import { useAddWalletApi } from "@/share/usecases/wallet/useAddWalletApi";
 
-export const AddWallet = () => {
+export const EntryWallet = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  const { displayName } = orthrosUserGetters.useOrthrosUserData();
+  const jwt = getCookieValue("jwt");
+  const { displayName } = getUserInfoFormJwt(jwt);
 
   const handleClickButton = async () => {
     await useAddWalletApi();
@@ -26,16 +28,6 @@ export const AddWallet = () => {
           ウォレット作成
         </Text>
       </Center>
-      {/** TODO: 表示するかを確認する */}
-      {/* <Box mt={{ base: 8, sm: 16 }}>
-        <Text as="h2" fontSize={{ base: "xl", sm: "2xl" }}>
-          Orthros ID
-        </Text>
-        <Box mt={4} px={8}>
-          <Text fontSize={{ base: "md", sm: "xl" }}>{eppn}</Text>
-        </Box>
-        <Divider />
-      </Box> */}
       <Box mt={{ base: 8, sm: 16 }}>
         <Text as="h2" fontSize={{ base: "xl", sm: "2xl" }}>
           氏名

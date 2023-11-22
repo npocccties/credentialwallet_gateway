@@ -4,7 +4,8 @@ import NextLink from "next/link";
 import React, { memo, useEffect, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
 
-import { orthrosUserGetters } from "@/share/store/loginUser/Orthros/main";
+import { getCookieValue } from "@/lib/cookie";
+import { getUserInfoFormJwt } from "@/lib/userInfo";
 
 type Props = {
   onOpen: () => void;
@@ -13,9 +14,11 @@ type Props = {
 
 export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) => {
   const [name, setName] = useState("");
-  const { displayName } = orthrosUserGetters.useOrthrosUserData();
 
   useEffect(() => {
+    const jwt = getCookieValue("jwt");
+
+    const { displayName } = getUserInfoFormJwt(jwt);
     setName(displayName);
   }, []);
   return (

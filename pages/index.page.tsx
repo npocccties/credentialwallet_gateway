@@ -13,10 +13,8 @@ import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log
 import { loggerError, loggerInfo } from "@/lib/logger";
 import { getUserInfoFormJwt } from "@/lib/userInfo";
 import { findWallet } from "@/server/repository/wallet";
-import { orthrosUserActions } from "@/share/store/loginUser/Orthros/main";
 
 type Props = {
-  displayName: string;
   isCreatedWallet: boolean;
 };
 
@@ -30,9 +28,9 @@ export const getServerSideProps = async function ({ req, res }): Promise<GetServ
   // TODO: 飛んでくるkeyによって変える
   const jwt = req.cookies.jwt;
   console.log("cookies", jwt);
-  const { eppn, name: displayName } = getUserInfoFormJwt(jwt);
+  const { eppn } = getUserInfoFormJwt(jwt);
 
-  loggerInfo("userInfo verify", eppn, displayName);
+  loggerInfo("userInfo verify", eppn);
 
   try {
     const createdWallet = await findWallet(eppn);
@@ -42,7 +40,6 @@ export const getServerSideProps = async function ({ req, res }): Promise<GetServ
     loggerInfo(`${logStatus.success} ${pagePath.credential.list}`);
     return {
       props: {
-        displayName,
         isCreatedWallet,
       },
     };
@@ -55,13 +52,10 @@ export const getServerSideProps = async function ({ req, res }): Promise<GetServ
   }
 };
 
-const Home: NextPage<Props> = ({ displayName, isCreatedWallet }) => {
+const Home: NextPage<Props> = ({ isCreatedWallet }) => {
   const router = useRouter();
-  const { setOrthrosUser } = orthrosUserActions.useSetOrthrosUser();
 
   useEffect(() => {
-    setOrthrosUser({ displayName });
-
     if (!isCreatedWallet) {
       router.push(pagePath.entry);
     }
