@@ -27,6 +27,8 @@ tags:
     description: 確認コードを入力されたemailアドレスに送信
   - name: submission vc
     description: バッジデータの提出
+  - name: logout
+    description: 不正なログイン情報でログインした際の、ログイン画面遷移処理
 
 paths:
   /user_badgelist:
@@ -322,6 +324,18 @@ paths:
                 properties:
                   result:
                     type: string
+        "400":
+          description: Bad request
+        "500":
+          description: Internal Server Error
+  /logout:
+    post:
+      tags:
+        - logout
+      description: 不正なログイン情報でログインした際の、ログイン画面遷移処理
+      responses:
+        "200":
+          description: Successful operation
         "400":
           description: Bad request
         "500":

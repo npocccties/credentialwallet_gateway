@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { pagePath } from "./constants";
 import { verifyOrthrosJwt } from "./lib/verifyJwt";
+import { api } from "./share/usecases/api";
 
 import type { NextRequest } from "next/server";
 
@@ -14,7 +15,7 @@ export async function middleware(req: NextRequest) {
   const url = req.nextUrl;
   loggerMWInfo(`access path ${url.pathname}`);
 
-  if (url.pathname === pagePath.login.error) {
+  if (url.pathname === pagePath.login.error || url.pathname === api.v1.logout) {
     loggerMWInfo(logEndForOther(`middleware access path ${pagePath.login.error}`));
     return res;
   }

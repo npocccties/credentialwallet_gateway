@@ -5,10 +5,15 @@ import React from "react";
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
 import { SERVICE_DESCRITION, SERVICE_NAME } from "@/configs";
+import { useLogoutApi } from "@/share/usecases/logout/useLogoutApi";
 
 const index = () => {
   const loginPageUrl = process.env.NEXT_PUBLIC_LOGIN_PAGE_URL;
 
+  const handleLogout = async () => {
+    await useLogoutApi();
+    window.location.href = loginPageUrl;
+  };
   return (
     <Layout maxW="2xl">
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
@@ -19,7 +24,7 @@ const index = () => {
 
         <HStack>
           <Box>
-            <Button as={"a"} colorScheme={"gray"} href={loginPageUrl}>
+            <Button colorScheme={"gray"} onClick={() => handleLogout()}>
               ログイン画面へ
             </Button>
           </Box>
