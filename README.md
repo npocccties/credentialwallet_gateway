@@ -69,6 +69,18 @@ npx prisma db seed
 npx prisma studio
 ```
 
+## ローカルで動かす場合
+jwtというkey名のeppn, displayNameをPayloadに含んだ署名付きJWTを用意します。
+（jwtという名称は現時点での仮であり、どのような名称になるかは未定）
+
+1. 秘密鍵、公開鍵のペアを用意する
+1. [jwt.io](https://jwt.io/)等で鍵を作成したアルゴリズムを選択し、Payloadにeppn, displayNameプロパティを入力する。
+1. 用意した秘密鍵、公開鍵を入力し、JWTを作成する
+1. 環境変数の orthros_login_key_base64 に作成した公開鍵のbase64エンコードしたものを設定する
+1. 立ち上がったアプリケーションのブラウザで開発者ツールを開き、Application > Cookiesで作成したJWTを手打ちで入れる
+
+上記の手順でアプリケーションが動作するようになります。
+
 # 開発サーバー（または本番サーバー）
 
 1. 下記をインストール
@@ -163,14 +175,18 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 |vc_manifest_url|Entra Verified Idで発行者として登録しているmanifest url|-|
 |session_password|[session作成時](https://github.com/vvo/iron-session#nextjs-usage)に使用するパスワード（32文字以上）|-|
 |private_key_jwk|Walletの鍵情報（秘密鍵、公開鍵のペア）|-|
+|orthros_login_key_base64|Orthrosから発行されるJWTの署名に対応した公開鍵のbase64エンコード形式|-|
+|smtp_mail_server_host|メール送信サーバーのhost|-|
+|smtp_mail_server_port|メール送信サーバーのpost|-|
 |NEXT_PUBLIC_COPYRIGHT|フッターに表示するcopyright|-|
 |NEXT_PUBLIC_COPYRIGHT_LINK|フッターに表示するcopyrightのリンク|-|
 |NEXT_PUBLIC_E_PORTFOLIO_URL|e-ポートフォリオシステムへのリンク|-|
+|NEXT_PUBLIC_LOGIN_PAGE_URL|ログインページのURL|-|
 
 ### 鍵の作成
 node環境上で、下記を実行
 ```
 node script/keypair.ts
 ```
-プロジェクトの直下に秘密鍵と公開鍵のキーペアが作成されるので、出力された内容を環境変数に設定してください。
+プロジェクトの直下に秘密鍵と公開鍵のキーペア (JWK) が作成されるので、出力された内容を環境変数に設定してください。
 ※ 鍵の情報は外部に漏れないよう大切に保管してください。
