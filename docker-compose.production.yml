@@ -17,6 +17,8 @@ services:
       - ${SSL_CERTS_DIR}/domain.key:/etc/nginx/conf.d/domain.key
       - ${SSL_CERTS_DIR}/signed_ep.crt:/etc/nginx/conf.d/signed_ep.crt
       - ${SSL_CERTS_DIR}/domain_ep.key:/etc/nginx/conf.d/domain_ep.key
+      - ${SSL_CERTS_DIR}/signed_ep2.crt:/etc/nginx/conf.d/signed_ep2.crt
+      - ${SSL_CERTS_DIR}/domain_ep2.key:/etc/nginx/conf.d/domain_ep2.key
       - ./50x.html:/usr/share/nginx/html/50x.html
     restart: always
     depends_on:
