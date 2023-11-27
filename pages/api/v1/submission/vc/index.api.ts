@@ -36,8 +36,8 @@ export default async function handler(
   }
 
   const { consumerId, email, badgeVcId } = req.body as SubmissionVcRequestParam;
-  const jwt = req.cookies.jwt;
-  const { eppn } = getUserInfoFormJwt(jwt);
+  const session_cookie = req.cookies.session_cookie;
+  const { eppn } = getUserInfoFormJwt(session_cookie);
 
   try {
     const walletId = await getWalletId(eppn);

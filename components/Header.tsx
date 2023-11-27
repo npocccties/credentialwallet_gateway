@@ -16,9 +16,9 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
   const [name, setName] = useState("");
 
   useEffect(() => {
-    const jwt = getCookieValue("jwt");
+    const session_cookie = getCookieValue("session_cookie");
 
-    const { displayName } = getUserInfoFormJwt(jwt);
+    const { displayName } = getUserInfoFormJwt(session_cookie);
     setName(displayName);
   }, []);
   return (

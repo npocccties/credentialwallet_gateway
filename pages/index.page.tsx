@@ -26,9 +26,8 @@ export const getServerSideProps = async function ({ req, res }): Promise<GetServ
   // const displayName = "user3";
 
   // TODO: 飛んでくるkeyによって変える
-  const jwt = req.cookies.jwt;
-  console.log("cookies", jwt);
-  const { eppn } = getUserInfoFormJwt(jwt);
+  const session_cookie = req.cookies.session_cookie;
+  const { eppn } = getUserInfoFormJwt(session_cookie);
 
   loggerInfo("userInfo verify", eppn);
 

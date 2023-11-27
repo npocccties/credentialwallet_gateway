@@ -21,8 +21,8 @@ const page = pagePath.entry;
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   loggerInfo(logStartForPageSSR(page));
 
-  const jwt = req.cookies.jwt;
-  const { eppn } = getUserInfoFormJwt(jwt);
+  const session_cookie = req.cookies.session_cookie;
+  const { eppn } = getUserInfoFormJwt(session_cookie);
 
   try {
     const createdWallet = await findWallet(eppn);

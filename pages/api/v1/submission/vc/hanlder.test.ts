@@ -31,7 +31,7 @@ describe(api.v1.badge.metadata, () => {
         badgeVcId: 1,
       },
       cookies: {
-        jwt: loginJwt,
+        session_cookie: loginJwt,
       },
     });
     const mockRes = createResponse<ApiResponse>();

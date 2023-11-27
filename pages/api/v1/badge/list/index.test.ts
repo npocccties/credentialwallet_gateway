@@ -23,7 +23,7 @@ describe(api.v1.badge.list, () => {
     const mockReq = createRequest<ApiRequest>({
       body: {},
       cookies: {
-        jwt: loginJwt,
+        session_cookie: loginJwt,
       },
     });
     const mockRes = createResponse<ApiResponse>();
@@ -51,7 +51,7 @@ describe(api.v1.badge.list, () => {
         lmsId: 1,
       },
       cookies: {
-        jwt: loginJwt,
+        session_cookie: loginJwt,
       },
     });
 
@@ -73,7 +73,7 @@ describe(api.v1.badge.list, () => {
         password: "1234",
       },
       cookies: {
-        jwt: loginJwt,
+        session_cookie: loginJwt,
       },
     });
 

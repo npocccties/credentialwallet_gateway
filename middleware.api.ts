@@ -20,8 +20,8 @@ export async function middleware(req: NextRequest) {
     return res;
   }
 
-  const jwt = req.cookies.get("jwt");
-  const verify = await verifyOrthrosJwt(jwt);
+  const session_cookie = req.cookies.get("session_cookie");
+  const verify = await verifyOrthrosJwt(session_cookie);
 
   if (!verify) {
     loggerMWInfo(`invalid access! redirect ${pagePath.login.error}`);

@@ -7,11 +7,11 @@ const pubKey = process.env.orthros_login_key_base64;
 
 // MEMO: middleware(edge runtime)で使用することを想定
 
-export const verifyOrthrosJwt = async (jwt: string) => {
+export const verifyOrthrosJwt = async (session_cookie: string) => {
   const cryptKey = await getCryptKey();
 
   try {
-    const result = await jwtVerify(jwt, cryptKey, { algorithms: ["RS256"] });
+    const result = await jwtVerify(session_cookie, cryptKey, { algorithms: ["RS256"] });
 
     loggerMWInfo("verifyResult------------start");
     console.log(JSON.stringify(result));
@@ -19,7 +19,7 @@ export const verifyOrthrosJwt = async (jwt: string) => {
 
     return true;
   } catch (e) {
-    loggerMWError("error! invalid jwt", e);
+    loggerMWError("error! invalid session_cookie", e);
     return false;
   }
 };

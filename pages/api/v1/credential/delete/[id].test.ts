@@ -20,7 +20,7 @@ describe(api.v1.credential.delete, () => {
     const mockReq = createRequest<ApiRequest>({
       query: {},
       cookies: {
-        jwt: loginJwt,
+        session_cookie: loginJwt,
       },
     });
     const mockRes = createResponse<ApiResponse>();
@@ -37,7 +37,7 @@ describe(api.v1.credential.delete, () => {
         id: "1",
       },
       cookies: {
-        jwt: loginJwt,
+        session_cookie: loginJwt,
       },
     });
     mockGetWalletId.mockResolvedValue(1);

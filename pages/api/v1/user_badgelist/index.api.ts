@@ -12,16 +12,15 @@ import { UserBadgeList } from "@/types/api/user_badgelist";
 const apiPath = api.v1.user_badgelist;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<UserBadgeList | {}>) {
-
   loggerInfo(logStartForApi(apiPath));
 
   try {
-    const jwt = getCookieValue("jwt");
-    const { eppn } = getUserInfoFormJwt(jwt);
+    const session_cookie = getCookieValue("session_cookie");
+    const { eppn } = getUserInfoFormJwt(session_cookie);
     const orthrosId = eppn;
 
     //eppnが取得できない場合
-    if(jwt == null || eppn == null) {
+    if (session_cookie == null || eppn == null) {
       loggerError(`${logStatus.error} cannot get eppn in cookie`);
 
       res.status(400).json({});

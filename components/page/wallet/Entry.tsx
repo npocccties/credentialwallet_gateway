@@ -13,8 +13,8 @@ export const EntryWallet = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  const jwt = getCookieValue("jwt");
-  const { displayName } = getUserInfoFormJwt(jwt);
+  const session_cookie = getCookieValue("session_cookie");
+  const { displayName } = getUserInfoFormJwt(session_cookie);
 
   const handleClickButton = async () => {
     await useAddWalletApi();

@@ -51,8 +51,8 @@ export const getServerSideProps = async function (
   }
   const id = result.data.badge_vc_id;
   // const eppn = context.req.session.eppn;
-  const jwt = context.req.cookies.jwt;
-  const { eppn } = getUserInfoFormJwt(jwt);
+  const session_cookie = context.req.cookies.session_cookie;
+  const { eppn } = getUserInfoFormJwt(session_cookie);
 
   try {
     const { badgeVc, submissions } = await getCredentialDetail({ badgeVcId: id, eppn });

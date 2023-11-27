@@ -28,7 +28,7 @@ describe(api.v1.credential.list, () => {
   test("クエリパラメータがundifindであれば400が返る", async () => {
     const mockReq = createRequest<ApiRequest>({
       cookies: {
-        jwt: loginJwt,
+        session_cookie: loginJwt,
       },
     });
     const mockRes = createResponse<ApiResponse>();
@@ -43,7 +43,7 @@ describe(api.v1.credential.list, () => {
         sortOrder: "desk",
       },
       cookies: {
-        jwt: loginJwt,
+        session_cookie: loginJwt,
       },
     });
 
@@ -68,7 +68,7 @@ describe(api.v1.credential.list, () => {
         issuedFrom: "999999-01-01",
       },
       cookies: {
-        jwt: loginJwt,
+        session_cookie: loginJwt,
       },
     });
 
@@ -85,7 +85,7 @@ describe(api.v1.credential.list, () => {
         issuedTo: "999999-01-01",
       },
       cookies: {
-        jwt: loginJwt,
+        session_cookie: loginJwt,
       },
     });
 

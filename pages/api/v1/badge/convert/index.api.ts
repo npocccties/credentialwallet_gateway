@@ -29,8 +29,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const { uniquehash, email, badgeMetaData, lmsId, lmsName }: RequestBody = req.body;
   loggerInfo("request body", { uniquehash, email, lmsId, lmsName });
 
-  const jwt = req.cookies.jwt;
-  const { eppn } = getUserInfoFormJwt(jwt);
+  const session_cookie = req.cookies.session_cookie;
+  const { eppn } = getUserInfoFormJwt(session_cookie);
 
   if (!eppn) {
     return res.status(401).json({ error: { errorMessage: errors.unAuthrizedError.detail.noSession } });
