@@ -4,6 +4,7 @@ import { createRequest, createResponse } from "node-mocks-http";
 import handler from "./index.api";
 
 import { api } from "@/share/usecases/api";
+import { loginJwt } from "@/test-server/mocks/api/login/cookie";
 import { mockAddWallet } from "@/test-server/mocks/mockData";
 import { prismaMock } from "@/test-server/mocks/prisma/singleton";
 
@@ -11,21 +12,11 @@ type ApiRequest = NextApiRequest & ReturnType<typeof createRequest>;
 type ApiResponse = NextApiResponse & ReturnType<typeof createResponse>;
 
 describe(api.v1.entry, () => {
-  test("リクエストが不正な値で400が返る", async () => {
-    const mockReq = createRequest<ApiRequest>({
-      session: {
-        eppn: 33,
-      },
-    });
-    const mockRes = createResponse<ApiResponse>();
-
-    await handler(mockReq, mockRes);
-    expect(mockRes.statusCode).toEqual(400);
-  });
-
   test("セッション情報がないため401で返る", async () => {
     const mockReq = createRequest<ApiRequest>({
-      session: undefined,
+      cookies: {
+        session_cookie: undefined,
+      },
     });
     const mockRes = createResponse<ApiResponse>();
 
@@ -37,8 +28,8 @@ describe(api.v1.entry, () => {
     prismaMock.wallet.create.mockResolvedValue(mockAddWallet);
 
     const mockReq = createRequest<ApiRequest>({
-      session: {
-        eppn: "xxxxxx-yyyyyyyy-@niii.co.jp",
+      cookies: {
+        session_cookie: loginJwt,
       },
     });
     const mockRes = createResponse<ApiResponse>();
