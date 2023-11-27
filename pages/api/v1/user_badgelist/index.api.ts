@@ -6,40 +6,47 @@ import { getCookieValue } from "@/lib/cookie";
 import { loggerError, loggerInfo } from "@/lib/logger";
 import prisma from "@/lib/prisma";
 import { getUserInfoFormJwt } from "@/lib/userInfo";
-import { api } from "@/share/api";
+import { api } from "@/share/usecases/api";
 import { UserBadgeList } from "@/types/api/user_badgelist";
 
 const apiPath = api.v1.user_badgelist;
+
+
+
+
+//対象ユーザのの保持バッジリストを返す
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<UserBadgeList | {}>) {
   loggerInfo(logStartForApi(apiPath));
 
   try {
-    const session_cookie = getCookieValue("session_cookie");
-    const { eppn } = getUserInfoFormJwt(session_cookie);
-    const orthrosId = eppn;
+    const session_cookie = ((req.cookies == null) ? null : req.cookies.session_cookie);
+    loggerInfo("-----session_cookie-----", session_cookie);
+
+    const { eppn } = ((session_cookie == null) ? {eppn: null} : getUserInfoFormJwt(session_cookie));
+    loggerInfo("-----eppn-----", eppn);
 
     //eppnが取得できない場合
     if (session_cookie == null || eppn == null) {
-      loggerError(`${logStatus.error} cannot get eppn in cookie`);
-
-      res.status(400).json({});
-      return;
+      //ログ出力・リクエストエラー応答
+      loggerError(`${logStatus.error} No eppn in session_cookie`);
+      const msg = `ERROR: No eppn in session_cookie`;
+      return res.status(400).json({ error: { errorMessage: msg } });
     }
 
-    //walletsテーブルに対応するorthrosIdが登録されているかチェック
+    //walletsテーブルに対応するorthrosId(eppn)が登録されているかチェック
     const findWalletId = await prisma.wallet.findMany({
       where: {
-        orthrosId: orthrosId,
+        orthrosId: eppn,
       },
     });
 
-    //対応するorthrosIdがない場合
+    //対応するorthrosId(eppn)がない場合
     if (!findWalletId || findWalletId.length <= 0) {
-      loggerError(`${logStatus.error} bad request! not found orthrosId in DB`);
-
-      res.status(400).json({});
-      return;
+      //ログ出力・リクエストエラー応答
+      loggerError(`${logStatus.error} Bad request! Not found orthrosId in DB`);
+      const msg = `ERROR: Bad request! Not found orthrosId in DB. eppn=${eppn}`;
+      return res.status(400).json({ error: { errorMessage: msg } });
     }
 
     //badge_vcsテーブルからreqOrthrosIdに対応するバッジ情報を取得
@@ -53,13 +60,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       },
     });
 
+    //バッジ情報取得結果を返す(正常)
     loggerInfo(`${logStatus.success} ${apiPath}`, findBadgeList);
-
     return res.status(200).json(findBadgeList);
-  } catch (e) {
-    loggerError(`${logStatus.error} ${apiPath}`, e.message);
 
+  } catch (e) {
+    //例外発生時 ログ出力・サーバーエラー応答
+    loggerError(`${logStatus.error} ${apiPath}`, e.message);
     return res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+
   } finally {
     loggerInfo(logEndForApi(apiPath));
   }
