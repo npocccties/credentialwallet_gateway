@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { Loading } from "@/components/Loading";
 import { ResponseState } from "@/components/ui/response/ResponseState";
 import { pagePath, sessionStorageKey } from "@/constants";
-import { useSubmissionVcApi } from "@/share/usecases/submission/useSubmissionVcApi";
+import { postSubmissionVc } from "@/share/api/submission/postSubmissionVc";
 
 type ResponseStatus = "success" | "invalid adress" | "verification failure" | "other errors" | undefined;
 
@@ -47,7 +47,7 @@ export const Confirm = () => {
 
     try {
       setIsSubmission(true);
-      const data = await useSubmissionVcApi({ consumerId, email: submissionEmail, badgeVcId, externalLinkageId });
+      const data = await postSubmissionVc({ consumerId, email: submissionEmail, badgeVcId, externalLinkageId });
 
       setRequestState(data.result);
     } catch (e) {

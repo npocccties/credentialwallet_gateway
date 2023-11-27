@@ -4,7 +4,7 @@ import { createRequest, createResponse } from "node-mocks-http";
 import handler from "./index.api";
 
 import { validateOpenBadge } from "@/server/services/openBadge.service";
-import { api } from "@/share/usecases/api";
+import { api } from "@/share/api";
 import { loginJwt } from "@/test-server/mocks/api/login/cookie";
 import { mockBadgeMetaData } from "@/test-server/mocks/mockData";
 

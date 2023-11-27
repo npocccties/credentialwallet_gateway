@@ -3,8 +3,8 @@ import { atom, useRecoilValue, useSetRecoilState } from "recoil";
 
 import { BadgeMetaDataGetters, BadgeMetaDataState, BadgeMetaDataActions } from "./types";
 
+import { fetchBadgeMetaDataApi } from "@/share/api/badgeMetaData/fetchBadgeMetaDataApi";
 import { RECOIL_ATOMS_KEYS } from "@/share/store/keys";
-import { useFetchBadgeMetaDataApi } from "@/share/usecases/badgeMetaData/useFetchBadgeMetaDataApi";
 import { BadgeMetaDataReqestParam } from "@/types/api/badge";
 
 const badgeMetaDataState = atom<BadgeMetaDataState>({
@@ -26,7 +26,7 @@ const useFetchBadgeMetaData = () => {
   const fetchBadgeMetaData = useCallback(
     async (params: BadgeMetaDataReqestParam) => {
       const { uniquehash, lmsUrl } = params;
-      const { data } = await useFetchBadgeMetaDataApi({ uniquehash, lmsUrl });
+      const { data } = await fetchBadgeMetaDataApi({ uniquehash, lmsUrl });
 
       setState(() => {
         return data;

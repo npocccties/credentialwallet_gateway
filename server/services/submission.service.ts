@@ -8,7 +8,7 @@ import { createSubmission, findConsumerAndBadgeVc } from "../repository/submissi
 import { submissionResult } from "@/constants";
 import { logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import { cabinetApi } from "@/share/usecases/api";
+import { cabinetApi } from "@/share/api";
 import { SubmissionResponseStatus } from "@/types/status";
 
 const smtpHost = process.env.smtp_mail_server_host;
@@ -57,14 +57,13 @@ export const sendMail = async (email: string, message: string, consumerId: numbe
     html: `<div>${message}</div>`,
   };
 
-  console.log("options", options);
   try {
     const transport = createTransport(options);
-    const result = await transport.sendMail(mail);
-    console.log("result---------", result);
+    await transport.sendMail(mail);
   } catch (e) {
-    // TODO: エラーをthrowする
-    console.log(e);
+    loggerError("connect smtp server error!");
+
+    throw new Error(e.message);
   }
 };
 

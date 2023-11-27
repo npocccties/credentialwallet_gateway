@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { pagePath } from "./constants";
 import { verifyOrthrosJwt } from "./lib/verifyJwt";
-import { api } from "./share/usecases/api";
+import { api } from "./share/api";
 
 import type { NextRequest } from "next/server";
 

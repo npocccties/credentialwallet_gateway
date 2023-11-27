@@ -21,11 +21,6 @@ type Props = {
 export const getServerSideProps = async function ({ req, res }): Promise<GetServerSidePropsResult<Props>> {
   loggerInfo(logStartForPageSSR(pagePath.credential.list));
 
-  // const eppn = "tegsdgdsfasete@nii.co.jp";
-  // const eppn = "user3";
-  // const displayName = "user3";
-
-  // TODO: 飛んでくるkeyによって変える
   const session_cookie = req.cookies.session_cookie;
   const { eppn } = getUserInfoFormJwt(session_cookie);
 

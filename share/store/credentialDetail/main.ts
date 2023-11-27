@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { atom, useRecoilValue, useSetRecoilState } from "recoil";
 
+import { postDeleteCredential } from "@/share/api/credentialDetail/postDeleteCredential";
 import { VcDetailActions, VcDetailGetters } from "@/share/store/credentialDetail/types";
 import { RECOIL_ATOMS_KEYS } from "@/share/store/keys";
-import { useDeleteCredentialApi } from "@/share/usecases/credentialDetail/useCredentialDetailApi";
 import { VcDetailData } from "@/types/api/credential/detail";
 
 const defaultValue: VcDetailData | {} = {
@@ -48,7 +48,7 @@ const useDeleteCredential = () => {
 
   const deleteCredential = useCallback(
     async (badgeVcId: number) => {
-      useDeleteCredentialApi(badgeVcId);
+      postDeleteCredential(badgeVcId);
       setState(defaultValue);
     },
     [setState],

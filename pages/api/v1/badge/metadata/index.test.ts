@@ -3,7 +3,7 @@ import { createRequest, createResponse } from "node-mocks-http";
 
 import handler from "./index.api";
 
-import { api } from "@/share/usecases/api";
+import { api } from "@/share/api";
 
 type ApiRequest = NextApiRequest & ReturnType<typeof createRequest>;
 type ApiResponse = NextApiResponse & ReturnType<typeof createResponse>;

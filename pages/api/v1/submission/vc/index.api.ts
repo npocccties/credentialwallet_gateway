@@ -8,7 +8,7 @@ import { loggerError, loggerInfo } from "@/lib/logger";
 import { getUserInfoFormJwt } from "@/lib/userInfo";
 import { sendCabinetForVc } from "@/server/services/submission.service";
 import { getWalletId } from "@/server/services/wallet.service";
-import { api } from "@/share/usecases/api";
+import { api } from "@/share/api";
 import { ErrorResponse } from "@/types/api/error";
 import { SubmissionResponseStatus } from "@/types/status";
 

@@ -8,7 +8,7 @@ import { loggerDebug, loggerError, loggerInfo } from "@/lib/logger";
 import { getUserInfoFormJwt } from "@/lib/userInfo";
 import { getBadgeListFromMoodle } from "@/server/services/badgeList.service";
 import { getWalletId } from "@/server/services/wallet.service";
-import { api } from "@/share/usecases/api";
+import { api } from "@/share/api";
 import { BadgeListReqestParam, BadgeListResponse } from "@/types/api/badge";
 import { ErrorResponse } from "@/types/api/error";
 

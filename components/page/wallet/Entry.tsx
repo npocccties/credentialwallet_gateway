@@ -6,7 +6,7 @@ import { BasicDialog } from "@/components/ui/dialog/BasicDialog";
 import { pagePath } from "@/constants";
 import { getCookieValue } from "@/lib/cookie";
 import { getUserInfoFormJwt } from "@/lib/userInfo";
-import { useAddWalletApi } from "@/share/usecases/wallet/useAddWalletApi";
+import { postNewWallet } from "@/share/api/wallet/postNewWallet";
 
 export const EntryWallet = () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ export const EntryWallet = () => {
   const { displayName } = getUserInfoFormJwt(session_cookie);
 
   const handleClickButton = async () => {
-    await useAddWalletApi();
+    await postNewWallet();
 
     onOpen();
   };

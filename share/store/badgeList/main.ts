@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { atom, useRecoilValue, useSetRecoilState } from "recoil";
 
+import { fetchBadgeListApi } from "@/share/api/badgeList/fetchBadgeListApi";
 import { BadgeListActions, BadgeListGetters, BadgeListState } from "@/share/store/badgeList/types";
 import { RECOIL_ATOMS_KEYS } from "@/share/store/keys";
-import { useBadgeListApi } from "@/share/usecases/badgeList/useBadgeListApi";
 import { BadgeListReqestParam } from "@/types/api/badge";
 
 const defaultState: BadgeListState = { badgeList: [] };
@@ -26,7 +26,7 @@ const useFetchBadgeList = () => {
 
   const fetchBadgeList = useCallback(
     async (param: BadgeListReqestParam) => {
-      const data = await useBadgeListApi(param);
+      const data = await fetchBadgeListApi(param);
       setState(() => {
         if (!data) {
           return defaultState;

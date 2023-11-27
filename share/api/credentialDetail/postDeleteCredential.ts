@@ -1,8 +1,8 @@
-import { api } from "../api";
+import { api } from "..";
 
 import { axiosClient } from "@/lib/axios";
 
-export const useDeleteCredentialApi = async (badgeVcId: number) => {
+export const postDeleteCredential = async (badgeVcId: number) => {
   const apiPath = api.v1.credential.delete;
   const deleteVcId = badgeVcId.toString();
 

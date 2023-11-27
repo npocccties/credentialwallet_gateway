@@ -4,7 +4,7 @@ import { createRequest, createResponse } from "node-mocks-http";
 import handler from "./[id].api";
 
 import { getWalletId } from "@/server/services/wallet.service";
-import { api } from "@/share/usecases/api";
+import { api } from "@/share/api";
 import { loginJwt } from "@/test-server/mocks/api/login/cookie";
 import { prismaMock } from "@/test-server/mocks/prisma/singleton";
 

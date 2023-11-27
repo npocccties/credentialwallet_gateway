@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { errors } from "@/constants/error";
 import { logStartForApi, logStatus, logEndForApi } from "@/constants/log";
 import { loggerInfo, loggerError } from "@/lib/logger";
-import { api } from "@/share/usecases/api";
+import { api } from "@/share/api";
 import { ErrorResponse } from "@/types/api/error";
 
 const apiPath = api.v1.logout;

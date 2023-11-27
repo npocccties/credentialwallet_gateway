@@ -1,9 +1,9 @@
-import { api } from "../api";
+import { api } from "..";
 
 import { axiosClient } from "@/lib/axios";
 import { CredentialList, SearchFormItem } from "@/types/api/credential";
 
-export const useCredentialListApi = async () => {
+export const fetchCredentialListApi = async () => {
   const apiPath = api.v1.credential.list;
   const defaultSort = "desk";
 
@@ -12,7 +12,7 @@ export const useCredentialListApi = async () => {
   return res.data;
 };
 
-export const useSearchCredentialListApi = async (param: SearchFormItem) => {
+export const fetchSearchCredentialListApi = async (param: SearchFormItem) => {
   const apiPath = api.v1.credential.list;
   const { badgeName, issuedFrom, issuedTo, sortOrder } = param;
 

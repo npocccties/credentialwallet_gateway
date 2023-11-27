@@ -1,9 +1,12 @@
 import { useCallback } from "react";
 import { atom, useRecoilValue, useSetRecoilState } from "recoil";
 
+import {
+  fetchCredentialListApi,
+  fetchSearchCredentialListApi,
+} from "@/share/api/credentialList/fetchCredentialListApi";
 import { CredentialListActions, CredentialListGetters, CredentialListState } from "@/share/store/credentialList/types";
 import { RECOIL_ATOMS_KEYS } from "@/share/store/keys";
-import { useCredentialListApi, useSearchCredentialListApi } from "@/share/usecases/credentialList/useCredentialListApi";
 import { SearchFormItem } from "@/types/api/credential";
 
 const defaultState: CredentialListState = {
@@ -36,7 +39,7 @@ const useFetchCredentialList = () => {
   const setState = useSetRecoilState(credentialListState);
 
   const fetchCredentialList = useCallback(async () => {
-    const data = await useCredentialListApi();
+    const data = await fetchCredentialListApi();
     setState(() => {
       if (!data) {
         return defaultState;
@@ -54,7 +57,7 @@ const useSearchCredentialList = () => {
 
   const searchCredentialList = useCallback(
     async (param: SearchFormItem) => {
-      const data = await useSearchCredentialListApi(param);
+      const data = await fetchSearchCredentialListApi(param);
       setState(() => {
         if (!data) {
           return defaultState;

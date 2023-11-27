@@ -8,7 +8,7 @@ import { loggerError, loggerInfo } from "@/lib/logger";
 import { getUserInfoFormJwt } from "@/lib/userInfo";
 import { convertVcFromBadge } from "@/server/services/convertVc.service";
 import { validateOpenBadge } from "@/server/services/openBadge.service";
-import { api } from "@/share/usecases/api";
+import { api } from "@/share/api";
 import { BadgeImportRequestParam } from "@/types/api/badge";
 import { ErrorResponse } from "@/types/api/error";
 

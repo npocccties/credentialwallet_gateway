@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { pagePath, sessionStorageKey } from "@/constants";
-import { useSubmissionEmailApi } from "@/share/usecases/submission/useSubmissionEmailApi";
+import { sendConfirmEmail } from "@/share/api/submission/sendConfirmEmail";
 import { SubmissionEntry } from "@/types/api/submission";
 
 type InputForm = {
@@ -45,7 +45,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
 
     const consumerId = typeof input.consumerId === "string" ? Number(input.consumerId) : input.consumerId;
 
-    const data = await useSubmissionEmailApi({ email: input.email, consumerId });
+    const data = await sendConfirmEmail({ email: input.email, consumerId });
     console.log("動作確認用", data.confirmCode);
 
     const selectConsumer = {

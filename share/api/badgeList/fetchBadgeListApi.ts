@@ -1,9 +1,9 @@
-import { api } from "../api";
+import { api } from "..";
 
 import { axiosClient } from "@/lib/axios";
 import { BadgeListReqestParam, BadgeListResponse } from "@/types/api/badge/index";
 
-export const useBadgeListApi = async (param: BadgeListReqestParam) => {
+export const fetchBadgeListApi = async (param: BadgeListReqestParam) => {
   const apiPath = api.v1.badge.list;
   const { username, lmsId, password } = param;
 

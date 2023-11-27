@@ -6,7 +6,7 @@ import { getCookieValue } from "@/lib/cookie";
 import { loggerError, loggerInfo } from "@/lib/logger";
 import prisma from "@/lib/prisma";
 import { getUserInfoFormJwt } from "@/lib/userInfo";
-import { api } from "@/share/usecases/api";
+import { api } from "@/share/api";
 import { UserBadgeList } from "@/types/api/user_badgelist";
 
 const apiPath = api.v1.user_badgelist;

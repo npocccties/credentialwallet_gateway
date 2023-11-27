@@ -5,7 +5,7 @@ import handler from "./index.api";
 
 import { getCredentialList } from "@/server/services/credentialList.service";
 import { getWalletId } from "@/server/services/wallet.service";
-import { api } from "@/share/usecases/api";
+import { api } from "@/share/api";
 import { loginJwt } from "@/test-server/mocks/api/login/cookie";
 import { mockBadgeVcList, mockSubmissionsAll } from "@/test-server/mocks/mockData";
 

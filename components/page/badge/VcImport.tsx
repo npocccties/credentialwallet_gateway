@@ -5,9 +5,9 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { Loading } from "@/components/Loading";
 import { ResponseState } from "@/components/ui/response/ResponseState";
 import { JSTdateToDisplay } from "@/lib/date";
+import { importBadgeConvertToVc } from "@/share/api/badgeImport/importBadgeConvertVc";
 import { badgeMetadataGetters } from "@/share/store/badgeMetaData/main";
 import { selectBadgeGetters } from "@/share/store/selectBadge/main";
-import { useBadgeImportApi } from "@/share/usecases/badgeImport/useBadgeImportApi";
 
 type ResponseStatus = "success" | "failed" | undefined;
 type Props = {
@@ -24,7 +24,7 @@ export const VcImport = ({ setIsBadgeSelect }: Props) => {
     setIsVcImport(true);
 
     try {
-      await useBadgeImportApi({ uniquehash, email, badgeMetaData, lmsId, lmsName });
+      await importBadgeConvertToVc({ uniquehash, email, badgeMetaData, lmsId, lmsName });
       setRequestState("success");
     } catch (e) {
       setRequestState("failed");

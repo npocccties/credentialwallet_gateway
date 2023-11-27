@@ -11,7 +11,7 @@ import { errors } from "@/constants/error";
 import { logStartForPageSSR, logStatus, logEndForPageSSR } from "@/constants/log";
 import { loggerInfo, loggerError } from "@/lib/logger";
 import { verifyOrthrosJwt } from "@/lib/verifyJwt";
-import { useLogoutApi } from "@/share/usecases/logout/useLogoutApi";
+import { postLogoutAction } from "@/share/api/logout/postLogout";
 
 const page = pagePath.login.error;
 
@@ -42,7 +42,7 @@ const index = () => {
   const loginPageUrl = process.env.NEXT_PUBLIC_LOGIN_PAGE_URL;
 
   const handleLogout = async () => {
-    await useLogoutApi();
+    await postLogoutAction();
     window.location.href = loginPageUrl;
   };
   return (

@@ -6,8 +6,8 @@ import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
 import { loggerDebug, loggerError, loggerInfo } from "@/lib/logger";
 import { myOpenBadge } from "@/server/services/lmsAccess.service";
-import { api } from "@/share/usecases/api";
-import { BadgeMetaDataApiResponse } from "@/share/usecases/badgeMetaData/useFetchBadgeMetaDataApi";
+import { api } from "@/share/api";
+import { BadgeMetaDataApiResponse } from "@/share/api/badgeMetaData/fetchBadgeMetaDataApi";
 import { ErrorResponse } from "@/types/api/error";
 
 const querySchema = z.object({

@@ -1,4 +1,4 @@
-import { api } from "../api";
+import { api } from "..";
 
 import { axiosClient } from "@/lib/axios";
 import { BadgeMetaDataReqestParam } from "@/types/api/badge";
@@ -8,7 +8,7 @@ export type BadgeMetaDataApiResponse = {
   data: BadgeMetaData;
 };
 
-export const useFetchBadgeMetaDataApi = async (params: BadgeMetaDataReqestParam) => {
+export const fetchBadgeMetaDataApi = async (params: BadgeMetaDataReqestParam) => {
   const apiPath = api.v1.badge.metadata;
   const { uniquehash, lmsUrl } = params;
 

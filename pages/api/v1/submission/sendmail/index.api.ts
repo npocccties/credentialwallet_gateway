@@ -8,7 +8,7 @@ import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
 import { createMailTemplate, sendMail } from "@/server/services/submission.service";
-import { api } from "@/share/usecases/api";
+import { api } from "@/share/api";
 import { ErrorResponse } from "@/types/api/error";
 import { SendMail } from "@/types/api/submission";
 
