@@ -10,7 +10,6 @@ import { sendCabinetForVc } from "@/server/services/submission.service";
 import { getWalletId } from "@/server/services/wallet.service";
 import { api } from "@/share/usecases/api";
 import { ErrorResponse } from "@/types/api/error";
-import { SubmissionVcRequestParam } from "@/types/api/submission";
 import { SubmissionResponseStatus } from "@/types/status";
 
 const apiPath = api.v1.submission.vc;
@@ -18,6 +17,8 @@ const apiPath = api.v1.submission.vc;
 const querySchema = z.object({
   consumerId: z.number(),
   badgeVcId: z.number(),
+  email: z.string().email(),
+  externalLinkageId: z.string(),
 });
 
 export default async function handler(
@@ -35,20 +36,20 @@ export default async function handler(
     return res.status(400).json({ error: { errorMessage: errors.response400.message } });
   }
 
-  const { consumerId, email, badgeVcId } = req.body as SubmissionVcRequestParam;
+  const { consumerId, email, badgeVcId, externalLinkageId } = result.data;
   const session_cookie = req.cookies.session_cookie;
   const { eppn } = getUserInfoFormJwt(session_cookie);
 
   try {
     const walletId = await getWalletId(eppn);
-    const resData = await sendCabinetForVc({ badgeVcId, consumerId, walletId, email });
+    const resData = await sendCabinetForVc({ badgeVcId, consumerId, walletId, email, externalLinkageId });
     loggerInfo(`${logStatus.success} ${apiPath}`, resData);
 
     return res.status(200).json({ result: resData });
   } catch (e) {
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
 
-    return res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+    return res.status(500).json({ error: { errorMessage: `api error ${apiPath}`, detail: e.message } });
   } finally {
     loggerInfo(logEndForApi(apiPath));
   }

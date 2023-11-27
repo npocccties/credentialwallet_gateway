@@ -15,6 +15,7 @@ export type SubmissionVcRequestParam = {
   consumerId: number;
   badgeVcId: number;
   email: string;
+  externalLinkageId: string;
 };
 export type SendMail = {
   hashConfirmCode: string;

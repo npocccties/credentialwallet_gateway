@@ -19,6 +19,7 @@ export const pagePath = {
 export const sessionStorageKey = {
   confirmCode: "confirmCode",
   submissionEmail: "submissionEmail",
+  externalLinkageId: "externalLinkageId",
   consumer: "consumer",
   badgeVc: "badgeVc",
 } as const;

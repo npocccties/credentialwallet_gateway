@@ -78,11 +78,13 @@ export const sendCabinetForVc = async ({
   consumerId,
   walletId,
   email,
+  externalLinkageId,
 }: {
   badgeVcId: number;
   consumerId: number;
   walletId: number;
   email: string;
+  externalLinkageId: string;
 }): Promise<SubmissionResponseStatus> => {
   const { consumer, badgeVc } = await findConsumerAndBadgeVc({ badgeVcId, consumerId });
 
@@ -99,6 +101,7 @@ export const sendCabinetForVc = async ({
     await axios.post<SubmissionResponse>(cabinetApiUrl, {
       user_email: email,
       badge_vc: vcJwt,
+      user_id: externalLinkageId,
     });
 
     await createSubmission({ badgeVcId, walletId, email, consumerId, consumerName: consumer.consumerName });

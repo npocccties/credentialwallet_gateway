@@ -25,6 +25,7 @@ export const Confirm = () => {
   const [responseState, setRequestState] = useState<ResponseStatus>(undefined);
 
   const submissionEmail = sessionStorage.getItem(sessionStorageKey.submissionEmail);
+  const externalLinkageId = sessionStorage.getItem(sessionStorageKey.externalLinkageId);
   const consumerJson = sessionStorage.getItem(sessionStorageKey.consumer);
   const badgeVcJson = sessionStorage.getItem(sessionStorageKey.badgeVc);
   const consumer = JSON.parse(consumerJson) as ConsumerData;
@@ -46,7 +47,7 @@ export const Confirm = () => {
 
     try {
       setIsSubmission(true);
-      const data = await useSubmissionVcApi({ consumerId, email: submissionEmail, badgeVcId });
+      const data = await useSubmissionVcApi({ consumerId, email: submissionEmail, badgeVcId, externalLinkageId });
 
       setRequestState(data.result);
     } catch (e) {
@@ -119,6 +120,16 @@ export const Confirm = () => {
             </Text>
             <Text fontSize="lg" my={6}>
               {submissionEmail}
+            </Text>
+            <Divider mb={2} />
+          </Box>
+
+          <Box w={"full"} textAlign={"left"}>
+            <Text color="gray" mb={4}>
+              外部連携ID
+            </Text>
+            <Text fontSize="lg" my={6}>
+              {externalLinkageId}
             </Text>
             <Divider mb={2} />
           </Box>

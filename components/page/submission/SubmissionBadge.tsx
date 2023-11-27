@@ -1,7 +1,7 @@
 import { CheckCircleIcon } from "@chakra-ui/icons";
-import { Box, VStack, FormLabel, Select, Input, Flex, Button, Text, Image } from "@chakra-ui/react";
+import { Box, VStack, FormLabel, Select, Input, Flex, Button, Text, Image, Checkbox } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { pagePath, sessionStorageKey } from "@/constants";
@@ -11,6 +11,9 @@ import { SubmissionEntry } from "@/types/api/submission";
 type InputForm = {
   consumerId: number;
   email: string;
+  sameIdForEmail: boolean;
+  externalLinkageId: string;
+  confirmLinkageId: string;
 };
 
 export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: SubmissionEntry) => {
@@ -21,6 +24,9 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
+    watch,
     reset,
     formState: { errors },
   } = useForm<InputForm>({
@@ -29,7 +35,14 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
     },
   });
 
+  const sameIdForEmail = watch("sameIdForEmail");
+
   const onSubmit = async (input: InputForm) => {
+    if (input.externalLinkageId !== input.confirmLinkageId) {
+      alert("外部連携IDが確認フォームの内容と一致しません。");
+      return;
+    }
+
     const consumerId = typeof input.consumerId === "string" ? Number(input.consumerId) : input.consumerId;
 
     const data = await useSubmissionEmailApi({ email: input.email, consumerId });
@@ -43,15 +56,27 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
       badgeVcId: badgeVcId,
       vcImage: vcImage,
     };
-    const { confirmCode, submissionEmail, consumer, badgeVc } = sessionStorageKey;
+    const { confirmCode, submissionEmail, externalLinkageId, consumer, badgeVc } = sessionStorageKey;
     sessionStorage.setItem(confirmCode, data.hashConfirmCode);
     sessionStorage.setItem(submissionEmail, input.email);
+    sessionStorage.setItem(externalLinkageId, input.externalLinkageId);
     sessionStorage.setItem(consumer, JSON.stringify(selectConsumer));
     sessionStorage.setItem(badgeVc, JSON.stringify(badgeVcData));
 
     reset();
     setIsSubmitting(true);
   };
+
+  useEffect(() => {
+    if (sameIdForEmail) {
+      const email = getValues("email");
+      setValue("externalLinkageId", email);
+      setValue("confirmLinkageId", email);
+    } else {
+      setValue("externalLinkageId", "");
+      setValue("confirmLinkageId", "");
+    }
+  }, [sameIdForEmail, getValues, setValue]);
 
   if (isSubmitting) {
     return (
@@ -81,13 +106,11 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
           <Image w={48} h={48} fit={"cover"} src={"data:image/png;base64," + vcImage} alt={"OpenBadgeImage"} />
         </Box>
         <Box textAlign={"left"}>
-          <Text fontSize={"md"}>提出先の自治体と、対象の自治体から発行された</Text>
-          <Text fontSize={"md"}>emailアドレスを入力してください。</Text>
           <Text fontSize={"md"} mt={1}>
-            入力されたemailアドレス宛に、
+            入力されたemailアドレス宛に確認コードを
           </Text>
           <Text fontSize={"md"} mt={1}>
-            確認コードを記載したメールが送信されます。
+            記載したメールが送信されます。
           </Text>
         </Box>
         <form style={{ width: "100%" }} onSubmit={handleSubmit(onSubmit)}>
@@ -105,7 +128,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
               </Select>
             </Box>
             <Box w={"full"}>
-              <FormLabel mb={2}>提出先登録email</FormLabel>
+              <FormLabel mb={2}>emailアドレス</FormLabel>
               <Input
                 placeholder="email@example.com"
                 type={"email"}
@@ -114,6 +137,33 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
               <Text size="xs" color={"red"} mt={2}>
                 {errors.email?.message}
               </Text>
+            </Box>
+            <Box as="section" w={"full"} border={"1px solid #ddd"} borderRadius={"md"} padding={6}>
+              <Box mb={6} textAlign={"left"}>
+                <Checkbox size={"lg"} colorScheme={"green"} {...register("sameIdForEmail")}>
+                  emailアドレスと同じ
+                </Checkbox>
+              </Box>
+              <Box w={"full"} mb={4}>
+                <FormLabel mb={2}>外部連携ID（マイレコID等）</FormLabel>
+                <Input
+                  type={"externalLinkageId"}
+                  {...register("externalLinkageId", { required: "外部連携IDを入力してください。" })}
+                />
+                <Text size="xs" color={"red"} mt={2}>
+                  {errors.externalLinkageId?.message}
+                </Text>
+              </Box>
+              <Box w={"full"}>
+                <FormLabel mb={2}>確認のため再度入力してください。</FormLabel>
+                <Input
+                  type={"confirmLinkageId"}
+                  {...register("confirmLinkageId", { required: "確認用フォームは入力必須です。" })}
+                />
+                <Text size="xs" color={"red"} mt={2}>
+                  {errors.confirmLinkageId?.message}
+                </Text>
+              </Box>
             </Box>
             <Box w={"full"}>
               <Flex justifyContent={"space-between"}>
