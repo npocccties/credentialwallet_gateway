@@ -1,6 +1,5 @@
 import { CheckIcon } from "@chakra-ui/icons";
-import { TableContainer, Table, Thead, Tr, Th, Tbody, Td, Link, Box } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+import { TableContainer, Table, Thead, Tr, Th, Tbody, Td, Link, Box, Text } from "@chakra-ui/react";
 import { memo } from "react";
 
 import { convertUNIXorISOstrToJST, JSTdateToDisplay } from "@/lib/date";
@@ -14,18 +13,23 @@ const MyBadgesList = memo(
     badgeList: IfBadgeInfo[];
     handleBadgeSelect: (uniquehash: string, email: string) => void;
   }) => {
-    const router = useRouter();
     return (
       <TableContainer>
         <Table variant="striped" colorScheme="green" sx={{ tableLayout: "fixed" }}>
           <Thead>
             <Tr bg="green.300">
-              <Th p={4} w={100}>
+              <Th p={2} w={70} textAlign={"center"}>
                 取得済
               </Th>
-              <Th minW="200">バッジ名</Th>
-              <Th minW="200">バッジ詳細</Th>
-              <Th w={120}>発行日</Th>
+              <Th minW="200" p={2}>
+                バッジ名
+              </Th>
+              <Th minW="200" p={2}>
+                バッジ詳細
+              </Th>
+              <Th w={120} p={4}>
+                発行日
+              </Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -33,10 +37,12 @@ const MyBadgesList = memo(
               const dateIssued = convertUNIXorISOstrToJST(badge.dateissued);
               return (
                 <Tr key={index} textAlign="left">
-                  <Td>{badge.vcConverted && <CheckIcon />}</Td>
-                  <Td sx={{ whiteSpace: "pre-wrap" }}>
+                  <Td p={2} textAlign={"center"}>
+                    {badge.vcConverted && <CheckIcon />}
+                  </Td>
+                  <Td sx={{ whiteSpace: "pre-wrap" }} p={2}>
                     {badge.vcConverted ? (
-                      <Box>{badge.name}</Box>
+                      <Text>{badge.name}</Text>
                     ) : (
                       <Link
                         color="teal.500"
@@ -48,8 +54,10 @@ const MyBadgesList = memo(
                       </Link>
                     )}
                   </Td>
-                  <Td sx={{ whiteSpace: "pre-wrap" }}>{badge.description}</Td>
-                  <Td>{JSTdateToDisplay(dateIssued)} </Td>
+                  <Td sx={{ whiteSpace: "pre-wrap" }} p={2}>
+                    <Text fontSize={"sm"}>{badge.description}</Text>
+                  </Td>
+                  <Td p={4}>{JSTdateToDisplay(dateIssued)}</Td>
                 </Tr>
               );
             })}
@@ -68,13 +76,14 @@ const MyBadgesListSp = memo(
     badgeList: IfBadgeInfo[];
     handleBadgeSelect: (uniquehash: string, email: string) => void;
   }) => {
-    const router = useRouter();
     return (
       <TableContainer>
         <Table variant="striped" colorScheme="green" sx={{ tableLayout: "fixed" }}>
           <Thead>
             <Tr bg="green.300">
-              <Th p={4}>取得済</Th>
+              <Th p={2} w={50} textAlign={"center"}>
+                取得済
+              </Th>
               <Th w={160}>バッジ名</Th>
               <Th w={120}>発行日</Th>
             </Tr>
@@ -84,7 +93,9 @@ const MyBadgesListSp = memo(
               const dateIssued = convertUNIXorISOstrToJST(badge.dateissued);
               return (
                 <Tr key={index} textAlign="left">
-                  <Td>{badge.vcConverted && <CheckIcon />}</Td>
+                  <Td p={2} textAlign={"center"}>
+                    {badge.vcConverted && <CheckIcon />}
+                  </Td>
                   <Td sx={{ whiteSpace: "pre-wrap" }}>
                     {badge.vcConverted ? (
                       <Box>{badge.name}</Box>
