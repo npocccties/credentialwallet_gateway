@@ -27,8 +27,9 @@ describe(api.v1.badge.metadata, () => {
     const mockReq = createRequest<ApiRequest>({
       body: {
         consumerId: 1,
-        email: "xxx@exaple.com",
+        email: "xxx@example.com",
         badgeVcId: 1,
+        externalLinkageId: "yyy@example.com",
       },
       cookies: {
         session_cookie: loginJwt,

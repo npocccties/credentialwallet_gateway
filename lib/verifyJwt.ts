@@ -13,9 +13,7 @@ export const verifyOrthrosJwt = async (session_cookie: string) => {
   try {
     const result = await jwtVerify(session_cookie, cryptKey, { algorithms: ["RS256"] });
 
-    loggerMWInfo("verifyResult------------start");
-    console.log(JSON.stringify(result));
-    loggerMWInfo("verifyResult------------end");
+    loggerMWInfo(`verifyResult------------${JSON.stringify(result)}`);
 
     return true;
   } catch (e) {

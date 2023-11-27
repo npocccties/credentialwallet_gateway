@@ -173,7 +173,6 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 |vcApp_client_secret|Azureクライアントシークレット|-|
 |vcApp_scope|AzureへVC発行要求するためのスコープ配列|-|
 |vc_manifest_url|Entra Verified Idで発行者として登録しているmanifest url|-|
-|session_password|[session作成時](https://github.com/vvo/iron-session#nextjs-usage)に使用するパスワード（32文字以上）|-|
 |private_key_jwk|Walletの鍵情報（秘密鍵、公開鍵のペア）|-|
 |orthros_login_key_base64|Orthrosから発行されるJWTの署名に対応した公開鍵のbase64エンコード形式|-|
 |smtp_mail_server_host|メール送信サーバーのhost|-|
