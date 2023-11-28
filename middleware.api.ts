@@ -21,6 +21,12 @@ export async function middleware(req: NextRequest) {
   }
 
   const session_cookie = req.cookies.get("session_cookie");
+
+  if (!session_cookie) {
+    loggerMWInfo(`no session_cookie! redirect to /w`);
+    return NextResponse.redirect(new URL(pagePath.getSession, req.url));
+  }
+
   const verify = await verifyOrthrosJwt(session_cookie);
 
   if (!verify) {

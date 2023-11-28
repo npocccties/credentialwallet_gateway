@@ -71,6 +71,7 @@ export const createVcDetailData = (
     badgeIssuerName: badgeVc.badgeIssuerName,
     badgeIssuedon: convertUTCtoJSTstr(badgeVc.badgeIssuedon),
     badgeExpires: convertUTCtoJSTstr(badgeVc.badgeExpires),
+    lmsName: badgeVc.lmsName,
     vcDataPayload: badgeVc.vcDataPayload,
     courseUrl: courseInfo[0].targetUrl,
     submissions: submissionsHistories,
