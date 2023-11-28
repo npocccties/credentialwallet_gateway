@@ -2,17 +2,13 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
-import { getCookieValue } from "@/lib/cookie";
 import { loggerError, loggerInfo } from "@/lib/logger";
 import prisma from "@/lib/prisma";
 import { getUserInfoFormJwt } from "@/lib/userInfo";
-import { api } from "@/share/usecases/api";
+import { api } from "@/share/api";
 import { UserBadgeList } from "@/types/api/user_badgelist";
 
 const apiPath = api.v1.user_badgelist;
-
-
-
 
 //対象ユーザのの保持バッジリストを返す
 
@@ -20,10 +16,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   loggerInfo(logStartForApi(apiPath));
 
   try {
-    const session_cookie = ((req.cookies == null) ? null : req.cookies.session_cookie);
+    const session_cookie = req.cookies == null ? null : req.cookies.session_cookie;
     loggerInfo("-----session_cookie-----", session_cookie);
 
-    const { eppn } = ((session_cookie == null) ? {eppn: null} : getUserInfoFormJwt(session_cookie));
+    const { eppn } = session_cookie == null ? { eppn: null } : getUserInfoFormJwt(session_cookie);
     loggerInfo("-----eppn-----", eppn);
 
     //eppnが取得できない場合
@@ -63,12 +59,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     //バッジ情報取得結果を返す(正常)
     loggerInfo(`${logStatus.success} ${apiPath}`, findBadgeList);
     return res.status(200).json(findBadgeList);
-
   } catch (e) {
     //例外発生時 ログ出力・サーバーエラー応答
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
     return res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
-
   } finally {
     loggerInfo(logEndForApi(apiPath));
   }
