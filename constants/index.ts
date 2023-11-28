@@ -14,6 +14,7 @@ export const pagePath = {
   login: {
     error: "/login/error",
   },
+  getSession: "/w",
 } as const;
 
 export const sessionStorageKey = {

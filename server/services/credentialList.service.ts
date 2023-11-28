@@ -19,6 +19,7 @@ export const getCredentialList = async ({ searchState, walletId }: CredentialsRe
       badgeIssuerName: badgeVc.badgeIssuerName,
       badgeIssuedon: convertUTCtoJSTstr(badgeVc.badgeIssuedon),
       badgeExpires: convertUTCtoJSTstr(badgeVc.badgeExpires),
+      lmsName: badgeVc.lmsName,
       vcDataPayload: badgeVc.vcDataPayload,
       submissions: [],
     };

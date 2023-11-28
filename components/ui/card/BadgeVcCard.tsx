@@ -27,6 +27,7 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
         <Image fit={"cover"} src={"data:image/png;base64," + image} alt={"test"} />
       </GridItem>
       <GridItem px="2" py="1" alignItems="center" margin={"0"} colSpan={2}>
+        <Text fontSize={"sm"}>{badgeVc.lmsName}</Text>
         <Text fontSize={{ sm: "xl", base: "md" }} fontWeight={"bold"}>
           {badgeVc.badgeName}
         </Text>

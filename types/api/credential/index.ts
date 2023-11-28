@@ -17,6 +17,7 @@ export type DisplayBadgeVc = {
   badgeIssuerName: string;
   badgeIssuedon: string;
   badgeExpires: string;
+  lmsName: string;
   vcDataPayload: string;
   submissions: BadgeVcSubmissions;
 };
