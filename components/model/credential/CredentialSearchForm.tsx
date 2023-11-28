@@ -83,11 +83,11 @@ export const SearchForm = () => {
                       <Input id="badgeName" {...register("badgeName")} maxW={"100%"} />
                     </GridItem>
                     <GridItem>
-                      <FormLabel htmlFor="issuedFrom">発行日To</FormLabel>
+                      <FormLabel htmlFor="issuedFrom">発行日From</FormLabel>
                       <Input id="issuedFrom" type="date" {...register("issuedFrom")} />
                     </GridItem>
                     <GridItem>
-                      <FormLabel htmlFor="issuedTo">発行日End</FormLabel>
+                      <FormLabel htmlFor="issuedTo">発行日To</FormLabel>
                       <Input id="issuedTo" type="date" {...register("issuedTo")} />
                     </GridItem>
                     <GridItem></GridItem>

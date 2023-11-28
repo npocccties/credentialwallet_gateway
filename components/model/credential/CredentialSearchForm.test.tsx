@@ -12,8 +12,8 @@ describe("<SearchForm /> unit test", () => {
   test("SearchFormコンポーネントが正常にレンダリングされる", () => {
     render(<SearchForm />);
     expect(screen.getByLabelText("バッジ名")).toBeInTheDocument();
+    expect(screen.getByLabelText("発行日From")).toBeInTheDocument();
     expect(screen.getByLabelText("発行日To")).toBeInTheDocument();
-    expect(screen.getByLabelText("発行日End")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "検索" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "発行日（新しい順）" })).toBeInTheDocument();
   });
