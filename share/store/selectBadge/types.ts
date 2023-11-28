@@ -10,7 +10,8 @@ export type SelectBadgeGetters = {
 };
 
 export type SelectBadgeActions = {
-  useSetSelectBadge: () => {
+  useSelectBadge: () => {
     setSelectBadge: (params: SelectBadgeState) => void;
+    clearSelectBadge: () => void;
   };
 };

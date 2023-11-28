@@ -35,7 +35,7 @@ export const BadgeList = ({
   const { fetchBadgeList } = badgeListActions.useFetchBadgeList();
   const { clearBadgeList } = badgeListActions.useClearBadgeList();
   const { fetchBadgeMetaData } = badgeMetaDataActions.useFetchBadgeMetaData();
-  const { setSelectBadge } = selectBadgeActions.useSetSelectBadge();
+  const { setSelectBadge } = selectBadgeActions.useSelectBadge();
 
   const [selectLmsId, setSelectLmsId] = useState(selectBadge.lmsId.toString());
   const [isNeedMoodleLogin, setIsNeedMoodleLogin] = useState(false);

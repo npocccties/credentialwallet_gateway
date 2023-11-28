@@ -57,13 +57,9 @@ export const Confirm = () => {
 
   async function generateHash(confirmCode: string) {
     const encoder = new TextEncoder();
-    // 文字列をUint8Arrayにエンコード
     const encodedCode = encoder.encode(confirmCode.toString());
-
-    // SHA-256ハッシュを生成
     const hashBuffer = await crypto.subtle.digest("SHA-256", encodedCode);
 
-    // ハッシュを16進数の文字列に変換
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     const hashHex = hashArray.map((byte) => byte.toString(16).padStart(2, "0")).join("");
 
@@ -181,6 +177,8 @@ export const Confirm = () => {
 };
 
 const SubmissionCode = ({ handeleSubmission }: { handeleSubmission: (codeInput: string) => void }) => {
+  const router = useRouter();
+  const { badge_vc_id } = router.query;
   const [codeInput, setCodeInput] = useState("");
   return (
     <>
@@ -189,8 +187,15 @@ const SubmissionCode = ({ handeleSubmission }: { handeleSubmission: (codeInput: 
         <Input type={"text"} onChange={(e) => setCodeInput(e.target.value)} />
       </Box>
       <Box w={"full"}>
-        <Flex justifyContent={"flex-end"}>
-          <Button colorScheme={"blue"} w={160} onClick={() => handeleSubmission(codeInput)}>
+        <Flex justifyContent={"space-between"}>
+          <Button
+            colorScheme={"gray"}
+            w={140}
+            onClick={() => router.push(`${pagePath.credential.detail}/${badge_vc_id}`)}
+          >
+            キャンセル
+          </Button>
+          <Button colorScheme={"blue"} w={140} onClick={() => handeleSubmission(codeInput)}>
             バッジを提出
           </Button>
         </Flex>

@@ -17,7 +17,7 @@ export const VcList = () => {
           <Grid gap={4} key={idx}>
             <Box
               cursor={"pointer"}
-              _hover={{ opacity: 0.9, transition: "0.2s" }}
+              _hover={{ transform: "translateY(-8px)", transition: "0.6s" }}
               onClick={() => {
                 router.push(`${pagePath.credential.detail}/${badgeVc.badgeVcId}`);
               }}

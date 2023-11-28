@@ -5,14 +5,16 @@ import { SelectBadgeState, SelectBadgeGetters, SelectBadgeActions } from "./type
 
 import { RECOIL_ATOMS_KEYS } from "@/share/store/keys";
 
+const defaultState = {
+  email: "",
+  uniquehash: "",
+  lmsId: 0,
+  lmsName: "",
+};
+
 const selectBadgeState = atom<SelectBadgeState>({
   key: RECOIL_ATOMS_KEYS.SELECT_BADGE_STATE,
-  default: {
-    email: "",
-    uniquehash: "",
-    lmsId: 0,
-    lmsName: "",
-  },
+  default: defaultState,
 });
 
 const useSelectBadgeData = () => {
@@ -23,12 +25,12 @@ export const selectBadgeGetters: SelectBadgeGetters = {
   useSelectBadgeData,
 };
 
-const useSetSelectBadge = () => {
+const useSelectBadge = () => {
   const setState = useSetRecoilState(selectBadgeState);
 
   const setSelectBadge = useCallback(
     (params: SelectBadgeState) => {
-      const { email, uniquehash, lmsId: lmsId, lmsName } = params;
+      const { email, uniquehash, lmsId, lmsName } = params;
       setState(() => {
         return {
           email: email,
@@ -41,9 +43,15 @@ const useSetSelectBadge = () => {
     [setState],
   );
 
-  return { setSelectBadge };
+  const clearSelectBadge = useCallback(() => {
+    setState(() => {
+      return defaultState;
+    });
+  }, [setState]);
+
+  return { setSelectBadge, clearSelectBadge };
 };
 
 export const selectBadgeActions: SelectBadgeActions = {
-  useSetSelectBadge,
+  useSelectBadge,
 };

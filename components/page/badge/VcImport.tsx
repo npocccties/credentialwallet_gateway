@@ -1,13 +1,13 @@
 import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 import { Box, Flex, Button, Text, Image, VStack, Divider, Stack } from "@chakra-ui/react";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { Loading } from "@/components/Loading";
 import { ResponseState } from "@/components/ui/response/ResponseState";
 import { JSTdateToDisplay } from "@/lib/date";
 import { importBadgeConvertToVc } from "@/share/api/badgeImport/importBadgeConvertVc";
 import { badgeMetadataGetters } from "@/share/store/badgeMetaData/main";
-import { selectBadgeGetters } from "@/share/store/selectBadge/main";
+import { selectBadgeActions, selectBadgeGetters } from "@/share/store/selectBadge/main";
 
 type ResponseStatus = "success" | "failed" | undefined;
 type Props = {
@@ -19,6 +19,7 @@ export const VcImport = ({ setIsBadgeSelect }: Props) => {
   const [responseState, setRequestState] = useState<ResponseStatus>(undefined);
   const badgeMetaData = badgeMetadataGetters.useBadgeMetaData();
   const { email, uniquehash, lmsId, lmsName } = selectBadgeGetters.useSelectBadgeData();
+  const { clearSelectBadge } = selectBadgeActions.useSelectBadge();
 
   const handleClickImport = async () => {
     setIsVcImport(true);
@@ -28,8 +29,14 @@ export const VcImport = ({ setIsBadgeSelect }: Props) => {
       setRequestState("success");
     } catch (e) {
       setRequestState("failed");
+    } finally {
+      clearSelectBadge();
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!isVcImport) {
     return (
@@ -52,7 +59,14 @@ export const VcImport = ({ setIsBadgeSelect }: Props) => {
             </Stack>
             <Box w={"full"} mt={8}>
               <Flex justifyContent={"space-between"}>
-                <Button colorScheme={"gray"} w={160} onClick={() => setIsBadgeSelect(false)}>
+                <Button
+                  colorScheme={"gray"}
+                  w={160}
+                  onClick={() => {
+                    setIsBadgeSelect(false);
+                    clearSelectBadge();
+                  }}
+                >
                   キャンセル
                 </Button>
                 <Button colorScheme={"blue"} w={160} onClick={() => handleClickImport()}>
@@ -77,14 +91,14 @@ export const VcImport = ({ setIsBadgeSelect }: Props) => {
           <ResponseState
             icon={<CheckCircleIcon w={8} h={8} color="green.500" />}
             status="success!"
-            message="バッジの取り込みが完了しました！"
+            message="バッジのインポートが完了しました！"
           />
         )}
         {responseState === "failed" && (
           <ResponseState
             icon={<WarningIcon w={8} h={8} color="red.500" />}
             status="failed!"
-            message="バッジの取り込みに失敗しました"
+            message="バッジのインポートに失敗しました"
           />
         )}
       </VStack>
