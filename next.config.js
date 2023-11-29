@@ -8,12 +8,12 @@ const nextConfig = {
   pageExtensions: ["page.tsx", "api.ts"],
   // output: isProduction ? "wallet" : "",
   // assetPrefix: isProduction ? "/wallet" : "",
-  
+
   // CORS対策
   async headers() {
     return [
       {
-        "source": "/(.*)",
+        "source": "/api/:path*",
         "headers": [
           { "key": "Access-Control-Allow-Credentials", "value": "true" },
           { "key": "Access-Control-Allow-Origin", "value": "*" },
