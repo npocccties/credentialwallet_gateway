@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetServerSidePropsResult } from "next";
 import React, { useState } from "react";
 
 import { Layout } from "@/components/Layout";
@@ -11,7 +11,9 @@ import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
 import { LmsList } from "@/lib/prisma";
+import { getUserInfoFormJwt } from "@/lib/userInfo";
 import { findAllLmsList } from "@/server/repository/lmsList";
+import { getWalletId } from "@/server/services/wallet.service";
 
 type Props = {
   lmsList: LmsList[];
@@ -19,9 +21,19 @@ type Props = {
 
 const page = pagePath.badge.import;
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req }): Promise<GetServerSidePropsResult<Props>> => {
   loggerInfo(logStartForPageSSR(page));
+
+  const session_cookie = req.cookies.session_cookie;
+  const { eppn } = getUserInfoFormJwt(session_cookie);
+
   try {
+    const walletId = getWalletId(eppn);
+
+    if (!walletId) {
+      return { redirect: { destination: pagePath.entry, statusCode: 302 } };
+    }
+
     const lmsList = await findAllLmsList();
 
     loggerInfo(`${logStatus.success} ${page}`);
