@@ -57,7 +57,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     //バッジ情報取得結果を返す(正常)
     loggerInfo(`${logStatus.success} ${apiPath}`, findBadgeList);
+    
+    res.setHeader('Access-Control-Allow-Credentials', 'true')
     res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET')
+    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version')
+
     return res.status(200).json(findBadgeList);
   } catch (e) {
     //例外発生時 ログ出力・サーバーエラー応答
