@@ -57,11 +57,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     //バッジ情報取得結果を返す(正常)
     loggerInfo(`${logStatus.success} ${apiPath}`, findBadgeList);
+    res.setHeader('Access-Control-Allow-Origin', '*')
     return res.status(200).json(findBadgeList);
   } catch (e) {
     //例外発生時 ログ出力・サーバーエラー応答
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
-    res.setHeader('Access-Control-Allow-Origin', '*')
     return res.status(500).json({ error: { errorMessage: e.message, detail: e } });
   } finally {
     loggerInfo(logEndForApi(apiPath));
