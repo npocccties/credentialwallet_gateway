@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
 import prisma from "@/lib/prisma";
@@ -62,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   } catch (e) {
     //例外発生時 ログ出力・サーバーエラー応答
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
-    return res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+    return res.status(500).json({ error: { errorMessage: e.message, detail: e } });
   } finally {
     res.setHeader('Access-Control-Allow-Origin', '*')
     loggerInfo(logEndForApi(apiPath));

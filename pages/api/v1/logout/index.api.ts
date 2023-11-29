@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { errors } from "@/constants/error";
 import { logStartForApi, logStatus, logEndForApi } from "@/constants/log";
 import { loggerInfo, loggerError } from "@/lib/logger";
 import { api } from "@/share/api";
@@ -27,7 +26,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<void | ErrorRes
   } catch (e) {
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
 
-    return res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
+    return res.status(500).json({ error: { errorMessage: e.message, detail: e } });
   } finally {
     loggerInfo(logEndForApi(apiPath));
   }
