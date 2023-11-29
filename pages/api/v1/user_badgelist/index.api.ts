@@ -61,9 +61,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   } catch (e) {
     //例外発生時 ログ出力・サーバーエラー応答
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
+    res.setHeader('Access-Control-Allow-Origin', '*')
     return res.status(500).json({ error: { errorMessage: e.message, detail: e } });
   } finally {
-    res.setHeader('Access-Control-Allow-Origin', '*')
     loggerInfo(logEndForApi(apiPath));
   }
 }
