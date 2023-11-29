@@ -64,6 +64,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
     return res.status(500).json({ error: { errorMessage: errors.response500.message, detail: e } });
   } finally {
+    res.setHeader('Access-Control-Allow-Origin', '*')
     loggerInfo(logEndForApi(apiPath));
   }
 }
