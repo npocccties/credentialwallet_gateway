@@ -8,6 +8,7 @@ import { api } from "@/share/api";
 import { UserBadgeList } from "@/types/api/user_badgelist";
 
 const apiPath = api.v1.user_badgelist;
+const ePortfolioUrl = process.env.NEXT_PUBLIC_E_PORTFOLIO_URL
 
 //対象ユーザのの保持バッジリストを返す
 
@@ -59,7 +60,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     loggerInfo(`${logStatus.success} ${apiPath}`, findBadgeList);
     
     res.setHeader('Access-Control-Allow-Credentials', 'true')
-    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Origin', ePortfolioUrl)
     res.setHeader('Access-Control-Allow-Methods', 'GET')
     res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version')
 
