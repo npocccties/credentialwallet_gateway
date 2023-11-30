@@ -179,7 +179,7 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 |smtp_mail_server_port|メール送信サーバーのpost|-|
 |NEXT_PUBLIC_COPYRIGHT|フッターに表示するcopyright|-|
 |NEXT_PUBLIC_COPYRIGHT_LINK|フッターに表示するcopyrightのリンク|-|
-|NEXT_PUBLIC_E_PORTFOLIO_URL|e-ポートフォリオシステムへのリンク|-|
+|NEXT_PUBLIC_E_PORTFOLIO_URL|e-ポートフォリオシステムへのリンク<br>末尾にはスラッシュは付与しないこと|-|
 |NEXT_PUBLIC_LOGIN_PAGE_URL|ログインページのURL|-|
 
 ### 鍵の作成
