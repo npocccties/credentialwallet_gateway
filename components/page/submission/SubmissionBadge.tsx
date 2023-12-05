@@ -133,7 +133,10 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
               <Input
                 placeholder="email@example.com"
                 type={"email"}
-                {...register("email", { required: "メールアドレスを入力してください" })}
+                maxLength={256}
+                {...register("email", {
+                  required: "メールアドレスを入力してください",
+                })}
               />
               <Text size="xs" color={"red"} mt={2}>
                 {errors.email?.message}
@@ -152,6 +155,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
                   {...register("externalLinkageId", {
                     required: "外部連携IDを入力してください。",
                     validate: formValidateForbiddenCharacters,
+                    maxLength: { value: 256, message: "256文字以内で入力してください。" },
                   })}
                 />
                 <Text size="xs" color={"red"} mt={2}>
@@ -165,6 +169,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
                   {...register("confirmLinkageId", {
                     required: "確認用フォームは入力必須です。",
                     validate: formValidateForbiddenCharacters,
+                    maxLength: { value: 256, message: "256文字以内で入力してください。" },
                   })}
                 />
                 <Text size="xs" color={"red"} mt={2}>

@@ -25,7 +25,13 @@ export const MoodleLoginForm = ({
       <FormControl>
         <Box mt={12}>
           <FormLabel htmlFor="username">ユーザー名</FormLabel>
-          <Input id="username" placeholder="UserName" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <Input
+            id="username"
+            placeholder="UserName"
+            maxLength={256}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </Box>
         <Box mt={8}>
           <FormLabel htmlFor="password">パスワード</FormLabel>
@@ -33,6 +39,7 @@ export const MoodleLoginForm = ({
             id="password"
             placeholder="password"
             type="password"
+            maxLength={256}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

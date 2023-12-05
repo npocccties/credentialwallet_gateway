@@ -183,7 +183,7 @@ const SubmissionCode = ({ handeleSubmission }: { handeleSubmission: (codeInput: 
     <>
       <Box w={"full"}>
         <FormLabel mb={2}>確認コードを入力</FormLabel>
-        <Input type={"text"} onChange={(e) => setCodeInput(e.target.value)} />
+        <Input type={"text"} maxLength={10} onChange={(e) => setCodeInput(e.target.value)} />
       </Box>
       <Box w={"full"}>
         <Flex justifyContent={"space-between"}>
