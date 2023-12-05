@@ -106,14 +106,14 @@ export const sendCabinetForVc = async ({
     await createSubmission({ badgeVcId, walletId, email, consumerId, consumerName: consumer.consumerName });
     return "success";
   } catch (e) {
-    const { badEmailAddress, badReqestOther, verifyBadgeNG, verifyVcNG } = submissionResult;
+    const { badUserId, badReqestOther, verifyBadgeNG, verifyVcNG } = submissionResult;
     const { status, data } = e.response;
 
     if (status === 400) {
       loggerError(`${logStatus.error} submission badge error!`, data.reason_code);
       switch (data.reason_code) {
-        case badEmailAddress:
-          return "invalid adress";
+        case badUserId:
+          return "invalid userId";
         case verifyBadgeNG:
         case verifyVcNG:
           return "verification failure";

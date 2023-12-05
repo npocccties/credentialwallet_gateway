@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { pagePath, sessionStorageKey } from "@/constants";
+import { formValidateForbiddenCharacters } from "@/lib/validation";
 import { sendConfirmEmail } from "@/share/api/submission/sendConfirmEmail";
 import { SubmissionEntry } from "@/types/api/submission";
 
@@ -148,7 +149,10 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
                 <FormLabel mb={2}>外部連携ID（マイレコID等）</FormLabel>
                 <Input
                   type={"externalLinkageId"}
-                  {...register("externalLinkageId", { required: "外部連携IDを入力してください。" })}
+                  {...register("externalLinkageId", {
+                    required: "外部連携IDを入力してください。",
+                    validate: formValidateForbiddenCharacters,
+                  })}
                 />
                 <Text size="xs" color={"red"} mt={2}>
                   {errors.externalLinkageId?.message}
@@ -158,7 +162,10 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
                 <FormLabel mb={2}>確認のため再度入力してください。</FormLabel>
                 <Input
                   type={"confirmLinkageId"}
-                  {...register("confirmLinkageId", { required: "確認用フォームは入力必須です。" })}
+                  {...register("confirmLinkageId", {
+                    required: "確認用フォームは入力必須です。",
+                    validate: formValidateForbiddenCharacters,
+                  })}
                 />
                 <Text size="xs" color={"red"} mt={2}>
                   {errors.confirmLinkageId?.message}

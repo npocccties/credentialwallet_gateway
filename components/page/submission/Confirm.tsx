@@ -7,8 +7,7 @@ import { Loading } from "@/components/Loading";
 import { ResponseState } from "@/components/ui/response/ResponseState";
 import { pagePath, sessionStorageKey } from "@/constants";
 import { postSubmissionVc } from "@/share/api/submission/postSubmissionVc";
-
-type ResponseStatus = "success" | "invalid adress" | "verification failure" | "other errors" | undefined;
+import { SubmissionResponseStatus } from "@/types/status";
 
 type ConsumerData = {
   consumerId: number;
@@ -22,7 +21,7 @@ type BadgeVcData = {
 export const Confirm = () => {
   const router = useRouter();
   const [isSubmission, setIsSubmission] = useState(false);
-  const [responseState, setRequestState] = useState<ResponseStatus>(undefined);
+  const [responseState, setRequestState] = useState<SubmissionResponseStatus>(undefined);
 
   const submissionEmail = sessionStorage.getItem(sessionStorageKey.submissionEmail);
   const externalLinkageId = sessionStorage.getItem(sessionStorageKey.externalLinkageId);
@@ -150,11 +149,11 @@ export const Confirm = () => {
             message="バッジの提出が完了しました！"
           />
         )}
-        {responseState === "invalid adress" && (
+        {responseState === "invalid userId" && (
           <ResponseState
             icon={<WarningIcon w={8} h={8} color="red.500" />}
-            status="invalid adress!"
-            message="登録されていないemailアドレスです"
+            status="invalid userId!"
+            message="登録されていないIDです"
           />
         )}
         {responseState === "verification failure" && (

@@ -6,7 +6,7 @@ export type PresentationStatus = null | "request_retrieved" | "presentation_veri
 
 export type SubmissionResponseStatus =
   | "success"
-  | "invalid adress"
+  | "invalid userId"
   | "verification failure"
   | "other errors"
   | undefined;

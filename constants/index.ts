@@ -28,7 +28,7 @@ export const sessionStorageKey = {
 export const submissionResult = {
   success: 0,
   badReqestOther: 100,
-  badEmailAddress: 101,
+  badUserId: 101,
   verifyBadgeNG: 102,
   verifyVcNG: 103,
   serverError: 200,
