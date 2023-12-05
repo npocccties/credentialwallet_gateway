@@ -7,22 +7,17 @@ import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
 import { convertJSTstrToUTCdate, convertJSTstrToUTCdateAddOneDay } from "@/lib/date";
 import { loggerError, loggerInfo } from "@/lib/logger";
 import { getUserInfoFormJwt } from "@/lib/userInfo";
+import { dateSchema } from "@/lib/validation";
 import { getCredentialList } from "@/server/services/credentialList.service";
 import { getWalletId } from "@/server/services/wallet.service";
 import { api } from "@/share/api";
 import { CredentialList, SearchFormItem } from "@/types/api/credential";
 import { ErrorResponse } from "@/types/api/error";
 
-const isValidDate = (value: string): boolean => {
-  if (value === "") return true;
-  const timestamp = Date.parse(value);
-  return !isNaN(timestamp);
-};
-
 const querySchema = z.object({
   badgeName: z.string().optional(),
-  issuedFrom: z.union([z.string().refine(isValidDate), z.date()]).optional(),
-  issuedTo: z.union([z.string().refine(isValidDate), z.date()]).optional(),
+  issuedFrom: dateSchema.optional(),
+  issuedTo: dateSchema.optional(),
   sortOrder: z.string(),
 });
 
@@ -31,14 +26,12 @@ const apiPath = api.v1.credential.list;
 async function handler(req: NextApiRequest, res: NextApiResponse<CredentialList | ErrorResponse>) {
   loggerInfo(`${logStartForApi(apiPath)}`);
   loggerInfo("request query", req.query);
-  // const perPage = 10;
-  // const skip = perPage * (req.body.page - 1);
 
   const result = querySchema.safeParse(req.query);
   if (!result.success) {
     loggerError(`${logStatus.error} bad request!`, req.query);
 
-    return res.status(400).json({ error: { errorMessage: errors.response400.message } });
+    return res.status(400).json({ error: { errorMessage: errors.response400.detail.param } });
   }
 
   const { badgeName, issuedFrom, issuedTo, sortOrder } = result.data;

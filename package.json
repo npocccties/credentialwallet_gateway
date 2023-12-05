@@ -23,6 +23,7 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@heroicons/react": "^1.0.4",
+    "@hookform/resolvers": "^3.3.2",
     "axios": "^0.25.0",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",

@@ -12,10 +12,14 @@ import {
   AccordionPanel,
   Flex,
   FormLabel,
+  Text,
 } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
+import { dateSchema } from "@/lib/validation";
 import { credentialListActions } from "@/share/store/credentialList/main";
 import { SearchFormItem } from "@/types/api/credential/index";
 
@@ -34,11 +38,16 @@ export const SearchForm = () => {
   const [sortState, setSortState] = useState(sortButtonText.desc);
   const { searchCredentialList } = credentialListActions.useSearchCredentialList();
   const { sortOrderCredentialList } = credentialListActions.useSortOrderCredentialList();
+  const formSchema = z.object({
+    badgeName: z.string(),
+    issuedFrom: dateSchema,
+    issuedTo: dateSchema,
+  });
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<SearchFormItem>();
+    formState: { isSubmitting, errors },
+  } = useForm<SearchFormItem>({ resolver: zodResolver(formSchema) });
 
   const onSubmit = async (values: SearchFormItem) => {
     const param: SearchFormItem = {
@@ -80,15 +89,30 @@ export const SearchForm = () => {
                       <FormLabel htmlFor="badgeName" mt={4}>
                         バッジ名
                       </FormLabel>
-                      <Input id="badgeName" {...register("badgeName")} maxW={"100%"} />
+                      <Input
+                        id="badgeName"
+                        {...register("badgeName", {
+                          maxLength: { value: 256, message: "256文字以内で入力してください。" },
+                        })}
+                        maxW={"100%"}
+                      />
+                      <Text size="xs" color={"red"} mt={2}>
+                        {errors.badgeName?.message}
+                      </Text>
                     </GridItem>
                     <GridItem>
                       <FormLabel htmlFor="issuedFrom">発行日From</FormLabel>
                       <Input id="issuedFrom" type="date" {...register("issuedFrom")} />
+                      <Text size="xs" color={"red"} mt={2}>
+                        {errors.issuedFrom?.message}
+                      </Text>
                     </GridItem>
                     <GridItem>
                       <FormLabel htmlFor="issuedTo">発行日To</FormLabel>
                       <Input id="issuedTo" type="date" {...register("issuedTo")} />
+                      <Text size="xs" color={"red"} mt={2}>
+                        {errors.issuedTo?.message}
+                      </Text>
                     </GridItem>
                     <GridItem></GridItem>
                     <GridItem>
