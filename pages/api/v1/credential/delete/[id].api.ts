@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     loggerInfo(`${logStatus.success} ${apiPath}`);
 
-    return res.status(204);
+    return res.status(204).end();
   } catch (e) {
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
 
