@@ -62,7 +62,7 @@ const CredentialSubjectItem: React.FC<CredentialSubjectItemProps> = ({ name, dat
           </Link>
         </Text>
       ) : data ? (
-        <Text fontSize="lg" my={8} color={isDanger && "red"}>
+        <Text fontSize="lg" my={8}>
           {data}
         </Text>
       ) : (
