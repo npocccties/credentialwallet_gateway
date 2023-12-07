@@ -1,8 +1,9 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { Box, Flex, Link, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
+import { Box, Flex, Link, Menu, MenuButton, MenuGroup, MenuItem, MenuList, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { memo, useEffect, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
+import { RiLogoutBoxFill } from "react-icons/ri";
 
 import { getCookieValue } from "@/lib/cookie";
 import { getUserInfoFormJwt } from "@/lib/userInfo";
@@ -11,6 +12,8 @@ type Props = {
   onOpen: () => void;
   showContents: boolean;
 };
+
+const logoutLink = process.env.NEXT_PUBLIC_LOGOUT_LINK as string;
 
 export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) => {
   const [name, setName] = useState("");
@@ -56,17 +59,32 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
         <Box>
           {showContents && (
             <>
-              <Flex gap={"16px"} alignItems={"center"} color={"basic.white"} display={{ base: "none", sm: "flex" }}>
+              <Flex gap={"8px"} alignItems={"center"} color={"basic.white"} display={{ base: "none", sm: "flex" }}>
                 <FaUserAlt />
-                <Text fontSize={"xl"}>{name}</Text>
+                <Text fontSize={"xl"} mr={2}>
+                  {name}
+                </Text>
+                <RiLogoutBoxFill size="24" />
+                <Link fontSize={"xl"} href={logoutLink} style={{ textDecoration: "none" }}>
+                  <Text>ログアウト</Text>
+                </Link>
               </Flex>
               <Flex gap={"16px"} alignItems={"center"} color={"basic.white"} display={{ base: "flex", sm: "none" }}>
                 <Menu>
                   <MenuButton cursor={"pointer"} minW={0} transition="all 1s">
                     <FaUserAlt />
                   </MenuButton>
-                  <MenuList>
-                    <MenuItem>{name}</MenuItem>
+                  <MenuList color={"basic.black"}>
+                    <MenuGroup title="name">
+                      <MenuItem>
+                        <Text>{name}</Text>
+                      </MenuItem>
+                    </MenuGroup>
+                    <MenuItem mt={2} borderTop={"1px solid"} borderColor={"gray.200"}>
+                      <Link href={logoutLink} style={{ textDecoration: "none" }}>
+                        <Text>ログアウト</Text>
+                      </Link>
+                    </MenuItem>
                   </MenuList>
                 </Menu>
               </Flex>
