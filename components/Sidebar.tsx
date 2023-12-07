@@ -25,7 +25,13 @@ export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton onClick={onClose} />
       </Flex>
       {sidebarItems.map((item) => (
-        <NavItem key={item.name} name={item.name} link={item.link} external={item.external} />
+        <NavItem
+          key={item.name}
+          name={item.name}
+          link={item.link}
+          external={item.external}
+          newWindow={item.newWindow}
+        />
       ))}
     </Box>
   );
@@ -35,16 +41,17 @@ interface NavItemProps extends FlexProps {
   name: string;
   link?: string;
   external?: boolean;
+  newWindow?: boolean;
 }
 
-const NavItem = ({ name, link, external, ...rest }: NavItemProps) => {
+const NavItem = ({ name, link, external, newWindow, ...rest }: NavItemProps) => {
   if (external) {
     return (
       <Link
         href={link ? link : "#"}
         style={{ textDecoration: "none" }}
         _focus={{ boxShadow: "none" }}
-        isExternal={external}
+        isExternal={newWindow}
       >
         <Flex
           align="center"
