@@ -99,9 +99,7 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
           <Flex ml={{ base: 1, sm: 4 }} direction={"column"}>
             {badgeVc.submissions.length === 0 ? (
               <Box w={"100%"} mb={1} borderBottom={"1px"} borderColor={"gray.200"}>
-                <Text color={"red"} fontSize={"xs"}>
-                  未提出
-                </Text>
+                <Text fontSize={"xs"}>未提出</Text>
               </Box>
             ) : (
               badgeVc.submissions.map((item, index) => {

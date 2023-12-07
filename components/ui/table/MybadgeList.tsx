@@ -15,9 +15,9 @@ const MyBadgesList = memo(
   }) => {
     return (
       <TableContainer>
-        <Table sx={{ tableLayout: "fixed" }}>
+        <Table sx={{ tableLayout: "fixed", borderCollapse: "separate", borderSpacing: "0 1em" }}>
           <Thead bg={"basic.black"}>
-            <Tr borderBottom={"2px solid"}>
+            <Tr>
               <Th p={2} w={70} textAlign={"center"} color={"basic.white"}>
                 取得済
               </Th>
@@ -78,14 +78,18 @@ const MyBadgesListSp = memo(
   }) => {
     return (
       <TableContainer>
-        <Table variant="striped" colorScheme="green" sx={{ tableLayout: "fixed" }}>
-          <Thead>
-            <Tr bg="green.300">
-              <Th p={2} w={50} textAlign={"center"}>
+        <Table sx={{ tableLayout: "fixed", borderCollapse: "separate", borderSpacing: "0 1em" }}>
+          <Thead bg={"basic.black"}>
+            <Tr>
+              <Th p={2} w={50} textAlign={"center"} color={"basic.white"}>
                 取得済
               </Th>
-              <Th w={160}>バッジ名</Th>
-              <Th w={120}>発行日</Th>
+              <Th w={160} color={"basic.white"}>
+                バッジ名
+              </Th>
+              <Th w={120} color={"basic.white"}>
+                発行日
+              </Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -101,7 +105,7 @@ const MyBadgesListSp = memo(
                       <Box>{badge.name}</Box>
                     ) : (
                       <Link
-                        color="teal.500"
+                        color="primary.700"
                         onClick={() => {
                           handleBadgeSelect(badge.uniquehash, badge.email);
                         }}
