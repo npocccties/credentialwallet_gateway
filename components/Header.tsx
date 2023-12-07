@@ -1,9 +1,9 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { Box, Flex, Link, Menu, MenuButton, MenuGroup, MenuItem, MenuList, Text } from "@chakra-ui/react";
+import { Box, Flex, Link, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { memo, useEffect, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
-import { RiLogoutBoxFill } from "react-icons/ri";
+import { MdLogout } from "react-icons/md";
 
 import { getCookieValue } from "@/lib/cookie";
 import { getUserInfoFormJwt } from "@/lib/userInfo";
@@ -64,7 +64,7 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
                 <Text fontSize={"xl"} mr={2}>
                   {name}
                 </Text>
-                <RiLogoutBoxFill size="24" />
+                <MdLogout size="24" />
                 <Link fontSize={"xl"} href={logoutLink} style={{ textDecoration: "none" }}>
                   <Text>ログアウト</Text>
                 </Link>
@@ -75,12 +75,10 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
                     <FaUserAlt />
                   </MenuButton>
                   <MenuList color={"basic.black"}>
-                    <MenuGroup title="name">
-                      <MenuItem>
-                        <Text>{name}</Text>
-                      </MenuItem>
-                    </MenuGroup>
-                    <MenuItem mt={2} borderTop={"1px solid"} borderColor={"gray.200"}>
+                    <MenuItem>
+                      <Text>{name}</Text>
+                    </MenuItem>
+                    <MenuItem>
                       <Link href={logoutLink} style={{ textDecoration: "none" }}>
                         <Text>ログアウト</Text>
                       </Link>
