@@ -1,8 +1,10 @@
 import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
-import { Box, Flex, Button, Text, Image, VStack, Divider, Stack } from "@chakra-ui/react";
+import { Box, Flex, Text, Image, VStack, Divider, Stack } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { Loading } from "@/components/Loading";
+import { PrimaryButton } from "@/components/ui/button/PrimaryButton";
+import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { ResponseState } from "@/components/ui/response/ResponseState";
 import { JSTdateToDisplay } from "@/lib/date";
 import { importBadgeConvertToVc } from "@/share/api/badgeImport/importBadgeConvertVc";
@@ -59,8 +61,7 @@ export const VcImport = ({ setIsBadgeSelect }: Props) => {
             </Stack>
             <Box w={"full"} mt={8}>
               <Flex justifyContent={"space-between"}>
-                <Button
-                  colorScheme={"gray"}
+                <SecondaryButton
                   w={160}
                   onClick={() => {
                     setIsBadgeSelect(false);
@@ -68,10 +69,10 @@ export const VcImport = ({ setIsBadgeSelect }: Props) => {
                   }}
                 >
                   キャンセル
-                </Button>
-                <Button colorScheme={"blue"} w={160} onClick={() => handleClickImport()}>
+                </SecondaryButton>
+                <PrimaryButton w={160} onClick={() => handleClickImport()}>
                   インポート
-                </Button>
+                </PrimaryButton>
               </Flex>
             </Box>
           </>
@@ -89,14 +90,14 @@ export const VcImport = ({ setIsBadgeSelect }: Props) => {
         )}
         {responseState === "success" && (
           <ResponseState
-            icon={<CheckCircleIcon w={8} h={8} color="green.500" />}
+            icon={<CheckCircleIcon w={8} h={8} color="status.success" />}
             status="success!"
             message="バッジのインポートが完了しました！"
           />
         )}
         {responseState === "failed" && (
           <ResponseState
-            icon={<WarningIcon w={8} h={8} color="red.500" />}
+            icon={<WarningIcon w={8} h={8} color="status.caution" />}
             status="failed!"
             message="バッジのインポートに失敗しました"
           />

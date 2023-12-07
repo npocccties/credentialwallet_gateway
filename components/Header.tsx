@@ -27,10 +27,14 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
         h={"64px"}
         alignItems={"center"}
         justifyContent={"space-between"}
-        backgroundColor={"gray.200"}
+        backgroundColor={"basic.black"}
         p={{ base: 8 }}
       >
-        <Box>{showContents && <HamburgerIcon w={6} h={6} cursor={"pointer"} onClick={() => onOpen()} />}</Box>
+        <Box>
+          {showContents && (
+            <HamburgerIcon color={"basic.white"} w={6} h={6} cursor={"pointer"} onClick={() => onOpen()} />
+          )}
+        </Box>
         <Box
           style={{
             position: "absolute",
@@ -39,7 +43,12 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
           }}
         >
           <NextLink href="/">
-            <Link fontSize={{ base: "xl", md: "2xl" }} fontWeight={"bold"} style={{ textDecoration: "none" }}>
+            <Link
+              color={"basic.white"}
+              fontSize={{ base: "xl", md: "2xl" }}
+              fontWeight={"bold"}
+              style={{ textDecoration: "none" }}
+            >
               バッジウォレット
             </Link>
           </NextLink>
@@ -47,11 +56,11 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
         <Box>
           {showContents && (
             <>
-              <Flex gap={"16px"} alignItems={"center"} display={{ base: "none", sm: "flex" }}>
+              <Flex gap={"16px"} alignItems={"center"} color={"basic.white"} display={{ base: "none", sm: "flex" }}>
                 <FaUserAlt />
                 <Text fontSize={"xl"}>{name}</Text>
               </Flex>
-              <Flex gap={"16px"} alignItems={"center"} display={{ base: "flex", sm: "none" }}>
+              <Flex gap={"16px"} alignItems={"center"} color={"basic.white"} display={{ base: "flex", sm: "none" }}>
                 <Menu>
                   <MenuButton cursor={"pointer"} minW={0} transition="all 1s">
                     <FaUserAlt />

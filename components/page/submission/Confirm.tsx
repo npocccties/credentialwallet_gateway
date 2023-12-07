@@ -1,9 +1,11 @@
 import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
-import { Box, VStack, FormLabel, Input, Flex, Button, Text, Image, Divider } from "@chakra-ui/react";
+import { Box, VStack, FormLabel, Input, Flex, Text, Image, Divider } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import { Loading } from "@/components/Loading";
+import { PrimaryButton } from "@/components/ui/button/PrimaryButton";
+import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { ResponseState } from "@/components/ui/response/ResponseState";
 import { pagePath, sessionStorageKey } from "@/constants";
 import { postSubmissionVc } from "@/share/api/submission/postSubmissionVc";
@@ -72,7 +74,7 @@ export const Confirm = () => {
       <>
         <Box>
           <Box mb={4}>
-            <WarningIcon w={8} h={8} color="red.500" />
+            <WarningIcon w={8} h={8} color="status.caution" />
           </Box>
           <Text>error!</Text>
         </Box>
@@ -80,9 +82,7 @@ export const Confirm = () => {
           <Text fontSize={"lg"}>セッション情報がありません</Text>
         </Box>
         <Box>
-          <Button colorScheme={"gray"} onClick={() => router.push(returnPath)}>
-            確認コードを再発行する
-          </Button>
+          <SecondaryButton onClick={() => router.push(returnPath)}>確認コードを再発行する</SecondaryButton>
         </Box>
       </>
     );
@@ -144,28 +144,28 @@ export const Confirm = () => {
         )}
         {responseState === "success" && (
           <ResponseState
-            icon={<CheckCircleIcon w={8} h={8} color="green.500" />}
+            icon={<CheckCircleIcon w={8} h={8} color="status.success" />}
             status="success!"
             message="バッジの提出が完了しました！"
           />
         )}
         {responseState === "invalid userId" && (
           <ResponseState
-            icon={<WarningIcon w={8} h={8} color="red.500" />}
+            icon={<WarningIcon w={8} h={8} color="status.caution" />}
             status="invalid userId!"
             message="登録されていないIDです"
           />
         )}
         {responseState === "verification failure" && (
           <ResponseState
-            icon={<WarningIcon w={8} h={8} color="red.500" />}
+            icon={<WarningIcon w={8} h={8} color="status.caution" />}
             status="verification failure!"
             message="バッジの検証に失敗しました"
           />
         )}
         {responseState === "other errors" && (
           <ResponseState
-            icon={<WarningIcon w={8} h={8} color="red.500" />}
+            icon={<WarningIcon w={8} h={8} color="status.caution" />}
             status="other errors!"
             message="予期せぬエラーが発生しました"
           />
@@ -187,16 +187,12 @@ const SubmissionCode = ({ handeleSubmission }: { handeleSubmission: (codeInput: 
       </Box>
       <Box w={"full"}>
         <Flex justifyContent={"space-between"}>
-          <Button
-            colorScheme={"gray"}
-            w={140}
-            onClick={() => router.push(`${pagePath.credential.detail}/${badge_vc_id}`)}
-          >
+          <SecondaryButton w={140} onClick={() => router.push(`${pagePath.credential.detail}/${badge_vc_id}`)}>
             キャンセル
-          </Button>
-          <Button colorScheme={"blue"} w={140} onClick={() => handeleSubmission(codeInput)}>
+          </SecondaryButton>
+          <PrimaryButton w={140} onClick={() => handeleSubmission(codeInput)}>
             バッジを提出
-          </Button>
+          </PrimaryButton>
         </Flex>
       </Box>
     </>

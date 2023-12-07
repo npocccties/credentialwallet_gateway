@@ -6,17 +6,17 @@ import {
   AlertDialog,
   AlertDialogBody,
   AlertDialogContent,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  Button,
   useDisclosure,
+  AlertDialogFooter,
 } from "@chakra-ui/react";
 import { LmsList } from "@prisma/client";
 import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import { Loading } from "@/components/Loading";
 import { MoodleLoginForm } from "@/components/model/moodle/MoodleLoginform";
+import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { MyBadgesList, MyBadgesListSp } from "@/components/ui/table/MybadgeList";
 import { badgeListActions, badgeListGetters } from "@/share/store/badgeList/main";
 import { badgeMetaDataActions } from "@/share/store/badgeMetaData/main";
@@ -174,9 +174,9 @@ export const BadgeList = ({
               <AlertDialogBody>ユーザー名、パスワードが一致しませんでした</AlertDialogBody>
 
               <AlertDialogFooter>
-                <Button ref={cancelRef} onClick={onClose}>
+                <SecondaryButton ref={cancelRef} onClick={onClose}>
                   閉じる
-                </Button>
+                </SecondaryButton>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialogOverlay>

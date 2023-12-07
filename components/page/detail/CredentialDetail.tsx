@@ -6,13 +6,15 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Box,
-  Button,
   Flex,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
 
+import { DangerButton } from "@/components/ui/button/DangerButton";
+import { PrimaryButton } from "@/components/ui/button/PrimaryButton";
+import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { BadgeVcCard } from "@/components/ui/card/BadgeVcCard";
 import { VcDetailTabPanel } from "@/components/ui/tabPanel/VcDetailTabPanel";
 import { pagePath } from "@/constants";
@@ -46,14 +48,13 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
             <BadgeVcCard badgeVc={vcDetailData} />
           </Box>
           <Box my={12}>
-            <Button
-              colorScheme="teal"
+            <PrimaryButton
               w="full"
               disabled={expired}
               onClick={() => router.push(`${pagePath.submission.enter}/${router.query.badge_vc_id}`)}
             >
               バッジ提出
-            </Button>
+            </PrimaryButton>
           </Box>
           <VcDetailTabPanel
             vcDetailData={vcDetailData}
@@ -62,18 +63,17 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
             expired={expired}
           />
           <Flex justifyContent={"space-between"}>
-            <Button colorScheme="red" w={160} disabled={isDeleteDisabled} onClick={onOpen}>
+            <DangerButton w={160} disabled={isDeleteDisabled} onClick={onOpen}>
               削除
-            </Button>
-            <Button
+            </DangerButton>
+            <PrimaryButton
               as="a"
-              colorScheme="blue"
               w={160}
               href={`data:image/png;base64,${badgeExportData}`}
               download={`${vcDetailData.badgeName}.png`}
             >
               エクスポート
-            </Button>
+            </PrimaryButton>
           </Flex>
           <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
             <AlertDialogOverlay>
@@ -89,18 +89,17 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
                 </AlertDialogBody>
 
                 <AlertDialogFooter>
-                  <Button ref={cancelRef} onClick={onClose}>
+                  <SecondaryButton ref={cancelRef} onClick={onClose}>
                     キャンセル
-                  </Button>
-                  <Button
+                  </SecondaryButton>
+                  <DangerButton
                     ml={3}
-                    colorScheme="red"
                     onClick={() => {
                       handleClickDelete();
                     }}
                   >
                     削除
-                  </Button>
+                  </DangerButton>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialogOverlay>

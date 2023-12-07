@@ -1,10 +1,11 @@
 import { WarningIcon } from "@chakra-ui/icons";
-import { Box, Button, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 import { NextPageContext } from "next";
 import { useRouter } from "next/router";
 
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
+import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { SERVICE_DESCRITION, SERVICE_NAME } from "@/configs";
 import { errors } from "@/constants/error";
 
@@ -20,15 +21,13 @@ function ErrorPage({ statusCode, errorMessage }) {
     <Layout maxW="2xl">
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
       <VStack justifyContent={"center"} gap={16} mt={8}>
-        <WarningIcon w={16} h={16} color={"red.500"} />
+        <WarningIcon w={16} h={16} color={"status.caution"} />
         <Text fontSize={"xl"}>{errorLabel}</Text>
         <Text fontSize={"md"}>{errorMessage}</Text>
 
         <HStack>
           <Box>
-            <Button colorScheme={"gray"} onClick={handleBack}>
-              前のページに戻る
-            </Button>
+            <SecondaryButton onClick={handleBack}>前のページに戻る</SecondaryButton>
           </Box>
         </HStack>
       </VStack>

@@ -1,6 +1,8 @@
-import { Box, Heading, FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
+import { Box, Heading, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState } from "react";
 
+import { PrimaryButton } from "@/components/ui/button/PrimaryButton";
+import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { badgeListActions } from "@/share/store/badgeList/main";
 
 export const MoodleLoginForm = ({
@@ -45,30 +47,28 @@ export const MoodleLoginForm = ({
           />
         </Box>
         <Box mt={8}>
-          <Button
+          <PrimaryButton
             mt={4}
             w={"full"}
-            colorScheme="green"
             onClick={() => {
               setIsNeedMoodleLogin(false);
               getMyBadges(username, password);
             }}
           >
             バッジ一覧取得
-          </Button>
+          </PrimaryButton>
         </Box>
         <Box mt={4}>
-          <Button
+          <SecondaryButton
             mt={4}
             w={"full"}
-            colorScheme="gray"
             onClick={() => {
               clearBadgeList();
               setIsNeedMoodleLogin(false);
             }}
           >
             戻る
-          </Button>
+          </SecondaryButton>
         </Box>
       </FormControl>
     </Box>

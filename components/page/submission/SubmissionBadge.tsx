@@ -1,9 +1,11 @@
 import { CheckCircleIcon } from "@chakra-ui/icons";
-import { Box, VStack, FormLabel, Select, Input, Flex, Button, Text, Image, Checkbox } from "@chakra-ui/react";
+import { Box, VStack, FormLabel, Select, Input, Flex, Text, Image, Checkbox } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { PrimaryButton } from "@/components/ui/button/PrimaryButton";
+import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { pagePath, sessionStorageKey } from "@/constants";
 import { formValidateForbiddenCharacters } from "@/lib/validation";
 import { sendConfirmEmail } from "@/share/api/submission/sendConfirmEmail";
@@ -84,7 +86,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
       <VStack justifyContent={"center"} gap={16} mt={8}>
         <Box>
           <Box mb={4}>
-            <CheckCircleIcon w={8} h={8} color="green.500" />
+            <CheckCircleIcon w={8} h={8} color="status.success" />
           </Box>
           <Text>送信完了</Text>
         </Box>
@@ -94,9 +96,9 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
           <Text fontSize={"lg"}>メールのご確認をお願いします。</Text>
         </Box>
         <Box>
-          <Button colorScheme={"blue"} onClick={() => router.push(`${pagePath.submission.confirm}/${pathParam}`)}>
+          <PrimaryButton onClick={() => router.push(`${pagePath.submission.confirm}/${pathParam}`)}>
             確認コード入力
-          </Button>
+          </PrimaryButton>
         </Box>
       </VStack>
     );
@@ -138,13 +140,13 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
                   required: "メールアドレスを入力してください",
                 })}
               />
-              <Text size="xs" color={"red"} mt={2}>
+              <Text size="xs" mt={2}>
                 {errors.email?.message}
               </Text>
             </Box>
             <Box as="section" w={"full"} border={"1px solid #ddd"} borderRadius={"md"} padding={6}>
               <Box mb={6} textAlign={"left"}>
-                <Checkbox size={"lg"} colorScheme={"green"} {...register("sameIdForEmail")}>
+                <Checkbox size={"lg"} colorScheme={"primary"} {...register("sameIdForEmail")}>
                   emailアドレスと同じ
                 </Checkbox>
               </Box>
@@ -158,7 +160,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
                     maxLength: { value: 256, message: "256文字以内で入力してください。" },
                   })}
                 />
-                <Text size="xs" color={"red"} mt={2}>
+                <Text size="xs" mt={2}>
                   {errors.externalLinkageId?.message}
                 </Text>
               </Box>
@@ -172,23 +174,19 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
                     maxLength: { value: 256, message: "256文字以内で入力してください。" },
                   })}
                 />
-                <Text size="xs" color={"red"} mt={2}>
+                <Text size="xs" mt={2}>
                   {errors.confirmLinkageId?.message}
                 </Text>
               </Box>
             </Box>
             <Box w={"full"}>
               <Flex justifyContent={"space-between"}>
-                <Button
-                  colorScheme={"gray"}
-                  w={120}
-                  onClick={() => router.push(`${pagePath.credential.detail}/${pathParam}`)}
-                >
+                <SecondaryButton w={120} onClick={() => router.push(`${pagePath.credential.detail}/${pathParam}`)}>
                   戻る
-                </Button>
-                <Button type="submit" colorScheme={"blue"} w={120}>
+                </SecondaryButton>
+                <PrimaryButton type="submit" w={120}>
                   送信
-                </Button>
+                </PrimaryButton>
               </Flex>
             </Box>
           </VStack>

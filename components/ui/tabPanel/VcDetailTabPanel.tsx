@@ -57,7 +57,7 @@ const CredentialSubjectItem: React.FC<CredentialSubjectItemProps> = ({ name, dat
       </Text>
       {"コース情報" === name ? (
         <Text fontSize="lg" my={8}>
-          <Link href={data as string} color={"teal"} isExternal>
+          <Link href={data as string} color={"primary.700"} isExternal>
             OKUTEPのコース情報を見る <ExternalLinkIcon />
           </Link>
         </Text>

@@ -5,9 +5,11 @@ import {
   AlertDialogHeader,
   AlertDialogBody,
   AlertDialogFooter,
-  Button,
 } from "@chakra-ui/react";
 import React, { MutableRefObject } from "react";
+
+import { PrimaryButton } from "../button/PrimaryButton";
+import { SecondaryButton } from "../button/SecondaryButton";
 
 type Props = {
   title: string;
@@ -44,11 +46,11 @@ export const BasicDialog = ({
 
           <AlertDialogFooter>
             {closeButtontText && (
-              <Button ref={cancelRef} onClick={onClose}>
+              <SecondaryButton ref={cancelRef} onClick={onClose}>
                 {closeButtontText}
-              </Button>
+              </SecondaryButton>
             )}
-            <Button
+            <PrimaryButton
               ml={3}
               colorScheme={okButtonColor}
               onClick={() => {
@@ -56,7 +58,7 @@ export const BasicDialog = ({
               }}
             >
               {okButtonrText}
-            </Button>
+            </PrimaryButton>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogOverlay>

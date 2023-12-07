@@ -6,24 +6,13 @@ import { credentialListGetters } from "@/share/store/credentialList/main";
 export const DisplayBadgeCount = () => {
   const { totalBadgeCount, submissionsAll } = credentialListGetters.useCredentialList();
   return (
-    <Box
-      border={"2px solid"}
-      borderColor={"gray.200"}
-      borderRadius={"2xl"}
-      px={{ base: 2, sm: 8 }}
-      py={{ base: 4, sm: 8 }}
-    >
+    <Box border={"main"} borderRadius={"2xl"} px={{ base: 2, sm: 8 }} py={{ base: 4, sm: 8 }}>
       <Grid templateColumns={"repeat(2, 1fr)"}>
         <GridItem>
-          <DisplauCountData color="blue" prefixText="バッジ" text="保管数" count={totalBadgeCount} />
+          <DisplauCountData prefixText="バッジ" text="保管数" count={totalBadgeCount} />
         </GridItem>
         <GridItem>
-          <DisplauCountData
-            color="skyblue"
-            prefixText="うち"
-            text="提出済"
-            count={submissionsAll.totalSubmissionBadges}
-          />
+          <DisplauCountData prefixText="うち" text="提出済" count={submissionsAll.totalSubmissionBadges} />
         </GridItem>
         <GridItem></GridItem>
       </Grid>
@@ -37,7 +26,7 @@ const DisplauCountData = ({
   text,
   count,
 }: {
-  color: string;
+  color?: string;
   prefixText: string;
   text: string;
   count: number;

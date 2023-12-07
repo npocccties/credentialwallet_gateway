@@ -1,7 +1,8 @@
-import { Box, Button, Center, Divider, Flex, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Center, Divider, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
 
+import { PrimaryButton } from "@/components/ui/button/PrimaryButton";
 import { BasicDialog } from "@/components/ui/dialog/BasicDialog";
 import { pagePath } from "@/constants";
 import { getCookieValue } from "@/lib/cookie";
@@ -39,17 +40,16 @@ export const EntryWallet = () => {
       </Box>
       <Box mt={16}>
         <Center>
-          <Button colorScheme={"blue"} size={"md"}>
+          <PrimaryButton size={"md"}>
             <Text fontSize={"sm"} onClick={() => handleClickButton()}>
               ウォレットを作成する
             </Text>
-          </Button>
+          </PrimaryButton>
         </Center>
       </Box>
       <BasicDialog
         title="ウォレットの作成が完了しました！"
         okButtonrText="ウォレットへ"
-        okButtonColor="blue"
         isOpen={isOpen}
         onClose={onClose}
         cancelRef={cancelRef}

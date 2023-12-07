@@ -4,15 +4,15 @@ import {
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogBody,
-  AlertDialogFooter,
-  Button,
   Text,
   useDisclosure,
+  AlertDialogFooter,
 } from "@chakra-ui/react";
 import { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
+import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { errors } from "@/constants/error";
 import { axiosClient } from "@/lib/axios";
 
@@ -116,15 +116,14 @@ const ErrorDialog = ({ title, message, detail }: { title: string; message: strin
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button
+            <SecondaryButton
               ml={3}
-              colorScheme="red"
               onClick={() => {
                 router.reload();
               }}
             >
               閉じる
-            </Button>
+            </SecondaryButton>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogOverlay>

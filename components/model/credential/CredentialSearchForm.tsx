@@ -1,5 +1,4 @@
 import {
-  Button,
   Grid,
   FormControl,
   Input,
@@ -19,6 +18,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { PrimaryButton } from "@/components/ui/button/PrimaryButton";
+import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { dateSchema } from "@/lib/validation";
 import { credentialListActions } from "@/share/store/credentialList/main";
 import { SearchFormItem } from "@/types/api/credential/index";
@@ -75,7 +76,7 @@ export const SearchForm = () => {
       <Box border={"2px solid"} borderColor={"gray.200"} borderRadius={"2xl"} overflow={"hidden"}>
         <Accordion allowToggle borderRadius={"2xl"}>
           <AccordionItem border={"none"}>
-            <AccordionButton _expanded={{ bg: "gray.200", boxShadow: "none" }}>
+            <AccordionButton _expanded={{ bg: "gray.300", boxShadow: "none" }}>
               <AccordionIcon />
               <Box as="span" flex={"1"} textAlign={"left"}>
                 <h2>検索</h2>
@@ -96,29 +97,29 @@ export const SearchForm = () => {
                         })}
                         maxW={"100%"}
                       />
-                      <Text size="xs" color={"red"} mt={2}>
+                      <Text size="xs" mt={2}>
                         {errors.badgeName?.message}
                       </Text>
                     </GridItem>
                     <GridItem>
                       <FormLabel htmlFor="issuedFrom">発行日From</FormLabel>
                       <Input id="issuedFrom" type="date" {...register("issuedFrom")} />
-                      <Text size="xs" color={"red"} mt={2}>
+                      <Text size="xs" mt={2}>
                         {errors.issuedFrom?.message}
                       </Text>
                     </GridItem>
                     <GridItem>
                       <FormLabel htmlFor="issuedTo">発行日To</FormLabel>
                       <Input id="issuedTo" type="date" {...register("issuedTo")} />
-                      <Text size="xs" color={"red"} mt={2}>
+                      <Text size="xs" mt={2}>
                         {errors.issuedTo?.message}
                       </Text>
                     </GridItem>
                     <GridItem></GridItem>
                     <GridItem>
-                      <Button colorScheme={"teal"} mt={8} w={"100%"} isLoading={isSubmitting} type="submit">
+                      <PrimaryButton mt={8} w={"100%"} isLoading={isSubmitting} type="submit">
                         検索
-                      </Button>
+                      </PrimaryButton>
                     </GridItem>
                   </Grid>
                 </FormControl>
@@ -128,9 +129,9 @@ export const SearchForm = () => {
         </Accordion>
       </Box>
       <Flex mt={4} justifyContent={"flex-end"}>
-        <Button w={180} colorScheme={"gray"} onClick={() => handleClickSort()}>
+        <SecondaryButton w={180} onClick={() => handleClickSort()}>
           {sortState.text}
-        </Button>
+        </SecondaryButton>
       </Flex>
     </>
   );

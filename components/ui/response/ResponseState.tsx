@@ -1,6 +1,8 @@
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { ReactNode } from "react";
+
+import { SecondaryButton } from "../button/SecondaryButton";
 
 import { pagePath } from "@/constants";
 
@@ -16,9 +18,7 @@ export const ResponseState = ({ icon, status, message }: { icon: ReactNode; stat
         <Text fontSize={"lg"}>{message}</Text>
       </Box>
       <Box>
-        <Button colorScheme={"blue"} onClick={() => router.push(pagePath.credential.list)}>
-          ウォレットに戻る
-        </Button>
+        <SecondaryButton onClick={() => router.push(pagePath.credential.list)}>ウォレットに戻る</SecondaryButton>
       </Box>
     </>
   );

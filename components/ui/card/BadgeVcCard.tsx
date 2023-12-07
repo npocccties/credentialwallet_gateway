@@ -16,8 +16,7 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
 
   return (
     <Grid
-      border={"2px"}
-      borderColor={"gray.200"}
+      border={"main"}
       rounded="2xl"
       templateColumns={"repeat(3, 1fr)"}
       p={{ base: 3, sm: 6 }}
@@ -32,7 +31,7 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
           {badgeVc.badgeName}
         </Text>
         {expired && (
-          <Text fontSize={{ base: "12px", sm: "sm" }} mt={2} color={"red"}>
+          <Text fontSize={{ base: "12px", sm: "sm" }} mt={2}>
             有効期限切れ
           </Text>
         )}
@@ -60,9 +59,7 @@ export const BadgeVcCard = ({ badgeVc }: Props) => {
           <Flex ml={4} direction={"column"}>
             {badgeVc.submissions.length === 0 ? (
               <Box w={"100%"} mb={1} borderBottom={"1px"} borderColor={"gray.200"}>
-                <Text color={"red"} fontSize={"sm"}>
-                  未提出
-                </Text>
+                <Text fontSize={"sm"}>未提出</Text>
               </Box>
             ) : (
               badgeVc.submissions.map((item, index) => {

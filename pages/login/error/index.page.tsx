@@ -1,10 +1,11 @@
 import { WarningIcon } from "@chakra-ui/icons";
-import { VStack, HStack, Box, Button, Text } from "@chakra-ui/react";
+import { VStack, HStack, Box, Text } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import React from "react";
 
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
+import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { SERVICE_DESCRITION, SERVICE_NAME } from "@/configs";
 import { pagePath } from "@/constants";
 import { errors } from "@/constants/error";
@@ -49,15 +50,13 @@ const index = () => {
     <Layout maxW="2xl">
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
       <VStack justifyContent={"center"} gap={16} mt={8}>
-        <WarningIcon w={16} h={16} color={"red.500"} />
+        <WarningIcon w={16} h={16} color={"status.caution"} />
         <Text fontSize={"xl"}>不正なログイン情報</Text>
         <Text fontSize={"md"}>ログイン情報が不正です。再度ログインしてください。</Text>
 
         <HStack>
           <Box>
-            <Button colorScheme={"gray"} onClick={() => handleLogout()}>
-              ログイン画面へ
-            </Button>
+            <SecondaryButton onClick={() => handleLogout()}>ログイン画面へ</SecondaryButton>
           </Box>
         </HStack>
       </VStack>
