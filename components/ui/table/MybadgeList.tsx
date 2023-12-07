@@ -15,19 +15,19 @@ const MyBadgesList = memo(
   }) => {
     return (
       <TableContainer>
-        <Table variant="striped" colorScheme="green" sx={{ tableLayout: "fixed" }}>
-          <Thead>
-            <Tr bg="green.300">
-              <Th p={2} w={70} textAlign={"center"}>
+        <Table sx={{ tableLayout: "fixed" }}>
+          <Thead bg={"basic.black"}>
+            <Tr borderBottom={"2px solid"}>
+              <Th p={2} w={70} textAlign={"center"} color={"basic.white"}>
                 取得済
               </Th>
-              <Th minW="200" p={2}>
+              <Th minW="200" p={2} color={"basic.white"}>
                 バッジ名
               </Th>
-              <Th minW="200" p={2}>
+              <Th minW="200" p={2} color={"basic.white"}>
                 バッジ詳細
               </Th>
-              <Th w={120} p={4}>
+              <Th w={120} p={4} color={"basic.white"}>
                 発行日
               </Th>
             </Tr>
@@ -36,7 +36,7 @@ const MyBadgesList = memo(
             {badgeList?.map((badge, index: number) => {
               const dateIssued = convertUNIXorISOstrToJST(badge.dateissued);
               return (
-                <Tr key={index} textAlign="left">
+                <Tr key={index} textAlign="left" borderBottom={"2px solid"} borderColor={"gray.200"} mb={2}>
                   <Td p={2} textAlign={"center"}>
                     {badge.vcConverted && <CheckIcon />}
                   </Td>
@@ -45,7 +45,7 @@ const MyBadgesList = memo(
                       <Text>{badge.name}</Text>
                     ) : (
                       <Link
-                        color="teal.500"
+                        color="primary.700"
                         onClick={() => {
                           handleBadgeSelect(badge.uniquehash, badge.email);
                         }}
