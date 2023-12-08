@@ -1,9 +1,10 @@
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { Flex, Box, BoxProps, CloseButton, FlexProps, Text, Link } from "@chakra-ui/react";
+import { Flex, Box, BoxProps, CloseButton, Text, Link } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
 
 import { sidebarItems } from "@/constants/sidebar";
+import { NavItemProps } from "@/types/Sidebar";
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
@@ -31,20 +32,14 @@ export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           link={item.link}
           external={item.external}
           newWindow={item.newWindow}
+          targetTabName={item.targetTabName}
         />
       ))}
     </Box>
   );
 };
 
-interface NavItemProps extends FlexProps {
-  name: string;
-  link?: string;
-  external?: boolean;
-  newWindow?: boolean;
-}
-
-const NavItem = ({ name, link, external, newWindow, ...rest }: NavItemProps) => {
+const NavItem = ({ name, link, external, newWindow, targetTabName, ...rest }: NavItemProps) => {
   if (external) {
     return (
       <Link
@@ -52,6 +47,7 @@ const NavItem = ({ name, link, external, newWindow, ...rest }: NavItemProps) => 
         style={{ textDecoration: "none" }}
         _focus={{ boxShadow: "none" }}
         isExternal={newWindow}
+        target={targetTabName}
       >
         <Flex
           align="center"

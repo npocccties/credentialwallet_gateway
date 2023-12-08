@@ -1,9 +1,17 @@
 import { pagePath } from ".";
 
+import { NavItemProps } from "@/types/Sidebar";
+
 // TODO: ヘルプリンクの遷移先は未定
-export const sidebarItems: Array<{ name: string; link?: string; external?: boolean; newWindow?: boolean }> = [
+export const sidebarItems: Array<NavItemProps> = [
   { name: "バッジ一覧", link: "/" },
   { name: "バッジインポート", link: pagePath.badge.import },
-  { name: "分析", link: process.env.NEXT_PUBLIC_E_PORTFOLIO_URL, external: true },
-  { name: "ヘルプ", link: process.env.NEXT_PUBLIC_E_HELP_URL, external: true, newWindow: true },
+  {
+    name: "分析",
+    link: process.env.NEXT_PUBLIC_E_PORTFOLIO_URL,
+    external: true,
+    newWindow: true,
+    targetTabName: "portfolio",
+  },
+  { name: "ヘルプ", link: process.env.NEXT_PUBLIC_E_HELP_URL, external: true, newWindow: true, targetTabName: "help" },
 ];
