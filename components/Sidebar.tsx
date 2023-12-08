@@ -48,6 +48,7 @@ const NavItem = ({ name, link, external, newWindow, targetTabName, ...rest }: Na
         _focus={{ boxShadow: "none" }}
         isExternal={newWindow}
         target={targetTabName}
+        rel={null}
       >
         <Flex
           align="center"
