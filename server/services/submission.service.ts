@@ -52,7 +52,7 @@ export const sendMail = async (email: string, confirmCode: string, consumerId: n
   const mail = {
     from: `no-reply@${host}`,
     to: email,
-    subject: "バッジ提出ワンタイムパスワード",
+    subject: "バッジ提出確認コード",
     text: createMailTemplate(confirmCode, consumerName),
   };
 
