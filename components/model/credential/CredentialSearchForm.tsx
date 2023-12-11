@@ -14,13 +14,14 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { isAfter, isSameDay } from "date-fns";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { PrimaryButton } from "@/components/ui/button/PrimaryButton";
 import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
-import { dateSchema } from "@/lib/validation";
+import { dateSchema, textBoxSchema } from "@/lib/validation";
 import { credentialListActions } from "@/share/store/credentialList/main";
 import { SearchFormItem } from "@/types/api/credential/index";
 
@@ -39,11 +40,28 @@ export const SearchForm = () => {
   const [sortState, setSortState] = useState(sortButtonText.desc);
   const { searchCredentialList } = credentialListActions.useSearchCredentialList();
   const { sortOrderCredentialList } = credentialListActions.useSortOrderCredentialList();
-  const formSchema = z.object({
-    badgeName: z.string(),
-    issuedFrom: dateSchema,
-    issuedTo: dateSchema,
-  });
+  const formSchema = z
+    .object({
+      badgeName: textBoxSchema,
+      issuedFrom: dateSchema,
+      issuedTo: dateSchema,
+    })
+    .refine(
+      (args) => {
+        const { issuedFrom, issuedTo } = args;
+        const issuedFromObject = new Date(issuedFrom);
+        const issuedToObjext = new Date(issuedTo);
+
+        if (isSameDay(issuedFromObject, issuedToObjext)) {
+          return true;
+        }
+        return isAfter(issuedToObjext, issuedFromObject);
+      },
+      {
+        message: "発行日Toより先の日付は選択できません。",
+        path: ["issuedFrom"],
+      },
+    );
   const {
     register,
     handleSubmit,
@@ -90,13 +108,7 @@ export const SearchForm = () => {
                       <FormLabel htmlFor="badgeName" mt={4}>
                         バッジ名
                       </FormLabel>
-                      <Input
-                        id="badgeName"
-                        {...register("badgeName", {
-                          maxLength: { value: 256, message: "256文字以内で入力してください。" },
-                        })}
-                        maxW={"100%"}
-                      />
+                      <Input id="badgeName" type="text" maxLength={256} {...register("badgeName")} maxW={"100%"} />
                       <Text size="xs" mt={2}>
                         {errors.badgeName?.message}
                       </Text>

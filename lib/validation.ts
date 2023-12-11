@@ -28,3 +28,5 @@ export const dateSchema = z.string().refine(
     message: "無効な日付です。日付は1900/01/01から2099/12/31の間で指定してください。",
   },
 );
+
+export const textBoxSchema = z.string().max(256, { message: "256文字以内で入力してください。" });
