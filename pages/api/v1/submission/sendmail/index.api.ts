@@ -7,7 +7,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { errors } from "@/constants/error";
 import { logEndForApi, logStartForApi, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
-import { createMailTemplate, sendMail } from "@/server/services/submission.service";
+import { sendMail } from "@/server/services/submission.service";
 import { api } from "@/share/api";
 import { ErrorResponse } from "@/types/api/error";
 import { SendMail } from "@/types/api/submission";
@@ -36,12 +36,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   try {
     const confirmCode = Math.floor(100000 + Math.random() * 900000).toString();
-    const template = createMailTemplate(confirmCode);
 
     console.log("confirmCode", confirmCode);
     const hashConfirmCode = crypto.createHash("sha256").update(confirmCode).digest("hex");
 
-    await sendMail(email, template, consumerId);
+    await sendMail(email, confirmCode, consumerId);
 
     loggerInfo(`${logStatus.success} ${apiPath}`);
 

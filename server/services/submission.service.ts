@@ -14,11 +14,11 @@ import { SubmissionResponseStatus } from "@/types/status";
 const smtpHost = process.env.smtp_mail_server_host;
 const smtpPort = process.env.smtp_mail_server_port;
 
-export const createMailTemplate = (confirmCode: string) => {
+const createMailTemplate = (confirmCode: string, consumerName: string) => {
   const messageTemplate = `
-  下記のワンタイムパスワードを入力して{キャビネット提出先の組織名} にバッジを提出してください。
+  下記の確認コードを入力して${consumerName} にバッジを提出してください。
   ───────────────────────────────────
-  ■ワンタイムパスワード■
+  ■確認コード■
   ───────────────────────────────────
   ${confirmCode}
   ───────────────────────────────────
@@ -32,8 +32,8 @@ export const createMailTemplate = (confirmCode: string) => {
   return messageTemplate;
 };
 
-export const sendMail = async (email: string, message: string, consumerId: number) => {
-  const { cabinetUrl } = await findCabinetUrl({ consumerId });
+export const sendMail = async (email: string, confirmCode: string, consumerId: number) => {
+  const { cabinetUrl, consumerName } = await findCabinetUrl({ consumerId });
 
   const options = {
     host: smtpHost,
@@ -50,11 +50,10 @@ export const sendMail = async (email: string, message: string, consumerId: numbe
   const host = url.host;
 
   const mail = {
-    from: `no-reply@${host}.com`,
+    from: `no-reply@${host}`,
     to: email,
     subject: "バッジ提出ワンタイムパスワード",
-    text: message,
-    html: `<div>${message}</div>`,
+    text: createMailTemplate(confirmCode, consumerName),
   };
 
   try {
