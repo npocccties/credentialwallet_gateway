@@ -1,8 +1,7 @@
-import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
+import { CheckCircleIcon } from "@chakra-ui/icons";
 import { Box, Flex, Text, Image, VStack, Divider, Stack } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-import { Loading } from "@/components/Loading";
 import { PrimaryButton } from "@/components/ui/button/PrimaryButton";
 import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { ResponseState } from "@/components/ui/response/ResponseState";
@@ -10,6 +9,7 @@ import { JSTdateToDisplay } from "@/lib/date";
 import { importBadgeConvertToVc } from "@/share/api/badgeImport/importBadgeConvertVc";
 import { badgeMetadataGetters } from "@/share/store/badgeMetaData/main";
 import { selectBadgeActions, selectBadgeGetters } from "@/share/store/selectBadge/main";
+import { processingScreenActions } from "@/share/store/ui/processingScreen/man";
 
 type ResponseStatus = "success" | "failed" | undefined;
 type Props = {
@@ -22,18 +22,13 @@ export const VcImport = ({ setIsBadgeSelect }: Props) => {
   const badgeMetaData = badgeMetadataGetters.useBadgeMetaData();
   const { email, uniquehash, lmsId, lmsName } = selectBadgeGetters.useSelectBadgeData();
   const { clearSelectBadge } = selectBadgeActions.useSelectBadge();
+  const { showProcessingScreen } = processingScreenActions.useShowProcessingScreen();
 
   const handleClickImport = async () => {
+    await showProcessingScreen(() => importBadgeConvertToVc({ uniquehash, email, badgeMetaData, lmsId, lmsName }));
+    setRequestState("success");
     setIsVcImport(true);
-
-    try {
-      await importBadgeConvertToVc({ uniquehash, email, badgeMetaData, lmsId, lmsName });
-      setRequestState("success");
-    } catch (e) {
-      setRequestState("failed");
-    } finally {
-      clearSelectBadge();
-    }
+    clearSelectBadge();
   };
 
   useEffect(() => {
@@ -82,24 +77,11 @@ export const VcImport = ({ setIsBadgeSelect }: Props) => {
   } else {
     return (
       <VStack justifyContent={"center"} gap={16} mt={8}>
-        {!responseState && (
-          <>
-            <Loading />
-            <Text>処理中</Text>
-          </>
-        )}
         {responseState === "success" && (
           <ResponseState
             icon={<CheckCircleIcon w={8} h={8} color="status.success" />}
             status="success!"
             message="バッジのインポートが完了しました！"
-          />
-        )}
-        {responseState === "failed" && (
-          <ResponseState
-            icon={<WarningIcon w={8} h={8} color="status.caution" />}
-            status="failed!"
-            message="バッジのインポートに失敗しました"
           />
         )}
       </VStack>

@@ -5,6 +5,7 @@ import { RecoilRoot, RecoilEnv } from "recoil";
 import type { AppProps } from "next/app";
 
 import { AxiosErrorHandling } from "@/components/page/error/AxiosErrorHandling";
+import { ProcessingScreen } from "@/components/ui/screen/ProcessingScreen";
 import { theme } from "@/styles/chakraTheme";
 
 // MEMO: 開発環境でのAtomキーの重複エラーを非表示
@@ -16,7 +17,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme}>
       <RecoilRoot>
         <AxiosErrorHandling>
-          <Component {...pageProps} />
+          <ProcessingScreen>
+            <Component {...pageProps} />
+          </ProcessingScreen>
         </AxiosErrorHandling>
       </RecoilRoot>
     </ChakraProvider>

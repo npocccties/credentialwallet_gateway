@@ -5,4 +5,5 @@ export enum RECOIL_ATOMS_KEYS {
   BADGE_LIST_STATE = "badgeListState",
   BADGE_METADATA_STATE = "badgeMetaDataState",
   SELECT_BADGE_STATE = "selectBadgeState",
+  LOADING_SCREEN_STATE = "processingScreenState",
 }

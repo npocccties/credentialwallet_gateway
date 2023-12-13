@@ -3,12 +3,12 @@ import { Box, VStack, FormLabel, Input, Flex, Text, Image, Divider } from "@chak
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
-import { Loading } from "@/components/Loading";
 import { PrimaryButton } from "@/components/ui/button/PrimaryButton";
 import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { ResponseState } from "@/components/ui/response/ResponseState";
 import { pagePath, sessionStorageKey } from "@/constants";
 import { postSubmissionVc } from "@/share/api/submission/postSubmissionVc";
+import { processingScreenActions } from "@/share/store/ui/processingScreen/man";
 import { SubmissionResponseStatus } from "@/types/status";
 
 type ConsumerData = {
@@ -24,6 +24,7 @@ export const Confirm = () => {
   const router = useRouter();
   const [isSubmission, setIsSubmission] = useState(false);
   const [responseState, setRequestState] = useState<SubmissionResponseStatus>(undefined);
+  const { showProcessingScreen } = processingScreenActions.useShowProcessingScreen();
 
   const submissionEmail = sessionStorage.getItem(sessionStorageKey.submissionEmail);
   const externalLinkageId = sessionStorage.getItem(sessionStorageKey.externalLinkageId);
@@ -46,14 +47,12 @@ export const Confirm = () => {
     const { consumerId } = consumer;
     const { badgeVcId } = badgeVc;
 
-    try {
-      setIsSubmission(true);
+    await showProcessingScreen(async () => {
       const data = await postSubmissionVc({ consumerId, email: submissionEmail, badgeVcId, externalLinkageId });
 
+      setIsSubmission(true);
       setRequestState(data.result);
-    } catch (e) {
-      console.error(e.message);
-    }
+    });
   };
 
   async function generateHash(confirmCode: string) {
@@ -136,12 +135,6 @@ export const Confirm = () => {
   } else {
     return (
       <VStack justifyContent={"center"} gap={16} mt={8}>
-        {!responseState && (
-          <>
-            <Loading />
-            <Text>送信中</Text>
-          </>
-        )}
         {responseState === "success" && (
           <ResponseState
             icon={<CheckCircleIcon w={8} h={8} color="status.success" />}
