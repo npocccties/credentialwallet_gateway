@@ -30,3 +30,8 @@ export const dateSchema = z.string().refine(
 );
 
 export const textBoxSchema = z.string().max(256, { message: "256文字以内で入力してください。" });
+
+export const moodleUserNameSchema = z.string().regex(/^[a-z0-9_.@-]+$/, {
+  message:
+    "ユーザー名には半角英数小文字、アンダースコア (_)、ハイフン (-)、ピリオド (.) またはアットマーク (@) のみ含むことができます。",
+});

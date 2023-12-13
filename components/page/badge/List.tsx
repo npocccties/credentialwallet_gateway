@@ -94,7 +94,13 @@ export const BadgeList = ({
   }, []);
 
   if (isNeedMoodleLogin) {
-    return <MoodleLoginForm setIsNeedMoodleLogin={setIsNeedMoodleLogin} getMyBadges={fetchMoodleMyBadges} />;
+    return (
+      <MoodleLoginForm
+        setIsNeedMoodleLogin={setIsNeedMoodleLogin}
+        setSelectLmsId={setSelectLmsId}
+        getMyBadges={fetchMoodleMyBadges}
+      />
+    );
   } else {
     return (
       <>
