@@ -35,3 +35,26 @@ export const moodleUserNameSchema = z.string().regex(/^[a-z0-9_.@-]+$/, {
   message:
     "ユーザー名には半角英数小文字、アンダースコア (_)、ハイフン (-)、ピリオド (.) またはアットマーク (@) のみ含むことができます。",
 });
+
+export const sendEmailFormSchema = z.object({
+  consumerId: z.string().or(z.number()),
+  email: z
+    .string()
+    .min(1, { message: "メールアドレスを入力してください。" })
+    .email({ message: "emailの入力形式が正しくありません。" })
+    .max(256, { message: "256文字以内で入力してください。" }),
+  externalLinkageId: z
+    .string()
+    .min(1, { message: "外部連携IDを入力してください。" })
+    .max(256, { message: "256文字以内で入力してください。" })
+    .refine((v) => validateForbiddenCharacters(v), {
+      message: "使用禁止文字が含まれています。",
+    }),
+  confirmLinkageId: z
+    .string()
+    .min(1, { message: "確認用フォームは入力必須です。" })
+    .max(256, { message: "256文字以内で入力してください。" })
+    .refine((v) => validateForbiddenCharacters(v), {
+      message: "使用禁止文字が含まれています。",
+    }),
+});

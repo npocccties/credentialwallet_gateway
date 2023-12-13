@@ -1,5 +1,6 @@
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { Box, VStack, FormLabel, Select, Input, Flex, Text, Image, Checkbox } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -7,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { PrimaryButton } from "@/components/ui/button/PrimaryButton";
 import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { pagePath, sessionStorageKey } from "@/constants";
-import { formValidateForbiddenCharacters } from "@/lib/validation";
+import { sendEmailFormSchema } from "@/lib/validation";
 import { sendConfirmEmail } from "@/share/api/submission/sendConfirmEmail";
 import { SubmissionEntry } from "@/types/api/submission";
 
@@ -36,6 +37,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
     defaultValues: {
       consumerId: badgeConsumers[0].consumerId,
     },
+    resolver: zodResolver(sendEmailFormSchema),
   });
 
   const sameIdForEmail = watch("sameIdForEmail");
@@ -132,14 +134,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
             </Box>
             <Box w={"full"}>
               <FormLabel mb={2}>emailアドレス</FormLabel>
-              <Input
-                placeholder="email@example.com"
-                type={"email"}
-                maxLength={256}
-                {...register("email", {
-                  required: "メールアドレスを入力してください",
-                })}
-              />
+              <Input placeholder="email@example.com" type={"email"} maxLength={256} {...register("email")} />
               <Text size="xs" mt={2}>
                 {errors.email?.message}
               </Text>
@@ -152,28 +147,14 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
               </Box>
               <Box w={"full"} mb={4}>
                 <FormLabel mb={2}>外部連携ID（マイレコID等）</FormLabel>
-                <Input
-                  type={"externalLinkageId"}
-                  {...register("externalLinkageId", {
-                    required: "外部連携IDを入力してください。",
-                    validate: formValidateForbiddenCharacters,
-                    maxLength: { value: 256, message: "256文字以内で入力してください。" },
-                  })}
-                />
+                <Input type={"externalLinkageId"} maxLength={256} {...register("externalLinkageId")} />
                 <Text size="xs" mt={2}>
                   {errors.externalLinkageId?.message}
                 </Text>
               </Box>
               <Box w={"full"}>
                 <FormLabel mb={2}>確認のため再度入力してください。</FormLabel>
-                <Input
-                  type={"confirmLinkageId"}
-                  {...register("confirmLinkageId", {
-                    required: "確認用フォームは入力必須です。",
-                    validate: formValidateForbiddenCharacters,
-                    maxLength: { value: 256, message: "256文字以内で入力してください。" },
-                  })}
-                />
+                <Input type={"confirmLinkageId"} maxLength={256} {...register("confirmLinkageId")} />
                 <Text size="xs" mt={2}>
                   {errors.confirmLinkageId?.message}
                 </Text>
