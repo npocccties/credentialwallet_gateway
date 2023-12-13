@@ -107,7 +107,7 @@ export const sendCabinetForVc = async ({
   } catch (e) {
     const { badUserId, badReqestOther, verifyBadgeNG, verifyVcNG } = submissionResult;
     const { status, data } = e.response;
-    loggerError(`status: ${status}, data: ${data}`);
+    loggerError(`status: ${status}, data: ${JSON.stringify(data)}`);
 
     if (status === 400) {
       loggerError(`${logStatus.error} submission badge error!`, data.reason_code);

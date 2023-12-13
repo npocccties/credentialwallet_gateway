@@ -51,6 +51,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
     const consumerId = typeof input.consumerId === "string" ? Number(input.consumerId) : input.consumerId;
 
     const data = await sendConfirmEmail({ email: input.email, consumerId });
+    // TODO: メール送信確認後、削除する
     console.log("動作確認用", data.confirmCode);
 
     const selectConsumer = {

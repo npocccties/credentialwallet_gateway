@@ -23,7 +23,7 @@ type BadgeVcData = {
 export const Confirm = () => {
   const router = useRouter();
   const [isSubmission, setIsSubmission] = useState(false);
-  const [responseState, setRequestState] = useState<SubmissionResponseStatus>(undefined);
+  const [responseState, setResponseState] = useState<SubmissionResponseStatus>(undefined);
   const { showProcessingScreen } = processingScreenActions.useShowProcessingScreen();
 
   const submissionEmail = sessionStorage.getItem(sessionStorageKey.submissionEmail);
@@ -37,7 +37,6 @@ export const Confirm = () => {
     const hashConfirmCode = sessionStorage.getItem(sessionStorageKey.confirmCode);
 
     const hashInput = await generateHash(codeInput);
-    console.log("input hash", hashInput, hashConfirmCode);
 
     if (hashConfirmCode !== hashInput) {
       alert("確認コードが一致しません");
@@ -51,7 +50,10 @@ export const Confirm = () => {
       const data = await postSubmissionVc({ consumerId, email: submissionEmail, badgeVcId, externalLinkageId });
 
       setIsSubmission(true);
-      setRequestState(data.result);
+      setResponseState(data.result);
+      if (data.result === "success") {
+        sessionStorage.removeItem(sessionStorageKey.confirmCode);
+      }
     });
   };
 
