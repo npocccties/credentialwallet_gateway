@@ -36,6 +36,15 @@ function ErrorPage({ statusCode, errorMessage }) {
 }
 
 ErrorPage.getInitialProps = ({ res, err }: NextPageContext) => {
+  if (typeof window !== "undefined") {
+    const nextData = JSON.parse(document.getElementById("__NEXT_DATA__")!.innerHTML);
+
+    if (nextData.props.pageProps) {
+      const { statusCode, errorMessage } = nextData.props.pageProps;
+      return { statusCode, errorMessage };
+    }
+  }
+
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
   const errorMessage = err ? err.message : "お探しのページは見つかりませんでした。";
 

@@ -1,10 +1,12 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Box, Flex, Link, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import React, { memo, useEffect, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
 
+import { pagePath } from "@/constants";
 import { getCookieValue } from "@/lib/cookie";
 import { getUserInfoFormJwt } from "@/lib/userInfo";
 
@@ -17,6 +19,7 @@ const logoutLink = process.env.NEXT_PUBLIC_LOGOUT_LINK as string;
 
 export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) => {
   const [name, setName] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     const session_cookie = getCookieValue("session_cookie");
@@ -64,10 +67,14 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
                 <Text fontSize={"xl"} mr={2}>
                   {name}
                 </Text>
-                <MdLogout size="24" />
-                <Link fontSize={"xl"} href={logoutLink} style={{ textDecoration: "none" }}>
-                  <Text>ログアウト</Text>
-                </Link>
+                {pagePath.login.error !== router.asPath && (
+                  <>
+                    <MdLogout size="24" />
+                    <Link fontSize={"xl"} href={logoutLink} style={{ textDecoration: "none" }}>
+                      <Text>ログアウト</Text>
+                    </Link>
+                  </>
+                )}
               </Flex>
               <Flex gap={"16px"} alignItems={"center"} color={"basic.white"} display={{ base: "flex", sm: "none" }}>
                 <Menu>
@@ -78,11 +85,13 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
                     <MenuItem>
                       <Text>{name}</Text>
                     </MenuItem>
-                    <MenuItem>
-                      <Link href={logoutLink} style={{ textDecoration: "none" }}>
-                        <Text>ログアウト</Text>
-                      </Link>
-                    </MenuItem>
+                    {pagePath.login.error !== router.asPath && (
+                      <MenuItem>
+                        <Link href={logoutLink} style={{ textDecoration: "none" }}>
+                          <Text>ログアウト</Text>
+                        </Link>
+                      </MenuItem>
+                    )}
                   </MenuList>
                 </Menu>
               </Flex>
