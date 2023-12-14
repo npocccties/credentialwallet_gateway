@@ -1,6 +1,6 @@
 #!/bin/sh
 echo $0
-DIR=$(cd $(dirname $0)/..; pwd)
+DIR=$(cd $(dirname $0); pwd)
 echo $DIR
 cd $DIR
 source ./.env
@@ -10,5 +10,5 @@ docker compose -f docker-compose.production-db.yml exec -T db pg_dump -h 127.0.0
 BACKUP_FILE="${DIR}/postgresql/data/chilowallet.dump"
 if [ -e $BACKUP_FILE ]; then
     sudo cp $BACKUP_FILE /var
-    /bin/sh ./script/server_db_backup_dump.sh
+    /bin/sh ./server_db_backup_dump.sh
 fi

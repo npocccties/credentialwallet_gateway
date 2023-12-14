@@ -1,6 +1,6 @@
 #!/bin/sh
 echo $0
-DIR=$(cd $(dirname $0)/..; pwd)
+DIR=$(cd $(dirname $0); pwd)
 echo $DIR
 cd $DIR
 DUMP_FILE="/var/chilowallet.dump"
