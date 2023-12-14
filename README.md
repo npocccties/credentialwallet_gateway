@@ -209,3 +209,25 @@ ssoEnabledは対象のMoodleがOrthrosによってSSOされるかを判定しま
 1. 管理 > サーバ > ウェブサービス > トークンを管理する より、「トークンを作成する」を選択し、先ほど選択したserviceのTokenを作成
 1. 発行したtokenをlms_access_tokenカラムに登録する
 1. token発行時に選択したserviceをlms_serviceカラムに登録する
+
+## configの設定値
+/config/index.ts に設定されている固定値
+基本的に設定の変更は不要です。
+
+```
+export const SERVICE_NAME = process.env.NEXT_PUBLIC_SERVICE_NAME;
+export const SERVICE_DESCRITION = process.env.NEXT_PUBLIC_SERVICE_DESCRIPTION;
+export const CUSTOME_SCHEMA = "openid-vc://";
+export const REQUEST_URI_KEY = `${CUSTOME_SCHEMA}?request_uri`;
+export const DID_ION_KEY_ID = "signingKey";
+export const SIOP_VALIDITY_IN_MINUTES = 30;
+```
+
+| 変数名                               | 説明                                        | 
+| :----------------------------------- | :------------------------------------------ | 
+|SERVICE_NAME|サービス名 環境変数で設定された値が代入されます|
+|SERVICE_DESCRITION|サービスの説明<br>metaタグに設定される説明です。 環境変数で設定された値が代入されます|
+|CUSTOME_SCHEMA|VCリクエスト時に使用するschema|
+|REQUEST_URI_KEY|VCリクエストで返却されたurlを取得するためのkey|
+|DID_ION_KEY_ID|VC発行リクエスト時の署名のDIDに付与するkey|
+|SIOP_VALIDITY_IN_MINUTES|VC発行リクエスト時の署名の有効期限設定値|

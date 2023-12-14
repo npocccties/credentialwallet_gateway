@@ -3,7 +3,7 @@ import { add, getUnixTime } from "date-fns";
 import { calculateThumbprint, JWK } from "jose/jwk/thumbprint";
 import { v4 as uuidv4 } from "uuid";
 
-import { DID_ION_KEY_ID, SIOP_VALIDITY_IN_MINUTES } from "../configs/constants";
+import { DID_ION_KEY_ID, SIOP_VALIDITY_IN_MINUTES } from "../configs";
 
 export interface KeyPair {
   publicJwk: JWK;

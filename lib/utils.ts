@@ -1,6 +1,6 @@
 import jsonwebtoken from "jsonwebtoken";
 
-import { QR_REQUEST_URI_KEY } from "../configs/constants";
+import { REQUEST_URI_KEY } from "../configs";
 import { Manifest, VCRequest } from "../types";
 
 const crypto = require("crypto").webcrypto;
@@ -22,7 +22,7 @@ export interface VCData {
 
 export const getRequestUrlFromUrlMessage = (message: string): string => {
   const urlSearchParams = new URLSearchParams(message);
-  const requestUrl = urlSearchParams.get(QR_REQUEST_URI_KEY);
+  const requestUrl = urlSearchParams.get(REQUEST_URI_KEY);
   if (!requestUrl) {
     console.error("QR code does not contains request url");
     return "";
@@ -38,12 +38,10 @@ export const getProtectedHeaderFromVCRequest = (jwt: string): JWTHeader => {
 export const getRequestFromVCRequest = (
   jwt: string,
 ): {
-  // vcRequestType: VCRequestType;
   vcRequest: VCRequest;
 } => {
   const decodedRequestData = <VCRequest>jsonwebtoken.decode(jwt);
   return {
-    // vcRequestType: decodedRequestData.prompt === "create" ? "issue" : "present",
     vcRequest: decodedRequestData,
   };
 };
