@@ -106,39 +106,32 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
       * ルートディレクトリで、`script/setup.sh` を実行する
 
 1. デプロイ
-   本番サーバー
    ```
-   ./script/app_start.sh
-   ```
-   開発サーバー
-   ```
-   ./script/app_start.sh
+   ./server_start.sh
    ```
    * 権限付与後の `server_start.sh` は何度でも実行可能です
 
 1. 備考  
-   chilowalletディレクトリ直下で実行の場合
    コンテナ起動  
    ```
-   ./script/app_start.sh
+   chilowallet/server_start.sh
    ```
 
    コンテナ停止  
    ```
-   ./script/server_stop.sh
+   chilowallet/server_stop.sh
    ```
    * DBが `/var/chilowallet.dump` にバックアップされます  
 
    コンテナ再起動  
    ```
-   ./script/app_restart.sh
+   chilowallet/server_restart.sh
    ```
-   * `app_stop.sh` と `app_start.sh` を呼びます
-
+   * `server_stop.sh` と `server_start.sh` を呼びます
 
    DBバックアップ  
    ```
-   ./script/server_db_backup.sh
+   chilowallet/server_db_backup.sh
    ```
    * DBが `/var/chilowallet.dump` にダンプ出力されます  
    * 上記ファイルは、環境変数 `DUMP_BACKUP_DIR` のディレクトリへ .tar.gz 形式で圧縮および格納されます
@@ -146,7 +139,7 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
    
    DBリストア  
    ```
-   ./script/server_db_restore.sh
+   chilowallet/server_db_restore.sh
    ```
    * `/var/chilowallet.dump` にあるバックアップデータをもとにDBをリストア（復元）します  
 
