@@ -1,2 +1,2 @@
-export const SERVICE_NAME = `バッジウォレット`;
-export const SERVICE_DESCRITION = `Open Badgeを格納、提出ができるアプリケーションです。`;
+export const SERVICE_NAME = process.env.NEXT_PUBLIC_SERVICE_NAME;
+export const SERVICE_DESCRITION = process.env.NEXT_PUBLIC_SERVICE_DESCRIPTION;

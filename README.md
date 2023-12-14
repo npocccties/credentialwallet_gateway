@@ -70,14 +70,13 @@ npx prisma studio
 ```
 
 ## ローカルで動かす場合
-jwtというkey名のeppn, displayNameをPayloadに含んだ署名付きJWTを用意します。
-（jwtという名称は現時点での仮であり、どのような名称になるかは未定）
+session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付きJWTを用意します。
 
 1. 秘密鍵、公開鍵のペアを用意する
 1. [jwt.io](https://jwt.io/)等で鍵を作成したアルゴリズムを選択し、Payloadにeppn, displayNameプロパティを入力する。
 1. 用意した秘密鍵、公開鍵を入力し、JWTを作成する
 1. 環境変数の orthros_login_key_base64 に作成した公開鍵のbase64エンコードしたものを設定する
-1. 立ち上がったアプリケーションのブラウザで開発者ツールを開き、Application > Cookiesで作成したJWTを手打ちで入れる
+1. 立ち上がったアプリケーションのブラウザで開発者ツールを開き、Application > Cookiesで作成したJWTをValueに手打ちで入れる
 
 上記の手順でアプリケーションが動作するようになります。
 
@@ -133,18 +132,16 @@ npx prisma db seed
 
 ## DB, ビルド時用
 .env
-| 変数名                               | 説明                                        | デフォルト値         |
-| :----------------------------------- | :------------------------------------------ | :------------------- |
-|SSL_CERTS_DIR|サーバー証明書の配置ディレクトリ|・ディレクトリの末尾には `/` は付与しないこと<br>・本番環境ではProxyサーバーを経由するので指定不要です|
-|ALLOWED_HOSTS|公開ホスト名|本番環境ではProxyサーバーを経由するので指定不要です<br>複数指定時はカンマ区切り指定|
-|DB_HOST|DBのホスト名|docker-compose.*.yml に記載されている`db`がホスト名|
-|DB_NAME|DB名|-|
-|DB_USER|DBのユーザ名|-|
-|DB_PASS|DBのパスワード|-|
-|DATABASE_URL|接続先データベースのURL|-|
-|LOG_LEVEL|ログレベルの設定|-|
-|LOG_MAX_SIZE|ログの最大サイズ|-|
-|LOG_MAX_FILE|ログの世代数|-|
+| 変数名                               | 説明                                        | デフォルト値         | 必須/任意|
+| :----------------------------------- | :------------------------------------------ | :------------------- | :---- |
+|DB_HOST|DBのホスト名|docker-compose.*.yml に記載されている`db`がホスト名|必須|
+|DB_NAME|DB名|-|必須|
+|DB_USER|DBのユーザ名|-|必須|
+|DB_PASS|DBのパスワード|-|必須|
+|DATABASE_URL|接続先データベースのURL|-|必須|
+|LOG_LEVEL|ログレベル<br>'fatal', 'error', 'warn', 'info', 'debug', 'trace' or 'silent'|-|必須|
+|LOG_MAX_SIZE|ログファイルサイズ<br>単位には k / m / g のいずれか指定|100m|必須|
+|LOG_MAX_FILE|ログファイルの世代数|7|必須|
 
 ## Next.jsアプリケーション用
 Next.jsアプリケーションでは、環境毎に以下のパターンで.envファイルを参照します。
@@ -163,29 +160,52 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 
 .env.production
 
-| 変数名                               | 説明                                        | デフォルト値         |
-| :----------------------------------- | :------------------------------------------ | :------------------- |
-|baseURL|アプリケーション起動時のURL|http://localhost:3000|
-|clientName|アプリケーションの名称|chilowallet|
-|did_authority|VC発行者のDID|-|
-|vcApp_client_id|AzureクライアントID|-|
-|vcApp_azTenantId|AzureテナントID|-|
-|vcApp_client_secret|Azureクライアントシークレット|-|
-|vcApp_scope|AzureへVC発行要求するためのスコープ配列|-|
-|vc_manifest_url|Entra Verified Idで発行者として登録しているmanifest url|-|
-|private_key_jwk|Walletの鍵情報（秘密鍵、公開鍵のペア）|-|
-|orthros_login_key_base64|Orthrosから発行されるJWTの署名に対応した公開鍵のbase64エンコード形式|-|
-|smtp_mail_server_host|メール送信サーバーのhost|-|
-|smtp_mail_server_port|メール送信サーバーのpost|-|
-|NEXT_PUBLIC_COPYRIGHT|フッターに表示するcopyright|-|
-|NEXT_PUBLIC_COPYRIGHT_LINK|フッターに表示するcopyrightのリンク|-|
-|NEXT_PUBLIC_E_PORTFOLIO_URL|e-ポートフォリオシステムへのリンク<br>末尾にはスラッシュは付与しないこと|-|
-|NEXT_PUBLIC_LOGIN_PAGE_URL|ログインページのURL|-|
+| 変数名                               | 説明                                        | デフォルト値         |必須/任意|
+| :----------------------------------- | :------------------------------------------ | :------------------- | :---- |
+|NEXT_PUBLIC_SERVICE_NAME|サービス名|バッジウォレット|必須|
+|NEXT_PUBLIC_SERVICE_DESCRIPTION|サービスの説明<br>metaタグに設定される説明です。|バッジウォレットは、取得したOpen Badgeを格納、提出ができるアプリケーションです。|必須|
+|NEXT_PUBLIC_COPYRIGHT|フッターに表示するコピーライト|-|必須|
+|NEXT_PUBLIC_COPYRIGHT_LINK|フッターに表示するコピーライトのリンク|-|必須|
+|NEXT_PUBLIC_E_PORTFOLIO_URL|e-ポートフォリオシステムへのリンク<br>末尾にはスラッシュは付与しないこと|-|必須|
+|NEXT_PUBLIC_LOGIN_PAGE_URL|ログインページのURL|-|必須|
+|NEXT_PUBLIC_LOGOUT_LINK|オルトロスのログアウトのリンク|-|必須|
+|NEXT_PUBLIC_HELP_LINK|ヘルプのリンク|-|必須|
+|baseURL|アプリケーション起動時のURL|http://localhost:3000|必須|
+|clientName|アプリケーションの名称|chilowallet|必須|
+|did_authority|VC発行者のDID|-|必須|
+|vcApp_client_id|AzureクライアントID|-|必須|
+|vcApp_azTenantId|AzureテナントID|-|必須|
+|vcApp_client_secret|Azureクライアントシークレット|-|必須|
+|vc_manifest_url|Entra Verified Idで発行者として登録しているmanifest url|-|必須|
+|private_key_jwk|Walletの鍵情報（秘密鍵、公開鍵のペア）。詳細は「鍵の作成」項目に記載|-|必須|
+|orthros_login_key_base64|Orthrosから発行されるJWTの署名に対応した公開鍵のbase64エンコード形式|-|必須|
+|smtp_mail_server_host|メール送信サーバーのhost|-|必須|
+|smtp_mail_server_port|メール送信サーバーのpost|-|必須|
+
+### vc* に設定する環境変数について
+Microsoft Entra Verified ID関連の環境構築は、wikiにある「1.0 Microsoft Entra Verified ID環境」項目に記載しています。
+環境構築にあたって生成された値を設定してください。
+did_authorityにはEntra Verified IDでの環境構築にあたって作成されたdidを設定してください。
 
 ### 鍵の作成
+「バッジウォレット」アプリケーションとしてDIDを発行するための秘密鍵、公開鍵を作成し環境変数 private_key_jwk に設定する必要があります。
+こちら
+
 node環境上で、下記を実行
 ```
 node script/keypair.ts
 ```
-プロジェクトの直下に秘密鍵と公開鍵のキーペア (JWK) が作成されるので、出力された内容を環境変数に設定してください。
+プロジェクトの直下にkey.txtというファイルで秘密鍵と公開鍵のキーペア (JWK) が作成されるので、出力された内容を環境変数に設定してください。
 ※ 鍵の情報は外部に漏れないよう大切に保管してください。
+
+## Moodleとの連携
+DBに入り、「lms_list」テーブルに任意のMoodleを登録してください。
+ssoEnabledは対象のMoodleがOrthrosによってSSOされるかを判定します。SSOを行う場合はtrueを設定してください。
+上記のssoEnabledをtrueにした場合、lmsAccessTokenの設定が必須になります。
+
+設定方法
+1. Moodle側で token generator プラグインをインストール
+1. サイト管理 > プラグイン > 管理ツール > token generator より、Enabled servicesで任意のserviceにチェックを入れる
+1. 管理 > サーバ > ウェブサービス > トークンを管理する より、「トークンを作成する」を選択し、先ほど選択したserviceのTokenを作成
+1. 発行したtokenをlms_access_tokenカラムに登録する
+1. token発行時に選択したserviceをlms_serviceカラムに登録する
