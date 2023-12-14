@@ -32,6 +32,7 @@ export const Confirm = () => {
   const badgeVcJson = sessionStorage.getItem(sessionStorageKey.badgeVc);
   const consumer = JSON.parse(consumerJson) as ConsumerData;
   const badgeVc = JSON.parse(badgeVcJson) as BadgeVcData;
+  const badgeVcId = router.query.badge_vc_id;
 
   const handleSubmission = async (codeInput: string) => {
     const hashConfirmCode = sessionStorage.getItem(sessionStorageKey.confirmCode);
@@ -66,6 +67,11 @@ export const Confirm = () => {
     const hashHex = hashArray.map((byte) => byte.toString(16).padStart(2, "0")).join("");
 
     return hashHex;
+  }
+
+  if (badgeVc.badgeVcId.toString() !== badgeVcId) {
+    router.push("/404");
+    return null;
   }
 
   if (!submissionEmail || !consumer || !badgeVc) {

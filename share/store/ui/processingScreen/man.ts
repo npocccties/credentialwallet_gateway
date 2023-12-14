@@ -61,5 +61,5 @@ const useShowProcessingScreen = () => {
 };
 
 export const processingScreenActions: ProcessingScreenActions = {
-  useShowProcessingScreen: useShowProcessingScreen,
+  useShowProcessingScreen,
 };

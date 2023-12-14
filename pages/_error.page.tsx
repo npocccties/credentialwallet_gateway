@@ -7,6 +7,7 @@ import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
 import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { SERVICE_DESCRITION, SERVICE_NAME } from "@/configs";
+import { pagePath } from "@/constants";
 import { errors } from "@/constants/error";
 
 function ErrorPage({ statusCode, errorMessage }) {
@@ -14,7 +15,7 @@ function ErrorPage({ statusCode, errorMessage }) {
   const errorLabel = statusCode === 500 ? errors.response500.label : `${statusCode} Not Found`;
 
   const handleBack = () => {
-    router.back();
+    router.push(pagePath.credential.list);
   };
 
   return (
@@ -27,7 +28,7 @@ function ErrorPage({ statusCode, errorMessage }) {
 
         <HStack>
           <Box>
-            <SecondaryButton onClick={handleBack}>前のページに戻る</SecondaryButton>
+            <SecondaryButton onClick={handleBack}>ウォレットに戻る</SecondaryButton>
           </Box>
         </HStack>
       </VStack>
