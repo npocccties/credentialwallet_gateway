@@ -125,6 +125,7 @@ npx prisma db seed
 ```
 
 もしType Error等で失敗する場合は、`npx prisma generate`を実行してから再度上記のコマンドを実行してください。
+
 ※ ビルドキャッシュなどの影響で、稀にschema.prismaの中身がローカルのファイルと異なった状態でコピーされていることがあります。その場合はdockerのキャッシュを適宜削除して再度コンテナを起動してください。
 
 
@@ -185,22 +186,25 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 ### vc* に設定する環境変数について
 Microsoft Entra Verified ID関連の環境構築は、wikiにある「1.0 Microsoft Entra Verified ID環境」項目に記載しています。
 環境構築にあたって生成された値を設定してください。
+
 did_authorityにはEntra Verified IDでの環境構築にあたって作成されたdidを設定してください。
 
 ### 鍵の作成
 「バッジウォレット」アプリケーションとしてDIDを発行するための秘密鍵、公開鍵を作成し環境変数 private_key_jwk に設定する必要があります。
-こちら
 
 node環境上で、下記を実行
 ```
 node script/keypair.ts
 ```
 プロジェクトの直下にkey.txtというファイルで秘密鍵と公開鍵のキーペア (JWK) が作成されるので、出力された内容を環境変数に設定してください。
+
 ※ 鍵の情報は外部に漏れないよう大切に保管してください。
 
 ## Moodleとの連携
 DBに入り、「lms_list」テーブルに任意のMoodleを登録してください。
+
 ssoEnabledは対象のMoodleがOrthrosによってSSOされるかを判定します。SSOを行う場合はtrueを設定してください。
+
 上記のssoEnabledをtrueにした場合、lmsAccessTokenの設定が必須になります。
 
 設定方法
@@ -212,6 +216,7 @@ ssoEnabledは対象のMoodleがOrthrosによってSSOされるかを判定しま
 
 ## configの設定値
 /config/index.ts に設定されている固定値
+
 基本的に設定の変更は不要です。
 
 ```
