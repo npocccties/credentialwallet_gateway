@@ -10,7 +10,10 @@
     "cmd:start:dev": "node server.js",
     "test": "jest",
     "test:w": "jest --watch",
-    "test:ci": "jest --ci"
+    "test:ci": "jest --ci",
+    "start:prod": "./script/app_start.sh",
+    "stop:prod": "./script/app_stop.sh",
+    "restart:prod": "./script/app_restart.sh"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
