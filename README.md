@@ -11,17 +11,15 @@ script/setup.sh
 ```
 
 # 開発
-makeコマンドがインストールされていない場合は、適宜インストールしてください。
 
 コンテナのビルド
 ```
-make build-local
+docker compose -f docker-compose.dev-local.yml build
 ```
 
 コンテナ起動
 ```
-make up-local
-# make up-d-localの場合はdaemonで起動
+docker compose -f docker-compose.dev-local.yml up -d
 ```
 
 appコンテナ内に移動
@@ -31,7 +29,7 @@ script/inapp.sh
 
 コンテナのdown
 ```
-make down-local
+docker compose -f docker-compose.dev-local.yml down
 ```
 
 アプリケーションの移動（appコンテナ内）
@@ -88,7 +86,7 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
    * Git  
 1. 適当なディレクトリへ移動
    ```
-   cd /work
+   cd /opt
    ```
 1. chilowallet のソースを取得
    ```
@@ -106,17 +104,50 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
 1. 環境変数を定義した `.env` をルートディレクトリに配置
    * 開発サーバー：
       * ルートディレクトリで、`script/setup.sh` を実行する
-      * .envの`ALLOWED_HOSTS`に記載されているドメインを、デプロイ先のドメインに設定する
 
 1. デプロイ
-  - 開発サーバー
-    ```
-    make build-dev
-    ```
-  - 停止（開発サーバー）
-    ```
-    make down-dev
-    ```
+   ```
+   ./server_start.sh
+   ```
+   * 権限付与後の `server_start.sh` は何度でも実行可能です
+
+1. 備考  
+   コンテナ起動  
+   ```
+   chilowallet/server_start.sh
+   ```
+
+   コンテナ停止  
+   ```
+   chilowallet/server_stop.sh
+   ```
+   * DBが `/var/chilowallet.dump` にバックアップされます  
+
+   コンテナ再起動  
+   ```
+   chilowallet/server_restart.sh
+   ```
+   * `server_stop.sh` と `server_start.sh` を呼びます
+
+   DBバックアップ  
+   ```
+   chilowallet/server_db_backup.sh
+   ```
+   * DBが `/var/chilowallet.dump` にダンプ出力されます  
+   * 上記ファイルは、環境変数 `DUMP_BACKUP_DIR` のディレクトリへ .tar.gz 形式で圧縮および格納されます
+   * 古い圧縮ファイルは削除されます（環境変数 `DUMP_BACKUP_COUNT` で保持する期間を日数で指定）
+   
+   DBリストア  
+   ```
+   chilowallet/server_db_restore.sh
+   ```
+   * `/var/chilowallet.dump` にあるバックアップデータをもとにDBをリストア（復元）します  
+
+   全てのコンテナログの確認  
+   ```
+   docker compose logs -f
+   ```
+   * -f の後ろにコンテナ名（appやdb等）を入れると該当コンテナのみのログが見れます  
 
 ## テストデータ作成
 コンテナ起動後、chilowallet-appに入り、下記を実行
@@ -143,6 +174,8 @@ npx prisma db seed
 |LOG_LEVEL|ログレベル<br>'fatal', 'error', 'warn', 'info', 'debug', 'trace' or 'silent'|-|必須|
 |LOG_MAX_SIZE|ログファイルサイズ<br>単位には k / m / g のいずれか指定|100m|必須|
 |LOG_MAX_FILE|ログファイルの世代数|7|必須|
+|DUMP_BACKUP_DIR|DBの圧縮ファイルのバックアップディレクトリ（絶対パス指定）<br>DBバックアップを実行すると `/var/chilowallet.dump` をダンプ出力するが、そのダンプファイルを下記命名で圧縮したうえで左記ディレクトリに格納する<br>`chilowallet.dump_{yyyyMMdd}.tar.gz`|/var/chilowallet.dump|必須|
+|DUMP_BACKUP_COUNT|DBの圧縮ファイルの保持日数<br>・保持日数を経過したDBの圧縮ファイルは削除される (例)1週間、保持したい場合は `7` を指定する<br>・削除の契機は、DBバックアップの実行時<br>・起点は昨日|7|必須|
 
 ## Next.jsアプリケーション用
 Next.jsアプリケーションでは、環境毎に以下のパターンで.envファイルを参照します。
@@ -182,6 +215,7 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 |orthros_login_key_base64|Orthrosから発行されるJWTの署名に対応した公開鍵のbase64エンコード形式|-|必須|
 |smtp_mail_server_host|メール送信サーバーのhost|-|必須|
 |smtp_mail_server_port|メール送信サーバーのpost|-|必須|
+
 
 ### vc* に設定する環境変数について
 Microsoft Entra Verified ID関連の環境構築は、wikiにある「1.0 Microsoft Entra Verified ID環境」項目に記載しています。
