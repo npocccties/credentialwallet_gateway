@@ -13,6 +13,7 @@ import { SubmissionResponseStatus } from "@/types/status";
 
 const smtpHost = process.env.smtp_mail_server_host;
 const smtpPort = process.env.smtp_mail_server_port;
+const mailFrom = process.env.mail_sender_address;
 
 const createMailTemplate = (confirmCode: string, consumerName: string) => {
   const messageTemplate = `
@@ -33,7 +34,7 @@ const createMailTemplate = (confirmCode: string, consumerName: string) => {
 };
 
 export const sendMail = async (email: string, confirmCode: string, consumerId: number) => {
-  const { cabinetUrl, consumerName } = await findCabinetUrl({ consumerId });
+  const { consumerName } = await findCabinetUrl({ consumerId });
 
   const options = {
     host: smtpHost,
@@ -46,11 +47,8 @@ export const sendMail = async (email: string, confirmCode: string, consumerId: n
     },
   };
 
-  const url = new URL(cabinetUrl);
-  const host = url.host;
-
   const mail = {
-    from: `no-reply@${host}`,
+    from: `no-reply@${mailFrom}`,
     to: email,
     subject: "バッジ提出確認コード",
     text: createMailTemplate(confirmCode, consumerName),
