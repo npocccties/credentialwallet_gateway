@@ -4,5 +4,5 @@ DIR=$(cd $(dirname $0); pwd)
 echo $DIR
 cd $DIR
 source ./.env
-/bin/sh server_stop.sh
-/bin/sh server_start.sh
+/bin/sh app_stop.sh
+/bin/sh app_start.sh

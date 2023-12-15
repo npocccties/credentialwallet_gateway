@@ -107,27 +107,27 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
 
 1. デプロイ
    ```
-   ./server_start.sh
+   ./app_start.sh
    ```
-   * 権限付与後の `server_start.sh` は何度でも実行可能です
+   * 権限付与後の `app_start.sh` は何度でも実行可能です
 
 1. 備考  
    コンテナ起動  
    ```
-   chilowallet/server_start.sh
+   chilowallet/app_start.sh
    ```
 
    コンテナ停止  
    ```
-   chilowallet/server_stop.sh
+   chilowallet/app_stop.sh
    ```
    * DBが `/var/chilowallet.dump` にバックアップされます  
 
    コンテナ再起動  
    ```
-   chilowallet/server_restart.sh
+   chilowallet/app_restart.sh
    ```
-   * `server_stop.sh` と `server_start.sh` を呼びます
+   * `app_stop.sh` と `app_start.sh` を呼びます
 
    DBバックアップ  
    ```
