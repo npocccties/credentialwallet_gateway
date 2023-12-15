@@ -217,7 +217,7 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 |orthros_login_key_base64|Orthrosから発行されるJWTの署名に対応した公開鍵のbase64エンコード形式|-|必須|
 |smtp_mail_server_host|メール送信サーバーのhost|-|必須|
 |smtp_mail_server_port|メール送信サーバーのpost|-|必須|
-|mail_sender_address|メール送信時のFromに設定されるsddress|-|必須|
+|mail_sender_address|メール送信時のFromに設定されるaddress|-|必須|
 
 
 ### vc* に設定する環境変数について
