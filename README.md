@@ -256,6 +256,7 @@ ssoEnabledは対象のMoodleがOrthrosによってSSOされるかを判定しま
    1. 「有効」にチェックを入れて変更を保存する
 1. 追加したサービスの「関数」を選択し、「関数を追加する」からcore_badges_get_user_badges を選択し、追加する
 1. サイト管理 > プラグイン > 管理ツール > Token generator より、以下2点のチェックを入れる
+   1. Enabled auth methodsで「Shibboleth」をチェックする
    1. Enabled userfieldsで「username」のみをチェックする
    1. Enabled servicesで4で追加したserviceにチェックする
 1. サイト管理 > サーバ > ウェブサービス > トークンを管理する より、「トークンを作成する」を選択し、Token Generator Serviceを選択。Tokenを作成（ユーザーは2-1で設定した許可ユーザーから選択する）
