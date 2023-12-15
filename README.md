@@ -244,17 +244,17 @@ ssoEnabledは対象のMoodleがOrthrosによってSSOされるかを判定しま
 上記のssoEnabledをtrueにした場合、lmsAccessTokenの設定が必須になります。
 
 設定方法
-1. Moodle側で [token generator](https://moodle.org/plugins/tool_token) プラグインをインストール
-1. 一般 > 拡張機能 より、「ウェブサービスを有効にする」にチェックを入れる
-1. サイト管理 > ウェブサービス > 外部サービス より、任意の名称でサービスを追加する
-1. 追加したサービスの「関数」を選択し、「関数を追加する」からcore_badges_get_user_badges を選択し、追加する
+1. Moodle側で [Token generator](https://moodle.org/plugins/tool_token) プラグインをインストール
 1. Token Generator Service がサービスに追加されていることを確認。「許可ユーザ」項目より、管理者権限のユーザーを許可ユーザーとして追加する。
-1. サイト管理 > プラグイン > 管理ツール > token generator より、以下2点のチェックを入れる
+1. 一般 > 拡張機能 より、「ウェブサービスを有効にする」にチェックを入れる
+1. サイト管理 > サーバ > ウェブサービス > 外部サービス より、任意の名称でサービスを追加する
+1. 追加したサービスの「関数」を選択し、「関数を追加する」からcore_badges_get_user_badges を選択し、追加する
+1. サイト管理 > プラグイン > 管理ツール > Token generator より、以下2点のチェックを入れる
    1. Enabled userfieldsで「username」のみをチェックする
    1. Enabled servicesで3で追加したserviceにチェックする
-1. 管理 > サーバ > ウェブサービス > トークンを管理する より、「トークンを作成する」を選択し、Token Generator Serviceを選択。Tokenを作成
-1. 7で発行したtokenをlms_access_tokenカラムに登録する
-1. 3で作成したserviceをlms_serviceカラムに登録する
+1. サイト管理 > サーバ > ウェブサービス > トークンを管理する より、「トークンを作成する」を選択し、Token Generator Serviceを選択。Tokenを作成
+1. Wallet側のDBに入り、7で発行したtokenをlms_access_tokenカラムに登録する
+1. 8と同様に、3で作成したserviceをlms_serviceカラムに登録する
 
 カラム登録の例
 | lms_id          | lms_name      | lms_url         | ssoEnabled | lms_access_token | lms_service |
