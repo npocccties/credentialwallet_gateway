@@ -256,6 +256,11 @@ ssoEnabledは対象のMoodleがOrthrosによってSSOされるかを判定しま
 1. 7で発行したtokenをlms_access_tokenカラムに登録する
 1. 3で作成したserviceをlms_serviceカラムに登録する
 
+カラム登録の例
+| lms_id          | lms_name      | lms_url         | ssoEnabled | lms_access_token | lms_service |
+| :-------------- | :-------------| :-------------- | :--------- | :--------------- | :---------- |
+|1| ○○学習サービス| https://example.service.com | true | af41a7413229f7ae31171b741d4fd89b | test_service |
+
 参考資料
 - [Githubリポジトリ](https://github.com/catalyst/moodle-tool_token)
 - [ウェブサービスを使用する](https://docs.moodle.org/2x/ja/%E3%82%A6%E3%82%A7%E3%83%96%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B)
