@@ -161,6 +161,8 @@ npx prisma db seed
 
 
 # 環境変数
+sampleに記載の値（client_idやclient_secrett等）はダミー値です。
+運用環境に合わせて適宜設定して下さい。
 
 ## DB, ビルド時用
 .env
@@ -171,7 +173,7 @@ npx prisma db seed
 |DB_USER|DBのユーザ名|-|必須|
 |DB_PASS|DBのパスワード|-|必須|
 |DATABASE_URL|接続先データベースのURL|-|必須|
-|LOG_LEVEL|ログレベル<br>'fatal', 'error', 'warn', 'info', 'debug', 'trace' or 'silent'|-|必須|
+|LOG_LEVEL|ログレベル<br>'fatal', 'error', 'warn', 'info', 'debug', 'trace' or 'silent'|info|必須|
 |LOG_MAX_SIZE|ログファイルサイズ<br>単位には k / m / g のいずれか指定|100m|必須|
 |LOG_MAX_FILE|ログファイルの世代数|7|必須|
 |DUMP_BACKUP_DIR|DBの圧縮ファイルのバックアップディレクトリ（絶対パス指定）<br>DBバックアップを実行すると `/var/chilowallet.dump` をダンプ出力するが、そのダンプファイルを下記命名で圧縮したうえで左記ディレクトリに格納する<br>`chilowallet.dump_{yyyyMMdd}.tar.gz`|/var/chilowallet.dump|必須|
@@ -218,7 +220,7 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 
 
 ### vc* に設定する環境変数について
-Microsoft Entra Verified ID関連の環境構築は、wikiにある「1.0 Microsoft Entra Verified ID環境」項目に記載しています。
+Microsoft Entra Verified ID関連の環境構築は、wikiにある[「1.0 Microsoft Entra Verified ID環境」](https://github.com/npocccties/chilowallet/wiki/1.0-Microsoft-Entra-Verified-ID%E7%92%B0%E5%A2%83)項目に記載しています。
 環境構築にあたって生成された値を設定してください。
 
 did_authorityにはEntra Verified IDでの環境構築にあたって作成されたdidを設定してください。
@@ -242,11 +244,22 @@ ssoEnabledは対象のMoodleがOrthrosによってSSOされるかを判定しま
 上記のssoEnabledをtrueにした場合、lmsAccessTokenの設定が必須になります。
 
 設定方法
-1. Moodle側で token generator プラグインをインストール
-1. サイト管理 > プラグイン > 管理ツール > token generator より、Enabled servicesで任意のserviceにチェックを入れる
-1. 管理 > サーバ > ウェブサービス > トークンを管理する より、「トークンを作成する」を選択し、先ほど選択したserviceのTokenを作成
-1. 発行したtokenをlms_access_tokenカラムに登録する
-1. token発行時に選択したserviceをlms_serviceカラムに登録する
+1. Moodle側で [token generator](https://moodle.org/plugins/tool_token) プラグインをインストール
+1. 一般 > 拡張機能 より、「ウェブサービスを有効にする」にチェックを入れる
+1. サイト管理 > ウェブサービス > 外部サービス より、任意の名称でサービスを追加する
+1. 追加したサービスの「関数」を選択し、「関数を追加する」からcore_badges_get_user_badges を選択し、追加する
+1. Token Generator Service がサービスに追加されていることを確認。「許可ユーザ」項目より、管理者権限のユーザーを許可ユーザーとして追加する。
+1. サイト管理 > プラグイン > 管理ツール > token generator より、以下2点のチェックを入れる
+   1. Enabled userfieldsで「username」のみをチェックする
+   1. Enabled servicesで3で追加したserviceにチェックする
+1. 管理 > サーバ > ウェブサービス > トークンを管理する より、「トークンを作成する」を選択し、Token Generator Serviceを選択。Tokenを作成
+1. 7で発行したtokenをlms_access_tokenカラムに登録する
+1. 3で作成したserviceをlms_serviceカラムに登録する
+
+参考資料
+- [Githubリポジトリ](https://github.com/catalyst/moodle-tool_token)
+- [ウェブサービスを使用する](https://docs.moodle.org/2x/ja/%E3%82%A6%E3%82%A7%E3%83%96%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B)
+
 
 ## configの設定値
 /config/index.ts に設定されている固定値
