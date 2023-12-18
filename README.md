@@ -145,7 +145,7 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
 
    全てのコンテナログの確認  
    ```
-   docker compose logs -f
+   docker container logs -f
    ```
    * -f の後ろにコンテナ名（chilowalletやdb等）を入れると該当コンテナのみのログが見れます  
 
