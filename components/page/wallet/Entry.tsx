@@ -8,19 +8,23 @@ import { pagePath } from "@/constants";
 import { getCookieValue } from "@/lib/cookie";
 import { getUserInfoFormJwt } from "@/lib/userInfo";
 import { postNewWallet } from "@/share/api/wallet/postNewWallet";
+import { processingScreenActions } from "@/share/store/ui/processingScreen/man";
 
 export const EntryWallet = () => {
   const router = useRouter();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
+  const { showProcessingScreen } = processingScreenActions.useShowProcessingScreen();
 
   const session_cookie = getCookieValue("session_cookie");
   const { displayName } = getUserInfoFormJwt(session_cookie);
 
   const handleClickButton = async () => {
-    await postNewWallet();
+    showProcessingScreen(async () => {
+      await postNewWallet();
 
-    onOpen();
+      onOpen();
+    });
   };
   return (
     <Flex direction={"column"} px={{ base: 4, sm: 0 }}>
@@ -51,7 +55,7 @@ export const EntryWallet = () => {
         title="ウォレットの作成が完了しました！"
         okButtonrText="ウォレットへ"
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={() => {}}
         cancelRef={cancelRef}
         handleOkClick={() => router.push(pagePath.credential.list)}
       />
