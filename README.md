@@ -147,7 +147,7 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
    ```
    docker compose logs -f
    ```
-   * -f の後ろにコンテナ名（appやdb等）を入れると該当コンテナのみのログが見れます  
+   * -f の後ろにコンテナ名（chilowalletやdb等）を入れると該当コンテナのみのログが見れます  
 
 ## テストデータ作成
 コンテナ起動後、chilowallet-appに入り、下記を実行
