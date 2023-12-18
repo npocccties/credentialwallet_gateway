@@ -20,6 +20,7 @@ import { VcDetailTabPanel } from "@/components/ui/tabPanel/VcDetailTabPanel";
 import { pagePath } from "@/constants";
 import { isBefoerCurrentTimeJST } from "@/lib/date";
 import { vcDetailActions } from "@/share/store/credentialDetail/main";
+import { processingScreenActions } from "@/share/store/ui/processingScreen/man";
 import { CredentialDetailData } from "@/types/api/credential/detail";
 
 export const CredentialDetail: React.FC<CredentialDetailData> = ({
@@ -32,13 +33,16 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
   const cancelRef = useRef();
   const expired = isBefoerCurrentTimeJST(vcDetailData.badgeExpires);
   const isDeleteDisabled = vcDetailData.submissions.length !== 0;
+  const { showProcessingScreen } = processingScreenActions.useShowProcessingScreen();
 
   const { deleteCredential } = vcDetailActions.useDeleteCredential();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleClickDelete = async () => {
-    await deleteCredential(vcDetailData.badgeVcId);
-    router.push(pagePath.credential.list);
+    showProcessingScreen(async () => {
+      await deleteCredential(vcDetailData.badgeVcId);
+      router.push(pagePath.credential.list);
+    });
   };
   return (
     <>

@@ -50,7 +50,6 @@ export const getServerSideProps = async function (
     return { notFound: true };
   }
   const id = result.data.badge_vc_id;
-  // const eppn = context.req.session.eppn;
   const session_cookie = context.req.cookies.session_cookie;
   const { eppn } = getUserInfoFormJwt(session_cookie);
 
