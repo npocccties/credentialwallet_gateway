@@ -231,6 +231,7 @@ did_authorityにはEntra Verified IDでの環境構築にあたって作成さ�
 
 node環境上で、下記を実行
 （node_modulesにion-toolsがないと実行できません。npm installを行っていない場合は、scriptを実行する環境上でnpm installを行ってください）
+※ nodeはv16を想定しています。
 ```
 node script/keypair.ts
 ```
