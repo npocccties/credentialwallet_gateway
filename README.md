@@ -230,6 +230,7 @@ did_authorityにはEntra Verified IDでの環境構築にあたって作成さ�
 「バッジウォレット」アプリケーションとしてDIDを発行するための秘密鍵、公開鍵を作成し環境変数 private_key_jwk に設定する必要があります。
 
 node環境上で、下記を実行
+（node_modulesにion-toolsがないと実行できません。npm installを行っていない場合は、scriptを実行する環境上でnpm installを行ってください）
 ```
 node script/keypair.ts
 ```
