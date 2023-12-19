@@ -13,5 +13,5 @@ export const sidebarItems: Array<NavItemProps> = [
     newWindow: true,
     targetTabName: "portfolio",
   },
-  { name: "ヘルプ", link: process.env.NEXT_PUBLIC_E_HELP_URL, external: true, newWindow: true, targetTabName: "help" },
+  { name: "ヘルプ", link: process.env.NEXT_PUBLIC_HELP_LINK, external: true, newWindow: true, targetTabName: "help" },
 ];
