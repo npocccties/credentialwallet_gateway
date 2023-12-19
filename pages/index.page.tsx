@@ -18,7 +18,7 @@ type Props = {
   isCreatedWallet: boolean;
 };
 
-export const getServerSideProps = async function ({ req, res }): Promise<GetServerSidePropsResult<Props>> {
+export const getServerSideProps = async function ({ req }): Promise<GetServerSidePropsResult<Props>> {
   loggerInfo(logStartForPageSSR(pagePath.credential.list));
 
   const session_cookie = req.cookies.session_cookie;

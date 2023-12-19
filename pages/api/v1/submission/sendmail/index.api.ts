@@ -37,14 +37,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   try {
     const confirmCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-    console.log("confirmCode", confirmCode);
     const hashConfirmCode = crypto.createHash("sha256").update(confirmCode).digest("hex");
 
     await sendMail(email, confirmCode, consumerId);
 
     loggerInfo(`${logStatus.success} ${apiPath}`);
 
-    return res.status(200).json({ hashConfirmCode, confirmCode });
+    return res.status(200).json({ hashConfirmCode });
   } catch (e) {
     loggerError(`${logStatus.error} ${apiPath}`, e.message);
 

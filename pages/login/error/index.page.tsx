@@ -16,7 +16,7 @@ import { postLogoutAction } from "@/share/api/logout/postLogout";
 
 const page = pagePath.login.error;
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   loggerInfo(logStartForPageSSR(page));
 
   const session_cookie = req.cookies.session_cookie;

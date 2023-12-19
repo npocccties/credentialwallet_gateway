@@ -17,18 +17,18 @@ const mailFrom = process.env.mail_sender_address;
 
 const createMailTemplate = (confirmCode: string, consumerName: string) => {
   const messageTemplate = `
-  下記の確認コードを入力して${consumerName} にバッジを提出してください。
-  ───────────────────────────────────
-  ■確認コード■
-  ───────────────────────────────────
-  ${confirmCode}
-  ───────────────────────────────────
-  
-  
-  
-  ※このメールに心当たりの無い方は、本メールの破棄をお願いいたします。
-  ※このメールはシステムより自動配信されています。返信は受付できませんので、ご了承ください。
-  `;
+下記の確認コードを入力して${consumerName} にバッジを提出してください。
+───────────────────────────────────
+■確認コード■
+───────────────────────────────────
+${confirmCode}
+───────────────────────────────────
+
+
+
+※このメールに心当たりの無い方は、本メールの破棄をお願いいたします。
+※このメールはシステムより自動配信されています。返信は受付できませんので、ご了承ください。
+`;
 
   return messageTemplate;
 };
@@ -42,7 +42,7 @@ export const sendMail = async (email: string, confirmCode: string, consumerId: n
     secure: false,
     requireTLS: false,
     tls: {
-      // TODO: 開発環境でのみ使用
+      // MEMO: https://stackoverflow.com/questions/30720142/how-to-solve-cert-untrusted-error-in-nodemailers
       rejectUnauthorized: false,
     },
   };

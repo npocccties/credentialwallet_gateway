@@ -18,7 +18,7 @@ const EntryWallet = dynamic(() => import("@/components/page/wallet/Entry").then(
 
 const page = pagePath.entry;
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   loggerInfo(logStartForPageSSR(page));
 
   const session_cookie = req.cookies.session_cookie;

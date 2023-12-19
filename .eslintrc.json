@@ -19,8 +19,7 @@
     "jest": true
   },
   "rules": {
-    // TODO: no-unused-vars 機能開発途中のためオフ
-    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
     "no-irregular-whitespace": "error",
     "unused-imports/no-unused-imports": "warn",
     "import/order": [

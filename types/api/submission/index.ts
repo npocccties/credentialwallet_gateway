@@ -19,6 +19,4 @@ export type SubmissionVcRequestParam = {
 };
 export type SendMail = {
   hashConfirmCode: string;
-  // TODO: 確認用
-  confirmCode: string;
 };

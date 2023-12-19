@@ -49,7 +49,7 @@ interface CredentialSubjectItemProps {
   isDanger?: boolean;
 }
 
-const CredentialSubjectItem: React.FC<CredentialSubjectItemProps> = ({ name, data, isDanger }) => {
+const CredentialSubjectItem: React.FC<CredentialSubjectItemProps> = ({ name, data }) => {
   return (
     <Box>
       <Text color="gray" mb={4}>
