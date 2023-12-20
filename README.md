@@ -101,9 +101,8 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
    ```
    sudo chmod 755 *.sh
    ```
-1. 環境変数を定義した `.env` をルートディレクトリに配置
-   * 開発サーバー：
-      * ルートディレクトリで、`setup.sh` を実行する
+
+1. ルートディレクトリで、`setup.sh` を実行する
 
 1. デプロイ
    ```
