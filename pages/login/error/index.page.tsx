@@ -40,11 +40,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 };
 
 const index = () => {
-  const loginPageUrl = process.env.NEXT_PUBLIC_LOGIN_PAGE_URL;
+  const logoutUrl = process.env.NEXT_PUBLIC_LOGOUT_LINK;
 
   const handleLogout = async () => {
     await postLogoutAction();
-    window.location.href = loginPageUrl;
+    window.location.href = logoutUrl;
   };
   return (
     <Layout maxW="2xl">
@@ -56,7 +56,7 @@ const index = () => {
 
         <HStack>
           <Box>
-            <SecondaryButton onClick={() => handleLogout()}>ログイン画面へ</SecondaryButton>
+            <SecondaryButton onClick={() => handleLogout()}>ログアウトする</SecondaryButton>
           </Box>
         </HStack>
       </VStack>
