@@ -32,7 +32,7 @@ docker container exec -it chilowallet sh
 docker compose -f docker-compose.dev-local.yml down
 ```
 
-アプリケーションの移動（appコンテナ内）
+アプリケーションの起動（appコンテナ内）
 ```
 npm run dev
 ```
