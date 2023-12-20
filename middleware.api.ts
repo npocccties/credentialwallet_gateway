@@ -9,6 +9,8 @@ import type { NextRequest } from "next/server";
 import { logEndForOther, logStartForOther } from "@/constants/log";
 import { loggerMWInfo } from "@/lib/logger";
 
+const redirectUrl = process.env.not_logged_in_redirect_url;
+
 export async function middleware(req: NextRequest) {
   loggerMWInfo(logStartForOther("middleware"));
   const res = NextResponse.next();
@@ -23,8 +25,8 @@ export async function middleware(req: NextRequest) {
   const session_cookie = req.cookies.get("session_cookie");
 
   if (!session_cookie) {
-    loggerMWInfo(`no session_cookie! redirect to /w`);
-    return NextResponse.redirect(new URL(pagePath.getSession, req.url));
+    loggerMWInfo(`no session_cookie! redirect to ${redirectUrl}`);
+    return NextResponse.redirect(new URL(redirectUrl, req.url));
   }
 
   const verify = await verifyOrthrosJwt(session_cookie);
