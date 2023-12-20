@@ -7,7 +7,7 @@ const createKey = async () => {
   const key = await ION.generateKeyPair();
   console.log("key", key);
   try {
-    fs.writeFileSync("../key.txt", JSON.stringify(key));
+    fs.writeFileSync("./key.txt", JSON.stringify(key));
   } catch (e) {
     console.log(e);
   }
