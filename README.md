@@ -217,7 +217,7 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 |smtp_mail_server_host|メール送信サーバーのhost|-|必須|
 |smtp_mail_server_port|メール送信サーバーのpost|-|必須|
 |mail_sender_address|メール送信時のFromに設定されるaddress|-|必須|
-|not_logged_in_redirect_url|未ログイン時のリダイレクトURL|/redirect|必須|
+|get_session_redirect_url|未ログイン時のリダイレクトURL|/redirect|必須|
 
 
 ### vc* に設定する環境変数について

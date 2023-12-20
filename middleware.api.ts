@@ -9,7 +9,7 @@ import type { NextRequest } from "next/server";
 import { logEndForOther, logStartForOther } from "@/constants/log";
 import { loggerMWInfo } from "@/lib/logger";
 
-const redirectUrl = process.env.not_logged_in_redirect_url;
+const redirectUrl = process.env.get_session_redirect_url;
 
 export async function middleware(req: NextRequest) {
   loggerMWInfo(logStartForOther("middleware"));
