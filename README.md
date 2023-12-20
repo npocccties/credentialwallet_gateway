@@ -7,7 +7,7 @@
 # setup
 git clone実行後、ルートディレクトリで以下のコマンドを実行します。
 ```
-script/setup.sh
+./setup.sh
 ```
 
 # 開発
@@ -24,7 +24,7 @@ docker compose -f docker-compose.dev-local.yml up -d
 
 appコンテナ内に移動
 ```
-script/inapp.sh
+docker container exec -it chilowallet sh
 ```
 
 コンテナのdown
@@ -78,7 +78,7 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
 
 上記の手順でアプリケーションが動作するようになります。
 
-# 開発サーバー（または本番サーバー）
+# 開発サーバー（または本番サーバー）へのデプロイ
 
 1. 下記をインストール
    * Docker
@@ -103,13 +103,16 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
    ```
 1. 環境変数を定義した `.env` をルートディレクトリに配置
    * 開発サーバー：
-      * ルートディレクトリで、`script/setup.sh` を実行する
+      * ルートディレクトリで、`setup.sh` を実行する
 
 1. デプロイ
    ```
    ./app_start.sh
    ```
    * 権限付与後の `app_start.sh` は何度でも実行可能です
+   * 開発サーバー
+      * `./app_start_dev.sh`を実行する
+      * 停止は `./app_stop_dev.sh`を実行してください
 
 1. 備考  
    コンテナ起動  
@@ -149,7 +152,7 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
    ```
    * -f の後ろにコンテナ名（chilowalletやdb等）を入れると該当コンテナのみのログが見れます  
 
-## テストデータ作成
+## テストデータ作成（開発サーバー環境）
 コンテナ起動後、chilowallet-appに入り、下記を実行
 ```
 npx prisma db seed
@@ -233,7 +236,7 @@ node環境上で、下記を実行
 （node_modulesにion-toolsがないと実行できません。npm installを行っていない場合は、scriptを実行する環境上でnpm installを行ってください）
 ※ nodeはv16を想定しています。
 ```
-node script/keypair.ts
+node keypair.ts
 ```
 プロジェクトの直下にkey.txtというファイルで秘密鍵と公開鍵のキーペア (JWK) が作成されるので、出力された内容を環境変数に設定してください。
 
