@@ -49,6 +49,10 @@ export const SearchForm = () => {
     .refine(
       (args) => {
         const { issuedFrom, issuedTo } = args;
+
+        if (issuedFrom === "" || issuedTo === "") {
+          return true;
+        }
         const issuedFromObject = new Date(issuedFrom);
         const issuedToObjext = new Date(issuedTo);
 
