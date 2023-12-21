@@ -140,21 +140,7 @@ export const SearchForm = () => {
                     </GridItem>
                     <GridItem>
                       <FormLabel htmlFor="issuedTo">発行日To</FormLabel>
-                      <Input
-                        id="issuedTo"
-                        type="text"
-                        autoComplete="off"
-                        onClick={(e) => {
-                          e.currentTarget.type = "date";
-                        }}
-                        {...register("issuedTo", {
-                          onBlur: (e) => {
-                            if (e.currentTarget.value === "") {
-                              e.currentTarget.type = "text";
-                            }
-                          },
-                        })}
-                      />
+                      <Input id="issuedTo" type="date" className="dateinput" {...register("issuedTo", {})} />
                       <Text size="xs" mt={2}>
                         {errors.issuedTo?.message}
                       </Text>
