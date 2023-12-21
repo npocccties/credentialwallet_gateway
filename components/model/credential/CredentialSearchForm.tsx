@@ -122,7 +122,8 @@ export const SearchForm = () => {
                       <Input
                         id="issuedFrom"
                         type="text"
-                        onFocus={(e) => {
+                        autoComplete="off"
+                        onClick={(e) => {
                           e.currentTarget.type = "date";
                         }}
                         {...register("issuedFrom", {
@@ -142,7 +143,8 @@ export const SearchForm = () => {
                       <Input
                         id="issuedTo"
                         type="text"
-                        onFocus={(e) => {
+                        autoComplete="off"
+                        onClick={(e) => {
                           e.currentTarget.type = "date";
                         }}
                         {...register("issuedTo", {
