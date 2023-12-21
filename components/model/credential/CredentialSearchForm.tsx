@@ -125,6 +125,9 @@ export const SearchForm = () => {
                         autoComplete="off"
                         onClick={(e) => {
                           e.currentTarget.type = "date";
+                          console.log("test", e);
+                          // @ts-ignore
+                          e.currentTarget.showPicker();
                         }}
                         {...register("issuedFrom", {
                           onBlur: (e) => {
@@ -146,6 +149,8 @@ export const SearchForm = () => {
                         autoComplete="off"
                         onClick={(e) => {
                           e.currentTarget.type = "date";
+                          // @ts-ignore
+                          e.currentTarget.showPicker();
                         }}
                         {...register("issuedTo", {
                           onBlur: (e) => {
