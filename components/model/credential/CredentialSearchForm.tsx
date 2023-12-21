@@ -125,9 +125,11 @@ export const SearchForm = () => {
                         autoComplete="off"
                         onClick={(e) => {
                           e.currentTarget.type = "date";
-                          console.log("test", e);
-                          // @ts-ignore
-                          e.currentTarget.showPicker();
+                          // テスト用
+                          alert(`test ${e.currentTarget.type}`);
+
+                          // // @ts-ignore
+                          // e.currentTarget.showPicker();
                         }}
                         {...register("issuedFrom", {
                           onBlur: (e) => {
@@ -145,12 +147,13 @@ export const SearchForm = () => {
                       <FormLabel htmlFor="issuedTo">発行日To</FormLabel>
                       <Input
                         id="issuedTo"
-                        type="text"
+                        type="date"
                         autoComplete="off"
                         onClick={(e) => {
-                          e.currentTarget.type = "date";
-                          // @ts-ignore
-                          e.currentTarget.showPicker();
+                          alert("test", e.currentTarget.type);
+                          // e.currentTarget.type = "date";
+                          // // @ts-ignore
+                          // e.currentTarget.showPicker();
                         }}
                         {...register("issuedTo", {
                           onBlur: (e) => {
