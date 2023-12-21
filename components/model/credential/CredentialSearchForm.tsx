@@ -119,14 +119,40 @@ export const SearchForm = () => {
                     </GridItem>
                     <GridItem>
                       <FormLabel htmlFor="issuedFrom">発行日From</FormLabel>
-                      <Input id="issuedFrom" type="date" {...register("issuedFrom")} />
+                      <Input
+                        id="issuedFrom"
+                        type="text"
+                        onFocus={(e) => {
+                          e.currentTarget.type = "date";
+                        }}
+                        {...register("issuedFrom", {
+                          onBlur: (e) => {
+                            if (e.currentTarget.value === "") {
+                              e.currentTarget.type = "text";
+                            }
+                          },
+                        })}
+                      />
                       <Text size="xs" mt={2}>
                         {errors.issuedFrom?.message}
                       </Text>
                     </GridItem>
                     <GridItem>
                       <FormLabel htmlFor="issuedTo">発行日To</FormLabel>
-                      <Input id="issuedTo" type="date" {...register("issuedTo")} />
+                      <Input
+                        id="issuedTo"
+                        type="text"
+                        onFocus={(e) => {
+                          e.currentTarget.type = "date";
+                        }}
+                        {...register("issuedTo", {
+                          onBlur: (e) => {
+                            if (e.currentTarget.value === "") {
+                              e.currentTarget.type = "text";
+                            }
+                          },
+                        })}
+                      />
                       <Text size="xs" mt={2}>
                         {errors.issuedTo?.message}
                       </Text>
