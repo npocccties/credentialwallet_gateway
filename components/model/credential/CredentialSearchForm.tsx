@@ -69,8 +69,10 @@ export const SearchForm = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { isSubmitting, errors },
   } = useForm<SearchFormItem>({ resolver: zodResolver(formSchema) });
+  const { issuedFrom, issuedTo } = watch();
 
   const onSubmit = async (values: SearchFormItem) => {
     const param: SearchFormItem = {
@@ -121,18 +123,9 @@ export const SearchForm = () => {
                       <FormLabel htmlFor="issuedFrom">発行日From</FormLabel>
                       <Input
                         id="issuedFrom"
-                        type="text"
-                        autoComplete="off"
-                        onClick={(e) => {
-                          e.currentTarget.type = "date";
-                        }}
-                        {...register("issuedFrom", {
-                          onBlur: (e) => {
-                            if (e.currentTarget.value === "") {
-                              e.currentTarget.type = "text";
-                            }
-                          },
-                        })}
+                        type="date"
+                        style={issuedFrom === "" ? { color: "#e5e7eb" } : {}}
+                        {...register("issuedFrom")}
                       />
                       <Text size="xs" mt={2}>
                         {errors.issuedFrom?.message}
@@ -140,7 +133,12 @@ export const SearchForm = () => {
                     </GridItem>
                     <GridItem>
                       <FormLabel htmlFor="issuedTo">発行日To</FormLabel>
-                      <Input id="issuedTo" type="date" className="dateinput" {...register("issuedTo", {})} />
+                      <Input
+                        id="issuedTo"
+                        type="date"
+                        style={issuedTo === "" ? { color: "#e5e7eb" } : {}}
+                        {...register("issuedTo")}
+                      />
                       <Text size="xs" mt={2}>
                         {errors.issuedTo?.message}
                       </Text>
