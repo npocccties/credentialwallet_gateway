@@ -124,7 +124,7 @@ export const SearchForm = () => {
                       <Input
                         id="issuedFrom"
                         type="date"
-                        style={issuedFrom === "" ? { color: "#e5e7eb" } : {}}
+                        style={issuedFrom === "" || !issuedFrom ? { color: "#e5e7eb" } : {}}
                         {...register("issuedFrom")}
                       />
                       <Text size="xs" mt={2}>
@@ -136,7 +136,7 @@ export const SearchForm = () => {
                       <Input
                         id="issuedTo"
                         type="date"
-                        style={issuedTo === "" ? { color: "#e5e7eb" } : {}}
+                        style={issuedTo === "" || !issuedTo ? { color: "#e5e7eb" } : {}}
                         {...register("issuedTo")}
                       />
                       <Text size="xs" mt={2}>
