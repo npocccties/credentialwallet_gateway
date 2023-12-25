@@ -1,36 +1,104 @@
-import React from "react";
-
-import { Box, Flex, Link, Text } from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
+import { Box, Flex, Link, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { SERVICE_NAME } from "../configs";
+import { useRouter } from "next/router";
+import React, { memo, useEffect, useState } from "react";
+import { FaUserAlt } from "react-icons/fa";
+import { MdLogout } from "react-icons/md";
 
-export const Header: React.VFC = () => {
+import { pagePath } from "@/constants";
+import { getCookieValue } from "@/lib/cookie";
+import { getUserInfoFormJwt } from "@/lib/userInfo";
+
+type Props = {
+  onOpen: () => void;
+  showContents: boolean;
+};
+
+const logoutLink = process.env.NEXT_PUBLIC_LOGOUT_LINK as string;
+
+export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) => {
+  const [name, setName] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    const session_cookie = getCookieValue("session_cookie");
+
+    const { displayName } = getUserInfoFormJwt(session_cookie);
+    setName(displayName);
+  }, []);
   return (
-    <Box>
+    <Box as="header" position={"fixed"} w={"100%"} zIndex={1000}>
       <Flex
-        minH={"64px"}
+        h={"64px"}
         alignItems={"center"}
         justifyContent={"space-between"}
+        backgroundColor={"basic.black"}
         p={{ base: 8 }}
       >
-        <NextLink href="/">
-          <Link fontSize={"xl"} fontWeight={"bold"}>
-            {SERVICE_NAME}
-          </Link>
-        </NextLink>
-        <Flex gap={"16px"}>
-          <NextLink href="/issue">
-            <Link fontSize={"lg"} fontWeight={"bold"}>
-              Issue
+        <Box>
+          {showContents && (
+            <HamburgerIcon color={"basic.white"} w={6} h={6} cursor={"pointer"} onClick={() => onOpen()} />
+          )}
+        </Box>
+        <Box
+          style={{
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+        >
+          <NextLink href="/">
+            <Link
+              color={"basic.white"}
+              fontSize={{ base: "xl", md: "2xl" }}
+              fontWeight={"bold"}
+              style={{ textDecoration: "none" }}
+            >
+              バッジウォレット
             </Link>
           </NextLink>
-          <NextLink href="/verify">
-            <Link fontSize={"lg"} fontWeight={"bold"}>
-              Verify
-            </Link>
-          </NextLink>
-        </Flex>
+        </Box>
+        <Box>
+          {showContents && (
+            <>
+              <Flex gap={"8px"} alignItems={"center"} color={"basic.white"} display={{ base: "none", sm: "flex" }}>
+                <FaUserAlt />
+                <Text fontSize={"xl"} mr={2}>
+                  {name}
+                </Text>
+                {pagePath.login.error !== router.asPath && (
+                  <>
+                    <MdLogout size="24" />
+                    <Link fontSize={"xl"} href={logoutLink} style={{ textDecoration: "none" }}>
+                      <Text>ログアウト</Text>
+                    </Link>
+                  </>
+                )}
+              </Flex>
+              <Flex gap={"16px"} alignItems={"center"} color={"basic.white"} display={{ base: "flex", sm: "none" }}>
+                <Menu>
+                  <MenuButton cursor={"pointer"} minW={0} transition="all 1s">
+                    <FaUserAlt />
+                  </MenuButton>
+                  <MenuList color={"basic.black"}>
+                    <MenuItem>
+                      <Text>{name}</Text>
+                    </MenuItem>
+                    {pagePath.login.error !== router.asPath && (
+                      <MenuItem>
+                        <Link href={logoutLink} style={{ textDecoration: "none" }}>
+                          <Text>ログアウト</Text>
+                        </Link>
+                      </MenuItem>
+                    )}
+                  </MenuList>
+                </Menu>
+              </Flex>
+            </>
+          )}
+        </Box>
       </Flex>
     </Box>
   );
-};
+});

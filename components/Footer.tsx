@@ -1,6 +1,10 @@
-import React from "react";
 import { Flex, Link } from "@chakra-ui/react";
-export const Footer: React.VFC = () => {
+import React, { memo } from "react";
+
+const copyrightLink = process.env.NEXT_PUBLIC_COPYRIGHT_LINK as string;
+const copyright = process.env.NEXT_PUBLIC_COPYRIGHT as string;
+
+export const Footer: React.VFC = memo(() => {
   return (
     <Flex
       minH={"64px"}
@@ -8,14 +12,11 @@ export const Footer: React.VFC = () => {
       justifyContent={"center"}
       p={{ base: 4 }}
       gap={"16px"}
+      backgroundColor={"basic.black"}
     >
-      <Link
-        href="https://github.com/block-base/openbadge-vc-converter"
-        fontSize={"sm"}
-        fontWeight={"medium"}
-      >
-        DID Maniax Japan @ 2022
+      <Link href={copyrightLink} fontSize={"sm"} fontWeight={"medium"} color={"basic.white"}>
+        {copyright}
       </Link>
     </Flex>
   );
-};
+});

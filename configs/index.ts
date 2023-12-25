@@ -1,2 +1,6 @@
-export const SERVICE_NAME = `Open Badges VC gateway`;
-export const SERVICE_DESCRITION = `Open Badges are de-facto standard in education sector to proof of achievement. People are considering Verifiable Credentials and Decentralized Identifiers are ‘silver bullet’ to achieve the problem. This is gateway service between open badges and verifiable credentials.`;
+export const SERVICE_NAME = process.env.NEXT_PUBLIC_SERVICE_NAME;
+export const SERVICE_DESCRITION = process.env.NEXT_PUBLIC_SERVICE_DESCRIPTION;
+export const CUSTOME_SCHEMA = "openid-vc://";
+export const REQUEST_URI_KEY = `${CUSTOME_SCHEMA}?request_uri`;
+export const DID_ION_KEY_ID = "signingKey";
+export const SIOP_VALIDITY_IN_MINUTES = 30;
