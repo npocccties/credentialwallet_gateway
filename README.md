@@ -204,7 +204,7 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 |NEXT_PUBLIC_SERVICE_DESCRIPTION|サービスの説明<br>metaタグに設定される説明です。|バッジウォレットは、取得したOpen Badgeを格納、提出ができるアプリケーションです。|必須|
 |NEXT_PUBLIC_COPYRIGHT|フッターに表示するコピーライト|-|必須|
 |NEXT_PUBLIC_COPYRIGHT_LINK|フッターに表示するコピーライトのリンク|-|必須|
-|NEXT_PUBLIC_E_PORTFOLIO_URL|e-ポートフォリオシステムへのリンク<br>末尾にはスラッシュは付与しないこと|-|必須|
+|NEXT_PUBLIC_E_PORTFOLIO_LINK|e-ポートフォリオシステムへのリンク<br>末尾にはスラッシュは付与しないこと|-|必須|
 |NEXT_PUBLIC_LOGOUT_LINK|オルトロスのログアウトのリンク|-|必須|
 |NEXT_PUBLIC_HELP_LINK|ヘルプのリンク|-|必須|
 |baseURL|アプリケーション起動時のURL|http://localhost:3000|必須|

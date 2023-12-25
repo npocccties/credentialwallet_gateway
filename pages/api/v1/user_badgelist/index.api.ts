@@ -8,7 +8,7 @@ import { api } from "@/share/api";
 import { UserBadgeList } from "@/types/api/user_badgelist";
 
 const apiPath = api.v1.user_badgelist;
-const ePortfolioUrl = process.env.NEXT_PUBLIC_E_PORTFOLIO_URL
+const ePortfolioUrl = process.env.NEXT_PUBLIC_E_PORTFOLIO_LINK;
 
 //対象ユーザのの保持バッジリストを返す
 

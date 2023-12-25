@@ -8,7 +8,7 @@ export const sidebarItems: Array<NavItemProps> = [
   { name: "バッジインポート", link: pagePath.badge.import },
   {
     name: "分析",
-    link: process.env.NEXT_PUBLIC_E_PORTFOLIO_URL,
+    link: process.env.NEXT_PUBLIC_E_PORTFOLIO_LINK,
     external: true,
     newWindow: true,
     targetTabName: "portfolio",
