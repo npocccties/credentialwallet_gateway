@@ -25,22 +25,7 @@ export interface IfBadgeInfo {
   badgeurl: string;
   vcConverted?: boolean;
 }
-// export type IfBadgeInfo = {
-//   id: number;
-//   name: string;
-//   description: string;
-//   timecreated: number;
-//   issuername: string;
-//   issuerurl: string;
-//   expiredate?: number;
-//   message: string;
-//   uniquehash: string;
-//   dateissued: number;
-//   email: string;
-//   badgeurl: string;
-// }
 
-// TODO: 能力バッジ・知識バッジの型定義をどの程度に収めるか
 export type WisdomBadgeInfo = {
   name: string;
   description: string;
