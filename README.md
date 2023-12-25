@@ -276,6 +276,18 @@ ssoEnabledは対象のMoodleがOrthrosによってSSOされるかを判定しま
 - [Githubリポジトリ](https://github.com/catalyst/moodle-tool_token)
 - [ウェブサービスを使用する](https://docs.moodle.org/2x/ja/%E3%82%A6%E3%82%A7%E3%83%96%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B)
 
+## キャビネットとの連携
+バッジの提出先情報は、DBのbadge_consumersテーブルに保存されます。
+
+以下の例のように、それぞれ対応した値を登録してください。
+
+- consumer_name: 提出先の名称（Walletでリストに表示されます）
+- cabinet_url: 提出先のURL。対象のキャビネットのURL（origin）を登録してください。
+
+カラム登録の例
+| consumer_id          | consumer_name      | cabinet_url        |
+| :-------------- | :-------------| :-------------- |
+|1| ○○市教育委員会 | https://example.com |
 
 ## configの設定値
 /config/index.ts に設定されている固定値
