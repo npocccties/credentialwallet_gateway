@@ -1,16 +1,16 @@
-# 動作環境
+# 1. 動作環境
 - OS: Unix 系（Windows では WSL 等をお使いください）
 - Node.js: v16.20.1
 - Docker
 - Docker Compose (v2)
 
-# setup
+# 2. setup
 git clone実行後、ルートディレクトリで以下のコマンドを実行します。
 ```
 ./setup.sh
 ```
 
-# 開発
+# 3. 開発
 
 コンテナのビルド
 ```
@@ -37,19 +37,19 @@ docker compose -f docker-compose.dev-local.yml down
 npm run dev
 ```
 
-### アプリケーションとDBとの連携
+## 3-1. アプリケーションとDBとの連携
 appコンテナ内に移動した後、以下に記載している「prismaの使用方法」より、コマンドを実行してDBとの連携を行います。
 
-## Visual Studio CodeでdevContainerを使用する場合
+## 3-2. Visual Studio CodeでdevContainerを使用する場合
 1. Docker および Docker Compose をインストール
 2. Visual Studio Code に拡張機能「Dev - Containers」をインストール
 3. 当READMEのsetupを実行
 4. コマンドパレット で「Remote-Containers: Open Folder in Container...」を選択し、chilowalletディレクトリを選択
 
-## デバッグ方法
+## 3-3. デバッグ方法
 上記のdevContainerを起動し、VSCodeの左側にあるデバッグから起動ボタンを押して実行してください。
 
-## prismaの使用方法
+## 3-4. prismaの使用方法
 詳細に関しては[ドキュメント](https://www.prisma.io/docs/reference/api-reference/command-reference)を参照してください。
 
 1. コンテナ起動後、以下のコマンドでDBのテーブル定義をschema.prismaに反映します。
@@ -67,7 +67,7 @@ npx prisma db seed
 npx prisma studio
 ```
 
-## ローカルで動かす場合
+## 3-5. ローカルで動かす場合
 session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付きJWTを用意します。
 
 1. 秘密鍵、公開鍵のペアを用意する
@@ -78,7 +78,7 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
 
 上記の手順でアプリケーションが動作するようになります。
 
-# 開発サーバー（または本番サーバー）へのデプロイ
+# 4. 開発サーバー（または本番サーバー）へのデプロイ
 
 1. 下記をインストール
    * Docker
@@ -151,7 +151,7 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
    ```
    * -f の後ろにコンテナ名（chilowalletやdb等）を入れると該当コンテナのみのログが見れます  
 
-## テストデータ作成（開発サーバー環境）
+## 4-1. テストデータ作成（開発サーバー環境）
 コンテナ起動後、chilowallet-appに入り、下記を実行
 ```
 npx prisma db seed
@@ -162,13 +162,14 @@ npx prisma db seed
 ※ ビルドキャッシュなどの影響で、稀にschema.prismaの中身がローカルのファイルと異なった状態でコピーされていることがあります。その場合はdockerのキャッシュを適宜削除して再度コンテナを起動してください。
 
 
-# 環境変数
+# 5. 環境変数
 sampleに記載の値（client_idやclient_secrett等）はダミー値です。
 運用環境に合わせて適宜設定して下さい。
 
 サンプルの設定値では、文字列中に空白を含むものに対しては "" (ダブルクォーテーション) を使用しています。
 
-## DB, ビルド時用
+## 5-1. DB, ビルド時用
+
 .env
 | 変数名                               | 説明                                        | デフォルト値         | 必須/任意|
 | :----------------------------------- | :------------------------------------------ | :------------------- | :---- |
@@ -183,7 +184,7 @@ sampleに記載の値（client_idやclient_secrett等）はダミー値です。
 |DUMP_BACKUP_DIR|DBの圧縮ファイルのバックアップディレクトリ（絶対パス指定）<br>DBバックアップを実行すると `/var/chilowallet.dump` をダンプ出力するが、そのダンプファイルを下記命名で圧縮したうえで左記ディレクトリに格納する<br>`chilowallet.dump_{yyyyMMdd}.tar.gz`|/var/chilowallet/db_dump_backup|必須|
 |DUMP_BACKUP_COUNT|DBの圧縮ファイルの保持日数<br>・保持日数を経過したDBの圧縮ファイルは削除される (例)1週間、保持したい場合は `7` を指定する<br>・削除の契機は、DBバックアップの実行時<br>・起点は昨日|7|必須|
 
-## Next.jsアプリケーション用
+## 5-2. Next.jsアプリケーション用
 Next.jsアプリケーションでは、環境毎に以下のパターンで.envファイルを参照します。
 
 | ファイル名 |	読み込まれるタイミング
@@ -224,18 +225,20 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 |get_session_redirect_url|未ログイン時のリダイレクトURL|/redirect|必須|
 
 
-### vc* に設定する環境変数について
+### 5-2-1. vc* に設定する環境変数について
 Microsoft Entra Verified ID関連の環境構築は、wikiにある[「1.0 Microsoft Entra Verified ID環境」](https://github.com/npocccties/chilowallet/wiki/1.0-Microsoft-Entra-Verified-ID%E7%92%B0%E5%A2%83)項目に記載しています。
 環境構築にあたって生成された値を設定してください。
 
 did_authorityにはEntra Verified IDでの環境構築にあたって作成されたdidを設定してください。
 
-### 鍵の作成
+### 5-2-2. 鍵の作成
 「バッジウォレット」アプリケーションとしてDIDを発行するための秘密鍵、公開鍵を作成し環境変数 private_key_jwk に設定する必要があります。
 
-node環境上で、下記を実行
-（node_modulesにion-toolsがないと実行できません。npm installを行っていない場合は、scriptを実行する環境上でnpm installを行ってください）
+node環境上（ローカル開発環境のコンテナ内など）で、下記を実行
+（node_modulesにion-toolsがないと実行できません。npm installを行っていない場合は、scriptを実行する環境上で `npm install` を行ってください。もしnpm installで依存関係上の問題が発生する場合は `npm install --legacy-peer-deps` を実行してください）
+
 ※ nodeはv16を想定しています。
+
 ```
 node keypair.ts
 ```
@@ -243,7 +246,7 @@ node keypair.ts
 
 ※ 鍵の情報は外部に漏れないよう大切に保管してください。
 
-## Moodleとの連携
+## 6. Moodleとの連携
 DBに入り、「lms_list」テーブルに任意のMoodleを登録してください。
 
 ssoEnabledは対象のMoodleがOrthrosによってSSOされるかを判定します。SSOを行う場合はtrueを設定してください。
@@ -278,7 +281,7 @@ ssoEnabledは対象のMoodleがOrthrosによってSSOされるかを判定しま
 - [Githubリポジトリ](https://github.com/catalyst/moodle-tool_token)
 - [ウェブサービスを使用する](https://docs.moodle.org/2x/ja/%E3%82%A6%E3%82%A7%E3%83%96%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B)
 
-## キャビネットとの連携
+## 7. キャビネットとの連携
 バッジの提出先情報は、DBのbadge_consumersテーブルに保存されます。
 
 以下の例のように、それぞれ対応した値を登録してください。
@@ -291,7 +294,7 @@ ssoEnabledは対象のMoodleがOrthrosによってSSOされるかを判定しま
 | :-------------- | :-------------| :-------------- |
 |1| ○○市教育委員会 | https://example.com |
 
-## configの設定値
+## 8. configの設定値
 /config/index.ts に設定されている固定値
 
 基本的に設定の変更は不要です。
