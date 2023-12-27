@@ -246,6 +246,7 @@ node keypair.ts
 ## 6. Moodleとの連携
 DBに入り、「lms_list」テーブルに任意のMoodleを登録してください。
 
+### 6.1 SSOを行うMoodleとの連携
 ssoEnabledは対象のMoodleがOrthrosによってSSOされるかを判定します。SSOを行う場合はtrueを設定してください。
 
 上記のssoEnabledをtrueにした場合、lmsAccessTokenの設定が必須になります。
@@ -273,6 +274,24 @@ ssoEnabledは対象のMoodleがOrthrosによってSSOされるかを判定しま
 | lms_id          | lms_name      | lms_url         | ssoEnabled | lms_access_token | lms_service |
 | :-------------- | :-------------| :-------------- | :--------- | :--------------- | :---------- |
 |1| ○○学習サービス| https://example.service.com | true | af41a7413229f7ae31171b741d4fd89b | test_service |
+
+### 6.2 SSOを行わないMoodleとの連携
+
+Moodle側で下記のように設定し、Wallet側のDBにデータを登録してください。
+
+1. サイト管理 > サーバ > ウェブサービス > 外部サービス より、ページ下部の「追加」リンクをクリックする
+   1. 名称: 任意の文字列で入力する
+   1. 省略名: 名称に関連づく形でsnake_caseの形式で入力する（こちらの「省略名」がバッジ一覧取得URLに使用する文字列となります）
+   1. 「有効」にチェックを入れて変更を保存する
+1. 追加したサービスの「関数」を選択し、「関数を追加する」からcore_badges_get_user_badges を選択し、追加する
+1. サイト管理 > ユーザ > パーミッション > ロールを定義する > 任意のユーザー を選択し、編集から「webservice/rest:use」を許可する
+1. Wallet側のDBに入り、1で作成したserviceの省略名をlms_serviceカラムに登録する
+
+カラム登録の例
+| lms_id          | lms_name      | lms_url         | ssoEnabled | lms_access_token | lms_service |
+| :-------------- | :-------------| :-------------- | :--------- | :--------------- | :---------- |
+|2| △△学習サービス| https://example.service.com | false |  | test_service |
+
 
 参考資料
 - [Githubリポジトリ](https://github.com/catalyst/moodle-tool_token)
