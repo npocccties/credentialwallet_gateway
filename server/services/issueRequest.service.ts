@@ -11,7 +11,7 @@ const msalConfig = {
   auth: {
     clientId: process.env.vcApp_client_id as string,
     authority: "https://login.microsoftonline.com/" + process.env.vcApp_azTenantId,
-    knownAuthorities: "https://login.microsoftonline.com/" + process.env.vcApp_azTenantId,
+    knownAuthorities: ["https://login.microsoftonline.com/" + process.env.vcApp_azTenantId],
     clientSecret: process.env.vcApp_client_secret as string,
   },
 };
