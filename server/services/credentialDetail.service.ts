@@ -32,14 +32,8 @@ export const getBadgeMetaData = async (badgeVc: BadgeVc) => {
 
 export const getKnowledgeBadges = async (badgeMetaData: WisdomBadgeInfo) => {
   const knowledgeBadges: KnowledgeBadges = [];
-  const alignments: Alignment[] = [];
-  const courseInfo = badgeMetaData.alignments.map((item) => {
-    if (item.targetUrl.includes("/course")) {
-      return item;
-    }
-
-    alignments.push(item);
-  });
+  const alignments: Alignment[] = badgeMetaData.alignments.filter((item) => item.targetUrl.includes("/badges"));
+  const courseInfo = badgeMetaData.alignments.find((item) => item.targetUrl.includes("/course"));
 
   const knowledgeBadgeInfo: KnowledgeBadgeInfo[] = await Promise.all(
     alignments.map((alignment) => {
@@ -62,7 +56,7 @@ export const getKnowledgeBadges = async (badgeMetaData: WisdomBadgeInfo) => {
 export const createVcDetailData = (
   badgeVc: BadgeVc,
   submissionsHistories: BadgeVcSubmission[],
-  courseInfo: Alignment[],
+  courseInfo: Alignment,
 ) => {
   const vcDetailData: VcDetailData = {
     badgeVcId: badgeVc.badgeVcId,
@@ -73,7 +67,7 @@ export const createVcDetailData = (
     badgeExpires: convertUTCtoJSTstr(badgeVc.badgeExpires),
     lmsName: badgeVc.lmsName,
     vcDataPayload: badgeVc.vcDataPayload,
-    courseUrl: courseInfo[0].targetUrl,
+    courseUrl: courseInfo.targetUrl,
     submissions: submissionsHistories,
   };
 
