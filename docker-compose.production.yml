@@ -14,6 +14,7 @@ services:
     restart: "no"
     environment:
       - LOG_LEVEL=$LOG_LEVEL
+    dns: 8.8.8.8
     logging:
       driver: json-file
       options:
