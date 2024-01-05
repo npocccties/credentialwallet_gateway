@@ -183,6 +183,7 @@ export const Confirm = () => {
             icon={<WarningIcon w={8} h={8} color="status.caution" />}
             status="invalid userId!"
             message="登録されていないIDです"
+            pageBack={{ action: () => router.push(`${pagePath.submission.enter}/${badgeVcId}`), text: "再入力する" }}
           />
         )}
         {responseState === "verification failure" && (
@@ -190,6 +191,10 @@ export const Confirm = () => {
             icon={<WarningIcon w={8} h={8} color="status.caution" />}
             status="verification failure!"
             message="バッジの検証に失敗しました"
+            pageBack={{
+              action: () => router.reload(),
+              text: "提出画面に戻る",
+            }}
           />
         )}
         {responseState === "other errors" && (
