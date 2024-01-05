@@ -8,6 +8,7 @@ import { createSubmission, findConsumerAndBadgeVc } from "../repository/submissi
 import { submissionResult } from "@/constants";
 import { logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
+import { retryRequest } from "@/lib/retryRequest";
 import { cabinetApi } from "@/share/api";
 import { SubmissionResponseStatus } from "@/types/status";
 
@@ -94,10 +95,12 @@ export const sendCabinetForVc = async ({
 
   const vcJwt = `${vcHeader}.${vcPayload}.${badgeVc.vcDataSignature}`;
   try {
+    await retryRequest(async () => {
     await axios.post<SubmissionResponse>(cabinetApiUrl, {
       user_email: email,
       badge_vc: vcJwt,
       user_id: externalLinkageId,
+      });
     });
 
     await createSubmission({ badgeVcId, walletId, email, consumerId, consumerName: consumer.consumerName });

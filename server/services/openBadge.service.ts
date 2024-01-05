@@ -4,6 +4,7 @@ import { Readable } from "stream";
 import axios from "axios";
 
 import { loggerDebug, loggerError } from "@/lib/logger";
+import { retryRequestForBadgeVerify } from "@/lib/retryRequest";
 import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
 const Through = require("stream").PassThrough;
@@ -98,16 +99,19 @@ export const validateOpenBadge = async (email: string, openBadgeMetadata: BadgeM
     return false;
   }
 
-  const { data } = await axios.post(
-    openBadgeVerifierURL,
-    {
-      data: JSON.stringify(openBadgeMetadata),
-    },
-    {
-      headers: {
-        Accept: "application/json",
+  const { data } = await retryRequestForBadgeVerify(() =>
+    axios.post(
+      openBadgeVerifierURL,
+      {
+        data: JSON.stringify(openBadgeMetadata),
       },
-    },
+      {
+        headers: {
+          Accept: "application/json",
+        },
+      },
+    ),
   );
+
   return data.report.valid;
 };
