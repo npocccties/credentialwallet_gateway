@@ -28,7 +28,7 @@ function ErrorPage({ statusCode, errorMessage }) {
 
         <HStack>
           <Box>
-            <SecondaryButton onClick={handleBack}>ウォレットに戻る</SecondaryButton>
+            <SecondaryButton onClick={handleBack}>マイウォレットに戻る</SecondaryButton>
           </Box>
         </HStack>
       </VStack>

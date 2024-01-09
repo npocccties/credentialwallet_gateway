@@ -1,12 +1,23 @@
-import { Box, Center, Grid, GridItem } from "@chakra-ui/react";
-import React from "react";
+import { Box, Center, Grid, GridItem, Text } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 
+import { getCookieValue } from "@/lib/cookie";
+import { getUserInfoFormJwt } from "@/lib/userInfo";
 import { credentialListGetters } from "@/share/store/credentialList/main";
 
 export const DisplayBadgeCount = () => {
+  const [name, setName] = useState("");
   const { totalBadgeCount, submissionsAll } = credentialListGetters.useCredentialList();
+
+  useEffect(() => {
+    const session_cookie = getCookieValue("session_cookie");
+
+    const { displayName } = getUserInfoFormJwt(session_cookie);
+    setName(displayName);
+  }, []);
   return (
     <Box border={"main"} borderRadius={"2xl"} px={{ base: 2, sm: 8 }} py={{ base: 4, sm: 8 }}>
+      <Text>{name} さんのマイウォレット</Text>
       <Grid templateColumns={"repeat(2, 1fr)"}>
         <GridItem>
           <DisplauCountData prefixText="バッジ" text="保管数" count={totalBadgeCount} />

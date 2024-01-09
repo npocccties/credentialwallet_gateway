@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { Layout } from "@/components/Layout";
 import { CredentialDetail } from "@/components/page/detail/CredentialDetail";
+import { PageTitle } from "@/components/ui/text/PageTitle";
 import { pagePath } from "@/constants";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
@@ -98,6 +99,7 @@ const CredentialDetailPage = (props: CredentialDetailData) => {
 
   return (
     <Layout maxW="xl">
+      <PageTitle title={props.vcDetailData.badgeName} />
       <CredentialDetail
         vcDetailData={vcDetailData}
         knowledgeBadges={knowledgeBadges}

@@ -5,8 +5,9 @@ import { z } from "zod";
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
 import { SubmissionBadge } from "@/components/page/submission/SubmissionBadge";
+import { PageTitle } from "@/components/ui/text/PageTitle";
 import { SERVICE_NAME, SERVICE_DESCRITION } from "@/configs";
-import { pagePath } from "@/constants";
+import { pageName, pagePath } from "@/constants";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
@@ -64,6 +65,7 @@ const SubmissionEnterPage = (props: SubmissionEntry) => {
   return (
     <Layout align="center" textAlign="center" maxW="md">
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
+      <PageTitle title={pageName.submission} />
       <SubmissionBadge badgeConsumers={badgeConsumers} vcImage={vcImage} badgeVcId={badgeVcId} />
     </Layout>
   );

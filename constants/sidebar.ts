@@ -4,7 +4,7 @@ import { NavItemProps } from "@/types/Sidebar";
 
 // TODO: ヘルプリンクの遷移先は未定
 export const sidebarItems: Array<NavItemProps> = [
-  { name: "バッジ一覧", link: "/" },
+  { name: "マイウォレット", link: "/" },
   { name: "バッジインポート", link: pagePath.badge.import },
   {
     name: "分析",

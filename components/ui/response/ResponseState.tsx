@@ -18,7 +18,7 @@ export const ResponseState = ({ icon, status, message }: { icon: ReactNode; stat
         <Text fontSize={"lg"}>{message}</Text>
       </Box>
       <Box>
-        <SecondaryButton onClick={() => router.push(pagePath.credential.list)}>ウォレットに戻る</SecondaryButton>
+        <SecondaryButton onClick={() => router.push(pagePath.credential.list)}>マイウォレットに戻る</SecondaryButton>
       </Box>
     </>
   );
