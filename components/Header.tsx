@@ -1,5 +1,5 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { Box, Flex, Link, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
+import { Box, Flex, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React, { memo } from "react";
@@ -79,7 +79,7 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
         <Box>
           {showContents && (
             <>
-              <Flex gap={"8px"} alignItems={"center"} color={"basic.white"} display={{ base: "none", sm: "flex" }}>
+              <Flex gap={"8px"} alignItems={"center"} color={"basic.white"}>
                 {pagePath.login.error !== router.asPath && (
                   <>
                     <Link fontSize={"xl"} href={logoutLink} style={{ textDecoration: "none" }}>
@@ -90,22 +90,6 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
                     </Link>
                   </>
                 )}
-              </Flex>
-              <Flex gap={"16px"} alignItems={"center"} color={"basic.white"} display={{ base: "flex", sm: "none" }}>
-                <Menu>
-                  <MenuButton cursor={"pointer"} minW={0} transition="all 1s">
-                    <MdLogout size="24" />
-                  </MenuButton>
-                  <MenuList color={"basic.black"}>
-                    {pagePath.login.error !== router.asPath && (
-                      <MenuItem>
-                        <Link href={logoutLink} style={{ textDecoration: "none" }}>
-                          <Text>ログアウト</Text>
-                        </Link>
-                      </MenuItem>
-                    )}
-                  </MenuList>
-                </Menu>
               </Flex>
             </>
           )}
