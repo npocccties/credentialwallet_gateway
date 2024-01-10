@@ -139,13 +139,17 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
               </Text>
             </Box>
             <Box as="section" w={"full"} border={"1px solid #ddd"} borderRadius={"md"} padding={6}>
-              <Box mb={6} textAlign={"left"}>
-                <Checkbox size={"lg"} colorScheme={"primary"} {...register("sameIdForEmail")}>
-                  emailアドレスと同じ
-                </Checkbox>
+              <Box mb={4}>
+                <Box>
+                  <FormLabel mb={0}>指定されたID</FormLabel>
+                </Box>
+                <Box textAlign={"right"}>
+                  <Checkbox size={"md"} colorScheme={"primary"} {...register("sameIdForEmail")}>
+                    emailアドレスと同じ場合
+                  </Checkbox>
+                </Box>
               </Box>
               <Box w={"full"} mb={4}>
-                <FormLabel mb={2}>外部連携ID（マイレコID等）</FormLabel>
                 <Input type={"externalLinkageId"} maxLength={256} {...register("externalLinkageId")} />
                 <Text size="xs" mt={2}>
                   {errors.externalLinkageId?.message}

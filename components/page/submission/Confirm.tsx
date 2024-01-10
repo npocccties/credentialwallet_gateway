@@ -128,7 +128,7 @@ export const Confirm = () => {
 
           <Box w={"full"} textAlign={"left"}>
             <Text color="gray" mb={4}>
-              外部連携ID
+              指定されたID
             </Text>
             <Text fontSize="lg" my={6}>
               {externalLinkageId}
