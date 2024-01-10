@@ -23,7 +23,6 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
   const router = useRouter();
   const portfolioItem = sidebarItems.find((x) => x.link === portfolioLink);
   const helpItem = sidebarItems.find((x) => x.link === helpLink);
-  console.log("help", helpItem);
 
   return (
     <Box as="header" position={"fixed"} w={"100%"} zIndex={1000}>

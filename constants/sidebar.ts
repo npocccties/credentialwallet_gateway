@@ -1,6 +1,5 @@
 import { NavItemProps } from "@/types/Sidebar";
 
-// TODO: ヘルプリンクの遷移先は未定
 export const sidebarItems: Array<NavItemProps> = [
   { name: "マイウォレット", link: "/" },
   {
