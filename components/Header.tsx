@@ -8,6 +8,7 @@ import { MdLogout, MdHelp } from "react-icons/md";
 import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 
 import { pagePath } from "@/constants";
+import { sidebarItems } from "@/constants/sidebar";
 
 type Props = {
   onOpen: () => void;
@@ -20,6 +21,9 @@ const helpLink = process.env.NEXT_PUBLIC_HELP_LINK as string;
 
 export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) => {
   const router = useRouter();
+  const portfolioItem = sidebarItems.find((x) => x.link === portfolioLink);
+  const helpItem = sidebarItems.find((x) => x.link === helpLink);
+  console.log("help", helpItem);
 
   return (
     <Box as="header" position={"fixed"} w={"100%"} zIndex={1000}>
@@ -50,14 +54,20 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
             <Link fontSize={"xl"} href={portfolioLink} style={{ textDecoration: "none" }}>
               <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
                 <TbDeviceDesktopAnalytics />
-                <Text mr={2}>分析</Text>
+                <Text mr={2}>{portfolioItem.name}</Text>
               </Box>
             </Link>
-            <Link fontSize={"xl"} href={helpLink} style={{ textDecoration: "none" }}>
+            <Link
+              fontSize={"xl"}
+              href={helpLink}
+              style={{ textDecoration: "none" }}
+              isExternal={helpItem.newWindow}
+              target={helpItem.targetTabName}
+            >
               <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
                 <MdHelp size="24" />
                 <Text fontSize={"xl"} mr={2}>
-                  ヘルプ
+                  {helpItem.name}
                 </Text>
               </Box>
             </Link>
