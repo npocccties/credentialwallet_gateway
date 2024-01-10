@@ -4,8 +4,8 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React, { memo } from "react";
 import { FaUserAlt } from "react-icons/fa";
-import { MdLogout } from "react-icons/md";
-import { TbHelpSquare, TbDeviceDesktopAnalytics } from "react-icons/tb";
+import { MdLogout, MdHelp } from "react-icons/md";
+import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 
 import { pagePath } from "@/constants";
 
@@ -56,7 +56,15 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
             >
               <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
                 <TbDeviceDesktopAnalytics />
-                <Text>分析</Text>
+                <Text mr={2}>分析</Text>
+              </Box>
+            </Link>
+            <Link fontSize={"xl"} href={helpLink} style={{ textDecoration: "none" }}>
+              <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
+                <MdHelp size="24" />
+                <Text fontSize={"xl"} mr={2}>
+                  ヘルプ
+                </Text>
               </Box>
             </Link>
           </Flex>
@@ -72,14 +80,6 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
           {showContents && (
             <>
               <Flex gap={"8px"} alignItems={"center"} color={"basic.white"} display={{ base: "none", sm: "flex" }}>
-                <Link fontSize={"xl"} href={helpLink} style={{ textDecoration: "none" }}>
-                  <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
-                    <TbHelpSquare />
-                    <Text fontSize={"xl"} mr={2}>
-                      ヘルプ
-                    </Text>
-                  </Box>
-                </Link>
                 {pagePath.login.error !== router.asPath && (
                   <>
                     <Link fontSize={"xl"} href={logoutLink} style={{ textDecoration: "none" }}>
