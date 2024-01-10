@@ -10,6 +10,7 @@ import { SERVICE_NAME, SERVICE_DESCRITION } from "@/configs";
 import { pageName, pagePath } from "@/constants";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
+import { convertUTCtoJSTstr } from "@/lib/date";
 import { loggerError, loggerInfo } from "@/lib/logger";
 import { submissionBadge } from "@/server/repository/submissionBadge";
 import { SubmissionEntry } from "@/types/api/submission";
@@ -45,14 +46,15 @@ export async function getServerSideProps(context): Promise<GetServerSidePropsRes
       return { notFound: true };
     }
 
-    const { vcDataPayload, badgeVcId } = badgeVc;
+    const { vcDataPayload, badgeVcId, badgeName, badgeIssuedon } = badgeVc;
     const vcPayload = vcDataPayload && JSON.parse(vcDataPayload);
     const vcImage = vcPayload.vc.credentialSubject.photo;
+    const jstBadgeIssuedon = convertUTCtoJSTstr(badgeIssuedon);
 
     loggerInfo(`${logStatus.success} ${page}`);
     loggerInfo(logEndForPageSSR(page));
 
-    return { props: { badgeConsumers, vcImage, badgeVcId } };
+    return { props: { badgeConsumers, vcImage, badgeVcId, badgeName, badgeIssuedon: jstBadgeIssuedon } };
   } catch (e) {
     loggerError(`${logStatus.error} ${page}`, e.message);
 
@@ -61,12 +63,18 @@ export async function getServerSideProps(context): Promise<GetServerSidePropsRes
 }
 
 const SubmissionEnterPage = (props: SubmissionEntry) => {
-  const { badgeConsumers, vcImage, badgeVcId } = props;
+  const { badgeConsumers, vcImage, badgeVcId, badgeName, badgeIssuedon } = props;
   return (
     <Layout align="center" textAlign="center" maxW="md">
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
       <PageTitle title={pageName.submission} />
-      <SubmissionBadge badgeConsumers={badgeConsumers} vcImage={vcImage} badgeVcId={badgeVcId} />
+      <SubmissionBadge
+        badgeConsumers={badgeConsumers}
+        vcImage={vcImage}
+        badgeVcId={badgeVcId}
+        badgeName={badgeName}
+        badgeIssuedon={badgeIssuedon}
+      />
     </Layout>
   );
 };

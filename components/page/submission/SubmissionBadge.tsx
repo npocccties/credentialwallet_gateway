@@ -20,7 +20,7 @@ type InputForm = {
   confirmLinkageId: string;
 };
 
-export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: SubmissionEntry) => {
+export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId, badgeName, badgeIssuedon }: SubmissionEntry) => {
   const router = useRouter();
   const pathParam = router.query.badge_vc_id;
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -58,6 +58,8 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
     };
     const badgeVcData = {
       badgeVcId: badgeVcId,
+      badgeName: badgeName,
+      badgeIssuedon: badgeIssuedon,
       vcImage: vcImage,
     };
     const { confirmCode, submissionEmail, externalLinkageId, consumer, badgeVc } = sessionStorageKey;
