@@ -47,13 +47,7 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
                 </Box>
               </Link>
             </NextLink>
-            <Link
-              fontSize={"xl"}
-              href={portfolioLink}
-              style={{ textDecoration: "none" }}
-              isExternal={true}
-              target={"portfolio"}
-            >
+            <Link fontSize={"xl"} href={portfolioLink} style={{ textDecoration: "none" }}>
               <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
                 <TbDeviceDesktopAnalytics />
                 <Text mr={2}>分析</Text>
