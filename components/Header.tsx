@@ -30,13 +30,13 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
         backgroundColor={"basic.black"}
         p={{ base: 8 }}
       >
-        <Box display={{ base: "block", sm: "none" }}>
+        <Box display={{ base: "block", md: "none" }}>
           {showContents && (
             <HamburgerIcon color={"basic.white"} w={6} h={6} cursor={"pointer"} onClick={() => onOpen()} />
           )}
         </Box>
-        <Box display={{ base: "none", sm: "block" }}>
-          <Flex gap={"8px"} alignItems={"center"} color={"basic.white"} display={{ base: "none", sm: "flex" }}>
+        <Box display={{ base: "none", md: "block" }}>
+          <Flex gap={"8px"} alignItems={"center"} color={"basic.white"} display={{ base: "none", md: "flex" }}>
             <NextLink href="/">
               <Link color={"basic.white"} style={{ textDecoration: "none" }}>
                 <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
