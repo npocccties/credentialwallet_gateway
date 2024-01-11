@@ -28,7 +28,6 @@ export const Confirm = () => {
   const router = useRouter();
   const cancelRef = useRef();
   const [isSubmission, setIsSubmission] = useState(false);
-  const [inputConfirmCode, setInputconfirmCode] = useState("");
   const [responseState, setResponseState] = useState<SubmissionResponseStatus>(undefined);
   const { showProcessingScreen } = processingScreenActions.useShowProcessingScreen();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -48,15 +47,7 @@ export const Confirm = () => {
   ];
 
   const handleSubmission = async () => {
-    const hashConfirmCode = sessionStorage.getItem(sessionStorageKey.confirmCode);
-
-    const hashInput = await generateHash(inputConfirmCode);
-
-    if (hashConfirmCode !== hashInput) {
-      alert("確認コードが一致しません");
-      return;
-    }
-
+    onClose();
     const { consumerId } = consumer;
     const { badgeVcId } = badgeVc;
 
@@ -71,8 +62,15 @@ export const Confirm = () => {
     });
   };
 
-  const handleOpenModal = (confirmCode: string) => {
-    setInputconfirmCode(confirmCode);
+  const handleOpenModal = async (confirmCode: string) => {
+    const hashConfirmCode = sessionStorage.getItem(sessionStorageKey.confirmCode);
+    const hashInput = await generateHash(confirmCode);
+
+    if (hashConfirmCode !== hashInput) {
+      alert("確認コードが一致しません");
+      return;
+    }
+
     onOpen();
   };
 
