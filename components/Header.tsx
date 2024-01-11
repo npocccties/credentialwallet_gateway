@@ -3,7 +3,7 @@ import { Box, Flex, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React, { memo } from "react";
-import { FaUserAlt } from "react-icons/fa";
+import { BsWallet2 } from "react-icons/bs";
 import { MdLogout, MdHelp } from "react-icons/md";
 import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 
@@ -43,7 +43,7 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
             <NextLink href="/">
               <Link color={"basic.white"} style={{ textDecoration: "none" }}>
                 <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
-                  <FaUserAlt />
+                  <BsWallet2 size="24" />
                   <Text fontSize={"xl"} mr={2}>
                     マイウォレット
                   </Text>
