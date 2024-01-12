@@ -33,45 +33,49 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
         backgroundColor={"basic.black"}
         p={{ base: 8 }}
       >
-        <Box display={{ base: "block", md: "none" }}>
-          {showContents && (
-            <HamburgerIcon color={"basic.white"} w={6} h={6} cursor={"pointer"} onClick={() => onOpen()} />
-          )}
-        </Box>
-        <Box display={{ base: "none", md: "block" }}>
-          <Flex gap={"8px"} alignItems={"center"} color={"basic.white"} display={{ base: "none", md: "flex" }}>
-            <NextLink href="/">
-              <Link color={"basic.white"} style={{ textDecoration: "none" }}>
-                <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
-                  <BsWallet2 size="24" />
-                  <Text fontSize={"xl"} mr={2}>
-                    マイウォレット
-                  </Text>
-                </Box>
-              </Link>
-            </NextLink>
-            <Link fontSize={"xl"} href={portfolioLink} style={{ textDecoration: "none" }}>
-              <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
-                <TbDeviceDesktopAnalytics />
-                <Text mr={2}>{portfolioItem.name}</Text>
-              </Box>
-            </Link>
-            <Link
-              fontSize={"xl"}
-              href={helpLink}
-              style={{ textDecoration: "none" }}
-              isExternal={helpItem.newWindow}
-              target={helpItem.targetTabName}
-            >
-              <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
-                <MdHelp size="24" />
-                <Text fontSize={"xl"} mr={2}>
-                  {helpItem.name}
-                </Text>
-              </Box>
-            </Link>
-          </Flex>
-        </Box>
+        {showContents ? (
+          <>
+            <Box display={{ base: "block", md: "none" }}>
+              <HamburgerIcon color={"basic.white"} w={6} h={6} cursor={"pointer"} onClick={() => onOpen()} />
+            </Box>
+            <Box display={{ base: "none", md: "block" }}>
+              <Flex gap={"8px"} alignItems={"center"} color={"basic.white"} display={{ base: "none", md: "flex" }}>
+                <NextLink href="/">
+                  <Link color={"basic.white"} style={{ textDecoration: "none" }}>
+                    <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
+                      <BsWallet2 size="24" />
+                      <Text fontSize={"xl"} mr={2}>
+                        マイウォレット
+                      </Text>
+                    </Box>
+                  </Link>
+                </NextLink>
+                <Link fontSize={"xl"} href={portfolioLink} style={{ textDecoration: "none" }}>
+                  <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
+                    <TbDeviceDesktopAnalytics />
+                    <Text mr={2}>{portfolioItem.name}</Text>
+                  </Box>
+                </Link>
+                <Link
+                  fontSize={"xl"}
+                  href={helpLink}
+                  style={{ textDecoration: "none" }}
+                  isExternal={helpItem.newWindow}
+                  target={helpItem.targetTabName}
+                >
+                  <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
+                    <MdHelp size="24" />
+                    <Text fontSize={"xl"} mr={2}>
+                      {helpItem.name}
+                    </Text>
+                  </Box>
+                </Link>
+              </Flex>
+            </Box>
+          </>
+        ) : (
+          <Box></Box>
+        )}
         <Box
           style={{
             position: "absolute",
@@ -80,22 +84,18 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
           }}
         ></Box>
         <Box>
-          {showContents && (
-            <>
-              <Flex gap={"8px"} alignItems={"center"} color={"basic.white"}>
-                {pagePath.login.error !== router.asPath && (
-                  <>
-                    <Link fontSize={"xl"} href={logoutLink} style={{ textDecoration: "none" }}>
-                      <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
-                        <MdLogout size="24" />
-                        <Text>ログアウト</Text>
-                      </Box>
-                    </Link>
-                  </>
-                )}
-              </Flex>
-            </>
-          )}
+          <Flex gap={"8px"} alignItems={"center"} color={"basic.white"}>
+            {pagePath.login.error !== router.asPath && (
+              <>
+                <Link fontSize={"xl"} href={logoutLink} style={{ textDecoration: "none" }}>
+                  <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
+                    <MdLogout size="24" />
+                    <Text>ログアウト</Text>
+                  </Box>
+                </Link>
+              </>
+            )}
+          </Flex>
         </Box>
       </Flex>
     </Box>

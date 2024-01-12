@@ -56,11 +56,13 @@ const Home: NextPage<Props> = ({ isCreatedWallet }) => {
     }
   }, []);
 
+  if (!isCreatedWallet) return null;
+
   return (
     <Layout maxW="xl">
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
       <PageTitle title={pageName.credential.list} />
-      {isCreatedWallet && <WaletVCList />}
+      <WaletVCList />
     </Layout>
   );
 };

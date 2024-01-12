@@ -29,12 +29,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req }): Promise<G
   const { eppn } = getUserInfoFormJwt(session_cookie);
 
   try {
-    const walletId = getWalletId(eppn);
+    await getWalletId(eppn);
+  } catch (e) {
+    loggerError(`${logStatus.error} ${page}`, e.message);
+    return { redirect: { destination: pagePath.credential.list, statusCode: 302 } };
+  }
 
-    if (!walletId) {
-      return { redirect: { destination: pagePath.entry, statusCode: 302 } };
-    }
-
+  try {
     const lmsList = await findAllLmsList();
 
     loggerInfo(`${logStatus.success} ${page}`);
