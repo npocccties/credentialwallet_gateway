@@ -85,9 +85,11 @@ export const Confirm = () => {
     return hashHex;
   }
 
-  if (badgeVc.badgeVcId.toString() !== badgeVcId) {
-    router.push("/404");
-    return null;
+  if (badgeVcId) {
+    if (badgeVc.badgeVcId.toString() !== badgeVcId) {
+      router.push("/404");
+      return null;
+    }
   }
 
   if (!submissionEmail || !consumer || !badgeVc) {
