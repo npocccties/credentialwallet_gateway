@@ -4,20 +4,31 @@ import axios, { AxiosRequestConfig } from "axios";
 import { errors } from "@/constants/error";
 import { logStatus } from "@/constants/log";
 import { loggerDebug, loggerError } from "@/lib/logger";
+import { encodeReqestGetUrlParams } from "@/lib/url";
 import { IfBadgeInfo } from "@/types/BadgeInfo";
 import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
 const getMyToken = async (username: string, password: string, selectLms: LmsList): Promise<string> => {
   const { lmsUrl, lmsService } = selectLms;
   const tokenUrlBase = `${lmsUrl}/login/token.php`;
-  const tokenURL = `${tokenUrlBase}?username=${username}&password=${password}&service=${lmsService}`;
+
+  const query = {
+    username: username,
+    password: password,
+    service: lmsService,
+  };
+  const encodedQuery = encodeReqestGetUrlParams(query);
+  const tokenURL = `${tokenUrlBase}?${encodedQuery}`;
 
   const options: AxiosRequestConfig = {
     method: "GET",
     url: tokenURL,
     //httpsAgent: new https.Agent({ rejectUnauthorized: false }), // SSL Error: Unable to verify the first certificateの回避 正式な証明書なら出ないはず
   };
-  loggerDebug("moodle requestUrl", `${tokenUrlBase}?username=${username}&password=****&service=${lmsService}`);
+  loggerDebug(
+    "moodle requestUrl",
+    `${tokenUrlBase}?username=${encodeURIComponent(username)}&password=****&service=${encodeURIComponent(lmsService)}`,
+  );
 
   try {
     const { data } = await axios(options);
@@ -41,8 +52,16 @@ const getMyTokenAdmin = async (username: string, selectLms: LmsList): Promise<st
   const token = selectLms.lmsAccessToken;
   const { lmsUrl, lmsService } = selectLms;
   const tokenUrlBase = `${lmsUrl}/webservice/rest/server.php`;
-  const tokenURL = `${tokenUrlBase}?wstoken=${token}&wsfunction=tool_token_get_token&moodlewsrestformat=json&idtype=username&idvalue=${username}&service=${lmsService}`;
-
+  const query = {
+    wstoken: token,
+    wsfunction: "tool_token_get_token",
+    moodlewsrestformat: "json",
+    idtype: "username",
+    idvalue: username,
+    service: lmsService,
+  };
+  const encodedQuery = encodeReqestGetUrlParams(query);
+  const tokenURL = `${tokenUrlBase}?${encodedQuery}`;
   const options: AxiosRequestConfig = {
     method: "GET",
     url: tokenURL,
