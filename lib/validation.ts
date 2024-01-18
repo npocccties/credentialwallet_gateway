@@ -37,7 +37,12 @@ export const moodleUserNameSchema = z.string().regex(/^[a-z0-9_.@-]+$/, {
 });
 
 export const sendEmailFormSchema = z.object({
-  consumerId: z.string().or(z.number()),
+  consumerId: z
+    .string()
+    .or(z.number())
+    .refine((v) => v !== "", {
+      message: "バッジ提出先を選択してください。",
+    }),
   email: z
     .string()
     .min(1, { message: "メールアドレスを入力してください。" })

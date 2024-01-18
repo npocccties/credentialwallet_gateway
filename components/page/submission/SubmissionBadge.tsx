@@ -13,7 +13,7 @@ import { sendConfirmEmail } from "@/share/api/submission/sendConfirmEmail";
 import { SubmissionEntry } from "@/types/api/submission";
 
 type InputForm = {
-  consumerId: number;
+  consumerId: number | string;
   email: string;
   sameIdForEmail: boolean;
   externalLinkageId: string;
@@ -35,7 +35,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId, badgeName,
     formState: { errors },
   } = useForm<InputForm>({
     defaultValues: {
-      consumerId: badgeConsumers[0].consumerId,
+      consumerId: "",
     },
     resolver: zodResolver(sendEmailFormSchema),
   });
@@ -124,6 +124,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId, badgeName,
             <Box w={"full"}>
               <FormLabel mb={2}>バッジ提出先選択</FormLabel>
               <Select {...register("consumerId", { required: true })}>
+                <option value="">選択してください</option>
                 {badgeConsumers.map((item) => {
                   return (
                     <option key={item.consumerId} value={item.consumerId}>
@@ -132,6 +133,9 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId, badgeName,
                   );
                 })}
               </Select>
+              <Text size="xs" mt={2}>
+                {errors.consumerId?.message}
+              </Text>
             </Box>
             <Box w={"full"}>
               <FormLabel mb={2}>emailアドレス</FormLabel>
