@@ -52,21 +52,21 @@ interface CredentialSubjectItemProps {
 const CredentialSubjectItem: React.FC<CredentialSubjectItemProps> = ({ name, data }) => {
   return (
     <Box>
-      <Text color="gray" mb={4}>
+      <Text color="gray" mb={1}>
         {name}
       </Text>
       {"コース情報" === name ? (
-        <Text fontSize="lg" my={8}>
+        <Text fontSize="md" mb={1}>
           <Link href={data as string} color={"primary.700"} isExternal>
             OKUTEPのコース情報を見る <ExternalLinkIcon />
           </Link>
         </Text>
       ) : data ? (
-        <Text fontSize="lg" my={8}>
+        <Text fontSize="md" mb={1}>
           {data}
         </Text>
       ) : (
-        <Text fontSize="lg" my={8}>
+        <Text fontSize="md" mb={1}>
           ------
         </Text>
       )}
@@ -85,13 +85,13 @@ const KnowledgeBadgeItem: React.FC<KnowledgeBadgeItemProps> = ({ name, image }) 
     <>
       <Flex direction={"row"} alignItems={"center"}>
         <Box minW={"128px"}>
-          <Image h={{ base: 24, sm: 32 }} w={{ base: 24, sm: 32 }} fit={"cover"} src={image} alt={"test"} />
+          <Image h={{ base: 24, sm: 28 }} w={{ base: 24, sm: 28 }} fit={"cover"} src={image} alt={"test"} />
         </Box>
-        <Box ml={{ base: 4, sm: 16 }}>
-          <Text fontSize={{ base: "md", sm: "lg" }}>{name}</Text>
+        <Box ml={{ base: 2, sm: 4 }}>
+          <Text fontSize={"md"}>{name}</Text>
         </Box>
       </Flex>
-      <Divider mt={4} mb={8} />
+      <Divider my={4} />
     </>
   );
 };
@@ -105,13 +105,13 @@ const SubmittionHistoryItem: React.FC<SubmittionHistoryItemProps> = ({ name, dat
   return (
     <Box>
       <Text color="gray">提出日時</Text>
-      <Text fontSize="lg" mt={2} mb={8}>
+      <Text fontSize="md" mt={2} mb={2}>
         {JSTdatetimeToDisplay(date)}
       </Text>
-      <Text color="gray" mt={4}>
+      <Text color="gray" mt={2}>
         提出先
       </Text>
-      <Text fontSize="lg" mt={2} mb={8}>
+      <Text fontSize="md" mt={2} mb={1}>
         {name}
       </Text>
       <Divider mb={8} />
