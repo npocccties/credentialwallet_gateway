@@ -99,6 +99,7 @@ export const BadgeList = ({
         setIsNeedMoodleLogin={setIsNeedMoodleLogin}
         setSelectLmsId={setSelectLmsId}
         getMyBadges={fetchMoodleMyBadges}
+        lmsName={lmsList.find((item) => item.lmsId.toString() === selectLmsId).lmsName}
       />
     );
   } else {

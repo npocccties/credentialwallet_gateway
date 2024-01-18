@@ -18,10 +18,12 @@ export const MoodleLoginForm = ({
   setIsNeedMoodleLogin,
   setSelectLmsId,
   getMyBadges,
+  lmsName,
 }: {
   setIsNeedMoodleLogin: Dispatch<SetStateAction<boolean>>;
   setSelectLmsId: Dispatch<SetStateAction<string>>;
   getMyBadges: (username: string, password: string) => void;
+  lmsName: string;
 }) => {
   const userInfoSchema = z.object({
     username: moodleUserNameSchema,
@@ -45,7 +47,7 @@ export const MoodleLoginForm = ({
   return (
     <Box w={{ base: "full", sm: "md" }} mt={4}>
       <Heading textAlign={"center"} fontWeight={600} fontSize={"xl"} lineHeight={"110%"}>
-        Moodleに登録されている
+        {lmsName}に登録されている
         <br />
         ユーザー名とパスワードを入力してください
       </Heading>
