@@ -2,6 +2,7 @@ import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { Text, Tabs, TabList, Tab, TabPanels, TabPanel, Box, Divider, Flex, Link, Image } from "@chakra-ui/react";
 import React from "react";
 
+import { KnowledgeBadgeImageForbase64 } from "@/configs/image";
 import { JSTdatetimeToDisplay, JSTdateToDisplay } from "@/lib/date";
 import { VcDetailData, KnowledgeBadges, SubmissionsHistories } from "@/types/api/credential/detail";
 
@@ -30,7 +31,7 @@ export const VcDetailTabPanel = ({ vcDetailData, knowledgeBadges, submissionsHis
         </TabPanel>
         <TabPanel>
           {knowledgeBadges.map((item, idx) => {
-            return <KnowledgeBadgeItem key={idx} name={item.badgeName} image={item.badgeImageUrl} />;
+            return <KnowledgeBadgeItem key={idx} name={item.badgeName} />;
           })}
         </TabPanel>
         <TabPanel>
@@ -76,16 +77,22 @@ const CredentialSubjectItem: React.FC<CredentialSubjectItemProps> = ({ name, dat
 };
 
 interface KnowledgeBadgeItemProps {
-  image: string;
   name: string;
 }
 
-const KnowledgeBadgeItem: React.FC<KnowledgeBadgeItemProps> = ({ name, image }) => {
+const KnowledgeBadgeItem: React.FC<KnowledgeBadgeItemProps> = ({ name }) => {
+  const image = KnowledgeBadgeImageForbase64;
   return (
     <>
       <Flex direction={"row"} alignItems={"center"}>
         <Box minW={"128px"}>
-          <Image h={{ base: 24, sm: 28 }} w={{ base: 24, sm: 28 }} fit={"cover"} src={image} alt={"test"} />
+          <Image
+            h={{ base: 24, sm: 28 }}
+            w={{ base: 24, sm: 28 }}
+            fit={"cover"}
+            src={`data:image/png;base64,${image}`}
+            alt={"test"}
+          />
         </Box>
         <Box ml={{ base: 2, sm: 4 }}>
           <Text fontSize={"md"}>{name}</Text>
