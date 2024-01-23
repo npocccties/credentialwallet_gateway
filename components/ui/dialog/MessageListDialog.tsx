@@ -46,8 +46,12 @@ export const MessageListDialog = ({
 
           <AlertDialogBody>
             <UnorderedList>
-              {messages.map((item) => {
-                return <ListItem mb={2}>{item}</ListItem>;
+              {messages.map((item, idx) => {
+                return (
+                  <ListItem key={idx} mb={2}>
+                    {item}
+                  </ListItem>
+                );
               })}
             </UnorderedList>
           </AlertDialogBody>
