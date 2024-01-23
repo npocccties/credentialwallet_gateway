@@ -50,7 +50,7 @@ export const sendEmailFormSchema = z.object({
     .max(256, { message: "256文字以内で入力してください。" }),
   externalLinkageId: z
     .string()
-    .min(1, { message: "外部連携IDを入力してください。" })
+    .min(1, { message: "指定されたIDを入力してください。" })
     .max(256, { message: "256文字以内で入力してください。" })
     .refine((v) => validateForbiddenCharacters(v), {
       message: "使用禁止文字が含まれています。",

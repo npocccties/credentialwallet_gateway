@@ -44,7 +44,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId, badgeName,
 
   const onSubmit = async (input: InputForm) => {
     if (input.externalLinkageId !== input.confirmLinkageId) {
-      alert("外部連携IDが確認フォームの内容と一致しません。");
+      alert("指定されたIDが確認フォームの内容と一致しません。");
       return;
     }
 
