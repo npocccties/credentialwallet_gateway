@@ -1,5 +1,6 @@
 import axios from "axios";
 
+import { msEntraRetryConfig } from "@/configs/retry";
 import { loggerDebug } from "@/lib/logger";
 import { retryRequest } from "@/lib/retryRequest";
 import { KeyPair, Signer } from "@/lib/signer";
@@ -36,16 +37,13 @@ export const issue = async (
 
   loggerDebug("issue request id token", issueRequestIdToken);
 
-  const vc = await retryRequest(async () => {
-    const issueResponse = await axios.post<string, IIssueResponse>(
-      manifest.input.credentialIssuer,
-      issueRequestIdToken,
-      {
-        headers: { "Content-Type": "text/plain" },
-      },
-    );
-    return issueResponse.data.vc;
-  });
+  const issueResponse = await retryRequest(() => {
+    return axios.post<string, IIssueResponse>(manifest.input.credentialIssuer, issueRequestIdToken, {
+      headers: { "Content-Type": "text/plain" },
+    });
+  }, msEntraRetryConfig);
+
+  const vc = issueResponse.data.vc;
 
   await axios.post(vcRequest.redirect_uri ? vcRequest.redirect_uri : vcRequest.client_id, {
     state: vcRequest.state,
