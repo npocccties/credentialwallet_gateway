@@ -4,7 +4,7 @@ import { Readable } from "stream";
 import axios from "axios";
 
 import { loggerDebug, loggerError } from "@/lib/logger";
-import { retryRequestForBadgeVerify } from "@/lib/retryRequest";
+import { retryRequest, retryRequestForBadgeVerify } from "@/lib/retryRequest";
 import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
 const Through = require("stream").PassThrough;
@@ -15,22 +15,13 @@ const openBadgeVerifierURL = "https://openbadgesvalidator.imsglobal.org/results"
 
 export const getBadgeClassById = async (badgeClassId: string): Promise<any> => {
   try {
-    const badgeClass = await axios.get(badgeClassId).then((res) => res.data);
+    const badgeClass = await retryRequest(async () => {
+      return axios.get(badgeClassId).then((res) => res.data);
+    });
 
     return badgeClass;
   } catch (err) {
     loggerError("failed to access for badge class id", err);
-    throw err;
-  }
-};
-
-export const getBadgeClass = async (openBadgeMetadata: any): Promise<any> => {
-  try {
-    const badgeClass = await axios.get(openBadgeMetadata.badge).then((res) => res.data);
-
-    return badgeClass;
-  } catch (err) {
-    loggerError("failed to getBadgeClass", err);
     throw err;
   }
 };

@@ -4,6 +4,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { errors } from "@/constants/error";
 import { logStatus } from "@/constants/log";
 import { loggerDebug, loggerError } from "@/lib/logger";
+import { retryRequest } from "@/lib/retryRequest";
 import { encodeReqestGetUrlParams } from "@/lib/url";
 import { IfBadgeInfo } from "@/types/BadgeInfo";
 import { BadgeMetaData } from "@/types/badgeInfo/metaData";
@@ -31,7 +32,9 @@ const getMyToken = async (username: string, password: string, selectLms: LmsList
   );
 
   try {
-    const { data } = await axios(options);
+    const { data } = await retryRequest(async () => {
+      return axios(options);
+    });
     if (data.error) {
       throw new Error(data.errorcode);
     }
@@ -71,7 +74,9 @@ const getMyTokenAdmin = async (username: string, selectLms: LmsList): Promise<st
   loggerDebug("moodle sso requestUrl", tokenURL);
 
   try {
-    const { data } = await axios(options);
+    const { data } = await retryRequest(async () => {
+      return axios(options);
+    });
     return data.token;
   } catch (err) {
     if (axios.isAxiosError(err)) {
@@ -91,7 +96,9 @@ const getMyBadges = async (token: string, selectLms: LmsList): Promise<IfBadgeIn
     //httpsAgent: new https.Agent({ rejectUnauthorized: false }), // SSL Error: Unable to verify the first certificateの回避 正式な証明書なら出ないはず
   };
   try {
-    const { data } = await axios(options);
+    const { data } = await retryRequest(async () => {
+      return axios(options);
+    });
     loggerDebug("response getMyBadges", data.badges);
 
     return data.badges;
@@ -122,7 +129,10 @@ export const myBadgesList = async (username: string, password: string, selectLms
 export const myOpenBadge = async (uniquehash: string, lmsUrl: string): Promise<BadgeMetaData> => {
   const myOpenBadgeURL = `${lmsUrl}/badges/assertion.php?obversion=2&b=${uniquehash}`;
   try {
-    const openBadgeMeta = await axios.get(myOpenBadgeURL).then((res) => res.data);
+    const openBadgeMeta = await retryRequest(async () => {
+      return axios.get(myOpenBadgeURL).then((res) => res.data);
+    });
+
     return openBadgeMeta;
   } catch (err) {
     loggerError(`${logStatus.error} server/services/lmsAccess.service myOpenBadge`);

@@ -57,7 +57,9 @@ export const sendMail = async (email: string, confirmCode: string, consumerId: n
 
   try {
     const transport = createTransport(options);
-    await transport.sendMail(mail);
+    await retryRequest(async () => {
+      return transport.sendMail(mail);
+    });
   } catch (e) {
     loggerError("connect smtp server error!");
 
@@ -96,10 +98,10 @@ export const sendCabinetForVc = async ({
   const vcJwt = `${vcHeader}.${vcPayload}.${badgeVc.vcDataSignature}`;
   try {
     await retryRequest(async () => {
-    await axios.post<SubmissionResponse>(cabinetApiUrl, {
-      user_email: email,
-      badge_vc: vcJwt,
-      user_id: externalLinkageId,
+      return axios.post<SubmissionResponse>(cabinetApiUrl, {
+        user_email: email,
+        badge_vc: vcJwt,
+        user_id: externalLinkageId,
       });
     });
 
