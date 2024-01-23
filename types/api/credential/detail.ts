@@ -17,7 +17,6 @@ export type VcDetailData = DisplayBadgeVc & {
 export type KnowledgeBadges = KnowledgeBadge[];
 
 export type KnowledgeBadge = {
-  badgeImageUrl: string;
   badgeName: string;
 };
 
