@@ -51,11 +51,6 @@ export const retryRequestForBadgeVerify = async (operation: () => Promise<any>, 
         throw new Error("Failed To Badge Verify");
       }
     } catch (exp) {
-      // 4xx台のステータスコードが返却された場合はリトライしない
-      if (exp.response.status >= 400 && exp.response.status <= 499) {
-        throw exp;
-      }
-
       if (i < config.count - 1) {
         loggerWarn(`Retry attempt ${i + 1}: ${exp.message}, Retry Time: ${config.time} ms`);
         await wait(config.time);
