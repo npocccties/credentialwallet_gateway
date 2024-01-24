@@ -8,7 +8,7 @@ const wait = (delay: number) => {
 
 /**
  * リトライ処理を実装するための共通関数。Promiseをラップして使用します。
- * @param operation 実行する非同期関数
+ * @param operation 実行する非同期関数（axiosでのリクエストを想定）
  * @param config リトライ時の設定（リトライ回数、リトライ時間）
  * @returns
  */
@@ -18,6 +18,11 @@ export const retryRequest = async (operation: () => Promise<any>, config: RetryC
       const res = await operation();
       return res;
     } catch (exp) {
+      // 4xx台のステータスコードが返却された場合はリトライしない
+      if (exp.response.status >= 400 && exp.response.status <= 499) {
+        throw exp;
+      }
+
       if (i < config.count - 1) {
         loggerWarn(`Retry attempt ${i + 1}: ${exp.message}, Retry Time: ${config.time} ms`);
         await wait(config.time);
@@ -30,8 +35,8 @@ export const retryRequest = async (operation: () => Promise<any>, config: RetryC
 };
 
 /**
- * リトライ処理を実装するための共通関数（openbadge検証用）。Promiseをラップして使用します。
- * @param operation 実行する非同期関数
+ * openbadge検証時にリトライ処理を実装するための関数。Promiseをラップして使用します。
+ * @param operation 実行する非同期関数（axiosでのリクエストを想定）
  * @param config リトライ時の設定（リトライ回数、リトライ時間）
  * @returns
  */
@@ -46,6 +51,11 @@ export const retryRequestForBadgeVerify = async (operation: () => Promise<any>, 
         throw new Error("Failed To Badge Verify");
       }
     } catch (exp) {
+      // 4xx台のステータスコードが返却された場合はリトライしない
+      if (exp.response.status >= 400 && exp.response.status <= 499) {
+        throw exp;
+      }
+
       if (i < config.count - 1) {
         loggerWarn(`Retry attempt ${i + 1}: ${exp.message}, Retry Time: ${config.time} ms`);
         await wait(config.time);

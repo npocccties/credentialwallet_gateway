@@ -5,7 +5,7 @@ import { createTransport } from "nodemailer";
 import { findCabinetUrl } from "../repository/badgeConsumer";
 import { createSubmission, findConsumerAndBadgeVc } from "../repository/submissionBadge";
 
-import { smtpMailRetryConfig } from "@/configs/retry";
+import { badgeCabinetRetryConfig, smtpMailRetryConfig } from "@/configs/retry";
 import { submissionResult } from "@/constants";
 import { logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
@@ -104,7 +104,7 @@ export const sendCabinetForVc = async ({
         badge_vc: vcJwt,
         user_id: externalLinkageId,
       });
-    }, smtpMailRetryConfig);
+    }, badgeCabinetRetryConfig);
 
     await createSubmission({ badgeVcId, walletId, email, consumerId, consumerName: consumer.consumerName });
     return "success";
