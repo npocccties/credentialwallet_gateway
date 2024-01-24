@@ -10,7 +10,8 @@ import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
 import { pagePath, sessionStorageKey } from "@/constants";
 import { sendEmailFormSchema } from "@/lib/validation";
 import { sendConfirmEmail } from "@/share/api/submission/sendConfirmEmail";
-import { SubmissionEntry } from "@/types/api/submission";
+import { processingScreenActions } from "@/share/store/ui/processingScreen/man";
+import { SendMail, SubmissionEntry } from "@/types/api/submission";
 
 type InputForm = {
   consumerId: number | string;
@@ -24,6 +25,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId, badgeName,
   const router = useRouter();
   const pathParam = router.query.badge_vc_id;
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { showProcessingScreen } = processingScreenActions.useShowProcessingScreen();
 
   const {
     register,
@@ -50,7 +52,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId, badgeName,
 
     const consumerId = typeof input.consumerId === "string" ? Number(input.consumerId) : input.consumerId;
 
-    const data = await sendConfirmEmail({ email: input.email, consumerId });
+    const data = await showProcessingScreen<SendMail>(() => sendConfirmEmail({ email: input.email, consumerId }));
 
     const selectConsumer = {
       consumerId: consumerId,

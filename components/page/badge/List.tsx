@@ -45,8 +45,11 @@ export const BadgeList = ({
 
   const fetchMoodleMyBadges = async (username: string, password: string) => {
     setIsLoading(true);
-    await fetchBadgeList({ username, password, lmsId: Number(selectLmsId) });
-    setIsLoading(false);
+    try {
+      await fetchBadgeList({ username, password, lmsId: Number(selectLmsId) });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChangeIssuer = async (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -67,11 +70,12 @@ export const BadgeList = ({
       return;
     }
 
-    await fetchBadgeList({ lmsId });
-
-    setIsLoading(false);
+    try {
+      await fetchBadgeList({ lmsId });
+    } finally {
+      setIsLoading(false);
+    }
   };
-
   const handleBadgeSelect = async (uniquehash: string, email: string) => {
     const { lmsId, lmsName, lmsUrl } = lmsList.find((x) => x.lmsId.toString() === selectLmsId);
 

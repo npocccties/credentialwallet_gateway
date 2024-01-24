@@ -13,7 +13,11 @@ export const submissionBadge = async ({ badgeVcId }: { badgeVcId: number }) => {
         badgeVcId: badgeVcId,
       },
     }),
-    prisma.badgeConsumer.findMany(),
+    prisma.badgeConsumer.findMany({
+      orderBy: {
+        consumerId: "asc",
+      },
+    }),
   ]);
 
   return { badgeVc, badgeConsumers };
