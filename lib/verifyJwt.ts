@@ -1,5 +1,5 @@
-import { jwtVerify } from "jose/jwt/verify";
-import { importSPKI } from "jose/key/import";
+import { jwtVerify } from "jose";
+import { importSPKI } from "jose";
 
 import { loggerMWError, loggerMWInfo } from "./logger";
 

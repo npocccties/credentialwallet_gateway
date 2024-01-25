@@ -1,6 +1,6 @@
-import ION from "@decentralized-identity/ion-tools";
+import { DID, sign } from "@decentralized-identity/ion-tools";
 import { add, getUnixTime } from "date-fns";
-import { calculateThumbprint, JWK } from "jose/jwk/thumbprint";
+import { JWK, calculateJwkThumbprint } from "jose";
 import { v4 as uuidv4 } from "uuid";
 
 import { DID_ION_KEY_ID, SIOP_VALIDITY_IN_MINUTES } from "../configs";
@@ -67,7 +67,7 @@ export class Signer {
 
   init = async (keyPair: KeyPair): Promise<void> => {
     this.keyPair = keyPair;
-    const did = new ION.DID({
+    const did = new DID({
       ops: [
         {
           operation: "create",
@@ -90,7 +90,7 @@ export class Signer {
   };
 
   siop = async (options: SiopOptions): Promise<string> => {
-    return await ION.signJws({
+    return await sign({
       header: {
         typ: "JWT",
         alg: "ES256K",
@@ -101,7 +101,7 @@ export class Signer {
         exp: getUnixTime(add(new Date(), { minutes: SIOP_VALIDITY_IN_MINUTES })),
         did: this.did,
         jti: uuidv4().toUpperCase(),
-        sub: await calculateThumbprint(this.keyPair.publicJwk),
+        sub: await calculateJwkThumbprint(this.keyPair.publicJwk),
         sub_jwk: {
           ...this.keyPair.publicJwk,
           key_ops: ["verify"],
@@ -117,7 +117,7 @@ export class Signer {
   };
 
   siopV2 = async (options: SiopV2Options): Promise<string> => {
-    return await ION.signJws({
+    return await sign({
       header: {
         typ: "JWT",
         alg: "ES256K",
@@ -135,7 +135,7 @@ export class Signer {
   };
 
   createVP = async (options: VPOptions): Promise<string> => {
-    return await ION.signJws({
+    return await sign({
       header: {
         typ: "JWT",
         alg: "ES256K",

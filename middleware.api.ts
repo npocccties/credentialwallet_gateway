@@ -29,7 +29,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL(redirectUrl, req.url));
   }
 
-  const verify = await verifyOrthrosJwt(session_cookie);
+  const verify = await verifyOrthrosJwt(session_cookie.value);
 
   if (!verify) {
     loggerMWInfo(`invalid access! redirect ${pagePath.login.error}`);

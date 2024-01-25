@@ -1,4 +1,4 @@
-import ION from "@decentralized-identity/ion-tools";
+import { resolve, verify } from "@decentralized-identity/ion-tools";
 import axios from "axios";
 
 import { msEntraRetryConfig } from "@/configs/retry";
@@ -18,8 +18,8 @@ export const verifyVcRequest = async (vcRequestUrl: string) => {
       return axios.get(requestUrl).then((res) => res.data);
     }, msEntraRetryConfig);
     const header = getProtectedHeaderFromVCRequest(vcRequestInJwt);
-    const issDIDDocument = await ION.resolve(header.kid);
-    vcRequestVerified = await ION.verifyJws({
+    const issDIDDocument = await resolve(header.kid);
+    vcRequestVerified = await verify({
       jws: vcRequestInJwt,
       publicJwk: issDIDDocument.didDocument.verificationMethod[0].publicKeyJwk,
     });

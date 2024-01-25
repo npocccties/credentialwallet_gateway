@@ -40,15 +40,13 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
             </Box>
             <Box display={{ base: "none", md: "block" }}>
               <Flex gap={"8px"} alignItems={"center"} color={"basic.white"} display={{ base: "none", md: "flex" }}>
-                <NextLink href="/">
-                  <Link color={"basic.white"} style={{ textDecoration: "none" }}>
-                    <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
-                      <BsWallet2 size="24" />
-                      <Text fontSize={"xl"} mr={2}>
-                        マイウォレット
-                      </Text>
-                    </Box>
-                  </Link>
+                <NextLink href="/" color={"basic.white"} style={{ textDecoration: "none" }}>
+                  <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
+                    <BsWallet2 size="24" />
+                    <Text fontSize={"xl"} mr={2}>
+                      マイウォレット
+                    </Text>
+                  </Box>
                 </NextLink>
                 <Link fontSize={"xl"} href={portfolioLink} style={{ textDecoration: "none" }}>
                   <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>

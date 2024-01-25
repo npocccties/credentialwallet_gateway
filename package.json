@@ -25,6 +25,7 @@
     "@heroicons/react": "^1.0.4",
     "@hookform/resolvers": "^3.3.2",
     "axios": "^1.6.5",
+    "base64url": "^3.0.1",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
     "jose": "^4.15.4",
