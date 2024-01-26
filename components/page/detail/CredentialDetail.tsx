@@ -48,10 +48,16 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
     <>
       {vcDetailData && (
         <Box>
-          <Box mb="3">
+          <Box mb={12}>
             <BadgeVcCard badgeVc={vcDetailData} />
           </Box>
-          <Box my={12}>
+          <VcDetailTabPanel
+            vcDetailData={vcDetailData}
+            knowledgeBadges={knowledgeBadges}
+            submissionsHistories={submissionsHistories}
+            expired={expired}
+          />
+          <Box mt={8}>
             <PrimaryButton
               w="full"
               disabled={expired}
@@ -60,13 +66,7 @@ export const CredentialDetail: React.FC<CredentialDetailData> = ({
               バッジ提出
             </PrimaryButton>
           </Box>
-          <VcDetailTabPanel
-            vcDetailData={vcDetailData}
-            knowledgeBadges={knowledgeBadges}
-            submissionsHistories={submissionsHistories}
-            expired={expired}
-          />
-          <Flex justifyContent={"space-between"}>
+          <Flex justifyContent={"space-between"} mt={12}>
             <DangerButton w={160} disabled={isDeleteDisabled} onClick={onOpen}>
               削除
             </DangerButton>

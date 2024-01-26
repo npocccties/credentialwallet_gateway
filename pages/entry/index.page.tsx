@@ -4,8 +4,9 @@ import React from "react";
 
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
+import { PageTitle } from "@/components/ui/text/PageTitle";
 import { SERVICE_DESCRITION, SERVICE_NAME } from "@/configs";
-import { pagePath } from "@/constants";
+import { pageName, pagePath } from "@/constants";
 import { errors } from "@/constants/error";
 import { logStartForPageSSR, logStatus, logEndForPageSSR } from "@/constants/log";
 import { loggerInfo, loggerError } from "@/lib/logger";
@@ -46,6 +47,7 @@ const index = () => {
   return (
     <Layout maxW="xl" showHeaderContents={false}>
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
+      <PageTitle title={pageName.entry} />
       <EntryWallet />
     </Layout>
   );

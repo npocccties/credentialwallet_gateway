@@ -5,6 +5,8 @@ export const submissionBadge = async ({ badgeVcId }: { badgeVcId: number }) => {
     prisma.badgeVc.findUnique({
       select: {
         badgeVcId: true,
+        badgeName: true,
+        badgeIssuedon: true,
         vcDataPayload: true,
       },
       where: {

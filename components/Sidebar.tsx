@@ -66,7 +66,7 @@ const NavItem = ({ name, link, external, newWindow, targetTabName, ...rest }: Na
           <Text fontSize="md" mr={2}>
             {name}
           </Text>{" "}
-          {external && <ExternalLinkIcon />}
+          {newWindow && <ExternalLinkIcon />}
         </Flex>
       </Link>
     );

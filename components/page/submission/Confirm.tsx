@@ -1,12 +1,14 @@
 import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
-import { Box, VStack, FormLabel, Input, Flex, Text, Image, Divider } from "@chakra-ui/react";
+import { Box, VStack, FormLabel, Input, Flex, Text, Image, Divider, useDisclosure } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { PrimaryButton } from "@/components/ui/button/PrimaryButton";
 import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
+import { MessageListDialog } from "@/components/ui/dialog/MessageListDialog";
 import { ResponseState } from "@/components/ui/response/ResponseState";
 import { pagePath, sessionStorageKey } from "@/constants";
+import { JSTdateToDisplay } from "@/lib/date";
 import { postSubmissionVc } from "@/share/api/submission/postSubmissionVc";
 import { processingScreenActions } from "@/share/store/ui/processingScreen/man";
 import { SubmissionResponseStatus } from "@/types/status";
@@ -17,14 +19,18 @@ type ConsumerData = {
 };
 type BadgeVcData = {
   badgeVcId: number;
+  badgeName: string;
+  badgeIssuedon: string;
   vcImage: string;
 };
 
 export const Confirm = () => {
   const router = useRouter();
+  const cancelRef = useRef();
   const [isSubmission, setIsSubmission] = useState(false);
   const [responseState, setResponseState] = useState<SubmissionResponseStatus>(undefined);
   const { showProcessingScreen } = processingScreenActions.useShowProcessingScreen();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const submissionEmail = sessionStorage.getItem(sessionStorageKey.submissionEmail);
   const externalLinkageId = sessionStorage.getItem(sessionStorageKey.externalLinkageId);
@@ -34,16 +40,14 @@ export const Confirm = () => {
   const badgeVc = JSON.parse(badgeVcJson) as BadgeVcData;
   const badgeVcId = router.query.badge_vc_id;
 
-  const handleSubmission = async (codeInput: string) => {
-    const hashConfirmCode = sessionStorage.getItem(sessionStorageKey.confirmCode);
+  const message = [
+    `修了した研修名： ${badgeVc.badgeName}`,
+    `研修修了日： ${JSTdateToDisplay(badgeVc.badgeIssuedon)} `,
+    `提出時に入力したメールアドレス： ${submissionEmail}`,
+  ];
 
-    const hashInput = await generateHash(codeInput);
-
-    if (hashConfirmCode !== hashInput) {
-      alert("確認コードが一致しません");
-      return;
-    }
-
+  const handleSubmission = async () => {
+    onClose();
     const { consumerId } = consumer;
     const { badgeVcId } = badgeVc;
 
@@ -58,6 +62,18 @@ export const Confirm = () => {
     });
   };
 
+  const handleOpenModal = async (confirmCode: string) => {
+    const hashConfirmCode = sessionStorage.getItem(sessionStorageKey.confirmCode);
+    const hashInput = await generateHash(confirmCode);
+
+    if (hashConfirmCode !== hashInput) {
+      alert("確認コードが一致しません");
+      return;
+    }
+
+    onOpen();
+  };
+
   async function generateHash(confirmCode: string) {
     const encoder = new TextEncoder();
     const encodedCode = encoder.encode(confirmCode.toString());
@@ -69,9 +85,11 @@ export const Confirm = () => {
     return hashHex;
   }
 
-  if (badgeVc.badgeVcId.toString() !== badgeVcId) {
-    router.push("/404");
-    return null;
+  if (badgeVcId) {
+    if (badgeVc.badgeVcId.toString() !== badgeVcId) {
+      router.push("/404");
+      return null;
+    }
   }
 
   if (!submissionEmail || !consumer || !badgeVc) {
@@ -128,7 +146,7 @@ export const Confirm = () => {
 
           <Box w={"full"} textAlign={"left"}>
             <Text color="gray" mb={4}>
-              外部連携ID
+              指定されたID
             </Text>
             <Text fontSize="lg" my={6}>
               {externalLinkageId}
@@ -136,8 +154,18 @@ export const Confirm = () => {
             <Divider mb={2} />
           </Box>
 
-          <SubmissionCode handeleSubmission={handleSubmission} />
+          <SubmissionCode handleOpenModal={handleOpenModal} />
         </VStack>
+        <MessageListDialog
+          title={`研修修了書として、以下の情報が${consumer.consumerName}に提出されます。よろしいでしょうか？`}
+          messages={message}
+          okButtonrText="OK"
+          closeButtontText="キャンセル"
+          isOpen={isOpen}
+          onClose={onClose}
+          cancelRef={cancelRef}
+          handleOkClick={handleSubmission}
+        />
       </>
     );
   } else {
@@ -176,7 +204,7 @@ export const Confirm = () => {
   }
 };
 
-const SubmissionCode = ({ handeleSubmission }: { handeleSubmission: (codeInput: string) => void }) => {
+const SubmissionCode = ({ handleOpenModal }: { handleOpenModal: (confirmCode: string) => void }) => {
   const router = useRouter();
   const { badge_vc_id } = router.query;
   const [codeInput, setCodeInput] = useState("");
@@ -191,7 +219,7 @@ const SubmissionCode = ({ handeleSubmission }: { handeleSubmission: (codeInput: 
           <SecondaryButton w={140} onClick={() => router.push(`${pagePath.credential.detail}/${badge_vc_id}`)}>
             キャンセル
           </SecondaryButton>
-          <PrimaryButton w={140} onClick={() => handeleSubmission(codeInput)}>
+          <PrimaryButton w={140} onClick={() => handleOpenModal(codeInput)}>
             バッジを提出
           </PrimaryButton>
         </Flex>

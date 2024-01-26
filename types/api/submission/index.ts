@@ -4,6 +4,8 @@ export type SubmissionEntry = {
   badgeConsumers: BadgeConsumer[];
   vcImage: string;
   badgeVcId: number;
+  badgeName: string;
+  badgeIssuedon: string;
 };
 
 export type SubmissionEmailRequestParam = {

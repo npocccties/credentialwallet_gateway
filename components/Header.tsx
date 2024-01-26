@@ -1,14 +1,14 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { Box, Flex, Link, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
+import { Box, Flex, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import React, { memo, useEffect, useState } from "react";
-import { FaUserAlt } from "react-icons/fa";
-import { MdLogout } from "react-icons/md";
+import React, { memo } from "react";
+import { BsWallet2 } from "react-icons/bs";
+import { MdLogout, MdHelp } from "react-icons/md";
+import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 
 import { pagePath } from "@/constants";
-import { getCookieValue } from "@/lib/cookie";
-import { getUserInfoFormJwt } from "@/lib/userInfo";
+import { sidebarItems } from "@/constants/sidebar";
 
 type Props = {
   onOpen: () => void;
@@ -16,17 +16,14 @@ type Props = {
 };
 
 const logoutLink = process.env.NEXT_PUBLIC_LOGOUT_LINK as string;
+const portfolioLink = process.env.NEXT_PUBLIC_E_PORTFOLIO_LINK as string;
+const helpLink = process.env.NEXT_PUBLIC_HELP_LINK as string;
 
 export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) => {
-  const [name, setName] = useState("");
   const router = useRouter();
+  const portfolioItem = sidebarItems.find((x) => x.link === portfolioLink);
+  const helpItem = sidebarItems.find((x) => x.link === helpLink);
 
-  useEffect(() => {
-    const session_cookie = getCookieValue("session_cookie");
-
-    const { displayName } = getUserInfoFormJwt(session_cookie);
-    setName(displayName);
-  }, []);
   return (
     <Box as="header" position={"fixed"} w={"100%"} zIndex={1000}>
       <Flex
@@ -36,67 +33,69 @@ export const Header: React.FC<Props> = memo(({ onOpen, showContents = true }) =>
         backgroundColor={"basic.black"}
         p={{ base: 8 }}
       >
-        <Box>
-          {showContents && (
-            <HamburgerIcon color={"basic.white"} w={6} h={6} cursor={"pointer"} onClick={() => onOpen()} />
-          )}
-        </Box>
+        {showContents ? (
+          <>
+            <Box display={{ base: "block", md: "none" }}>
+              <HamburgerIcon color={"basic.white"} w={6} h={6} cursor={"pointer"} onClick={() => onOpen()} />
+            </Box>
+            <Box display={{ base: "none", md: "block" }}>
+              <Flex gap={"8px"} alignItems={"center"} color={"basic.white"} display={{ base: "none", md: "flex" }}>
+                <NextLink href="/">
+                  <Link color={"basic.white"} style={{ textDecoration: "none" }}>
+                    <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
+                      <BsWallet2 size="24" />
+                      <Text fontSize={"xl"} mr={2}>
+                        マイウォレット
+                      </Text>
+                    </Box>
+                  </Link>
+                </NextLink>
+                <Link fontSize={"xl"} href={portfolioLink} style={{ textDecoration: "none" }}>
+                  <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
+                    <TbDeviceDesktopAnalytics />
+                    <Text mr={2}>{portfolioItem.name}</Text>
+                  </Box>
+                </Link>
+                <Link
+                  fontSize={"xl"}
+                  href={helpLink}
+                  style={{ textDecoration: "none" }}
+                  isExternal={helpItem.newWindow}
+                  target={helpItem.targetTabName}
+                >
+                  <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
+                    <MdHelp size="24" />
+                    <Text fontSize={"xl"} mr={2}>
+                      {helpItem.name}
+                    </Text>
+                  </Box>
+                </Link>
+              </Flex>
+            </Box>
+          </>
+        ) : (
+          <Box></Box>
+        )}
         <Box
           style={{
             position: "absolute",
             left: "50%",
             transform: "translateX(-50%)",
           }}
-        >
-          <NextLink href="/">
-            <Link
-              color={"basic.white"}
-              fontSize={{ base: "xl", md: "2xl" }}
-              fontWeight={"bold"}
-              style={{ textDecoration: "none" }}
-            >
-              バッジウォレット
-            </Link>
-          </NextLink>
-        </Box>
+        ></Box>
         <Box>
-          {showContents && (
-            <>
-              <Flex gap={"8px"} alignItems={"center"} color={"basic.white"} display={{ base: "none", sm: "flex" }}>
-                <FaUserAlt />
-                <Text fontSize={"xl"} mr={2}>
-                  {name}
-                </Text>
-                {pagePath.login.error !== router.asPath && (
-                  <>
+          <Flex gap={"8px"} alignItems={"center"} color={"basic.white"}>
+            {pagePath.login.error !== router.asPath && (
+              <>
+                <Link fontSize={"xl"} href={logoutLink} style={{ textDecoration: "none" }}>
+                  <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
                     <MdLogout size="24" />
-                    <Link fontSize={"xl"} href={logoutLink} style={{ textDecoration: "none" }}>
-                      <Text>ログアウト</Text>
-                    </Link>
-                  </>
-                )}
-              </Flex>
-              <Flex gap={"16px"} alignItems={"center"} color={"basic.white"} display={{ base: "flex", sm: "none" }}>
-                <Menu>
-                  <MenuButton cursor={"pointer"} minW={0} transition="all 1s">
-                    <FaUserAlt />
-                  </MenuButton>
-                  <MenuList color={"basic.black"}>
-                    <MenuItem>
-                      <Text>{name}</Text>
-                    </MenuItem>
-                    {pagePath.login.error !== router.asPath && (
-                      <MenuItem>
-                        <Link href={logoutLink} style={{ textDecoration: "none" }}>
-                          <Text>ログアウト</Text>
-                        </Link>
-                      </MenuItem>
-                    )}
-                  </MenuList>
-                </Menu>
-              </Flex>
-            </>
-          )}
+                    <Text>ログアウト</Text>
+                  </Box>
+                </Link>
+              </>
+            )}
+          </Flex>
         </Box>
       </Flex>
     </Box>

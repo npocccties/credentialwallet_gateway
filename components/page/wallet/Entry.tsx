@@ -28,11 +28,6 @@ export const EntryWallet = () => {
   };
   return (
     <Flex direction={"column"} px={{ base: 4, sm: 0 }}>
-      <Center>
-        <Text as="h1" fontSize={{ base: "2xl", sm: "3xl" }} mt={{ base: 8, sm: 4 }}>
-          ウォレット作成
-        </Text>
-      </Center>
       <Box mt={{ base: 8, sm: 16 }}>
         <Text as="h2" fontSize={{ base: "xl", sm: "2xl" }}>
           氏名
@@ -52,8 +47,8 @@ export const EntryWallet = () => {
         </Center>
       </Box>
       <BasicDialog
-        title="ウォレットの作成が完了しました！"
-        okButtonrText="ウォレットへ"
+        title="バッジウォレットの作成が完了しました！"
+        okButtonrText="マイウォレットへ"
         isOpen={isOpen}
         onClose={() => {}}
         cancelRef={cancelRef}

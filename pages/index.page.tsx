@@ -6,8 +6,9 @@ import type { GetServerSidePropsResult, NextPage } from "next";
 import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
 import { WaletVCList } from "@/components/page/wallet/List";
+import { PageTitle } from "@/components/ui/text/PageTitle";
 import { SERVICE_NAME, SERVICE_DESCRITION } from "@/configs";
-import { pagePath } from "@/constants";
+import { pageName, pagePath } from "@/constants";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
@@ -55,10 +56,13 @@ const Home: NextPage<Props> = ({ isCreatedWallet }) => {
     }
   }, []);
 
+  if (!isCreatedWallet) return null;
+
   return (
     <Layout maxW="xl">
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
-      {isCreatedWallet && <WaletVCList />}
+      <PageTitle title={pageName.credential.list} />
+      <WaletVCList />
     </Layout>
   );
 };

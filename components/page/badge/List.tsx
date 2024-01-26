@@ -99,6 +99,7 @@ export const BadgeList = ({
         setIsNeedMoodleLogin={setIsNeedMoodleLogin}
         setSelectLmsId={setSelectLmsId}
         getMyBadges={fetchMoodleMyBadges}
+        lmsName={lmsList.find((item) => item.lmsId.toString() === selectLmsId).lmsName}
       />
     );
   } else {
@@ -117,7 +118,7 @@ export const BadgeList = ({
               学習サービス名選択
             </FormLabel>
             <Select w={72} value={selectLmsId} onChange={(e) => handleChangeIssuer(e)}>
-              <option value=""></option>
+              <option value="">選択してください</option>
               {lmsList.map((item) => {
                 const key = item.lmsId;
                 return (
@@ -143,7 +144,7 @@ export const BadgeList = ({
               学習サービス名選択
             </FormLabel>
             <Select value={selectLmsId} onChange={(e) => handleChangeIssuer(e)}>
-              <option value=""></option>
+              <option value="">選択してください</option>
               {lmsList.map((item) => {
                 const key = item.lmsId;
                 return (

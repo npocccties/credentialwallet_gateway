@@ -6,12 +6,13 @@ const msal = require("@azure/msal-node");
 
 const did_authority = process.env.did_authority as string;
 const clientName = process.env.clientName as string;
+const azTenantId = process.env.vcApp_azTenantId as string;
 
 const msalConfig = {
   auth: {
     clientId: process.env.vcApp_client_id as string,
-    authority: "https://login.microsoftonline.com/" + process.env.vcApp_azTenantId,
-    knownAuthorities: ["https://login.microsoftonline.com/" + process.env.vcApp_azTenantId],
+    authority: `https://login.microsoftonline.com/${azTenantId}`,
+    knownAuthorities: [`https://login.microsoftonline.com/${azTenantId}`],
     clientSecret: process.env.vcApp_client_secret as string,
   },
 };

@@ -19,7 +19,7 @@ function ErrorPage({ statusCode, errorMessage }) {
   };
 
   return (
-    <Layout maxW="2xl">
+    <Layout maxW="2xl" showHeaderContents={false}>
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
       <VStack justifyContent={"center"} gap={16} mt={8}>
         <WarningIcon w={16} h={16} color={"status.caution"} />
@@ -28,7 +28,7 @@ function ErrorPage({ statusCode, errorMessage }) {
 
         <HStack>
           <Box>
-            <SecondaryButton onClick={handleBack}>ウォレットに戻る</SecondaryButton>
+            <SecondaryButton onClick={handleBack}>マイウォレットに戻る</SecondaryButton>
           </Box>
         </HStack>
       </VStack>

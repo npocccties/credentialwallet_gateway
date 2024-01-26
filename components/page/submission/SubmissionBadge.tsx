@@ -13,14 +13,14 @@ import { sendConfirmEmail } from "@/share/api/submission/sendConfirmEmail";
 import { SubmissionEntry } from "@/types/api/submission";
 
 type InputForm = {
-  consumerId: number;
+  consumerId: number | string;
   email: string;
   sameIdForEmail: boolean;
   externalLinkageId: string;
   confirmLinkageId: string;
 };
 
-export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: SubmissionEntry) => {
+export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId, badgeName, badgeIssuedon }: SubmissionEntry) => {
   const router = useRouter();
   const pathParam = router.query.badge_vc_id;
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,7 +35,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
     formState: { errors },
   } = useForm<InputForm>({
     defaultValues: {
-      consumerId: badgeConsumers[0].consumerId,
+      consumerId: "",
     },
     resolver: zodResolver(sendEmailFormSchema),
   });
@@ -44,7 +44,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
 
   const onSubmit = async (input: InputForm) => {
     if (input.externalLinkageId !== input.confirmLinkageId) {
-      alert("外部連携IDが確認フォームの内容と一致しません。");
+      alert("指定されたIDが確認フォームの内容と一致しません。");
       return;
     }
 
@@ -58,6 +58,8 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
     };
     const badgeVcData = {
       badgeVcId: badgeVcId,
+      badgeName: badgeName,
+      badgeIssuedon: badgeIssuedon,
       vcImage: vcImage,
     };
     const { confirmCode, submissionEmail, externalLinkageId, consumer, badgeVc } = sessionStorageKey;
@@ -122,6 +124,7 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
             <Box w={"full"}>
               <FormLabel mb={2}>バッジ提出先選択</FormLabel>
               <Select {...register("consumerId", { required: true })}>
+                <option value="">選択してください</option>
                 {badgeConsumers.map((item) => {
                   return (
                     <option key={item.consumerId} value={item.consumerId}>
@@ -130,6 +133,9 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
                   );
                 })}
               </Select>
+              <Text size="xs" mt={2}>
+                {errors.consumerId?.message}
+              </Text>
             </Box>
             <Box w={"full"}>
               <FormLabel mb={2}>emailアドレス</FormLabel>
@@ -139,13 +145,17 @@ export const SubmissionBadge = ({ badgeConsumers, vcImage, badgeVcId }: Submissi
               </Text>
             </Box>
             <Box as="section" w={"full"} border={"1px solid #ddd"} borderRadius={"md"} padding={6}>
-              <Box mb={6} textAlign={"left"}>
-                <Checkbox size={"lg"} colorScheme={"primary"} {...register("sameIdForEmail")}>
-                  emailアドレスと同じ
-                </Checkbox>
+              <Box mb={4}>
+                <Box>
+                  <FormLabel mb={0}>指定されたID</FormLabel>
+                </Box>
+                <Box textAlign={"right"}>
+                  <Checkbox size={"md"} colorScheme={"primary"} {...register("sameIdForEmail")}>
+                    emailアドレスと同じ場合
+                  </Checkbox>
+                </Box>
               </Box>
               <Box w={"full"} mb={4}>
-                <FormLabel mb={2}>外部連携ID（マイレコID等）</FormLabel>
                 <Input type={"externalLinkageId"} maxLength={256} {...register("externalLinkageId")} />
                 <Text size="xs" mt={2}>
                   {errors.externalLinkageId?.message}

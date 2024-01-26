@@ -5,8 +5,9 @@ import { Layout } from "@/components/Layout";
 import { Metatag } from "@/components/Metatag";
 import { BadgeList } from "@/components/page/badge/List";
 import { VcImport } from "@/components/page/badge/VcImport";
+import { PageTitle } from "@/components/ui/text/PageTitle";
 import { SERVICE_DESCRITION, SERVICE_NAME } from "@/configs";
-import { pagePath } from "@/constants";
+import { pageName, pagePath } from "@/constants";
 import { errors } from "@/constants/error";
 import { logEndForPageSSR, logStartForPageSSR, logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
@@ -28,12 +29,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req }): Promise<G
   const { eppn } = getUserInfoFormJwt(session_cookie);
 
   try {
-    const walletId = getWalletId(eppn);
+    await getWalletId(eppn);
+  } catch (e) {
+    loggerError(`${logStatus.error} ${page}`, e.message);
+    return { redirect: { destination: pagePath.credential.list, statusCode: 302 } };
+  }
 
-    if (!walletId) {
-      return { redirect: { destination: pagePath.entry, statusCode: 302 } };
-    }
-
+  try {
     const lmsList = await findAllLmsList();
 
     loggerInfo(`${logStatus.success} ${page}`);
@@ -52,6 +54,7 @@ const ImportVCPage = (props: Props) => {
   return (
     <Layout align="center" textAlign="center" maxW={pageWidth}>
       <Metatag title={SERVICE_NAME} description={SERVICE_DESCRITION} />
+      <PageTitle title={pageName.badge.import} />
       {isBadgeSelect ? (
         <VcImport setIsBadgeSelect={setIsBadgeSelect} />
       ) : (

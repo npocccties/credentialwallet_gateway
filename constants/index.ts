@@ -16,6 +16,17 @@ export const pagePath = {
   },
 } as const;
 
+export const pageName = {
+  entry: "バッジウォレット作成",
+  credential: {
+    list: "マイウォレット",
+  },
+  badge: {
+    import: "バッジインポート",
+  },
+  submission: "バッジ提出",
+} as const;
+
 export const sessionStorageKey = {
   confirmCode: "confirmCode",
   submissionEmail: "submissionEmail",

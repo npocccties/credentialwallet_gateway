@@ -37,7 +37,12 @@ export const moodleUserNameSchema = z.string().regex(/^[a-z0-9_.@-]+$/, {
 });
 
 export const sendEmailFormSchema = z.object({
-  consumerId: z.string().or(z.number()),
+  consumerId: z
+    .string()
+    .or(z.number())
+    .refine((v) => v !== "", {
+      message: "バッジ提出先を選択してください。",
+    }),
   email: z
     .string()
     .min(1, { message: "メールアドレスを入力してください。" })
@@ -45,7 +50,7 @@ export const sendEmailFormSchema = z.object({
     .max(256, { message: "256文字以内で入力してください。" }),
   externalLinkageId: z
     .string()
-    .min(1, { message: "外部連携IDを入力してください。" })
+    .min(1, { message: "指定されたIDを入力してください。" })
     .max(256, { message: "256文字以内で入力してください。" })
     .refine((v) => validateForbiddenCharacters(v), {
       message: "使用禁止文字が含まれています。",
