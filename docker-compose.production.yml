@@ -11,7 +11,7 @@ services:
     networks:
       - db_network
     container_name: chilowallet
-    restart: "no"
+    restart: "always"
     environment:
       - LOG_LEVEL=$LOG_LEVEL
     logging:
