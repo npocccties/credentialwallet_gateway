@@ -16,4 +16,3 @@ if docker ps -q --filter "name=^chilowallet$" | grep -q .; then
 fi
 
 docker compose -f docker-compose.production.yml -p chilowallet-app up -d --build
-/bin/sh ./server_db_restore.sh

@@ -131,6 +131,8 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
    ```
    * `app_stop.sh` と `app_start.sh` を呼びます
 
+   DBのデータはvolumeによって保持されますが、万が一復元が必要な場合は後述のDBリストアコマンドを実行してください。
+
    DBバックアップ  
    ```
    chilowallet/server_db_backup.sh
