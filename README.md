@@ -112,6 +112,7 @@ session_cookieというNameのeppn, displayNameをPayloadに含んだ署名付�
    * 開発サーバー
       * `./app_start_dev.sh`を実行する
       * 停止は `./app_stop_dev.sh`を実行してください
+      * http-portalを使用する場合は、.envにSSL_CERTS_DIR, ALLOWED_HOSTS を設定してください（詳細は[portal](https://github.com/npocccties/chiloportal/tree/main/backend#%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0)を参照）
 
 1. 備考  
    コンテナ起動  

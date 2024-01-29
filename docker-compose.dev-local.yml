@@ -35,7 +35,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./postgresql/data:/var/lib/postgresql
+      - db_data:/var/lib/postgresql/data
       - ./sql:/docker-entrypoint-initdb.d
 
 networks:
@@ -43,3 +43,4 @@ networks:
     driver: bridge
 volumes:
   node_modules:
+  db_data:
