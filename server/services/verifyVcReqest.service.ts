@@ -1,7 +1,9 @@
 import ION from "@decentralized-identity/ion-tools";
 import axios from "axios";
 
+import { msEntraRetryConfig } from "@/configs/retry";
 import { loggerDebug, loggerError } from "@/lib/logger";
+import { retryRequest } from "@/lib/retryRequest";
 import { getRequestUrlFromUrlMessage, getProtectedHeaderFromVCRequest } from "@/lib/utils";
 
 export const verifyVcRequest = async (vcRequestUrl: string) => {
@@ -12,7 +14,9 @@ export const verifyVcRequest = async (vcRequestUrl: string) => {
   let vcRequestInJwt = "";
   let vcRequestVerified = "";
   try {
-    vcRequestInJwt = await axios.get(requestUrl).then((res) => res.data);
+    vcRequestInJwt = await retryRequest(() => {
+      return axios.get(requestUrl).then((res) => res.data);
+    }, msEntraRetryConfig);
     const header = getProtectedHeaderFromVCRequest(vcRequestInJwt);
     const issDIDDocument = await ION.resolve(header.kid);
     vcRequestVerified = await ION.verifyJws({

@@ -3,7 +3,9 @@ import { Readable } from "stream";
 
 import axios from "axios";
 
+import { moodleRetryConfig, openbadgeVerifyRetryConfig } from "@/configs/retry";
 import { loggerDebug, loggerError } from "@/lib/logger";
+import { retryRequest, retryRequestForBadgeVerify } from "@/lib/retryRequest";
 import { BadgeMetaData } from "@/types/badgeInfo/metaData";
 
 const Through = require("stream").PassThrough;
@@ -14,22 +16,13 @@ const openBadgeVerifierURL = "https://openbadgesvalidator.imsglobal.org/results"
 
 export const getBadgeClassById = async (badgeClassId: string): Promise<any> => {
   try {
-    const badgeClass = await axios.get(badgeClassId).then((res) => res.data);
+    const badgeClass = await retryRequest(() => {
+      return axios.get(badgeClassId).then((res) => res.data);
+    }, moodleRetryConfig);
 
     return badgeClass;
   } catch (err) {
     loggerError("failed to access for badge class id", err);
-    throw err;
-  }
-};
-
-export const getBadgeClass = async (openBadgeMetadata: any): Promise<any> => {
-  try {
-    const badgeClass = await axios.get(openBadgeMetadata.badge).then((res) => res.data);
-
-    return badgeClass;
-  } catch (err) {
-    loggerError("failed to getBadgeClass", err);
     throw err;
   }
 };
@@ -98,16 +91,19 @@ export const validateOpenBadge = async (email: string, openBadgeMetadata: BadgeM
     return false;
   }
 
-  const { data } = await axios.post(
-    openBadgeVerifierURL,
-    {
-      data: JSON.stringify(openBadgeMetadata),
-    },
-    {
-      headers: {
-        Accept: "application/json",
+  const { data } = await retryRequestForBadgeVerify(async () => {
+    return axios.post(
+      openBadgeVerifierURL,
+      {
+        data: JSON.stringify(openBadgeMetadata),
       },
-    },
-  );
+      {
+        headers: {
+          Accept: "application/json",
+        },
+      },
+    );
+  }, openbadgeVerifyRetryConfig);
+
   return data.report.valid;
 };

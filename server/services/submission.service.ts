@@ -5,9 +5,11 @@ import { createTransport } from "nodemailer";
 import { findCabinetUrl } from "../repository/badgeConsumer";
 import { createSubmission, findConsumerAndBadgeVc } from "../repository/submissionBadge";
 
+import { badgeCabinetRetryConfig, smtpMailRetryConfig } from "@/configs/retry";
 import { submissionResult } from "@/constants";
 import { logStatus } from "@/constants/log";
 import { loggerError, loggerInfo } from "@/lib/logger";
+import { retryRequest } from "@/lib/retryRequest";
 import { cabinetApi } from "@/share/api";
 import { SubmissionResponseStatus } from "@/types/status";
 
@@ -56,7 +58,9 @@ export const sendMail = async (email: string, confirmCode: string, consumerId: n
 
   try {
     const transport = createTransport(options);
-    await transport.sendMail(mail);
+    await retryRequest(() => {
+      return transport.sendMail(mail);
+    }, smtpMailRetryConfig);
   } catch (e) {
     loggerError("connect smtp server error!");
 
@@ -94,11 +98,13 @@ export const sendCabinetForVc = async ({
 
   const vcJwt = `${vcHeader}.${vcPayload}.${badgeVc.vcDataSignature}`;
   try {
-    await axios.post<SubmissionResponse>(cabinetApiUrl, {
-      user_email: email,
-      badge_vc: vcJwt,
-      user_id: externalLinkageId,
-    });
+    await retryRequest(() => {
+      return axios.post<SubmissionResponse>(cabinetApiUrl, {
+        user_email: email,
+        badge_vc: vcJwt,
+        user_id: externalLinkageId,
+      });
+    }, badgeCabinetRetryConfig);
 
     await createSubmission({ badgeVcId, walletId, email, consumerId, consumerName: consumer.consumerName });
     return "success";

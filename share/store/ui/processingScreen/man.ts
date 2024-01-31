@@ -8,7 +8,7 @@ type ProcessingScreenGetters = {
 
 type ProcessingScreenActions = {
   useShowProcessingScreen: () => {
-    showProcessingScreen: (callback: () => Promise<any>) => Promise<void>;
+    showProcessingScreen: <T>(callback: () => Promise<any>) => Promise<T>;
   };
 };
 
@@ -29,21 +29,21 @@ const useShowProcessingScreen = () => {
   const setState = useSetRecoilState(processingScreenState);
   const processingTasks: Set<() => Promise<void>> = new Set();
 
-  const showProcessiongScreen = async (callback: () => Promise<any>): Promise<void> => {
+  const showProcessiongScreen = async <T>(callback: () => Promise<any>): Promise<T> => {
     window.onbeforeunload = (event) => {
       event.preventDefault();
       event.returnValue = "Check";
     };
 
     history.pushState(null, null, location.href);
-    const browsweBackHandler = (event) => {
+    const browsweBackHandler = () => {
       history.forward();
     };
     window.addEventListener("popstate", browsweBackHandler);
-
+    let result;
     try {
       setState(true);
-      await callback();
+      result = await callback();
     } catch (error) {
       console.error(error);
       throw error;
@@ -55,6 +55,7 @@ const useShowProcessingScreen = () => {
         setState(false);
       }
     }
+    return result;
   };
 
   return { showProcessingScreen: showProcessiongScreen };

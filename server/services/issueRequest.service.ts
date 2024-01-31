@@ -1,5 +1,7 @@
+import { msEntraRetryConfig } from "@/configs/retry";
 import { logStatus } from "@/constants/log";
 import { loggerDebug, loggerError } from "@/lib/logger";
+import { retryRequest } from "@/lib/retryRequest";
 import issuanceConfig from "@/templates/issuance_request_config.json";
 
 const msal = require("@azure/msal-node");
@@ -98,8 +100,11 @@ export const issueRequest = async (
     "https://verifiedid.did.msidentity.com/v1.0/verifiablecredentials/createIssuanceRequest";
   let url = "";
   try {
-    const response = await fetch(client_api_request_endpoint, fetchOptions);
+    const response = await retryRequest(() => {
+      return fetch(client_api_request_endpoint, fetchOptions);
+    }, msEntraRetryConfig);
     const resp = await response.json();
+
     if (resp.error) {
       throw new Error(resp.error);
     }

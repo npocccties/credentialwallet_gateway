@@ -226,6 +226,16 @@ https://nextjs.org/docs/pages/building-your-application/configuring/environment-
 |smtp_mail_server_port|メール送信サーバーのpost|-|必須|
 |mail_sender_address|メール送信時のFromに設定されるaddress|-|必須|
 |get_session_redirect_url|未ログイン時のリダイレクトURL|/redirect|必須|
+|moodle_api_request_retry_count|MoodleのAPIアクセス失敗時のリトライ回数設定|-|必須|
+|moodle_api_request_retry_time|MoodleのAPIアクセス失敗時のリトライ間隔（ms）設定|-|必須|
+|smtp_mail_request_retry_count|メール送信用サーバーアクセス失敗時のリトライ回数設定|-|必須|
+|smtp_mail_request_retry_time|メール送信用サーバーアクセス失敗時のリトライ間隔（ms）設定|-|必須|
+|oepnbadge_verify_api_request_retry_count|openbadge検証用APIアクセス失敗時のリトライ回数設定|-|必須|
+|oepnbadge_verify_api_request_retry_time|openbadge検証用APIアクセス失敗時のリトライ間隔（ms）設定|-|必須|
+|ms_entra_id_api_request_retry_count|VC発行関連（Microsoft Entra Verified ID）アクセス失敗時のリトライ回数設定|-|必須|
+|ms_entra_id_api_request_retry_time|VC発行関連（Microsoft Entra Verified ID）アクセス失敗時のリトライ間隔（ms）設定|-|必須|
+|badge_cabinet_api_request_retry_count|CabinetのAPIアクセス失敗時のリトライ回数設定|-|必須|
+|badge_cabinet_api_request_retry_count|CabinetのAPIアクセス失敗時のリトライ間隔（ms）設定|-|必須|
 
 
 ### 5-2-1. vc* に設定する環境変数について
@@ -317,7 +327,7 @@ Moodle側で下記のように設定し、Wallet側のDBにデータを登録し
 |1| ○○市教育委員会 | https://example.com |
 
 ## 8. configの設定値
-/config/index.ts に設定されている固定値
+/configs/index.ts に設定されている固定値
 
 基本的に設定の変更は不要です。
 
@@ -328,6 +338,7 @@ export const CUSTOME_SCHEMA = "openid-vc://";
 export const REQUEST_URI_KEY = `${CUSTOME_SCHEMA}?request_uri`;
 export const DID_ION_KEY_ID = "signingKey";
 export const SIOP_VALIDITY_IN_MINUTES = 30;
+export const REQUEST_RETRY_COUNT 3;
 ```
 
 | 変数名                               | 説明                                        | 
@@ -338,3 +349,22 @@ export const SIOP_VALIDITY_IN_MINUTES = 30;
 |REQUEST_URI_KEY|VCリクエストで返却されたurlを取得するためのkey|
 |DID_ION_KEY_ID|VC発行リクエスト時の署名のDIDに付与するkey|
 |SIOP_VALIDITY_IN_MINUTES|VC発行リクエスト時の署名の有効期限設定値|
+
+### 8.1 外部リクエスト時のリトライ回数、間隔設定
+/configs/retry.ts に設定されている値は、環境変数によって定義された各外部サービスに対するリトライ回数とリトライ間隔を定義したファイルです。
+
+下記の形式に合わせて、設定した環境変数をConfig関数として割り当ててください。
+```
+export const moodleRetryConfig: RetryConfig = {
+  count: Number(process.env.moodle_api_request_retry_count),
+  time: Number(process.env.moodle_api_request_retry_time),
+};
+```
+
+実際にリトライ処理を実装する場合は、以下のようにlib/retryRequest.ts に定義されている関数を使用してください。第一引数にPromiseを返却する関数、第二引数に先ほど定義したconfigデータを指定します。
+```
+    const { data } = await retryRequest(() => {
+      return axios(options);
+    }, moodleRetryConfig);
+```
+
