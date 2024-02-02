@@ -18,8 +18,9 @@ export const retryRequest = async (operation: () => Promise<any>, config: RetryC
       const res = await operation();
       return res;
     } catch (exp) {
+      loggerWarn(`error retryRequest exp: ${exp}`);
       // 4xx台のステータスコードが返却された場合はリトライしない
-      if (exp.response.status >= 400 && exp.response.status <= 499) {
+      if (exp.response?.status >= 400 && exp.response?.status <= 499) {
         throw exp;
       }
 
