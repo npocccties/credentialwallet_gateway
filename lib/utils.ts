@@ -6,6 +6,7 @@ import { Manifest, VCRequest } from "../types";
 const crypto = require("crypto").webcrypto;
 
 export interface JWTHeader {
+  alg: string;
   kid: string;
 }
 
