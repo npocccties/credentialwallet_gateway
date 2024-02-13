@@ -34,11 +34,15 @@ export const AxiosErrorHandling = (props: Props) => {
         return response;
       },
       (error: AxiosError) => {
+        // @ts-ignore
         console.error(error.response?.data?.error?.detail);
         let detailmessage = "";
+        // @ts-ignore
         if (error.response?.data?.error?.detail?.message) {
+          // @ts-ignore
           detailmessage = error.response?.data?.error?.detail?.message;
         } else {
+          // @ts-ignore
           detailmessage = error.response?.data?.error?.errorMessage;
         }
 
