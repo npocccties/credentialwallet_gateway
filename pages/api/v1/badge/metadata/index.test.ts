@@ -8,6 +8,13 @@ import { api } from "@/share/api";
 type ApiRequest = NextApiRequest & ReturnType<typeof createRequest>;
 type ApiResponse = NextApiResponse & ReturnType<typeof createResponse>;
 
+jest.mock("@/configs/retry", () => ({
+  moodleRetryConfig: {
+    count: 3,
+    time: 1000,
+  },
+}));
+
 describe(api.v1.badge.metadata, () => {
   test("uniquehashが不正な値のため400が返る", async () => {
     const mockReq = createRequest<ApiRequest>({
@@ -48,7 +55,7 @@ describe(api.v1.badge.metadata, () => {
     expect(mockRes.statusCode).toEqual(200);
   });
 
-  test("アクセスできないlmsUrlが渡った場合、500が返る", async () => {
+  test("存在しないlmsUrlが渡った場合、500が返る", async () => {
     const mockReq = createRequest<ApiRequest>({
       query: {
         uniquehash: "testtesttest",
