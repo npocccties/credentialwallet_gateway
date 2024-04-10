@@ -13,10 +13,10 @@ import { loggerError, loggerInfo } from "@/lib/logger";
 import { getUserInfoFormJwt } from "@/lib/userInfo";
 import {
   createVcDetailData,
-  getBadgeMetaData,
   getCredentialDetail,
   getKnowledgeBadges,
 } from "@/server/services/credentialDetail.service";
+import { extractOpenBadgeMetadataFromImage } from "@/server/services/openBadge.service";
 import { vcDetailActions } from "@/share/store/credentialDetail/main";
 import { BadgeVcSubmission } from "@/types/api/credential";
 import { CredentialDetailData, VcDetailData } from "@/types/api/credential/detail";
@@ -61,22 +61,20 @@ export const getServerSideProps = async function (
       return { notFound: true };
     }
 
-    const badgeMetaData: WisdomBadgeInfo = await getBadgeMetaData(badgeVc);
+    const vcPayload = JSON.parse(badgeVc.vcDataPayload);
+    const badgeExportData = vcPayload.vc.credentialSubject.photo;
+    const extractBadgeData = await extractOpenBadgeMetadataFromImage(badgeExportData);
+    const badgeMetaData: WisdomBadgeInfo = extractBadgeData.badge;
+    const { courseInfo, knowledgeBadges } = await getKnowledgeBadges(badgeMetaData);
 
-    const sub = submissions.map((sub): BadgeVcSubmission => {
+    const submissionsHistories = submissions.map((sub): BadgeVcSubmission => {
       return {
         consumerName: sub.consumerName,
         submitedAt: convertUTCtoJSTstr(sub.submitedAt),
       };
     });
 
-    const { courseInfo, knowledgeBadges } = await getKnowledgeBadges(badgeMetaData);
-
-    const submissionsHistories = sub;
-    const vcPayload = JSON.parse(badgeVc.vcDataPayload);
-    const badgeExportData = vcPayload.vc.credentialSubject.photo;
-
-    const vcDetailData: VcDetailData = createVcDetailData(badgeVc, sub, courseInfo);
+    const vcDetailData: VcDetailData = createVcDetailData(badgeVc, submissionsHistories, courseInfo);
 
     loggerInfo(`${logStatus.success} ${page}`);
     loggerInfo(logEndForPageSSR(page));

@@ -6,7 +6,7 @@ info:
   version: 0.1.0
 
 servers:
-  - url: https://openbadgevcwallet.example.com/api/v1
+  - url: http://localhost:3000/api/v1
 
 tags:
   - name: user_badgelist
@@ -37,9 +37,9 @@ paths:
         - user_badgelist
       description: 対象ユーザのの保持バッジリストを返す
       parameters:
-        - name: saml
-          in: header
-          description: SAML by BASE64
+        - name: session_cookie
+          in: cookie
+          description: jwt base64 string
           required: true
           schema:
             type: string
@@ -60,9 +60,9 @@ paths:
         - entry
       description: ログイン情報をもとにウォレットを登録します
       parameters:
-        - name: saml
-          in: header
-          description: SAML by BASE64
+        - name: session_cookie
+          in: cookie
+          description: jwt base64 string
           required: true
           schema:
             type: string
@@ -81,9 +81,9 @@ paths:
         - credential list
       description: ログインユーザーが保有するバッジのリストを返却します
       parameters:
-        - name: saml
-          in: header
-          description: SAML by BASE64
+        - name: session_cookie
+          in: cookie
+          description: jwt base64 string
           required: true
           schema:
             type: string
@@ -102,9 +102,9 @@ paths:
           description: serch form in issued to
           schema:
             type: string
-        - name: sortState
+        - name: sortOrder
           in: query
-          description: serch form in sort state
+          description: serch form in sort order
           schema:
             type: string
       responses:
@@ -126,9 +126,9 @@ paths:
         - credential delete
       description: 選択したVCをDBから削除します
       parameters:
-        - name: saml
-          in: header
-          description: SAML by BASE6
+        - name: session_cookie
+          in: cookie
+          description: jwt base64 string
           required: true
           schema:
             type: string
@@ -153,9 +153,9 @@ paths:
         - badge list
       description: 選択された発行者のMoodleにあるバッジのリストを取得します
       parameters:
-        - name: saml
-          in: header
-          description: SAML by BASE64
+        - name: session_cookie
+          in: cookie
+          description: jwt base64 string
           required: true
           schema:
             type: string
@@ -189,9 +189,9 @@ paths:
         - badge convert
       description: 選択したバッジをVCに変換し、DBに保存します
       parameters:
-        - name: saml
-          in: header
-          description: SAML by BASE6
+        - name: session_cookie
+          in: cookie
+          description: jwt base64 string
           required: true
           schema:
             type: string
@@ -225,9 +225,9 @@ paths:
         - badge metadata
       description: 一覧で選択されたバッジのメタデータを返却します
       parameters:
-        - name: saml
-          in: header
-          description: SAML by BASE64
+        - name: session_cookie
+          in: cookie
+          description: jwt base64 string
           required: true
           schema:
             type: string
@@ -260,9 +260,9 @@ paths:
         - submission sendmail
       description: 確認コードを入力されたemailアドレスに送信します
       parameters:
-        - name: saml
-          in: header
-          description: SAML by BASE64
+        - name: session_cookie
+          in: cookie
+          description: jwt base64 string
           required: true
           schema:
             type: string
@@ -295,9 +295,9 @@ paths:
         - submission vc
       description: バッジを提出します
       parameters:
-        - name: saml
-          in: header
-          description: SAML by BASE64
+        - name: session_cookie
+          in: cookie
+          description: jwt base64 string
           required: true
           schema:
             type: string

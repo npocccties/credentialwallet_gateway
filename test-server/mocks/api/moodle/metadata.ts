@@ -1,9 +1,9 @@
 import { MockedRequest, ResponseResolver, restContext } from "msw";
 
 export const url = "https://moodletest.org/badges/assertion.php";
+export const notFoundErrorUrl = "https://test.org/badges/assertion.php";
 
 export const mockBadgeMetaData: ResponseResolver<MockedRequest, typeof restContext> = async (req, res, ctx) => {
-  const hash = req.url.searchParams.get("b");
   return res(
     ctx.status(200),
     ctx.json({
@@ -48,4 +48,8 @@ export const mockBadgeMetaData: ResponseResolver<MockedRequest, typeof restConte
       id: "https://moodletest.org/badges/assertion.php?b=8d6d839383cd6e03624b98b70ce4f475f43c2d04&obversion=2",
     }),
   );
+};
+
+export const mockBadgeMetaDataForError: ResponseResolver<MockedRequest, typeof restContext> = async (req, res, ctx) => {
+  return res(ctx.status(404));
 };

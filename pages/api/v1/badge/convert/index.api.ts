@@ -45,7 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   try {
     const result = await validateOpenBadge(email, badgeMetaData);
-    console.log("result", result);
+    loggerInfo("openbadge verify result", result);
     if (!result) throw new Error();
   } catch {
     loggerError(`${logStatus.error} open badge verification failed`);

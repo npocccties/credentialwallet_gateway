@@ -5,13 +5,22 @@ import { MoodleLoginForm } from "./MoodleLoginform";
 describe("<MoodleLoginForm /> unit test", () => {
   const mockSetIsNeedMoodleLogin = jest.fn();
   const mockGetMyBadges = jest.fn();
+  const mockSetSelectLmsId = jest.fn();
+  const lmsName = "testサービス";
 
   beforeEach(() => {
-    render(<MoodleLoginForm setIsNeedMoodleLogin={mockSetIsNeedMoodleLogin} getMyBadges={mockGetMyBadges} />);
+    render(
+      <MoodleLoginForm
+        setIsNeedMoodleLogin={mockSetIsNeedMoodleLogin}
+        setSelectLmsId={mockSetSelectLmsId}
+        getMyBadges={mockGetMyBadges}
+        lmsName={lmsName}
+      />,
+    );
   });
 
   test("MoodleLoginFormコンポーネントが正常にレンダリングされる", () => {
-    expect(screen.getByText("Moodleに登録されているユーザー名とパスワードを入力してください")).toBeInTheDocument();
+    expect(screen.getByText(`${lmsName}に登録されているユーザー名とパスワードを入力してください`)).toBeInTheDocument();
   });
 
   test("「バッジ一覧取得」押下時にgetMyBadges関数が実行される", async () => {

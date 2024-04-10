@@ -72,26 +72,24 @@ const NavItem = ({ name, link, external, newWindow, targetTabName, ...rest }: Na
     );
   } else {
     return (
-      <NextLink href={link}>
-        <Link style={{ textDecoration: "none" }} _focus={{ boxShadow: "none" }}>
-          <Flex
-            align="center"
-            p="6"
-            borderBottom="1px"
-            borderColor="gray.400"
-            role="group"
-            cursor="pointer"
-            _hover={{
-              bg: "gray.400",
-              color: "white",
-            }}
-            {...rest}
-          >
-            <Text fontSize="md" mr={2}>
-              {name}
-            </Text>{" "}
-          </Flex>
-        </Link>
+      <NextLink href={link} style={{ textDecoration: "none" }}>
+        <Flex
+          align="center"
+          p="6"
+          borderBottom="1px"
+          borderColor="gray.400"
+          role="group"
+          cursor="pointer"
+          _hover={{
+            bg: "gray.400",
+            color: "white",
+          }}
+          {...rest}
+        >
+          <Text fontSize="md" mr={2}>
+            {name}
+          </Text>{" "}
+        </Flex>
       </NextLink>
     );
   }

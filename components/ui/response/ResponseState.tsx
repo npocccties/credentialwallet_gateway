@@ -6,7 +6,20 @@ import { SecondaryButton } from "../button/SecondaryButton";
 
 import { pagePath } from "@/constants";
 
-export const ResponseState = ({ icon, status, message }: { icon: ReactNode; status: string; message: string }) => {
+export const ResponseState = ({
+  icon,
+  status,
+  message,
+  pageBack,
+}: {
+  icon: ReactNode;
+  status: string;
+  message: string;
+  pageBack?: {
+    action: () => void;
+    text: string;
+  };
+}) => {
   const router = useRouter();
   return (
     <>
@@ -17,7 +30,8 @@ export const ResponseState = ({ icon, status, message }: { icon: ReactNode; stat
       <Box>
         <Text fontSize={"lg"}>{message}</Text>
       </Box>
-      <Box>
+      <Box display={"flex"} gap={4}>
+        {pageBack && <SecondaryButton onClick={() => pageBack.action()}>{pageBack.text}</SecondaryButton>}
         <SecondaryButton onClick={() => router.push(pagePath.credential.list)}>マイウォレットに戻る</SecondaryButton>
       </Box>
     </>
