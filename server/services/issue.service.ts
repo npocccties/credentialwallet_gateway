@@ -27,6 +27,8 @@ export const issue = async (
   await signer.init(keyObj);
 
   loggerDebug("wallet did", signer.did);
+  loggerDebug(`manifest.display.contract: ${manifest.display.contract}`);
+  loggerDebug(`manifestURL: ${manifestURL}`);
 
   let attestations: any = { ...acquiredIdToken };
 
