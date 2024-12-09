@@ -32,7 +32,7 @@ export const issue = async (
 
   const issueRequestIdToken = await signer.siop({
     aud: manifest.input.credentialIssuer,
-    contract: manifest.display.contract?.trim() || manifestURL,
+    contract: manifest.display.contract || manifestURL,
     attestations,
     pin: options?.pin,
   });
