@@ -6,6 +6,8 @@ import { retryRequest } from "@/lib/retryRequest";
 import { KeyPair, Signer } from "@/lib/signer";
 import { AcquiredIdToken, Manifest, VCRequest } from "@/types";
 
+const manifestURL = process.env.vc_manifest_url;
+
 interface IIssueResponse {
   data: {
     vc: string;
@@ -25,12 +27,14 @@ export const issue = async (
   await signer.init(keyObj);
 
   loggerDebug("wallet did", signer.did);
+  loggerDebug(`manifest.display.contract: ${manifest.display.contract}`);
+  loggerDebug(`manifestURL: ${manifestURL}`);
 
   let attestations: any = { ...acquiredIdToken };
 
   const issueRequestIdToken = await signer.siop({
     aud: manifest.input.credentialIssuer,
-    contract: manifest.display.contract,
+    contract: manifest.display.contract || manifestURL,
     attestations,
     pin: options?.pin,
   });
